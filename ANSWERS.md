@@ -4,6 +4,58 @@ This document contains the correct SQL answers for all challenges in the Statica
 
 ---
 
+## 🎒 School Dataset
+
+### sk-001: All Students
+**Prompt:** Get a list of all students. Return their name and age.
+```sql
+SELECT name, age FROM students;
+```
+
+### sk-002: Find Young Students
+**Prompt:** Find all students who are 14 years old. Return their names.
+```sql
+SELECT name FROM students WHERE age = 14;
+```
+
+### sk-003: Count Total Students
+**Prompt:** How many students are enrolled in the school in total? Return the count as total_students.
+```sql
+SELECT COUNT(*) AS total_students FROM students;
+```
+
+### sk-004: Students in Grade 10
+**Prompt:** List the names of students who are in the 10th grade. Sort them alphabetically by name.
+```sql
+SELECT name FROM students WHERE grade = 10 ORDER BY name ASC;
+```
+
+### sk-005: Classes and Teachers
+**Prompt:** Get a list of all subjects and the teacher who teaches them.
+```sql
+SELECT subject, teacher FROM classes;
+```
+
+### sk-006: Average Student Age
+**Prompt:** What is the average age of all students? Round the result to 1 decimal place.
+```sql
+SELECT ROUND(AVG(age), 1) FROM students;
+```
+
+### sk-007: Student Enrollment Count
+**Prompt:** For each student, count how many classes they are enrolled in. Return student name and class_count.
+```sql
+SELECT s.name, COUNT(e.class_id) AS class_count FROM students s JOIN enrollments e ON s.id = e.student_id GROUP BY s.name;
+```
+
+### sk-008: Students in Math Class
+**Prompt:** Find the names of all students enrolled in the 'Math' class.
+```sql
+SELECT s.name FROM students s JOIN enrollments e ON s.id = e.student_id JOIN classes c ON e.class_id = c.id WHERE c.subject = 'Math';
+```
+
+---
+
 ## 🛒 E-commerce Dataset
 
 ### ec-001: Customers from Mumbai
@@ -145,3 +197,6 @@ SELECT reviewer_name, COUNT(*) AS five_star_count FROM reviews WHERE score = 5 G
 ```sql
 SELECT reviewer_name, ROUND(AVG(score), 2) AS avg_score FROM reviews GROUP BY reviewer_name HAVING COUNT(*) >= 5;
 ```
+
+---
+
