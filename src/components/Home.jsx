@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import challenges from '../data/challenges.json';
 
 const Home = () => {
@@ -8,14 +9,65 @@ const Home = () => {
   // Get first 5 challenges for preview
   const previewChallenges = challenges.slice(0, 5);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.9 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 400,
+        damping: 22
+      }
+    }
+  };
+
   return (
     <div className="home-container">
-      <div className="home-content">
-        <h1 className="home-title">Select a Module</h1>
-        <p className="home-subtitle">Choose your learning path and start practicing.</p>
+      <motion.div 
+        className="home-content"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.h1 
+          className="home-title"
+          variants={cardVariants}
+        >
+          Select a Module
+        </motion.h1>
+        <motion.p 
+          className="home-subtitle"
+          variants={cardVariants}
+        >
+          Choose your learning path and start practicing.
+        </motion.p>
         
         <div className="module-grid">
-          <div className="module-card" onClick={() => navigate('/sql')}>
+          <motion.div 
+            className="module-card" 
+            variants={cardVariants}
+            onClick={() => navigate('/sql')}
+            whileHover={{ 
+              y: -8, 
+              scale: 1.02,
+              borderColor: 'var(--color-blue)',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
             <div className="module-icon sql-icon">SQL</div>
             <h2 className="module-name">SQL</h2>
             <p className="module-desc">Master data querying and manipulation with interactive SQL challenges.</p>
@@ -38,9 +90,20 @@ const Home = () => {
             <button className="btn btn-primary module-btn" style={{ marginTop: '2rem', width: '100%' }}>
               Start Practicing
             </button>
-          </div>
+          </motion.div>
           
-          <div className="module-card" onClick={() => navigate('/python')}>
+          <motion.div 
+            className="module-card" 
+            variants={cardVariants}
+            onClick={() => navigate('/python')}
+            whileHover={{ 
+              y: -8, 
+              scale: 1.02,
+              borderColor: 'var(--color-teal)',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
             <div className="module-icon python-icon">Py</div>
             <h2 className="module-name">Python</h2>
             <p className="module-desc">Learn programming fundamentals and data analysis with Python.</p>
@@ -57,9 +120,9 @@ const Home = () => {
             </div>
 
             <div className="coming-soon-badge">Coming Soon</div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
