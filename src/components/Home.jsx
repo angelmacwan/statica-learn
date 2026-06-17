@@ -123,6 +123,9 @@ const Home = () => {
           </motion.div>
         </div>
       </motion.div>
+      <footer style={{ marginTop: '3rem', textAlign: 'center', fontSize: '12px', color: 'var(--text-placeholder)', paddingBottom: '1rem' }}>
+        This is a product of <a href="https://staticalabs.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>StaticaLabs</a> (staticalabs.com)
+      </footer>
     </div>
   );
 };

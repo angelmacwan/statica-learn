@@ -20,10 +20,26 @@ export default function Header({ currentIndex, challenges, challengeData, onGoTo
         <Link 
           className="app-logo" 
           to="/"
-          style={{ textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}
+          style={{ textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
         >
-          <div className="app-logo-icon">S</div>
-          <span className="app-logo-name">Statica Learn</span>
+          <div className="app-logo-icon" style={{ background: 'none', borderRadius: 0, width: 'auto', height: 'auto', padding: 0 }}>
+            <svg width="36" height="36" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Database cylinder body */}
+              <ellipse cx="16" cy="8" rx="10" ry="4" fill="#4589ff" />
+              <rect x="6" y="8" width="20" height="14" fill="#4589ff" />
+              <ellipse cx="16" cy="22" rx="10" ry="4" fill="#0353e9" />
+              {/* Shine lines */}
+              <ellipse cx="16" cy="8" rx="10" ry="4" fill="none" stroke="#74aaff" strokeWidth="1" />
+              <line x1="6" y1="14" x2="26" y2="14" stroke="#0353e9" strokeWidth="1" />
+              <line x1="6" y1="19" x2="26" y2="19" stroke="#0353e9" strokeWidth="1" />
+              {/* Highlight */}
+              <ellipse cx="13" cy="7.5" rx="3" ry="1.2" fill="white" opacity="0.25" />
+            </svg>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
+            <span className="app-logo-name" style={{ fontSize: '15px', fontWeight: 700, letterSpacing: '-0.01em' }}>StaticaLearn</span>
+            <span style={{ fontSize: '11px', color: 'var(--text-placeholder)', fontWeight: 400, letterSpacing: '0.02em' }}>by StaticaLabs</span>
+          </div>
         </Link>
       </div>
 
