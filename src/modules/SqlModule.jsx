@@ -94,7 +94,7 @@ export default function SqlModule() {
       />
 
       <main className="app-main">
-        <div className="panels-row" style={{ display: 'flex', width: '100%', height: '100%' }}>
+        <div className="panels-row" style={{ display: 'flex', width: '100%' }}>
           {/* Sidebar */}
           {sidebarOpen && (
             <ChallengesList
@@ -108,6 +108,7 @@ export default function SqlModule() {
           {/* Main 2-column layout */}
           <div className="main-content-grid" style={{ 
             flex: 1, 
+            minHeight: 0,
             display: 'grid', 
             gridTemplateColumns: '1fr 1fr', 
             gap: '1px', 
@@ -120,13 +121,13 @@ export default function SqlModule() {
               gridTemplateRows: '1.2fr 1fr', 
               gap: '1px', 
               background: 'var(--border-subtle)',
-              height: '100%',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              minHeight: 0
             }}>
-              <div style={{ background: 'var(--bg-base)', overflow: 'hidden' }}>
+              <div style={{ background: 'var(--bg-base)', overflow: 'hidden', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
                 <ChallengeInfo challenge={challenge} />
               </div>
-              <div style={{ background: 'var(--bg-base)', overflow: 'hidden' }}>
+              <div style={{ background: 'var(--bg-base)', overflow: 'hidden', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
                 <ResultPane 
                   title="Expected Output" 
                   result={expectedResult} 
@@ -141,10 +142,10 @@ export default function SqlModule() {
               gridTemplateRows: '1.2fr 1fr', 
               gap: '1px', 
               background: 'var(--border-subtle)',
-              height: '100%',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              minHeight: 0
             }}>
-              <div style={{ background: 'var(--bg-base)', overflow: 'hidden' }}>
+              <div style={{ background: 'var(--bg-base)', overflow: 'hidden', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
                 <SQLEditorPanel 
                   dbReady={dbReady}
                   dbError={dbError}
@@ -157,7 +158,7 @@ export default function SqlModule() {
                   savedQuery={getChallengeProgress(challenge?.id).query}
                 />
               </div>
-              <div style={{ background: 'var(--bg-base)', overflow: 'hidden' }}>
+              <div style={{ background: 'var(--bg-base)', overflow: 'hidden', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
                 <ResultPane 
                   title="Your Output" 
                   result={queryResult} 

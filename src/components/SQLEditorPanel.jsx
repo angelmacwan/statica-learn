@@ -49,7 +49,7 @@ export default function SQLEditorPanel({
         </span>
       </div>
 
-      <div style={{ flex: 1, minHeight: 0 }}>
+      <div style={{ flex: 1, minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         <SQLEditor
           value={query}
           onChange={handleQueryChange}

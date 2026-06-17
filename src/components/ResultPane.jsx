@@ -32,7 +32,7 @@ export default function ResultPane({ title, result, hasRun, isCorrect, showStatu
           </span>
         )}
       </div>
-      <div className="result-pane-body" style={{ flex: 1, overflow: 'hidden' }}>
+      <div className="result-pane-body" style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
         {!result && !hasRun ? (
           <div className="result-placeholder">
             <div className="result-placeholder-icon">◈</div>

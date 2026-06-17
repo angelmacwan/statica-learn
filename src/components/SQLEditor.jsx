@@ -83,7 +83,7 @@ export default function SQLEditor({ value, onChange, onRun, disabled }) {
         }),
         EditorView.theme({
           '&': { height: '100%', fontSize: '14px' },
-          '.cm-scroller': { fontFamily: "'IBM Plex Mono', 'Fira Code', monospace" },
+          '.cm-scroller': { overflow: 'auto', fontFamily: "'IBM Plex Mono', 'Fira Code', monospace" },
           '.cm-gutters': { backgroundColor: '#161616', color: '#525252', border: 'none' },
         })
       ]
