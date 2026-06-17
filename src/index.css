@@ -348,6 +348,7 @@ html, body {
   min-height: 0;
   overflow: hidden;
   background: #161616;
+  height: 100%;
 }
 
 /* Textarea SQL editor (Legacy) */
@@ -389,6 +390,7 @@ html, body {
   background: var(--bg-layer);
   overflow: hidden;
   flex-shrink: 0;
+  height: 100%;
 }
 
 .cl-header {
@@ -511,6 +513,7 @@ html, body {
 .cl-body {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   min-height: 0;
 }
 
