@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Header({ currentIndex, challenges, challengeData, onGoTo, sidebarOpen, onToggleSidebar }) {
   const total = challenges.length
@@ -16,10 +17,14 @@ export default function Header({ currentIndex, challenges, challengeData, onGoTo
         >
           ☰
         </button>
-        <div className="app-logo">
+        <Link 
+          className="app-logo" 
+          to="/"
+          style={{ textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}
+        >
           <div className="app-logo-icon">S</div>
           <span className="app-logo-name">Statica Learn</span>
-        </div>
+        </Link>
       </div>
 
       <div className="header-center">
