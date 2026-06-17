@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
+import confetti from 'canvas-confetti'
 import challenges from './data/challenges.json'
 import { useDatabase, checkAnswer, loadSqlJs } from './hooks/useDatabase.js'
 import { useProgress } from './hooks/useProgress.js'
@@ -50,6 +51,12 @@ export default function App() {
       const correct = checkAnswer(result, expectedResult, challenge?.ordered ?? false)
       setIsCorrect(correct)
       if (correct) {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#22c55e', '#3b82f6', '#f59e0b']
+        })
         markComplete(challenge.id, sql)
       } else {
         markAttempted(challenge.id, sql)

@@ -669,6 +669,13 @@ html, body {
   background: var(--color-green);
   color: #0a1f12;
   font-weight: 600;
+  animation: success-bounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes success-bounce {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .btn-success:hover:not(:disabled) {
@@ -716,6 +723,12 @@ html, body {
 
 .status-correct {
   color: var(--color-green);
+  animation: success-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes success-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .status-wrong {
