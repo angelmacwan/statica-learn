@@ -4,7 +4,6 @@ Project Name: Statica Learn
 
 UI: IBM carbon UI
 
-
 https://github.com/carbon-design-system/carbon/tree/main/packages/react
 
 npm install -S @carbon/react
@@ -17,15 +16,15 @@ A fully client-side SQL practice app that runs in the browser. No server, no bac
 
 ## Tech Stack
 
-| Concern | Choice | Reason |
-|---|---|---|
-| SQL engine | `sql.js` (SQLite via WASM) | Runs fully in browser, no server needed |
-| Framework | React (Vite) | Fast dev setup, component model fits the UI |
-| State | `useState` / `useReducer` | Simple enough, no Redux needed |
-| Code editor | `CodeMirror 6` | SQL syntax highlighting, lightweight |
-| Styling | IBM Carbon UI | Your call; keep it minimal |
-| Storage | `localStorage` | Persist progress across sessions |
-| Challenge data | Static JSON file | Easy to add new challenges; no DB needed for metadata |
+| Concern        | Choice                     | Reason                                                |
+| -------------- | -------------------------- | ----------------------------------------------------- |
+| SQL engine     | `sql.js` (SQLite via WASM) | Runs fully in browser, no server needed               |
+| Framework      | React (Vite)               | Fast dev setup, component model fits the UI           |
+| State          | `useState` / `useReducer`  | Simple enough, no Redux needed                        |
+| Code editor    | `CodeMirror 6`             | SQL syntax highlighting, lightweight                  |
+| Styling        | IBM Carbon UI              | Your call; keep it minimal                            |
+| Storage        | `localStorage`             | Persist progress across sessions                      |
+| Challenge data | Static JSON file           | Easy to add new challenges; no DB needed for metadata |
 
 ---
 
@@ -35,15 +34,15 @@ Every challenge is a self-contained JS/JSON object:
 
 ```json
 {
-  "id": "orders-001",
-  "title": "Top Spending Customers",
-  "difficulty": "easy",
-  "dataset": "ecommerce",
-  "prompt": "Find the top 3 customers by total amount spent. Return customer_name and total_spent, ordered from highest to lowest.",
-  "hint": "Use GROUP BY and ORDER BY together. SUM() will aggregate the amounts.",
-  "schema_sql": "CREATE TABLE customers (...); CREATE TABLE orders (...);",
-  "seed_sql": "INSERT INTO customers VALUES ...; INSERT INTO orders VALUES ...;",
-  "answer_sql": "SELECT c.name AS customer_name, SUM(o.amount) AS total_spent FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id ORDER BY total_spent DESC LIMIT 3;"
+	"id": "orders-001",
+	"title": "Top Spending Customers",
+	"difficulty": "easy",
+	"dataset": "ecommerce",
+	"prompt": "Find the top 3 customers by total amount spent. Return customer_name and total_spent, ordered from highest to lowest.",
+	"hint": "Use GROUP BY and ORDER BY together. SUM() will aggregate the amounts.",
+	"schema_sql": "CREATE TABLE customers (...); CREATE TABLE orders (...);",
+	"seed_sql": "INSERT INTO customers VALUES ...; INSERT INTO orders VALUES ...;",
+	"answer_sql": "SELECT c.name AS customer_name, SUM(o.amount) AS total_spent FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id ORDER BY total_spent DESC LIMIT 3;"
 }
 ```
 
@@ -58,13 +57,14 @@ Naive string comparison on SQL won't work. Compare the actual result tables:
 1. Run `answer_sql` on load (store the expected rows + columns)
 2. Run user's query on submit
 3. Normalize both result sets:
-   - Sort rows by all columns (to handle unordered results where order doesn't matter)
-   - Trim whitespace from string values
-   - Case-insensitive column name matching
+    - Sort rows by all columns (to handle unordered results where order doesn't matter)
+    - Trim whitespace from string values
+    - Case-insensitive column name matching
 4. Deep-equal comparison
 5. If challenge requires specific ordering (e.g. "top 3 ordered by..."), set `ordered: true` in the challenge -- skip the sort step for that challenge
 
 Edge cases to handle:
+
 - User query throws a SQL error -- show the error message, don't crash
 - Empty result set -- handle gracefully, show "your query returned 0 rows"
 - Result set too large -- cap display at 500 rows
@@ -100,6 +100,7 @@ Edge cases to handle:
 ```
 
 Key UX decisions:
+
 - Schema reference always accessible (collapsed by default)
 - Show both the user's output AND expected output side by side so users can see exactly where they went wrong
 - "Next Challenge" button only appears on correct answer
@@ -133,6 +134,7 @@ Persist `completed` and `currentIndex` in `localStorage` so progress survives a 
 ### Dataset 1: E-commerce
 
 **Schema:**
+
 ```sql
 CREATE TABLE customers (
   id INTEGER PRIMARY KEY,
@@ -169,22 +171,23 @@ CREATE TABLE order_items (
 
 **Challenges:**
 
-| ID | Title | Difficulty | Concept |
-|---|---|---|---|
-| ec-001 | List all customers from Mumbai | Easy | Basic SELECT + WHERE |
-| ec-002 | Count orders per status | Easy | GROUP BY + COUNT |
-| ec-003 | Top 3 customers by spend | Medium | JOIN + GROUP BY + ORDER BY + LIMIT |
-| ec-004 | Most popular product category | Medium | JOIN + GROUP BY + SUM |
-| ec-005 | Customers who never placed an order | Medium | LEFT JOIN + IS NULL |
-| ec-006 | Average order value per city | Medium | Multi-join + GROUP BY |
-| ec-007 | Month with highest revenue in 2023 | Hard | strftime + GROUP BY + ORDER BY |
-| ec-008 | Products bought together most often | Hard | Self-join on order_items |
+| ID     | Title                               | Difficulty | Concept                            |
+| ------ | ----------------------------------- | ---------- | ---------------------------------- |
+| ec-001 | List all customers from Mumbai      | Easy       | Basic SELECT + WHERE               |
+| ec-002 | Count orders per status             | Easy       | GROUP BY + COUNT                   |
+| ec-003 | Top 3 customers by spend            | Medium     | JOIN + GROUP BY + ORDER BY + LIMIT |
+| ec-004 | Most popular product category       | Medium     | JOIN + GROUP BY + SUM              |
+| ec-005 | Customers who never placed an order | Medium     | LEFT JOIN + IS NULL                |
+| ec-006 | Average order value per city        | Medium     | Multi-join + GROUP BY              |
+| ec-007 | Month with highest revenue in 2023  | Hard       | strftime + GROUP BY + ORDER BY     |
+| ec-008 | Products bought together most often | Hard       | Self-join on order_items           |
 
 ---
 
 ### Dataset 2: Company HR
 
 **Schema:**
+
 ```sql
 CREATE TABLE departments (
   id INTEGER PRIMARY KEY,
@@ -205,20 +208,21 @@ CREATE TABLE employees (
 
 **Challenges:**
 
-| ID | Title | Difficulty | Concept |
-|---|---|---|---|
-| hr-001 | List all senior employees | Easy | WHERE |
-| hr-002 | Average salary per department | Easy | JOIN + GROUP BY + AVG |
-| hr-003 | Employees earning above department average | Hard | Subquery or window function |
-| hr-004 | Find each employee's manager name | Medium | Self-join |
-| hr-005 | Departments over budget (salary sum vs budget) | Hard | GROUP BY + HAVING + JOIN |
-| hr-006 | Longest-serving employee per department | Hard | Subquery + MIN(hire_date) |
+| ID     | Title                                          | Difficulty | Concept                     |
+| ------ | ---------------------------------------------- | ---------- | --------------------------- |
+| hr-001 | List all senior employees                      | Easy       | WHERE                       |
+| hr-002 | Average salary per department                  | Easy       | JOIN + GROUP BY + AVG       |
+| hr-003 | Employees earning above department average     | Hard       | Subquery or window function |
+| hr-004 | Find each employee's manager name              | Medium     | Self-join                   |
+| hr-005 | Departments over budget (salary sum vs budget) | Hard       | GROUP BY + HAVING + JOIN    |
+| hr-006 | Longest-serving employee per department        | Hard       | Subquery + MIN(hire_date)   |
 
 ---
 
 ### Dataset 3: Movies
 
 **Schema:**
+
 ```sql
 CREATE TABLE movies (
   id INTEGER PRIMARY KEY,
@@ -252,16 +256,16 @@ CREATE TABLE reviews (
 
 **Challenges:**
 
-| ID | Title | Difficulty | Concept |
-|---|---|---|---|
-| mv-001 | All movies released after 2010 with rating above 8 | Easy | WHERE + AND |
-| mv-002 | Average rating per genre | Easy | GROUP BY + AVG |
-| mv-003 | Top 5 highest-rated movies | Easy | ORDER BY + LIMIT |
-| mv-004 | Actors who appeared in more than 3 movies | Medium | JOIN + GROUP BY + HAVING |
-| mv-005 | Genre with most reviews | Medium | JOIN + GROUP BY + COUNT |
-| mv-006 | Movies with no reviews | Medium | LEFT JOIN + IS NULL |
-| mv-007 | Reviewer who gave the most 5-star reviews | Medium | WHERE + GROUP BY + COUNT |
-| mv-008 | Average score by reviewer (only those with 5+ reviews) | Hard | GROUP BY + HAVING + AVG |
+| ID     | Title                                                  | Difficulty | Concept                  |
+| ------ | ------------------------------------------------------ | ---------- | ------------------------ |
+| mv-001 | All movies released after 2010 with rating above 8     | Easy       | WHERE + AND              |
+| mv-002 | Average rating per genre                               | Easy       | GROUP BY + AVG           |
+| mv-003 | Top 5 highest-rated movies                             | Easy       | ORDER BY + LIMIT         |
+| mv-004 | Actors who appeared in more than 3 movies              | Medium     | JOIN + GROUP BY + HAVING |
+| mv-005 | Genre with most reviews                                | Medium     | JOIN + GROUP BY + COUNT  |
+| mv-006 | Movies with no reviews                                 | Medium     | LEFT JOIN + IS NULL      |
+| mv-007 | Reviewer who gave the most 5-star reviews              | Medium     | WHERE + GROUP BY + COUNT |
+| mv-008 | Average score by reviewer (only those with 5+ reviews) | Hard       | GROUP BY + HAVING + AVG  |
 
 ---
 
@@ -298,29 +302,29 @@ sql.js requires its WASM binary to be served as a static asset. With Vite:
 
 ```js
 // vite.config.js
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [react()],
-  optimizeDeps: {
-    exclude: ['sql.js']
-  }
-})
+	plugins: [react()],
+	optimizeDeps: {
+		exclude: ['sql.js'],
+	},
+});
 ```
 
 Copy `sql-wasm.wasm` to `/public/` and initialize like:
 
 ```js
-import initSqlJs from 'sql.js'
+import initSqlJs from 'sql.js';
 
 const SQL = await initSqlJs({
-  locateFile: file => `/${file}`
-})
+	locateFile: (file) => `/${file}`,
+});
 
-const db = new SQL.Database()
-db.run(challenge.schema_sql)
-db.run(challenge.seed_sql)
+const db = new SQL.Database();
+db.run(challenge.schema_sql);
+db.run(challenge.seed_sql);
 ```
 
 Each challenge gets a fresh `new SQL.Database()` so state never bleeds between challenges.
@@ -331,19 +335,30 @@ Each challenge gets a fresh `new SQL.Database()` so state never bleeds between c
 
 ```js
 function normalize(result) {
-  // result = { columns: [...], values: [[...], [...]] }
-  return result.values
-    .map(row =>
-      Object.fromEntries(result.columns.map((col, i) => [col.toLowerCase(), String(row[i]).trim()]))
-    )
-    .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)))
+	// result = { columns: [...], values: [[...], [...]] }
+	return result.values
+		.map((row) =>
+			Object.fromEntries(
+				result.columns.map((col, i) => [
+					col.toLowerCase(),
+					String(row[i]).trim(),
+				]),
+			),
+		)
+		.sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
 }
 
 function checkAnswer(userResult, expectedResult, ordered = false) {
-  if (ordered) {
-    return JSON.stringify(userResult.values) === JSON.stringify(expectedResult.values)
-  }
-  return JSON.stringify(normalize(userResult)) === JSON.stringify(normalize(expectedResult))
+	if (ordered) {
+		return (
+			JSON.stringify(userResult.values) ===
+			JSON.stringify(expectedResult.values)
+		);
+	}
+	return (
+		JSON.stringify(normalize(userResult)) ===
+		JSON.stringify(normalize(expectedResult))
+	);
 }
 ```
 

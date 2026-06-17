@@ -1,108 +1,129 @@
 import React, { useEffect, useRef } from 'react'
-import { EditorView, keymap } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
+import { EditorView, keymap, drawSelection, highlightActiveLine, dropCursor,
+         rectangularSelection, highlightSpecialChars, crosshairCursor } from '@codemirror/view'
+import { EditorState, Compartment } from '@codemirror/state'
+import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands'
+import { indentOnInput, syntaxHighlighting, defaultHighlightStyle, bracketMatching, foldGutter, foldKeymap } from '@codemirror/language'
 import { sql } from '@codemirror/lang-sql'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { defaultKeymap, historyKeymap, history } from '@codemirror/commands'
-import { lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
-import { closeBrackets } from '@codemirror/autocomplete'
 
-const INITIAL_SQL = `-- Write your SQL query here
--- Press Ctrl+Enter (or Cmd+Enter) to run
+const DEFAULT_SQL = `-- Write your SQL query here
+-- Press Ctrl+Enter (Cmd+Enter on Mac) to run
 
 SELECT `
 
-export default function SQLEditor({ value, onChange, onRun, disabled }) {
-  const containerRef = useRef(null)
-  const viewRef = useRef(null)
-  const onRunRef = useRef(onRun)
-  const onChangeRef = useRef(onChange)
+const editableCompartment = new Compartment()
 
-  useEffect(() => { onRunRef.current = onRun }, [onRun])
-  useEffect(() => { onChangeRef.current = onChange }, [onChange])
+export default function SQLEditor({ value, onChange, onRun, disabled }) {
+  const editorRef = useRef(null)
+  const viewRef = useRef(null)
+  const onChangeRef = useRef(onChange)
+  const onRunRef = useRef(onRun)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    onChangeRef.current = onChange
+    onRunRef.current = onRun
+  }, [onChange, onRun])
 
-    const runKeymap = keymap.of([
-      {
-        key: 'Ctrl-Enter',
-        mac: 'Cmd-Enter',
-        run: () => { onRunRef.current?.(); return true }
-      }
-    ])
+  useEffect(() => {
+    console.log('SQLEditor: disabled =', disabled)
+    if (!editorRef.current) return
 
-    const startDoc = value ?? INITIAL_SQL
-
-    const state = EditorState.create({
-      doc: startDoc,
+    const startState = EditorState.create({
+      doc: value ?? DEFAULT_SQL,
       extensions: [
-        history(),
-        lineNumbers(),
-        highlightActiveLine(),
-        highlightActiveLineGutter(),
-        closeBrackets(),
-        sql(),
         oneDark,
-        runKeymap,
-        keymap.of([...defaultKeymap, ...historyKeymap]),
+        sql(),
+        history(),
+        drawSelection(),
+        dropCursor(),
+        EditorState.allowMultipleSelections.of(true),
+        indentOnInput(),
+        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+        bracketMatching(),
+        rectangularSelection(),
+        crosshairCursor(),
+        highlightActiveLine(),
+        highlightSpecialChars(),
+        editableCompartment.of(EditorView.editable.of(!disabled)),
+        keymap.of([
+          {
+            key: 'Mod-Enter',
+            run: () => {
+              console.log('SQLEditor: Mod-Enter shortcut triggered')
+              onRunRef.current?.()
+              return true
+            }
+          },
+          {
+            key: 'Ctrl-Enter',
+            run: () => {
+              console.log('SQLEditor: Ctrl-Enter shortcut triggered')
+              onRunRef.current?.()
+              return true
+            }
+          },
+          {
+            key: 'Cmd-Enter',
+            run: () => {
+              console.log('SQLEditor: Cmd-Enter shortcut triggered')
+              onRunRef.current?.()
+              return true
+            }
+          },
+          ...defaultKeymap,
+          ...historyKeymap,
+          ...foldKeymap,
+          indentWithTab,
+        ]),
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
             onChangeRef.current?.(update.state.doc.toString())
           }
         }),
         EditorView.theme({
-          '&': {
-            height: '100%',
-            background: '#161616',
-          },
-          '.cm-content': {
-            fontFamily: 'var(--font-mono)',
-            fontSize: '13px',
-            padding: '8px 0',
-          },
-          '.cm-gutters': {
-            background: '#1e1e1e',
-            border: 'none',
-            borderRight: '1px solid #393939',
-          },
-          '.cm-activeLineGutter': {
-            background: '#252525',
-          },
-          '.cm-activeLine': {
-            background: '#1f1f1f',
-          },
-          '.cm-cursor': {
-            borderLeftColor: '#4589ff',
-          },
-          '.cm-selectionBackground': {
-            background: '#264f78 !important',
-          },
-        }),
-        EditorState.readOnly.of(disabled ?? false),
-      ],
+          '&': { height: '100%', fontSize: '14px' },
+          '.cm-scroller': { fontFamily: "'IBM Plex Mono', 'Fira Code', monospace" },
+          '.cm-gutters': { backgroundColor: '#161616', color: '#525252', border: 'none' },
+        })
+      ]
     })
 
-    const view = new EditorView({ state, parent: containerRef.current })
+    const view = new EditorView({
+      state: startState,
+      parent: editorRef.current
+    })
+
     viewRef.current = view
 
     return () => {
       view.destroy()
-      viewRef.current = null
     }
-  }, []) // only on mount
+  }, [])
 
-  // Sync value from outside (e.g. Reset)
+  // Sync value from props to editor if it changes externally
   useEffect(() => {
-    const view = viewRef.current
-    if (!view) return
-    const current = view.state.doc.toString()
-    if (value !== undefined && value !== current) {
-      view.dispatch({
-        changes: { from: 0, to: current.length, insert: value },
+    if (viewRef.current && value !== viewRef.current.state.doc.toString()) {
+      viewRef.current.dispatch({
+        changes: { from: 0, to: viewRef.current.state.doc.length, insert: value ?? '' }
       })
     }
   }, [value])
 
-  return <div ref={containerRef} className="editor-wrapper" style={{ flex: 1, minHeight: 0 }} />
+  // Handle disabled state
+  useEffect(() => {
+    if (viewRef.current) {
+      viewRef.current.dispatch({
+        effects: editableCompartment.reconfigure(EditorView.editable.of(!disabled))
+      })
+    }
+  }, [disabled])
+
+  return (
+    <div 
+      className={`sql-editor-wrap ${disabled ? 'disabled' : ''}`} 
+      ref={editorRef}
+      style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}
+    />
+  )
 }

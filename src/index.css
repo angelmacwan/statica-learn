@@ -136,6 +136,8 @@ html, body {
 .progress-dot {
   width: 8px;
   height: 8px;
+  aspect-ratio: 1 / 1;
+  padding: 0;
   border-radius: 50%;
   background: var(--bg-layer-2);
   border: 1px solid var(--border-strong);
@@ -144,9 +146,15 @@ html, body {
   flex-shrink: 0;
 }
 
+.progress-dot.solved,
 .progress-dot.completed {
   background: var(--color-green);
   border-color: var(--color-green);
+}
+
+.progress-dot.attempted {
+  background: var(--color-yellow);
+  border-color: var(--color-yellow);
 }
 
 .progress-dot.current {
@@ -332,21 +340,32 @@ html, body {
   color: var(--text-placeholder);
 }
 
-.editor-wrapper {
+/* SQL editor container */
+.sql-editor-wrap {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   overflow: hidden;
-  position: relative;
+  background: #161616;
 }
 
-.editor-wrapper .cm-editor {
-  height: 100%;
-  font-family: var(--font-mono);
-  font-size: 13px;
+/* Textarea SQL editor (Legacy) */
+.sql-editor-textarea {
+  display: none;
 }
 
-.editor-wrapper .cm-scroller {
-  overflow: auto;
+.sql-editor-wrap.disabled {
+  opacity: 0.6;
+}
+
+.cm-editor {
   height: 100%;
+  outline: none !important;
+}
+
+.cm-focused {
+  outline: none !important;
 }
 
 .editor-actions {
@@ -357,6 +376,251 @@ html, body {
   border-top: 1px solid var(--border-subtle);
   background: var(--bg-layer);
   flex-shrink: 0;
+}
+
+/* ─── Challenges List Sidebar ────────────────── */
+.challenges-list {
+  width: 240px;
+  min-width: 200px;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-subtle);
+  background: var(--bg-layer);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cl-header {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  background: var(--bg-layer);
+}
+
+.cl-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cl-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.cl-count {
+  font-size: 11px;
+  color: var(--color-green);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.cl-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cl-search-icon {
+  position: absolute;
+  left: 7px;
+  font-size: 14px;
+  color: var(--text-placeholder);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.cl-search {
+  width: 100%;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 5px 26px 5px 26px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.cl-search:focus {
+  border-color: var(--color-blue);
+}
+
+.cl-search-clear {
+  position: absolute;
+  right: 5px;
+  background: none;
+  border: none;
+  color: var(--text-placeholder);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.cl-search-clear:hover {
+  color: var(--text-primary);
+  background: var(--bg-layer-2);
+}
+
+.cl-filters {
+  display: flex;
+  gap: 4px;
+}
+
+.cl-filter-btn {
+  flex: 1;
+  padding: 3px 0;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: inherit;
+  border: 1px solid var(--border-subtle);
+  border-radius: 2px;
+  background: var(--bg-base);
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all 0.12s;
+}
+
+.cl-filter-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.cl-filter-btn.active {
+  background: var(--bg-layer-2);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.cl-filter-btn.active.easy { border-color: var(--easy-color); color: var(--easy-color); }
+.cl-filter-btn.active.medium { border-color: var(--medium-color); color: var(--medium-color); }
+.cl-filter-btn.active.hard { border-color: var(--hard-color); color: var(--hard-color); }
+
+.cl-body {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.cl-group {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.cl-group-header {
+  padding: 6px 12px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-teal);
+  background: rgba(8, 189, 186, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.cl-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 7px;
+  padding: 7px 12px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(57, 57, 57, 0.4);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: background 0.1s, color 0.1s;
+}
+
+.cl-item:last-child {
+  border-bottom: none;
+}
+
+.cl-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.cl-item.active {
+  background: rgba(69, 137, 255, 0.12);
+  color: var(--color-blue);
+  border-left: 2px solid var(--color-blue);
+  padding-left: 10px;
+}
+
+.cl-item.done {
+  color: var(--color-green);
+}
+
+.cl-item.attempted {
+  color: var(--color-yellow);
+}
+
+.cl-item.done.active {
+  background: rgba(66, 190, 101, 0.1);
+  color: var(--color-green);
+  border-left-color: var(--color-green);
+}
+
+.cl-item.attempted.active {
+  background: rgba(241, 194, 27, 0.1);
+  color: var(--color-yellow);
+  border-left-color: var(--color-yellow);
+}
+
+.cl-item-status {
+  font-size: 11px;
+  flex-shrink: 0;
+  width: 12px;
+  text-align: center;
+}
+
+.cl-item-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.cl-item-badge {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.cl-item-badge.easy { background: var(--easy-bg); color: var(--easy-color); }
+.cl-item-badge.medium { background: var(--medium-bg); color: var(--medium-color); }
+.cl-item-badge.hard { background: var(--hard-bg); color: var(--hard-color); }
+
+.cl-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-placeholder);
+  font-size: 12px;
 }
 
 /* ─── Buttons ────────────────────────────────── */

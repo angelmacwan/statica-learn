@@ -1,16 +1,27 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import challenges from './data/challenges.json'
-import { useDatabase, checkAnswer } from './hooks/useDatabase.js'
+import { useDatabase, checkAnswer, loadSqlJs } from './hooks/useDatabase.js'
 import { useProgress } from './hooks/useProgress.js'
 import Header from './components/Header.jsx'
-import ChallengePanel from './components/ChallengePanel.jsx'
-import ResultsPanel from './components/ResultsPanel.jsx'
+import ChallengeInfo from './components/ChallengeInfo.jsx'
+import SQLEditorPanel from './components/SQLEditorPanel.jsx'
+import ResultPane from './components/ResultPane.jsx'
+import ChallengesList from './components/ChallengesList.jsx'
 import DevMode from './components/DevMode.jsx'
 
 const IS_DEV = new URLSearchParams(window.location.search).get('dev') === 'true'
 
 export default function App() {
-  const { currentIndex, completed, markComplete, goToChallenge } = useProgress(challenges.length)
+  const { 
+    currentIndex, 
+    challengeData, 
+    markComplete, 
+    markAttempted, 
+    saveQuery,
+    goToChallenge, 
+    getChallengeProgress 
+  } = useProgress(challenges.length, challenges)
+  
   const challenge = challenges[currentIndex]
 
   const { dbReady, expectedResult, dbError, executeQuery } = useDatabase(challenge)
@@ -19,14 +30,9 @@ export default function App() {
   const [isCorrect, setIsCorrect] = useState(null)
   const [hasRun, setHasRun] = useState(false)
   const [devTestResults, setDevTestResults] = useState(null)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   // Reset result state when challenge changes
-  const prevChallengeId = React.useRef(null)
-  if (prevChallengeId.current !== challenge?.id) {
-    prevChallengeId.current = challenge?.id
-    // Can't set state during render, so handle via useEffect below
-  }
-
   React.useEffect(() => {
     setQueryResult(null)
     setIsCorrect(null)
@@ -44,12 +50,19 @@ export default function App() {
       const correct = checkAnswer(result, expectedResult, challenge?.ordered ?? false)
       setIsCorrect(correct)
       if (correct) {
-        markComplete(currentIndex)
+        markComplete(challenge.id, sql)
+      } else {
+        markAttempted(challenge.id, sql)
       }
     } else {
       setIsCorrect(false)
+      markAttempted(challenge.id, sql)
     }
-  }, [dbReady, executeQuery, expectedResult, challenge, currentIndex, markComplete])
+  }, [dbReady, executeQuery, expectedResult, challenge, markComplete, markAttempted])
+
+  const handleQueryChange = useCallback((sql) => {
+    saveQuery(challenge.id, sql)
+  }, [challenge?.id, saveQuery])
 
   const handleNext = useCallback(() => {
     if (currentIndex < challenges.length - 1) {
@@ -63,13 +76,16 @@ export default function App() {
     }
   }, [currentIndex, goToChallenge])
 
+  const handleSelectChallenge = useCallback((idx) => {
+    goToChallenge(idx)
+  }, [goToChallenge])
+
   // Dev mode: test all challenges
   const handleTestAll = useCallback(async () => {
-    const { default: initSqlJs } = await import('sql.js')
-    const SQL = await initSqlJs({ locateFile: (f) => `/${f}` })
+    const SqlJs = await loadSqlJs()
     const results = challenges.map((ch) => {
       try {
-        const db = new SQL.Database()
+        const db = new SqlJs.Database()
         db.run(ch.schema_sql)
         db.run(ch.seed_sql)
         const r = db.exec(ch.answer_sql)
@@ -86,34 +102,88 @@ export default function App() {
     <>
       <Header
         currentIndex={currentIndex}
-        total={challenges.length}
-        completed={completed}
+        challenges={challenges}
+        challengeData={challengeData}
         onGoTo={goToChallenge}
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={() => setSidebarOpen(v => !v)}
       />
 
       <main className="app-main">
-        {!dbReady && !dbError && (
-          <div className="loading-overlay" style={{ position: 'relative', flex: 1, display: 'none' }} />
-        )}
+        <div className="panels-row" style={{ display: 'flex', width: '100%', height: '100%' }}>
+          {/* Sidebar */}
+          {sidebarOpen && (
+            <ChallengesList
+              challenges={challenges}
+              currentIndex={currentIndex}
+              challengeData={challengeData}
+              onSelect={handleSelectChallenge}
+            />
+          )}
 
-        <div className="panels-row">
-          <ChallengePanel
-            challenge={challenge}
-            dbReady={dbReady}
-            dbError={dbError}
-            onRun={handleRun}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            canPrev={currentIndex > 0}
-            isCorrect={isCorrect}
-          />
+          {/* Main 2-column layout */}
+          <div className="main-content-grid" style={{ 
+            flex: 1, 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 1fr', 
+            gap: '1px', 
+            background: 'var(--border-subtle)',
+            overflow: 'hidden' 
+          }}>
+            {/* Left Column */}
+            <div className="left-column" style={{ 
+              display: 'grid', 
+              gridTemplateRows: '1.2fr 1fr', 
+              gap: '1px', 
+              background: 'var(--border-subtle)',
+              height: '100%',
+              overflow: 'hidden'
+            }}>
+              <div style={{ background: 'var(--bg-base)', overflow: 'hidden' }}>
+                <ChallengeInfo challenge={challenge} />
+              </div>
+              <div style={{ background: 'var(--bg-base)', overflow: 'hidden' }}>
+                <ResultPane 
+                  title="Expected Output" 
+                  result={expectedResult} 
+                  hasRun={hasRun}
+                />
+              </div>
+            </div>
 
-          <ResultsPanel
-            queryResult={queryResult}
-            expectedResult={expectedResult}
-            isCorrect={isCorrect}
-            hasRun={hasRun}
-          />
+            {/* Right Column */}
+            <div className="right-column" style={{ 
+              display: 'grid', 
+              gridTemplateRows: '1.2fr 1fr', 
+              gap: '1px', 
+              background: 'var(--border-subtle)',
+              height: '100%',
+              overflow: 'hidden'
+            }}>
+              <div style={{ background: 'var(--bg-base)', overflow: 'hidden' }}>
+                <SQLEditorPanel 
+                  dbReady={dbReady}
+                  dbError={dbError}
+                  onRun={handleRun}
+                  onChange={handleQueryChange}
+                  onNext={handleNext}
+                  onPrev={handlePrev}
+                  canPrev={currentIndex > 0}
+                  isCorrect={isCorrect}
+                  savedQuery={getChallengeProgress(challenge?.id).query}
+                />
+              </div>
+              <div style={{ background: 'var(--bg-base)', overflow: 'hidden' }}>
+                <ResultPane 
+                  title="Your Output" 
+                  result={queryResult} 
+                  hasRun={hasRun}
+                  isCorrect={isCorrect}
+                  showStatus={true}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </main>
 

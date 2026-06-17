@@ -2,11 +2,39 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 
 let SQL = null
 
-async function loadSqlJs() {
+export async function loadSqlJs() {
   if (SQL) return SQL
-  const initSqlJs = (await import('sql.js')).default
-  SQL = await initSqlJs({ locateFile: (file) => `/${file}` })
-  return SQL
+  console.log('loadSqlJs: Importing sql.js...')
+  try {
+    const module = await import('sql.js')
+    console.log('loadSqlJs: Module imported', module)
+    
+    // Handle different export patterns
+    let initSqlJs = module.default
+    
+    // Fallback for some environments where the module itself is the function
+    // or it's a CJS module imported without a default export
+    if (typeof initSqlJs !== 'function') {
+      if (typeof module === 'function') {
+        initSqlJs = module
+      } else if (typeof window !== 'undefined' && typeof window.initSqlJs === 'function') {
+        initSqlJs = window.initSqlJs
+      }
+    }
+
+    if (typeof initSqlJs !== 'function') {
+      throw new Error(`initSqlJs is not a function (type: ${typeof initSqlJs}). Module keys: ${Object.keys(module)}`)
+    }
+    
+    SQL = await initSqlJs({ 
+      // Ensure the worker and wasm are loaded from the correct path
+      locateFile: (file) => `/${file}` 
+    })
+    return SQL
+  } catch (err) {
+    console.error('loadSqlJs: Failed to load sql.js', err)
+    throw err
+  }
 }
 
 export function useDatabase(challenge) {
@@ -31,16 +59,20 @@ export function useDatabase(challenge) {
     let cancelled = false
 
     async function init() {
+      console.log('useDatabase: Initializing DB for challenge', challenge.id)
       try {
         const SqlJs = await loadSqlJs()
+        console.log('useDatabase: sql.js loaded')
         if (cancelled) return
 
         const newDb = new SqlJs.Database()
         newDb.run(challenge.schema_sql)
         newDb.run(challenge.seed_sql)
+        console.log('useDatabase: Schema and seed data applied')
 
         // Pre-run answer to get expected result
         const expected = runQuery(newDb, challenge.answer_sql)
+        console.log('useDatabase: Expected result calculated')
 
         if (cancelled) {
           newDb.close()
@@ -51,7 +83,9 @@ export function useDatabase(challenge) {
         setDb(newDb)
         setExpectedResult(expected)
         setDbReady(true)
+        console.log('useDatabase: DB Ready')
       } catch (err) {
+        console.error('useDatabase: Error during init', err)
         if (!cancelled) {
           setDbError(err.message)
           setDbReady(false)
@@ -108,23 +142,14 @@ export function checkAnswer(userResult, expectedResult, ordered = false) {
   if (!userResult || userResult.error) return false
   if (!expectedResult || expectedResult.error) return false
 
+  const normalizeVal = (v) => (v === null || v === undefined ? 'null' : String(v).trim())
+
   if (ordered) {
-    // Compare preserving order but normalize values
-    const userRows = userResult.rows?.map((row) =>
-      result.columns?.map((_, i) =>
-        row[i] === null ? 'null' : String(row[i]).trim()
-      )
-    )
-    // Simpler ordered comparison
     const userStr = JSON.stringify(
-      userResult.rows?.map((row) =>
-        row.map((v) => (v === null ? 'null' : String(v).trim()))
-      )
+      userResult.rows?.map((row) => row.map(normalizeVal))
     )
     const expStr = JSON.stringify(
-      expectedResult.rows?.map((row) =>
-        row.map((v) => (v === null ? 'null' : String(v).trim()))
-      )
+      expectedResult.rows?.map((row) => row.map(normalizeVal))
     )
     return userStr === expStr
   }

@@ -5,10 +5,22 @@ const STORAGE_KEY = 'statica-learn-progress'
 function loadProgress() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { completed: [], currentIndex: 0 }
-    return JSON.parse(raw)
+    if (!raw) return { 
+      currentIndex: 0,
+      challengeData: {} // Map of challengeId -> { status: 'solved'|'attempted', query: string }
+    }
+    const parsed = JSON.parse(raw)
+    // Migrate old format if necessary
+    if (Array.isArray(parsed.completed)) {
+      const challengeData = {}
+      parsed.completed.forEach(idx => {
+        challengeData[idx] = { status: 'solved', query: '' }
+      })
+      return { currentIndex: parsed.currentIndex || 0, challengeData }
+    }
+    return parsed
   } catch {
-    return { completed: [], currentIndex: 0 }
+    return { currentIndex: 0, challengeData: {} }
   }
 }
 
@@ -18,18 +30,53 @@ function saveProgress(data) {
   } catch {}
 }
 
-export function useProgress(totalChallenges) {
+export function useProgress(totalChallenges, challenges) {
   const [progress, setProgress] = useState(loadProgress)
 
   useEffect(() => {
     saveProgress(progress)
   }, [progress])
 
-  const markComplete = useCallback((index) => {
+  const markComplete = useCallback((id, query) => {
+    setProgress((prev) => ({
+      ...prev,
+      challengeData: {
+        ...prev.challengeData,
+        [id]: { status: 'solved', query }
+      }
+    }))
+  }, [])
+
+  const markAttempted = useCallback((id, query) => {
     setProgress((prev) => {
-      if (prev.completed.includes(index)) return prev
-      return { ...prev, completed: [...prev.completed, index] }
+      // Don't downgrade from solved to attempted
+      if (prev.challengeData[id]?.status === 'solved') {
+        return {
+          ...prev,
+          challengeData: {
+            ...prev.challengeData,
+            [id]: { ...prev.challengeData[id], query }
+          }
+        }
+      }
+      return {
+        ...prev,
+        challengeData: {
+          ...prev.challengeData,
+          [id]: { status: 'attempted', query }
+        }
+      }
     })
+  }, [])
+
+  const saveQuery = useCallback((id, query) => {
+    setProgress((prev) => ({
+      ...prev,
+      challengeData: {
+        ...prev.challengeData,
+        [id]: { ...prev.challengeData[id], query }
+      }
+    }))
   }, [])
 
   const goToChallenge = useCallback((index) => {
@@ -38,16 +85,24 @@ export function useProgress(totalChallenges) {
   }, [totalChallenges])
 
   const resetProgress = useCallback(() => {
-    const fresh = { completed: [], currentIndex: 0 }
+    const fresh = { currentIndex: 0, challengeData: {} }
     setProgress(fresh)
     saveProgress(fresh)
   }, [])
 
+  // Helper to get status and query for a challenge
+  const getChallengeProgress = useCallback((id) => {
+    return progress.challengeData[id] || { status: 'none', query: '' }
+  }, [progress.challengeData])
+
   return {
     currentIndex: progress.currentIndex,
-    completed: progress.completed,
+    challengeData: progress.challengeData,
     markComplete,
+    markAttempted,
+    saveQuery,
     goToChallenge,
     resetProgress,
+    getChallengeProgress
   }
 }
