@@ -1057,7 +1057,7 @@ html, body {
 }
 
 .home-content {
-  max-width: 900px;
+  max-width: 1200px;
   width: 100%;
   text-align: center;
 }
@@ -1077,8 +1077,8 @@ html, body {
 
 .module-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .module-card {
@@ -1308,3 +1308,233 @@ html, body {
     display: none;
   }
 }
+
+/* ─── Robot Gardener Game ──────────────────────────────────── */
+.rg-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-base);
+}
+.rg-header {
+  height: var(--header-height);
+  background: var(--bg-layer);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  flex-shrink: 0;
+  gap: 1rem;
+}
+.rg-header-left { display: flex; align-items: center; gap: 0.75rem; }
+.rg-header-center {
+  flex: 1; display: flex; align-items: center;
+  justify-content: center; gap: 0.75rem; overflow: hidden;
+}
+.rg-header-right { display: flex; align-items: center; gap: 0.75rem; }
+.rg-back-btn {
+  background: none; border: 1px solid var(--border-strong);
+  color: var(--text-secondary); font-family: inherit;
+  font-size: 12px; padding: 4px 10px; cursor: pointer;
+  border-radius: 3px; transition: all 0.15s; white-space: nowrap;
+}
+.rg-back-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
+.rg-logo { display: flex; align-items: center; gap: 0.5rem; }
+.rg-logo-icon { font-size: 20px; }
+.rg-logo-name {
+  font-size: 14px; font-weight: 700;
+  background: linear-gradient(90deg, #42be65, #08bdba);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.rg-level-badge {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.rg-level-title {
+  font-size: 13px; font-weight: 600; color: var(--text-primary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rg-progress-text { font-size: 11px; color: var(--text-placeholder); white-space: nowrap; }
+.rg-sidebar-btn {
+  background: none; border: none; color: var(--text-secondary);
+  font-size: 16px; cursor: pointer; padding: 4px 8px;
+  border-radius: 3px; transition: all 0.15s;
+}
+.rg-sidebar-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
+.rg-body { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+.rg-sidebar {
+  width: 220px; min-width: 180px; background: var(--bg-layer);
+  border-right: 1px solid var(--border-subtle);
+  display: flex; flex-direction: column; overflow: hidden; flex-shrink: 0;
+}
+.rg-sidebar-header {
+  padding: 8px 12px; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle); flex-shrink: 0;
+}
+.rg-sidebar-body { flex: 1; overflow-y: auto; min-height: 0; }
+.rg-tier-group { border-bottom: 1px solid var(--border-subtle); padding-bottom: 4px; }
+.rg-tier-label {
+  padding: 8px 12px 4px; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; background: rgba(255,255,255,0.03);
+}
+.rg-level-item {
+  display: flex; align-items: center; gap: 7px; width: 100%;
+  padding: 6px 12px; background: none; border: none;
+  border-bottom: 1px solid rgba(57,57,57,0.3); cursor: pointer;
+  text-align: left; font-family: inherit; font-size: 12px;
+  color: var(--text-secondary); transition: background 0.1s, color 0.1s;
+}
+.rg-level-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+.rg-level-item.active {
+  background: rgba(69,137,255,0.12); color: var(--color-blue);
+  border-left: 2px solid var(--color-blue); padding-left: 10px;
+}
+.rg-level-item.solved { color: var(--color-green); }
+.rg-level-item.solved.active {
+  background: rgba(66,190,101,0.1); color: var(--color-green);
+  border-left-color: var(--color-green);
+}
+.rg-level-item-icon { font-size: 11px; flex-shrink: 0; width: 14px; }
+.rg-level-item-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rg-main {
+  flex: 1; display: grid; grid-template-columns: 420px 1fr;
+  gap: 1px; background: var(--border-subtle); overflow: hidden; min-height: 0;
+}
+.rg-left {
+  display: flex; flex-direction: column;
+  background: var(--bg-base); overflow: hidden; min-height: 0;
+}
+.rg-grid-wrap {
+  flex-shrink: 0; width: 100%; aspect-ratio: 1 / 1; max-height: 420px;
+  position: relative; background: #0d1a0d;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.rg-anim-badge {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(0,0,0,0.75); border: 1px solid var(--color-blue);
+  border-radius: 4px; padding: 3px 10px; font-size: 11px; color: var(--color-blue);
+  display: flex; align-items: center; gap: 6px;
+}
+.rg-anim-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--color-blue);
+  animation: rg-pulse 0.8s ease-in-out infinite;
+}
+@keyframes rg-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+.rg-objective { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
+.rg-objective-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--color-green); margin-bottom: 6px;
+}
+.rg-objective-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin: 0 0 8px; }
+.rg-concept-badge {
+  display: inline-block; background: rgba(8,189,186,0.1);
+  border: 1px solid rgba(8,189,186,0.3); color: var(--color-teal);
+  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 3px;
+  letter-spacing: 0.04em; margin-bottom: 8px;
+}
+.rg-objective-actions { display: flex; gap: 8px; margin-top: 4px; }
+.rg-hint-btn {
+  background: none; border: none; font-family: inherit;
+  font-size: 12px; color: var(--color-blue); cursor: pointer; padding: 0; transition: color 0.15s;
+}
+.rg-hint-btn:hover { color: var(--color-blue-hover); }
+.rg-hint-box {
+  margin-top: 8px; padding: 10px 12px; background: var(--bg-layer);
+  border-left: 3px solid var(--color-blue); border-radius: 0 3px 3px 0;
+  font-size: 12px; color: var(--text-secondary); line-height: 1.6; overflow: hidden;
+}
+.rg-solution-box { border-left-color: var(--color-yellow); background: rgba(241,194,27,0.05); }
+.rg-inventory {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap;
+}
+.rg-inventory-label { font-size: 11px; color: var(--text-secondary); }
+.rg-inventory-item {
+  background: var(--bg-layer-2); border: 1px solid var(--border-strong);
+  padding: 2px 8px; border-radius: 3px; font-size: 11px; color: var(--text-primary);
+}
+.rg-right {
+  display: flex; flex-direction: column; background: var(--bg-base); overflow: hidden; min-height: 0;
+}
+.rg-editor-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 12px; background: var(--bg-layer);
+  border-bottom: 1px solid var(--border-subtle); flex-shrink: 0;
+}
+.rg-editor-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--text-secondary);
+}
+.rg-editor-hint { font-size: 11px; color: var(--text-placeholder); }
+.rg-editor-wrap { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+.rg-editor-actions {
+  display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+  background: var(--bg-layer); border-top: 1px solid var(--border-subtle); flex-shrink: 0;
+}
+.rg-console {
+  height: 140px; flex-shrink: 0; display: flex; flex-direction: column;
+  border-top: 1px solid var(--border-subtle); background: #0e150e;
+}
+.rg-console-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 4px 12px; border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-layer); font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); flex-shrink: 0;
+}
+.rg-console-status { font-size: 11px; }
+.rg-console-status.success { color: var(--color-green); }
+.rg-console-status.error   { color: var(--color-red); }
+.rg-console-status.running { color: var(--color-blue); }
+.rg-console-body {
+  flex: 1; overflow-y: auto; padding: 8px 12px;
+  font-family: var(--font-mono); font-size: 12px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.rg-console-line { color: var(--text-secondary); }
+.rg-console-error {
+  color: var(--color-red); background: rgba(250,77,86,0.08); padding: 4px 8px; border-radius: 3px;
+}
+.rg-err-line { font-weight: 700; }
+.rg-console-success { color: var(--color-green); font-weight: 600; }
+.rg-console-placeholder { color: var(--text-placeholder); font-style: italic; }
+.rg-commands { border-top: 1px solid var(--border-subtle); flex-shrink: 0; background: var(--bg-layer); }
+.rg-commands-header {
+  padding: 4px 12px; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-placeholder); border-bottom: 1px solid var(--border-subtle);
+}
+.rg-commands-body { padding: 6px 12px; display: flex; flex-wrap: wrap; gap: 4px; }
+.rg-cmd-pill {
+  background: var(--bg-layer-2); border: 1px solid var(--border-subtle);
+  color: var(--color-teal); font-family: var(--font-mono); font-size: 10px;
+  padding: 2px 7px; border-radius: 3px;
+}
+.rg-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; backdrop-filter: blur(4px);
+}
+.rg-modal {
+  background: var(--bg-layer); border: 1px solid var(--color-green);
+  border-radius: 12px; padding: 2.5rem 3rem; text-align: center;
+  max-width: 440px; width: 90%;
+  box-shadow: 0 0 60px rgba(66,190,101,0.2), 0 20px 60px rgba(0,0,0,0.6);
+}
+.rg-modal-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.rg-modal-title { font-size: 1.8rem; font-weight: 700; color: var(--color-green); margin: 0 0 0.25rem; }
+.rg-modal-sub {
+  font-size: 12px; color: var(--text-placeholder);
+  text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 0.75rem;
+}
+.rg-modal-text { color: var(--text-secondary); font-size: 14px; line-height: 1.5; margin: 0 0 1.5rem; }
+.rg-modal-actions { display: flex; justify-content: center; gap: 0.75rem; }
+.robot-icon { background: linear-gradient(135deg, #2ea84f, #08bdba); }
