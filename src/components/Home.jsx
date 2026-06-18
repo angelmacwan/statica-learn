@@ -1,145 +1,247 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import challenges from '../data/challenges.json';
-import pythonChallenges from '../data/python-challenges.json';
+import { useNavigate, Link } from 'react-router-dom';
+
+// =========================================================================
+// IBM Carbon Design System Icon Components
+// =========================================================================
+
+// Database Cylinder for SQL
+const SqlIcon = () => (
+  <svg 
+    width="32" 
+    height="32" 
+    viewBox="0 0 32 32" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    aria-hidden="true"
+  >
+    <ellipse cx="16" cy="7" rx="11" ry="4" />
+    <path d="M5 7v9c0 2.2 4.9 4 11 4s11-1.8 11-4V7" />
+    <path d="M5 16v9c0 2.2 4.9 4 11 4s11-1.8 11-4v-9" />
+  </svg>
+);
+
+// Code Brackets for Python
+const PythonIcon = () => (
+  <svg 
+    width="32" 
+    height="32" 
+    viewBox="0 0 32 32" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    aria-hidden="true"
+  >
+    <path d="M10 9L3 16L10 23" />
+    <path d="M22 9L29 16L22 23" />
+    <path d="M18 5L14 27" />
+  </svg>
+);
+
+// Robot Grid Navigation for Robot Gardener
+const RobotIcon = () => (
+  <svg 
+    width="32" 
+    height="32" 
+    viewBox="0 0 32 32" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    aria-hidden="true"
+  >
+    <rect x="6" y="10" width="20" height="16" rx="1" />
+    <circle cx="11" cy="17" r="2" fill="currentColor" />
+    <circle cx="21" cy="17" r="2" fill="currentColor" />
+    <path d="M16 10V5" />
+    <circle cx="16" cy="4" r="1" fill="currentColor" />
+    <path d="M9 26v2M23 26v2" />
+    <path d="M12 22h8" />
+  </svg>
+);
+
+// Trailing Arrow for Buttons
+const ArrowRightIcon = () => (
+  <svg 
+    width="16" 
+    height="16" 
+    viewBox="0 0 16 16" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="1.5" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    aria-hidden="true"
+  >
+    <line x1="3" y1="8" x2="13" y2="8" />
+    <polyline points="9 4 13 8 9 12" />
+  </svg>
+);
+
+// =========================================================================
+// MODULE DATA ARRAY (SCALABILITY)
+// To add new modules in the future (e.g., 5+ modules), simply append new
+// objects to this array. The grid will automatically scale and reflow.
+// =========================================================================
+const MODULES = [
+  {
+    id: 'sql',
+    title: 'SQL Module',
+    category: 'Database Querying',
+    tag: 'Database',
+    desc: 'Master structured querying, relational database design, and data manipulation with interactive SQL challenges.',
+    path: '/sql',
+    accentColor: '#4589ff', // Carbon Blue 50
+    Icon: SqlIcon,
+  },
+  {
+    id: 'python',
+    title: 'Python Module',
+    category: 'Syntax & Logic Flow',
+    tag: 'Programming',
+    desc: 'Learn programming fundamentals, code structure, control flow, and data types through hands-on Python exercises.',
+    path: '/python',
+    accentColor: '#08bdba', // Carbon Teal 50
+    Icon: PythonIcon,
+  },
+  {
+    id: 'robot-gardener',
+    title: 'Robot Gardener',
+    category: 'Visual Game Sandbox',
+    tag: 'Simulation',
+    desc: 'Program an autonomous robot on a grid. Write Python code to control navigation, loop iterations, and harvest actions.',
+    path: '/robot-gardener',
+    accentColor: '#42be65', // Carbon Green 50
+    Icon: RobotIcon,
+  }
+];
 
 const Home = () => {
   const navigate = useNavigate();
-  
-  const previewChallenges = challenges.slice(0, 5);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.1 }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.9 },
-    visible: { 
-      opacity: 1, y: 0, scale: 1,
-      transition: { type: 'spring', stiffness: 400, damping: 22 }
-    }
-  };
 
   return (
-    <div className="home-container">
-      <motion.div 
-        className="home-content"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.h1 className="home-title" variants={cardVariants}>
-          Select a Module
-        </motion.h1>
-        <motion.p className="home-subtitle" variants={cardVariants}>
-          Choose your learning path and start practicing.
-        </motion.p>
-        
-        <div className="module-grid">
-          {/* SQL Card */}
-          <motion.div 
-            className="module-card" 
-            variants={cardVariants}
-            onClick={() => navigate('/sql')}
-            whileHover={{ y: -8, scale: 1.02, borderColor: 'var(--color-blue)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-            whileTap={{ scale: 0.95 }}
+    <div className="carbon-layout">
+      {/* IBM Carbon Header (UI Shell) */}
+      <header className="carbon-header" role="banner">
+        <Link 
+          className="app-logo" 
+          to="/"
+          style={{ textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+        >
+          <div className="app-logo-icon" style={{ background: 'none', borderRadius: 0, width: 'auto', height: 'auto', padding: 0, display: 'flex', alignItems: 'center' }}>
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Database cylinder body */}
+              <ellipse cx="16" cy="8" rx="10" ry="4" fill="#4589ff" />
+              <rect x="6" y="8" width="20" height="14" fill="#4589ff" />
+              <ellipse cx="16" cy="22" rx="10" ry="4" fill="#0353e9" />
+              {/* Shine lines */}
+              <ellipse cx="16" cy="8" rx="10" ry="4" fill="none" stroke="#74aaff" strokeWidth="1" />
+              <line x1="6" y1="14" x2="26" y2="14" stroke="#0353e9" strokeWidth="1" />
+              <line x1="6" y1="19" x2="26" y2="19" stroke="#0353e9" strokeWidth="1" />
+              {/* Highlight */}
+              <ellipse cx="13" cy="7.5" rx="3" ry="1.2" fill="white" opacity="0.25" />
+            </svg>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
+            <span className="app-logo-name" style={{ fontSize: '15px', fontWeight: 700, letterSpacing: '-0.01em' }}>StaticaLearn</span>
+            <span style={{ fontSize: '11px', color: 'var(--text-placeholder)', fontWeight: 400, letterSpacing: '0.02em' }}>by StaticaLabs</span>
+          </div>
+        </Link>
+        <nav className="carbon-header-nav" role="navigation" aria-label="Global navigation">
+          <a 
+            href="https://staticalabs.com" 
+            className="carbon-nav-link" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            title="Visit StaticaLabs website (opens in a new tab)"
           >
-            <div className="module-icon sql-icon">SQL</div>
-            <h2 className="module-name">SQL</h2>
-            <p className="module-desc">Master data querying and manipulation with interactive SQL challenges.</p>
-            <div className="module-content-preview">
-              <span className="preview-title">Included Challenges</span>
-              <ul className="preview-list">
-                {previewChallenges.map(ch => (
-                  <li key={ch.id} className="preview-item">
-                    <div className="preview-dot"></div>
-                    {ch.title}
-                  </li>
-                ))}
-                <li className="preview-item" style={{ opacity: 0.6, fontSize: '11px', fontStyle: 'italic', marginTop: '4px' }}>
-                  + {challenges.length - previewChallenges.length} more challenges...
-                </li>
-              </ul>
-            </div>
-            <button className="btn btn-primary module-btn" style={{ marginTop: '2rem', width: '100%' }}>
-              Start Practicing
-            </button>
-          </motion.div>
-          
-          {/* Python Card */}
-          <motion.div 
-            className="module-card" 
-            variants={cardVariants}
-            onClick={() => navigate('/python')}
-            whileHover={{ y: -8, scale: 1.02, borderColor: 'var(--color-teal)', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="module-icon python-icon">Py</div>
-            <h2 className="module-name">Python</h2>
-            <p className="module-desc">Learn programming fundamentals and data analysis with Python.</p>
-            <div className="module-content-preview">
-              <span className="preview-title">Included Challenges</span>
-              <ul className="preview-list">
-                {pythonChallenges.slice(0, 5).map(ch => (
-                  <li key={ch.id} className="preview-item">
-                    <div className="preview-dot"></div>
-                    {ch.title}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <button className="btn btn-primary module-btn" style={{ marginTop: '2rem', width: '100%' }}>
-              Start Practicing
-            </button>
-          </motion.div>
+            StaticaLabs
+          </a>
+        </nav>
+      </header>
 
-          {/* Robot Gardener Card */}
-          <motion.div 
-            className="module-card" 
-            variants={cardVariants}
-            onClick={() => navigate('/robot-gardener')}
-            whileHover={{ y: -8, scale: 1.02, borderColor: '#42be65', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="module-icon robot-icon" style={{ fontSize: '28px' }}>🤖</div>
-            <h2 className="module-name">Robot Gardener</h2>
-            <p className="module-desc">
-              Program a robot to navigate grids, plant seeds, and grow crops — learn Python visually!
+      {/* Main Corporate Content Grid */}
+      <main className="carbon-main">
+        <div className="carbon-container">
+          
+          {/* Hero Section */}
+          <section className="carbon-hero">
+            <h1 className="carbon-hero-title">
+              Enterprise Module Ecosystem
+            </h1>
+            <p className="carbon-hero-subtitle">
+              An enterprise-grade training and evaluation platform for structured queries, scripting logic, and automated systems orchestration.
             </p>
-            <div className="module-content-preview">
-              <span className="preview-title">15 Levels · 3 Tiers</span>
-              <ul className="preview-list">
-                <li className="preview-item">
-                  <div className="preview-dot" style={{ background: '#4589ff' }}></div>
-                  Tier 1 · Sequencing &amp; Function Calls
-                </li>
-                <li className="preview-item">
-                  <div className="preview-dot" style={{ background: '#08bdba' }}></div>
-                  Tier 2 · Loops &amp; Conditionals
-                </li>
-                <li className="preview-item">
-                  <div className="preview-dot" style={{ background: '#be95ff' }}></div>
-                  Tier 3 · Functions &amp; Dictionaries
-                </li>
-              </ul>
-            </div>
-            <button 
-              className="btn btn-primary module-btn" 
-              style={{ marginTop: '2rem', width: '100%', background: 'linear-gradient(90deg, #2ea84f, #08bdba)' }}
-            >
-              Start Playing 🌱
-            </button>
-          </motion.div>
+          </section>
+
+          {/* Module Cards Grid */}
+          <section 
+            className="carbon-grid" 
+            role="region" 
+            aria-label="Available training modules"
+          >
+            {MODULES.map((module) => {
+              const { id, title, category, tag, desc, path, accentColor, Icon } = module;
+              return (
+                <article 
+                  key={id}
+                  className="carbon-card"
+                  onClick={() => navigate(path)}
+                  style={{ '--hover-accent-color': accentColor }}
+                  tabIndex="0"
+                  role="button"
+                  aria-pressed="false"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigate(path);
+                    }
+                  }}
+                >
+                  <div className="carbon-card-header">
+                    <div className="carbon-card-meta">
+                      <span className="carbon-card-tag">{tag}</span>
+                      <span className="carbon-card-icon-wrapper">
+                        <Icon />
+                      </span>
+                    </div>
+                    
+                    <div className="carbon-card-title-group">
+                      <h2 className="carbon-card-title">{title}</h2>
+                      <span className="carbon-card-category">{category}</span>
+                    </div>
+                    
+                    <p className="carbon-card-desc">{desc}</p>
+                  </div>
+
+                  <div className="carbon-card-footer">
+                    <button 
+                      className="carbon-btn-primary" 
+                      onClick={(e) => {
+                        e.stopPropagation(); // prevent double navigation
+                        navigate(path);
+                      }}
+                      tabIndex="-1" // card itself is focusable
+                    >
+                      Start Module
+                      <span className="carbon-btn-icon">
+                        <ArrowRightIcon />
+                      </span>
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </section>
+
         </div>
-      </motion.div>
-      <footer style={{ marginTop: '3rem', textAlign: 'center', fontSize: '12px', color: 'var(--text-placeholder)', paddingBottom: '1rem' }}>
-        This is a product of <a href="https://staticalabs.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>StaticaLabs</a> (staticalabs.com)
-      </footer>
+      </main>
     </div>
   );
 };

@@ -1046,182 +1046,254 @@ html, body {
 .dev-test-fail { color: var(--color-red); }
 
 /* ─── Home Page ─────────────────────────────── */
-.home-container {
-  height: 100vh;
+.carbon-layout {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  background-color: var(--bg-base);
+}
+
+.carbon-header {
+  height: 48px;
+  background-color: var(--bg-layer); /* Gray 90 corporate palette */
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
   align-items: center;
-  justify-content: center;
-  background: var(--bg-base);
-  padding: 2rem;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.home-content {
-  max-width: 1200px;
-  width: 100%;
-  text-align: center;
+.carbon-header-brand {
+  display: flex;
+  align-items: center;
 }
 
-.home-title {
-  font-size: 2.5rem;
+/* Logo placeholder symbol - 2x2 grid of colored blocks */
+.carbon-logo-symbol {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 6px);
+  gap: 2px;
+  width: 14px;
+  height: 14px;
+  margin-right: 0.75rem;
+}
+
+.carbon-logo-quad {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-blue);
+}
+.carbon-logo-quad:nth-child(2) { background-color: var(--color-teal); }
+.carbon-logo-quad:nth-child(3) { background-color: var(--color-purple); }
+.carbon-logo-quad:nth-child(4) { background-color: var(--color-green); }
+
+.carbon-brand-text {
+  font-size: 0.875rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  letter-spacing: 1.5px;
   color: var(--text-primary);
+  user-select: none;
 }
 
-.home-subtitle {
-  font-size: 1.1rem;
+.carbon-brand-light {
+  font-weight: 300;
   color: var(--text-secondary);
-  margin-bottom: 3rem;
 }
 
-.module-grid {
+.carbon-header-nav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.carbon-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 0 1.25rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: color 0.11s cubic-bezier(0.2, 0, 0.38, 0.9), background-color 0.11s cubic-bezier(0.2, 0, 0.38, 0.9);
+  border-left: 1px solid var(--border-subtle);
+  font-weight: 400;
+}
+
+.carbon-nav-link:hover {
+  color: #ffffff;
+  background-color: var(--bg-hover);
+}
+
+/* Carbon Main Layout */
+.carbon-main {
+  flex-grow: 1;
+  padding: 4rem 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.carbon-container {
+  max-width: 1584px; /* IBM Carbon standard max-width */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+/* Hero Section */
+.carbon-hero {
+  max-width: 800px;
+  text-align: left;
+}
+
+.carbon-hero-title {
+  font-size: 3.5rem;
+  font-weight: 300; /* Light Carbon typeface */
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+}
+
+.carbon-hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Module Grid */
+.carbon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Interactive Module Card */
+.carbon-card {
+  background-color: var(--bg-layer); /* Gray 90 */
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid transparent;
+  padding: 2rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+  position: relative;
+  outline: none;
+  transition: background-color 0.11s cubic-bezier(0.2, 0, 0.38, 0.9),
+              border-color 0.11s cubic-bezier(0.2, 0, 0.38, 0.9),
+              border-left-color 0.11s cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.carbon-card:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-strong);
+  border-left-color: var(--hover-accent-color);
+}
+
+.carbon-card:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: -2px;
+}
+
+.carbon-card-header {
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
-.module-card {
-  background: var(--bg-layer);
+.carbon-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carbon-card-tag {
+  background-color: var(--bg-base);
+  color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  padding: 2.5rem 2rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.25rem 0.5rem;
+}
+
+.carbon-card-icon-wrapper {
+  color: var(--hover-accent-color);
+  display: flex;
+  align-items: center;
+}
+
+.carbon-card-title-group {
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
+}
+
+.carbon-card-title {
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.carbon-card-category {
+  font-size: 0.8125rem;
+  color: var(--text-placeholder);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.carbon-card-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.carbon-card-footer {
+  margin-top: 2rem;
+}
+
+/* Carbon Button */
+.carbon-btn-primary {
+  background-color: var(--hover-accent-color, var(--color-blue));
+  color: white;
+  font-weight: 500;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  padding: 0.875rem 1.25rem;
+  display: flex;
   align-items: center;
-  position: relative;
-  overflow: hidden;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 0.11s cubic-bezier(0.2, 0, 0.38, 0.9), filter 0.11s cubic-bezier(0.2, 0, 0.38, 0.9);
+  width: 100%;
+  border-radius: 0;
 }
 
-.module-card:hover {
-  border-color: var(--color-blue);
-  transform: translateY(-4px);
-  background: var(--bg-hover);
+.carbon-btn-primary:hover {
+  filter: brightness(1.1);
 }
 
-.module-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
+.carbon-btn-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: white;
-}
-
-.sql-icon {
-  background: var(--color-blue);
-}
-
-.python-icon {
-  background: var(--color-teal);
-  opacity: 0.7;
-}
-
-.module-name {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
-}
-
-.module-desc {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
-
-.module-content-preview {
-  width: 100%;
-  text-align: left;
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 1.5rem;
-}
-
-.preview-title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-placeholder);
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.preview-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.preview-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.preview-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-blue);
-  flex-shrink: 0;
-}
-
-.skeleton-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.skeleton-item {
-  height: 14px;
-  background: var(--bg-layer-2);
-  border-radius: 4px;
-  position: relative;
-  overflow: hidden;
-}
-
-.skeleton-item::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
-  animation: skeleton-shimmer 1.5s infinite;
-}
-
-@keyframes skeleton-shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.coming-soon-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: var(--bg-layer-2);
-  color: var(--text-secondary);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: 1px solid var(--border-subtle);
 }
 
 /* ─── Coming Soon ─────────────────────────────── */

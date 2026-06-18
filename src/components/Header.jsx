@@ -23,7 +23,7 @@ export default function Header({ currentIndex, challenges, challengeData, onGoTo
           style={{ textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
         >
           <div className="app-logo-icon" style={{ background: 'none', borderRadius: 0, width: 'auto', height: 'auto', padding: 0 }}>
-            <svg width="36" height="36" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               {/* Database cylinder body */}
               <ellipse cx="16" cy="8" rx="10" ry="4" fill="#4589ff" />
               <rect x="6" y="8" width="20" height="14" fill="#4589ff" />
