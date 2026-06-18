@@ -39,9 +39,11 @@ export default function ChallengeInfo({ challenge }) {
           </div>
         )}
 
-        <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
-          <SchemaViewer schemaSql={challenge.schema_sql} />
-        </div>
+        {challenge.schema_sql && (
+          <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
+            <SchemaViewer schemaSql={challenge.schema_sql} />
+          </div>
+        )}
       </div>
     </div>
   )

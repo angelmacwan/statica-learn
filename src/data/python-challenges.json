@@ -1,0 +1,49 @@
+[
+  {
+    "id": "py-001",
+    "title": "Even or Odd",
+    "difficulty": "easy",
+    "dataset": "Conditions",
+    "prompt": "Write a function `is_even(n)` that returns True if the number `n` is even, and False otherwise.",
+    "hint": "Use the modulo operator % to check for the remainder.",
+    "initial_code": "def is_even(n):\n    # Write your code here\n    pass",
+    "test_cases": [
+      { "input": "is_even(4)", "expected": "True" },
+      { "input": "is_even(7)", "expected": "False" },
+      { "input": "is_even(0)", "expected": "True" },
+      { "input": "is_even(-2)", "expected": "True" }
+    ],
+    "test_code": "assert is_even(4) == True, 'Failed on is_even(4)'\nassert is_even(7) == False, 'Failed on is_even(7)'\nassert is_even(0) == True, 'Failed on is_even(0)'\nassert is_even(-2) == True, 'Failed on is_even(-2)'"
+  },
+  {
+    "id": "py-002",
+    "title": "Sum of Array",
+    "difficulty": "easy",
+    "dataset": "Loops",
+    "prompt": "Write a function `sum_array(arr)` that takes a list of numbers and returns their sum. Do not use the built-in sum() function.",
+    "hint": "Use a for loop to iterate through the list.",
+    "initial_code": "def sum_array(arr):\n    # Write your code here\n    pass",
+    "test_cases": [
+      { "input": "sum_array([1, 2, 3])", "expected": "6" },
+      { "input": "sum_array([])", "expected": "0" },
+      { "input": "sum_array([-1, 1, 5])", "expected": "5" }
+    ],
+    "test_code": "assert sum_array([1, 2, 3]) == 6, 'Failed on sum_array([1, 2, 3])'\nassert sum_array([]) == 0, 'Failed on sum_array([])'\nassert sum_array([-1, 1, 5]) == 5, 'Failed on sum_array([-1, 1, 5])'"
+  },
+  {
+    "id": "py-003",
+    "title": "Reverse String using Stack",
+    "difficulty": "medium",
+    "dataset": "Stacks",
+    "prompt": "Write a function `reverse_string(s)` that reverses a string using a list as a stack.",
+    "hint": "Push all characters into a list using append(), then pop() them out to build the reversed string.",
+    "initial_code": "def reverse_string(s):\n    stack = []\n    # Write your code here\n    pass",
+    "test_cases": [
+      { "input": "reverse_string('hello')", "expected": "'olleh'" },
+      { "input": "reverse_string('')", "expected": "''" },
+      { "input": "reverse_string('a')", "expected": "'a'" },
+      { "input": "reverse_string('Python')", "expected": "'nohtyP'" }
+    ],
+    "test_code": "assert reverse_string('hello') == 'olleh', \"Failed on reverse_string('hello')\"\nassert reverse_string('') == '', \"Failed on reverse_string('')\"\nassert reverse_string('a') == 'a', \"Failed on reverse_string('a')\"\nassert reverse_string('Python') == 'nohtyP', \"Failed on reverse_string('Python')\""
+  }
+]

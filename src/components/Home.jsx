@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import challenges from '../data/challenges.json';
+import pythonChallenges from '../data/python-challenges.json';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -109,17 +110,20 @@ const Home = () => {
             <p className="module-desc">Learn programming fundamentals and data analysis with Python.</p>
             
             <div className="module-content-preview">
-              <span className="preview-title">Curriculum Sneak Peek</span>
-              <div className="skeleton-list">
-                <div className="skeleton-item" style={{ width: '85%' }}></div>
-                <div className="skeleton-item" style={{ width: '70%' }}></div>
-                <div className="skeleton-item" style={{ width: '90%' }}></div>
-                <div className="skeleton-item" style={{ width: '65%' }}></div>
-                <div className="skeleton-item" style={{ width: '40%', opacity: 0.5 }}></div>
-              </div>
+              <span className="preview-title">Included Challenges</span>
+              <ul className="preview-list">
+                {pythonChallenges.slice(0, 5).map(ch => (
+                  <li key={ch.id} className="preview-item">
+                    <div className="preview-dot"></div>
+                    {ch.title}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="coming-soon-badge">Coming Soon</div>
+            <button className="btn btn-primary module-btn" style={{ marginTop: '2rem', width: '100%' }}>
+              Start Practicing
+            </button>
           </motion.div>
         </div>
       </motion.div>
