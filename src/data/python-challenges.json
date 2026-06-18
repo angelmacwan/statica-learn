@@ -8,10 +8,22 @@
     "hint": "Use the modulo operator % to check for the remainder.",
     "initial_code": "def is_even(n):\n    # Write your code here\n    pass",
     "test_cases": [
-      { "input": "is_even(4)", "expected": "True" },
-      { "input": "is_even(7)", "expected": "False" },
-      { "input": "is_even(0)", "expected": "True" },
-      { "input": "is_even(-2)", "expected": "True" }
+      {
+        "input": "is_even(4)",
+        "expected": "True"
+      },
+      {
+        "input": "is_even(7)",
+        "expected": "False"
+      },
+      {
+        "input": "is_even(0)",
+        "expected": "True"
+      },
+      {
+        "input": "is_even(-2)",
+        "expected": "True"
+      }
     ],
     "test_code": "assert is_even(4) == True, 'Failed on is_even(4)'\nassert is_even(7) == False, 'Failed on is_even(7)'\nassert is_even(0) == True, 'Failed on is_even(0)'\nassert is_even(-2) == True, 'Failed on is_even(-2)'"
   },
@@ -24,9 +36,18 @@
     "hint": "Use a for loop to iterate through the list.",
     "initial_code": "def sum_array(arr):\n    # Write your code here\n    pass",
     "test_cases": [
-      { "input": "sum_array([1, 2, 3])", "expected": "6" },
-      { "input": "sum_array([])", "expected": "0" },
-      { "input": "sum_array([-1, 1, 5])", "expected": "5" }
+      {
+        "input": "sum_array([1, 2, 3])",
+        "expected": "6"
+      },
+      {
+        "input": "sum_array([])",
+        "expected": "0"
+      },
+      {
+        "input": "sum_array([-1, 1, 5])",
+        "expected": "5"
+      }
     ],
     "test_code": "assert sum_array([1, 2, 3]) == 6, 'Failed on sum_array([1, 2, 3])'\nassert sum_array([]) == 0, 'Failed on sum_array([])'\nassert sum_array([-1, 1, 5]) == 5, 'Failed on sum_array([-1, 1, 5])'"
   },
@@ -39,11 +60,1015 @@
     "hint": "Push all characters into a list using append(), then pop() them out to build the reversed string.",
     "initial_code": "def reverse_string(s):\n    stack = []\n    # Write your code here\n    pass",
     "test_cases": [
-      { "input": "reverse_string('hello')", "expected": "'olleh'" },
-      { "input": "reverse_string('')", "expected": "''" },
-      { "input": "reverse_string('a')", "expected": "'a'" },
-      { "input": "reverse_string('Python')", "expected": "'nohtyP'" }
+      {
+        "input": "reverse_string('hello')",
+        "expected": "'olleh'"
+      },
+      {
+        "input": "reverse_string('')",
+        "expected": "''"
+      },
+      {
+        "input": "reverse_string('a')",
+        "expected": "'a'"
+      },
+      {
+        "input": "reverse_string('Python')",
+        "expected": "'nohtyP'"
+      }
     ],
     "test_code": "assert reverse_string('hello') == 'olleh', \"Failed on reverse_string('hello')\"\nassert reverse_string('') == '', \"Failed on reverse_string('')\"\nassert reverse_string('a') == 'a', \"Failed on reverse_string('a')\"\nassert reverse_string('Python') == 'nohtyP', \"Failed on reverse_string('Python')\""
+  },
+  {
+    "id": "py-004",
+    "title": "FizzBuzz",
+    "difficulty": "easy",
+    "dataset": "Conditions",
+    "prompt": "Write a function `fizzbuzz(n)` that returns:\n- `'FizzBuzz'` if n is divisible by both 3 and 5\n- `'Fizz'` if n is divisible by 3 only\n- `'Buzz'` if n is divisible by 5 only\n- The number as a string otherwise",
+    "hint": "Check the combined case (divisible by 15) first, before checking for 3 or 5 alone.",
+    "initial_code": "def fizzbuzz(n):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "fizzbuzz(15)",
+        "expected": "'FizzBuzz'"
+      },
+      {
+        "input": "fizzbuzz(9)",
+        "expected": "'Fizz'"
+      },
+      {
+        "input": "fizzbuzz(10)",
+        "expected": "'Buzz'"
+      },
+      {
+        "input": "fizzbuzz(7)",
+        "expected": "'7'"
+      }
+    ],
+    "test_code": "assert fizzbuzz(15) == 'FizzBuzz', 'Failed on fizzbuzz(15)'\nassert fizzbuzz(9) == 'Fizz', 'Failed on fizzbuzz(9)'\nassert fizzbuzz(10) == 'Buzz', 'Failed on fizzbuzz(10)'\nassert fizzbuzz(7) == '7', 'Failed on fizzbuzz(7)'"
+  },
+  {
+    "id": "py-005",
+    "title": "Count Vowels",
+    "difficulty": "easy",
+    "dataset": "Loops",
+    "prompt": "Write a function `count_vowels(s)` that returns the number of vowels (a, e, i, o, u) in the string `s`. The check should be case-insensitive.",
+    "hint": "Convert the string to lowercase first, then loop through each character and check if it is in the vowel set.",
+    "initial_code": "def count_vowels(s):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "count_vowels('hello')",
+        "expected": "2"
+      },
+      {
+        "input": "count_vowels('Python')",
+        "expected": "1"
+      },
+      {
+        "input": "count_vowels('AEIOU')",
+        "expected": "5"
+      },
+      {
+        "input": "count_vowels('gym')",
+        "expected": "0"
+      }
+    ],
+    "test_code": "assert count_vowels('hello') == 2, \"Failed on count_vowels('hello')\"\nassert count_vowels('Python') == 1, \"Failed on count_vowels('Python')\"\nassert count_vowels('AEIOU') == 5, \"Failed on count_vowels('AEIOU')\"\nassert count_vowels('gym') == 0, \"Failed on count_vowels('gym')\""
+  },
+  {
+    "id": "py-006",
+    "title": "Find the Maximum",
+    "difficulty": "easy",
+    "dataset": "Lists",
+    "prompt": "Write a function `find_max(lst)` that returns the largest number in the list without using the built-in `max()` function.",
+    "hint": "Start by assuming the first element is the maximum, then loop through the rest to compare.",
+    "initial_code": "def find_max(lst):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "find_max([3, 1, 4, 1, 5, 9, 2])",
+        "expected": "9"
+      },
+      {
+        "input": "find_max([-5, -1, -3])",
+        "expected": "-1"
+      },
+      {
+        "input": "find_max([42])",
+        "expected": "42"
+      }
+    ],
+    "test_code": "assert find_max([3, 1, 4, 1, 5, 9, 2]) == 9, 'Failed on find_max([3, 1, 4, 1, 5, 9, 2])'\nassert find_max([-5, -1, -3]) == -1, 'Failed on find_max([-5, -1, -3])'\nassert find_max([42]) == 42, 'Failed on find_max([42])'"
+  },
+  {
+    "id": "py-007",
+    "title": "Remove Duplicates",
+    "difficulty": "easy",
+    "dataset": "Sets",
+    "prompt": "Write a function `remove_duplicates(lst)` that takes a list and returns a new list with all duplicate values removed. The order of elements does not matter.",
+    "hint": "Convert the list to a set to automatically remove duplicates, then convert it back to a list.",
+    "initial_code": "def remove_duplicates(lst):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "sorted(remove_duplicates([1, 2, 2, 3, 3]))",
+        "expected": "[1, 2, 3]"
+      },
+      {
+        "input": "sorted(remove_duplicates([5, 5, 5]))",
+        "expected": "[5]"
+      },
+      {
+        "input": "sorted(remove_duplicates([1, 2, 3]))",
+        "expected": "[1, 2, 3]"
+      },
+      {
+        "input": "remove_duplicates([])",
+        "expected": "[]"
+      }
+    ],
+    "test_code": "assert sorted(remove_duplicates([1, 2, 2, 3, 3])) == [1, 2, 3], 'Failed on [1, 2, 2, 3, 3]'\nassert sorted(remove_duplicates([5, 5, 5])) == [5], 'Failed on [5, 5, 5]'\nassert sorted(remove_duplicates([1, 2, 3])) == [1, 2, 3], 'Failed on [1, 2, 3]'\nassert remove_duplicates([]) == [], 'Failed on []'"
+  },
+  {
+    "id": "py-008",
+    "title": "Word Frequency Counter",
+    "difficulty": "easy",
+    "dataset": "Dictionaries",
+    "prompt": "Write a function `word_frequency(text)` that takes a string of space-separated words and returns a dictionary mapping each word to how many times it appears.",
+    "hint": "Split the string by spaces to get individual words, then use a dict to count occurrences.",
+    "initial_code": "def word_frequency(text):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "word_frequency('the cat sat on the mat')",
+        "expected": "{'the': 2, 'cat': 1, 'sat': 1, 'on': 1, 'mat': 1}"
+      },
+      {
+        "input": "word_frequency('hello hello hello')",
+        "expected": "{'hello': 3}"
+      },
+      {
+        "input": "word_frequency('one')",
+        "expected": "{'one': 1}"
+      }
+    ],
+    "test_code": "assert word_frequency('the cat sat on the mat') == {'the': 2, 'cat': 1, 'sat': 1, 'on': 1, 'mat': 1}, 'Failed on sentence'\nassert word_frequency('hello hello hello') == {'hello': 3}, 'Failed on hello'\nassert word_frequency('one') == {'one': 1}, 'Failed on one'"
+  },
+  {
+    "id": "py-009",
+    "title": "Factorial",
+    "difficulty": "easy",
+    "dataset": "Math",
+    "prompt": "Write a function `factorial(n)` that returns the factorial of a non-negative integer `n`. Recall that `0! = 1` and `n! = n * (n-1) * ... * 1`.",
+    "hint": "You can solve this with a loop or recursion. Start with result = 1 and multiply from 1 up to n.",
+    "initial_code": "def factorial(n):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "factorial(0)",
+        "expected": "1"
+      },
+      {
+        "input": "factorial(1)",
+        "expected": "1"
+      },
+      {
+        "input": "factorial(5)",
+        "expected": "120"
+      },
+      {
+        "input": "factorial(10)",
+        "expected": "3628800"
+      }
+    ],
+    "test_code": "assert factorial(0) == 1, 'Failed on factorial(0)'\nassert factorial(1) == 1, 'Failed on factorial(1)'\nassert factorial(5) == 120, 'Failed on factorial(5)'\nassert factorial(10) == 3628800, 'Failed on factorial(10)'"
+  },
+  {
+    "id": "py-010",
+    "title": "Is Palindrome",
+    "difficulty": "easy",
+    "dataset": "Strings",
+    "prompt": "Write a function `is_palindrome(s)` that returns True if the string `s` is a palindrome (reads the same forwards and backwards), and False otherwise. The check should be case-insensitive.",
+    "hint": "Convert to lowercase, then compare the string with its reverse using slicing: s[::-1].",
+    "initial_code": "def is_palindrome(s):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "is_palindrome('racecar')",
+        "expected": "True"
+      },
+      {
+        "input": "is_palindrome('Madam')",
+        "expected": "True"
+      },
+      {
+        "input": "is_palindrome('hello')",
+        "expected": "False"
+      },
+      {
+        "input": "is_palindrome('a')",
+        "expected": "True"
+      }
+    ],
+    "test_code": "assert is_palindrome('racecar') == True, 'Failed on racecar'\nassert is_palindrome('Madam') == True, 'Failed on Madam'\nassert is_palindrome('hello') == False, 'Failed on hello'\nassert is_palindrome('a') == True, 'Failed on a'"
+  },
+  {
+    "id": "py-011",
+    "title": "List Intersection",
+    "difficulty": "easy",
+    "dataset": "Sets",
+    "prompt": "Write a function `intersect(a, b)` that takes two lists and returns a sorted list of elements that appear in **both** lists, with no duplicates.",
+    "hint": "Convert both lists to sets, use the & operator (or .intersection()) to find common elements, then sort the result.",
+    "initial_code": "def intersect(a, b):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "intersect([1, 2, 3, 4], [3, 4, 5, 6])",
+        "expected": "[3, 4]"
+      },
+      {
+        "input": "intersect([1, 1, 2], [2, 2, 3])",
+        "expected": "[2]"
+      },
+      {
+        "input": "intersect([1, 2], [3, 4])",
+        "expected": "[]"
+      }
+    ],
+    "test_code": "assert intersect([1, 2, 3, 4], [3, 4, 5, 6]) == [3, 4], 'Failed on [1,2,3,4] & [3,4,5,6]'\nassert intersect([1, 1, 2], [2, 2, 3]) == [2], 'Failed on duplicates case'\nassert intersect([1, 2], [3, 4]) == [], 'Failed on no intersection'"
+  },
+  {
+    "id": "py-012",
+    "title": "Celsius to Fahrenheit",
+    "difficulty": "easy",
+    "dataset": "Math",
+    "prompt": "Write a function `celsius_to_fahrenheit(c)` that converts a temperature from Celsius to Fahrenheit. The formula is: `F = (C x 9/5) + 32`.",
+    "hint": "Apply the formula directly. Python's division is floating-point by default.",
+    "initial_code": "def celsius_to_fahrenheit(c):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "celsius_to_fahrenheit(0)",
+        "expected": "32.0"
+      },
+      {
+        "input": "celsius_to_fahrenheit(100)",
+        "expected": "212.0"
+      },
+      {
+        "input": "celsius_to_fahrenheit(-40)",
+        "expected": "-40.0"
+      },
+      {
+        "input": "celsius_to_fahrenheit(37)",
+        "expected": "98.6"
+      }
+    ],
+    "test_code": "assert celsius_to_fahrenheit(0) == 32.0, 'Failed on 0C'\nassert celsius_to_fahrenheit(100) == 212.0, 'Failed on 100C'\nassert celsius_to_fahrenheit(-40) == -40.0, 'Failed on -40C'\nassert round(celsius_to_fahrenheit(37), 1) == 98.6, 'Failed on 37C'"
+  },
+  {
+    "id": "py-013",
+    "title": "Count Occurrences",
+    "difficulty": "easy",
+    "dataset": "Dictionaries",
+    "prompt": "Write a function `count_occurrences(lst)` that takes a list and returns a dictionary where each key is a unique item and the value is the number of times it appears.",
+    "hint": "Loop through the list. For each item, increment its count in the dictionary using dict.get(item, 0) + 1.",
+    "initial_code": "def count_occurrences(lst):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "count_occurrences([1, 2, 2, 3, 3, 3])",
+        "expected": "{1: 1, 2: 2, 3: 3}"
+      },
+      {
+        "input": "count_occurrences(['a', 'b', 'a'])",
+        "expected": "{'a': 2, 'b': 1}"
+      },
+      {
+        "input": "count_occurrences([])",
+        "expected": "{}"
+      }
+    ],
+    "test_code": "assert count_occurrences([1, 2, 2, 3, 3, 3]) == {1: 1, 2: 2, 3: 3}, 'Failed on [1,2,2,3,3,3]'\nassert count_occurrences(['a', 'b', 'a']) == {'a': 2, 'b': 1}, \"Failed on ['a','b','a']\"\nassert count_occurrences([]) == {}, 'Failed on []'"
+  },
+  {
+    "id": "py-014",
+    "title": "Sum of Digits",
+    "difficulty": "easy",
+    "dataset": "Math",
+    "prompt": "Write a function `sum_of_digits(n)` that returns the sum of all digits of a non-negative integer `n`. For example, `sum_of_digits(123)` should return `6`.",
+    "hint": "Convert the number to a string, iterate over each character, convert back to int, and sum them up.",
+    "initial_code": "def sum_of_digits(n):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "sum_of_digits(123)",
+        "expected": "6"
+      },
+      {
+        "input": "sum_of_digits(0)",
+        "expected": "0"
+      },
+      {
+        "input": "sum_of_digits(9999)",
+        "expected": "36"
+      },
+      {
+        "input": "sum_of_digits(100)",
+        "expected": "1"
+      }
+    ],
+    "test_code": "assert sum_of_digits(123) == 6, 'Failed on 123'\nassert sum_of_digits(0) == 0, 'Failed on 0'\nassert sum_of_digits(9999) == 36, 'Failed on 9999'\nassert sum_of_digits(100) == 1, 'Failed on 100'"
+  },
+  {
+    "id": "py-015",
+    "title": "Flatten a Nested List",
+    "difficulty": "medium",
+    "dataset": "Lists",
+    "prompt": "Write a function `flatten(lst)` that takes a list of lists and returns a single flat list containing all elements.",
+    "hint": "Use a nested loop: iterate over each sublist in lst, then over each element in the sublist.",
+    "initial_code": "def flatten(lst):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "flatten([[1, 2], [3, 4], [5]])",
+        "expected": "[1, 2, 3, 4, 5]"
+      },
+      {
+        "input": "flatten([[1], [2], [3]])",
+        "expected": "[1, 2, 3]"
+      },
+      {
+        "input": "flatten([])",
+        "expected": "[]"
+      },
+      {
+        "input": "flatten([[1, 2, 3]])",
+        "expected": "[1, 2, 3]"
+      }
+    ],
+    "test_code": "assert flatten([[1, 2], [3, 4], [5]]) == [1, 2, 3, 4, 5], 'Failed on [[1,2],[3,4],[5]]'\nassert flatten([[1], [2], [3]]) == [1, 2, 3], 'Failed on [[1],[2],[3]]'\nassert flatten([]) == [], 'Failed on []'\nassert flatten([[1, 2, 3]]) == [1, 2, 3], 'Failed on [[1,2,3]]'"
+  },
+  {
+    "id": "py-016",
+    "title": "Prime Check",
+    "difficulty": "medium",
+    "dataset": "Math",
+    "prompt": "Write a function `is_prime(n)` that returns True if `n` is a prime number, and False otherwise. A prime number is greater than 1 and has no divisors other than 1 and itself.",
+    "hint": "Check divisors from 2 up to the square root of n. If any divide evenly, n is not prime. Use int(n**0.5) + 1 as the upper bound.",
+    "initial_code": "def is_prime(n):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "is_prime(2)",
+        "expected": "True"
+      },
+      {
+        "input": "is_prime(7)",
+        "expected": "True"
+      },
+      {
+        "input": "is_prime(1)",
+        "expected": "False"
+      },
+      {
+        "input": "is_prime(9)",
+        "expected": "False"
+      },
+      {
+        "input": "is_prime(13)",
+        "expected": "True"
+      }
+    ],
+    "test_code": "assert is_prime(2) == True, 'Failed on 2'\nassert is_prime(7) == True, 'Failed on 7'\nassert is_prime(1) == False, 'Failed on 1'\nassert is_prime(9) == False, 'Failed on 9'\nassert is_prime(13) == True, 'Failed on 13'"
+  },
+  {
+    "id": "py-017",
+    "title": "Unique Characters",
+    "difficulty": "easy",
+    "dataset": "Sets",
+    "prompt": "Write a function `has_unique_chars(s)` that returns True if all characters in the string `s` are unique (no duplicates), and False otherwise.",
+    "hint": "Compare the length of the string to the length of a set made from the string. If they are equal, all characters are unique.",
+    "initial_code": "def has_unique_chars(s):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "has_unique_chars('abcde')",
+        "expected": "True"
+      },
+      {
+        "input": "has_unique_chars('hello')",
+        "expected": "False"
+      },
+      {
+        "input": "has_unique_chars('')",
+        "expected": "True"
+      },
+      {
+        "input": "has_unique_chars('z')",
+        "expected": "True"
+      }
+    ],
+    "test_code": "assert has_unique_chars('abcde') == True, 'Failed on abcde'\nassert has_unique_chars('hello') == False, 'Failed on hello'\nassert has_unique_chars('') == True, 'Failed on empty string'\nassert has_unique_chars('z') == True, 'Failed on z'"
+  },
+  {
+    "id": "py-018",
+    "title": "Merge and Sort",
+    "difficulty": "easy",
+    "dataset": "Lists",
+    "prompt": "Write a function `merge_sorted(a, b)` that takes two lists of numbers and returns a single sorted list containing all elements from both.",
+    "hint": "Concatenate the two lists using + and then sort the result with the built-in sorted() function.",
+    "initial_code": "def merge_sorted(a, b):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "merge_sorted([3, 1], [4, 2])",
+        "expected": "[1, 2, 3, 4]"
+      },
+      {
+        "input": "merge_sorted([], [1, 2])",
+        "expected": "[1, 2]"
+      },
+      {
+        "input": "merge_sorted([5], [5])",
+        "expected": "[5, 5]"
+      },
+      {
+        "input": "merge_sorted([], [])",
+        "expected": "[]"
+      }
+    ],
+    "test_code": "assert merge_sorted([3, 1], [4, 2]) == [1, 2, 3, 4], 'Failed on [3,1] + [4,2]'\nassert merge_sorted([], [1, 2]) == [1, 2], 'Failed on [] + [1,2]'\nassert merge_sorted([5], [5]) == [5, 5], 'Failed on [5] + [5]'\nassert merge_sorted([], []) == [], 'Failed on [] + []'"
+  },
+  {
+    "id": "py-019",
+    "title": "Most Frequent Element",
+    "difficulty": "medium",
+    "dataset": "Dictionaries",
+    "prompt": "Write a function `most_frequent(lst)` that returns the element that appears most often in the list. If there is a tie, return any one of the tied elements.",
+    "hint": "First count each element's frequency using a dictionary, then find the key with the highest value.",
+    "initial_code": "def most_frequent(lst):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "most_frequent([1, 2, 2, 3])",
+        "expected": "2"
+      },
+      {
+        "input": "most_frequent(['a', 'b', 'a', 'c', 'a'])",
+        "expected": "'a'"
+      },
+      {
+        "input": "most_frequent([7])",
+        "expected": "7"
+      }
+    ],
+    "test_code": "assert most_frequent([1, 2, 2, 3]) == 2, 'Failed on [1,2,2,3]'\nassert most_frequent(['a', 'b', 'a', 'c', 'a']) == 'a', 'Failed on letters'\nassert most_frequent([7]) == 7, 'Failed on [7]'"
+  },
+  {
+    "id": "py-020",
+    "title": "Fibonacci Sequence",
+    "difficulty": "medium",
+    "dataset": "Loops",
+    "prompt": "Write a function `fibonacci(n)` that returns a list containing the first `n` Fibonacci numbers. The sequence starts: 0, 1, 1, 2, 3, 5, 8 ...",
+    "hint": "Start with a list [0, 1] and use a loop to append the sum of the last two elements until you have n numbers.",
+    "initial_code": "def fibonacci(n):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "fibonacci(1)",
+        "expected": "[0]"
+      },
+      {
+        "input": "fibonacci(5)",
+        "expected": "[0, 1, 1, 2, 3]"
+      },
+      {
+        "input": "fibonacci(8)",
+        "expected": "[0, 1, 1, 2, 3, 5, 8, 13]"
+      },
+      {
+        "input": "fibonacci(0)",
+        "expected": "[]"
+      }
+    ],
+    "test_code": "assert fibonacci(1) == [0], 'Failed on n=1'\nassert fibonacci(5) == [0, 1, 1, 2, 3], 'Failed on n=5'\nassert fibonacci(8) == [0, 1, 1, 2, 3, 5, 8, 13], 'Failed on n=8'\nassert fibonacci(0) == [], 'Failed on n=0'"
+  },
+  {
+    "id": "py-021",
+    "title": "Two Sum",
+    "difficulty": "medium",
+    "dataset": "Dictionaries",
+    "prompt": "Write a function `two_sum(nums, target)` that returns a list with the **indices** of two numbers that add up to `target`. You may assume exactly one solution exists.",
+    "hint": "Use a dictionary to store each number's index as you iterate. For each number, check if (target - number) already exists in the dict.",
+    "initial_code": "def two_sum(nums, target):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "two_sum([2, 7, 11, 15], 9)",
+        "expected": "[0, 1]"
+      },
+      {
+        "input": "two_sum([3, 2, 4], 6)",
+        "expected": "[1, 2]"
+      },
+      {
+        "input": "two_sum([3, 3], 6)",
+        "expected": "[0, 1]"
+      }
+    ],
+    "test_code": "assert two_sum([2, 7, 11, 15], 9) == [0, 1], 'Failed on [2,7,11,15] target 9'\nassert two_sum([3, 2, 4], 6) == [1, 2], 'Failed on [3,2,4] target 6'\nassert two_sum([3, 3], 6) == [0, 1], 'Failed on [3,3] target 6'"
+  },
+  {
+    "id": "py-022",
+    "title": "Grade Calculator",
+    "difficulty": "easy",
+    "dataset": "Conditions",
+    "prompt": "Write a function `get_grade(score)` that returns a letter grade based on the score:\n- `'A'` for 90-100\n- `'B'` for 80-89\n- `'C'` for 70-79\n- `'D'` for 60-69\n- `'F'` for below 60",
+    "hint": "Use a chain of if/elif/else conditions to map score ranges to grade letters.",
+    "initial_code": "def get_grade(score):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "get_grade(95)",
+        "expected": "'A'"
+      },
+      {
+        "input": "get_grade(83)",
+        "expected": "'B'"
+      },
+      {
+        "input": "get_grade(72)",
+        "expected": "'C'"
+      },
+      {
+        "input": "get_grade(65)",
+        "expected": "'D'"
+      },
+      {
+        "input": "get_grade(55)",
+        "expected": "'F'"
+      }
+    ],
+    "test_code": "assert get_grade(95) == 'A', 'Failed on 95'\nassert get_grade(83) == 'B', 'Failed on 83'\nassert get_grade(72) == 'C', 'Failed on 72'\nassert get_grade(65) == 'D', 'Failed on 65'\nassert get_grade(55) == 'F', 'Failed on 55'"
+  },
+  {
+    "id": "py-023",
+    "title": "Filter Even Numbers",
+    "difficulty": "easy",
+    "dataset": "Lists",
+    "prompt": "Write a function `filter_evens(lst)` that returns a new list containing only the even numbers from the input list. Use a list comprehension.",
+    "hint": "A list comprehension has the form: [x for x in lst if condition]. Use x % 2 == 0 as your condition.",
+    "initial_code": "def filter_evens(lst):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "filter_evens([1, 2, 3, 4, 5, 6])",
+        "expected": "[2, 4, 6]"
+      },
+      {
+        "input": "filter_evens([1, 3, 5])",
+        "expected": "[]"
+      },
+      {
+        "input": "filter_evens([2, 4, 6])",
+        "expected": "[2, 4, 6]"
+      },
+      {
+        "input": "filter_evens([])",
+        "expected": "[]"
+      }
+    ],
+    "test_code": "assert filter_evens([1, 2, 3, 4, 5, 6]) == [2, 4, 6], 'Failed on [1..6]'\nassert filter_evens([1, 3, 5]) == [], 'Failed on all odds'\nassert filter_evens([2, 4, 6]) == [2, 4, 6], 'Failed on all evens'\nassert filter_evens([]) == [], 'Failed on []'"
+  },
+  {
+    "id": "py-024",
+    "title": "Power Function",
+    "difficulty": "easy",
+    "dataset": "Math",
+    "prompt": "Write a function `power(base, exp)` that returns `base` raised to the power of `exp` (a non-negative integer). Do **not** use the `**` operator or the `pow()` built-in.",
+    "hint": "Use a loop that multiplies `result` by `base` exactly `exp` times, starting from result = 1.",
+    "initial_code": "def power(base, exp):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "power(2, 10)",
+        "expected": "1024"
+      },
+      {
+        "input": "power(3, 3)",
+        "expected": "27"
+      },
+      {
+        "input": "power(5, 0)",
+        "expected": "1"
+      },
+      {
+        "input": "power(7, 1)",
+        "expected": "7"
+      }
+    ],
+    "test_code": "assert power(2, 10) == 1024, 'Failed on 2^10'\nassert power(3, 3) == 27, 'Failed on 3^3'\nassert power(5, 0) == 1, 'Failed on 5^0'\nassert power(7, 1) == 7, 'Failed on 7^1'"
+  },
+  {
+    "id": "py-025",
+    "title": "Anagram Check",
+    "difficulty": "medium",
+    "dataset": "Sets",
+    "prompt": "Write a function `is_anagram(s1, s2)` that returns True if `s1` and `s2` are anagrams of each other (contain the same characters in any order, case-insensitive), and False otherwise. Spaces are not counted.",
+    "hint": "Sort both strings after converting to lowercase (and removing spaces) and compare them. Two sorted anagrams will be identical.",
+    "initial_code": "def is_anagram(s1, s2):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "is_anagram('listen', 'silent')",
+        "expected": "True"
+      },
+      {
+        "input": "is_anagram('hello', 'world')",
+        "expected": "False"
+      },
+      {
+        "input": "is_anagram('abc', 'cab')",
+        "expected": "True"
+      },
+      {
+        "input": "is_anagram('rat', 'car')",
+        "expected": "False"
+      }
+    ],
+    "test_code": "assert is_anagram('listen', 'silent') == True, 'Failed on listen/silent'\nassert is_anagram('hello', 'world') == False, 'Failed on hello/world'\nassert is_anagram('abc', 'cab') == True, 'Failed on abc/cab'\nassert is_anagram('rat', 'car') == False, 'Failed on rat/car'"
+  },
+  {
+    "id": "py-026",
+    "title": "The Farmer's Harvest",
+    "difficulty": "easy",
+    "dataset": "Dictionaries",
+    "prompt": "A farmer collected fruits from his orchard and tossed them all into a single basket:\n\nfruits = [\"apple\", \"apple\", \"banana\", \"orange\", \"banana\", \"apple\"]\n\nHelp him count how many of each fruit he collected.\n\nWrite a function  that takes the basket (a list of strings) and returns a dictionary with the count of each fruit.",
+    "hint": "Loop through the list. For each fruit, use dict.get(fruit, 0) + 1 to increment its count.",
+    "initial_code": "def count_harvest(fruits):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "count_harvest([\"apple\", \"apple\", \"banana\", \"orange\", \"banana\", \"apple\"])",
+        "expected": "{\"apple\": 3, \"banana\": 2, \"orange\": 1}"
+      },
+      {
+        "input": "count_harvest([\"mango\"])",
+        "expected": "{\"mango\": 1}"
+      },
+      {
+        "input": "count_harvest([])",
+        "expected": "{}"
+      }
+    ],
+    "test_code": "assert count_harvest([\"apple\", \"apple\", \"banana\", \"orange\", \"banana\", \"apple\"]) == {\"apple\": 3, \"banana\": 2, \"orange\": 1}\nassert count_harvest([\"mango\"]) == {\"mango\": 1}\nassert count_harvest([]) == {}"
+  },
+  {
+    "id": "py-027",
+    "title": "The Lost Robot",
+    "difficulty": "easy",
+    "dataset": "Loops",
+    "prompt": "A robot starts at position 0 on a number line.\n\nIt receives a list of movement commands:\n\ncommands = [\"LEFT\", \"LEFT\", \"RIGHT\", \"RIGHT\", \"RIGHT\"]\n\nEach \"RIGHT\" moves it +1, each \"LEFT\" moves it -1.\n\nWrite a function  that returns the robot's final position.",
+    "hint": "Start with position = 0. Loop through commands and add +1 for RIGHT, -1 for LEFT.",
+    "initial_code": "def final_position(commands):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "final_position([\"LEFT\", \"LEFT\", \"RIGHT\", \"RIGHT\", \"RIGHT\"])",
+        "expected": "1"
+      },
+      {
+        "input": "final_position([\"RIGHT\", \"RIGHT\", \"RIGHT\"])",
+        "expected": "3"
+      },
+      {
+        "input": "final_position([\"LEFT\", \"RIGHT\"])",
+        "expected": "0"
+      },
+      {
+        "input": "final_position([])",
+        "expected": "0"
+      }
+    ],
+    "test_code": "assert final_position([\"LEFT\", \"LEFT\", \"RIGHT\", \"RIGHT\", \"RIGHT\"]) == 1\nassert final_position([\"RIGHT\", \"RIGHT\", \"RIGHT\"]) == 3\nassert final_position([\"LEFT\", \"RIGHT\"]) == 0\nassert final_position([]) == 0"
+  },
+  {
+    "id": "py-028",
+    "title": "Dungeon Treasure",
+    "difficulty": "easy",
+    "dataset": "Conditions",
+    "prompt": "An adventurer is exploring a dungeon. Each room has a value:\n\nrooms = [10, -5, 20, -3, 15]\n\nPositive values are treasure chests (add to score).\nNegative values are traps (subtract from score).\nThe adventurer starts with 0 points.\n\nWrite a function  that returns the adventurer's final score.",
+    "hint": "Loop through the list and add each value to a running total. Positive and negative numbers handle themselves!",
+    "initial_code": "def dungeon_score(rooms):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "dungeon_score([10, -5, 20, -3, 15])",
+        "expected": "37"
+      },
+      {
+        "input": "dungeon_score([-1, -2, -3])",
+        "expected": "-6"
+      },
+      {
+        "input": "dungeon_score([100])",
+        "expected": "100"
+      },
+      {
+        "input": "dungeon_score([])",
+        "expected": "0"
+      }
+    ],
+    "test_code": "assert dungeon_score([10, -5, 20, -3, 15]) == 37\nassert dungeon_score([-1, -2, -3]) == -6\nassert dungeon_score([100]) == 100\nassert dungeon_score([]) == 0"
+  },
+  {
+    "id": "py-029",
+    "title": "The Baker's Bill",
+    "difficulty": "easy",
+    "dataset": "Loops",
+    "prompt": "A baker sells items at fixed prices:\n\nprices = {\"bread\": 2.5, \"cake\": 8.0, \"cookie\": 1.5}\n\nA customer places an order:\n\norder = [\"bread\", \"cookie\", \"cake\", \"cookie\", \"bread\"]\n\nWrite a function  that calculates and returns the customer's total bill.",
+    "hint": "Loop through the order list. For each item, look up its price in the dictionary and add it to the total.",
+    "initial_code": "def total_bill(prices, order):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "total_bill({\"bread\": 2.5, \"cake\": 8.0, \"cookie\": 1.5}, [\"bread\", \"cookie\", \"cake\", \"cookie\", \"bread\"])",
+        "expected": "16.0"
+      },
+      {
+        "input": "total_bill({\"bread\": 2.5, \"cake\": 8.0, \"cookie\": 1.5}, [])",
+        "expected": "0"
+      },
+      {
+        "input": "total_bill({\"bread\": 2.5, \"cake\": 8.0, \"cookie\": 1.5}, [\"cake\"])",
+        "expected": "8.0"
+      }
+    ],
+    "test_code": "assert total_bill({\"bread\": 2.5, \"cake\": 8.0, \"cookie\": 1.5}, [\"bread\", \"cookie\", \"cake\", \"cookie\", \"bread\"]) == 16.0\nassert total_bill({\"bread\": 2.5, \"cake\": 8.0, \"cookie\": 1.5}, []) == 0\nassert total_bill({\"bread\": 2.5, \"cake\": 8.0, \"cookie\": 1.5}, [\"cake\"]) == 8.0"
+  },
+  {
+    "id": "py-030",
+    "title": "The Heatwave Alert",
+    "difficulty": "easy",
+    "dataset": "Conditions",
+    "prompt": "A weather station recorded daily temperatures for a week:\n\ntemps = [28, 34, 41, 39, 25, 36, 42]\n\nThe city issues a heatwave alert for any day above 35 degrees.\n\nWrite a function  that returns how many days triggered a heatwave alert.",
+    "hint": "Loop through the list and use an if-condition to check if each temperature is greater than 35.",
+    "initial_code": "def heatwave_days(temps):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "heatwave_days([28, 34, 41, 39, 25, 36, 42])",
+        "expected": "4"
+      },
+      {
+        "input": "heatwave_days([20, 22, 18])",
+        "expected": "0"
+      },
+      {
+        "input": "heatwave_days([36, 36, 36])",
+        "expected": "3"
+      },
+      {
+        "input": "heatwave_days([])",
+        "expected": "0"
+      }
+    ],
+    "test_code": "assert heatwave_days([28, 34, 41, 39, 25, 36, 42]) == 4\nassert heatwave_days([20, 22, 18]) == 0\nassert heatwave_days([36, 36, 36]) == 3\nassert heatwave_days([]) == 0"
+  },
+  {
+    "id": "py-031",
+    "title": "The Secret Handshake",
+    "difficulty": "easy",
+    "dataset": "Sets",
+    "prompt": "Two secret societies each have a list of members:\n\nclub_a = [\"Alice\", \"Bob\", \"Charlie\", \"Diana\"]\nclub_b = [\"Eve\", \"Bob\", \"Frank\", \"Diana\"]\n\nA double agent is someone who belongs to BOTH clubs.\n\nWrite a function  that returns a sorted list of names that appear in both clubs.",
+    "hint": "Convert both lists to sets and use the & operator to find the intersection. Then sort the result.",
+    "initial_code": "def double_agents(club_a, club_b):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "double_agents([\"Alice\", \"Bob\", \"Charlie\", \"Diana\"], [\"Eve\", \"Bob\", \"Frank\", \"Diana\"])",
+        "expected": "[\"Bob\", \"Diana\"]"
+      },
+      {
+        "input": "double_agents([\"Alice\", \"Bob\"], [\"Charlie\", \"Diana\"])",
+        "expected": "[]"
+      },
+      {
+        "input": "double_agents([\"X\", \"Y\", \"Z\"], [\"X\", \"Y\", \"Z\"])",
+        "expected": "[\"X\", \"Y\", \"Z\"]"
+      }
+    ],
+    "test_code": "assert double_agents([\"Alice\", \"Bob\", \"Charlie\", \"Diana\"], [\"Eve\", \"Bob\", \"Frank\", \"Diana\"]) == [\"Bob\", \"Diana\"]\nassert double_agents([\"Alice\", \"Bob\"], [\"Charlie\", \"Diana\"]) == []\nassert double_agents([\"X\", \"Y\", \"Z\"], [\"X\", \"Y\", \"Z\"]) == [\"X\", \"Y\", \"Z\"]"
+  },
+  {
+    "id": "py-032",
+    "title": "The Arcade Leaderboard",
+    "difficulty": "easy",
+    "dataset": "Lists",
+    "prompt": "The local arcade keeps track of high scores:\n\nscores = [\"Alice:1500\", \"Bob:3200\", \"Charlie:800\", \"Diana:4100\", \"Eve:2950\"]\n\nEach entry is a string in the format \"Name:Score\".\n\nWrite a function  that returns the name of the player with the highest score.",
+    "hint": "Split each entry by \":\" to separate the name and score. Convert the score to int before comparing.",
+    "initial_code": "def top_player(scores):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "top_player([\"Alice:1500\", \"Bob:3200\", \"Charlie:800\", \"Diana:4100\", \"Eve:2950\"])",
+        "expected": "\"Diana\""
+      },
+      {
+        "input": "top_player([\"X:100\", \"Y:200\"])",
+        "expected": "\"Y\""
+      },
+      {
+        "input": "top_player([\"Solo:9999\"])",
+        "expected": "\"Solo\""
+      }
+    ],
+    "test_code": "assert top_player([\"Alice:1500\", \"Bob:3200\", \"Charlie:800\", \"Diana:4100\", \"Eve:2950\"]) == \"Diana\"\nassert top_player([\"X:100\", \"Y:200\"]) == \"Y\"\nassert top_player([\"Solo:9999\"]) == \"Solo\""
+  },
+  {
+    "id": "py-033",
+    "title": "The Bouncer's Checklist",
+    "difficulty": "easy",
+    "dataset": "Conditions",
+    "prompt": "A nightclub bouncer checks if a guest can enter. The rules are:\n\n1. Must be 18 or older\n2. Must be on the guest list\n\nWrite a function  that returns True if the guest meets BOTH conditions, and False otherwise.",
+    "hint": "Use a single if-statement with two conditions joined by .",
+    "initial_code": "def can_enter(age, name, guest_list):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "can_enter(21, \"Alice\", [\"Alice\", \"Bob\", \"Charlie\"])",
+        "expected": "True"
+      },
+      {
+        "input": "can_enter(16, \"Bob\", [\"Alice\", \"Bob\", \"Charlie\"])",
+        "expected": "False"
+      },
+      {
+        "input": "can_enter(25, \"Dave\", [\"Alice\", \"Bob\", \"Charlie\"])",
+        "expected": "False"
+      },
+      {
+        "input": "can_enter(18, \"Charlie\", [\"Alice\", \"Bob\", \"Charlie\"])",
+        "expected": "True"
+      }
+    ],
+    "test_code": "assert can_enter(21, \"Alice\", [\"Alice\", \"Bob\", \"Charlie\"]) == True\nassert can_enter(16, \"Bob\", [\"Alice\", \"Bob\", \"Charlie\"]) == False\nassert can_enter(25, \"Dave\", [\"Alice\", \"Bob\", \"Charlie\"]) == False\nassert can_enter(18, \"Charlie\", [\"Alice\", \"Bob\", \"Charlie\"]) == True"
+  },
+  {
+    "id": "py-034",
+    "title": "The Space Fuel Calculator",
+    "difficulty": "easy",
+    "dataset": "Math",
+    "prompt": "A rocket burns fuel on its journey to Mars. For every kilometer traveled, it uses 3.5 units of fuel.\n\nHowever, if the journey is longer than 1000 km, the ship switches to hyper-drive which uses only 2.0 units per km for the excess distance.\n\nWrite a function  that returns the total fuel required.",
+    "hint": "Check if distance > 1000. If so, calculate fuel for the first 1000 km normally, then add the discounted rate for the rest.",
+    "initial_code": "def fuel_needed(distance):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "fuel_needed(500)",
+        "expected": "1750.0"
+      },
+      {
+        "input": "fuel_needed(1000)",
+        "expected": "3500.0"
+      },
+      {
+        "input": "fuel_needed(1200)",
+        "expected": "3900.0"
+      },
+      {
+        "input": "fuel_needed(0)",
+        "expected": "0.0"
+      }
+    ],
+    "test_code": "assert fuel_needed(500) == 1750.0\nassert fuel_needed(1000) == 3500.0\nassert fuel_needed(1200) == 3900.0\nassert fuel_needed(0) == 0.0"
+  },
+  {
+    "id": "py-035",
+    "title": "The Exam Roll Call",
+    "difficulty": "easy",
+    "dataset": "Lists",
+    "prompt": "A teacher has the class roster and the list of students who actually showed up:\n\nroster = [\"Alice\", \"Bob\", \"Charlie\", \"Diana\", \"Eve\"]\npresent = [\"Alice\", \"Charlie\", \"Eve\"]\n\nWrite a function  that returns a sorted list of students who did NOT show up.",
+    "hint": "Convert both lists to sets. Use the - operator (set difference) to find who is in the roster but not present.",
+    "initial_code": "def find_absent(roster, present):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "find_absent([\"Alice\", \"Bob\", \"Charlie\", \"Diana\", \"Eve\"], [\"Alice\", \"Charlie\", \"Eve\"])",
+        "expected": "[\"Bob\", \"Diana\"]"
+      },
+      {
+        "input": "find_absent([\"Alice\", \"Bob\"], [\"Alice\", \"Bob\"])",
+        "expected": "[]"
+      },
+      {
+        "input": "find_absent([\"Alice\", \"Bob\", \"Charlie\"], [])",
+        "expected": "[\"Alice\", \"Bob\", \"Charlie\"]"
+      }
+    ],
+    "test_code": "assert find_absent([\"Alice\", \"Bob\", \"Charlie\", \"Diana\", \"Eve\"], [\"Alice\", \"Charlie\", \"Eve\"]) == [\"Bob\", \"Diana\"]\nassert find_absent([\"Alice\", \"Bob\"], [\"Alice\", \"Bob\"]) == []\nassert find_absent([\"Alice\", \"Bob\", \"Charlie\"], []) == [\"Alice\", \"Bob\", \"Charlie\"]"
+  },
+  {
+    "id": "py-036",
+    "title": "The Election Counter",
+    "difficulty": "medium",
+    "dataset": "Dictionaries",
+    "prompt": "A small town held an election. The ballots were collected and stored as a list of candidate names:\n\nballots = [\"Alice\", \"Bob\", \"Alice\", \"Charlie\", \"Bob\", \"Alice\", \"Bob\", \"Bob\"]\n\nWrite a function  that counts the votes and returns the name of the candidate with the most votes. If the list is empty, return None.",
+    "hint": "First count all votes into a dictionary. Then find the key with the maximum value using max() with a key argument.",
+    "initial_code": "def election_winner(ballots):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "election_winner([\"Alice\", \"Bob\", \"Alice\", \"Charlie\", \"Bob\", \"Alice\", \"Bob\", \"Bob\"])",
+        "expected": "\"Bob\""
+      },
+      {
+        "input": "election_winner([\"Alice\", \"Alice\", \"Alice\"])",
+        "expected": "\"Alice\""
+      },
+      {
+        "input": "election_winner([])",
+        "expected": "None"
+      }
+    ],
+    "test_code": "assert election_winner([\"Alice\", \"Bob\", \"Alice\", \"Charlie\", \"Bob\", \"Alice\", \"Bob\", \"Bob\"]) == \"Bob\"\nassert election_winner([\"Alice\", \"Alice\", \"Alice\"]) == \"Alice\"\nassert election_winner([]) is None"
+  },
+  {
+    "id": "py-037",
+    "title": "The Stock Trader",
+    "difficulty": "medium",
+    "dataset": "Lists",
+    "prompt": "A stock trader is looking at prices over the past week:\n\nprices = [7, 1, 5, 3, 6, 4]\n\nShe can buy on one day and sell on a later day. She wants to know the maximum profit she can make.\n\nWrite a function  that returns the maximum profit possible. If no profit can be made, return 0.",
+    "hint": "Track the lowest price seen so far as you loop. At each step, calculate profit = current_price - min_price and update the maximum profit found.",
+    "initial_code": "def max_profit(prices):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "max_profit([7, 1, 5, 3, 6, 4])",
+        "expected": "5"
+      },
+      {
+        "input": "max_profit([7, 6, 4, 3, 1])",
+        "expected": "0"
+      },
+      {
+        "input": "max_profit([1, 2])",
+        "expected": "1"
+      },
+      {
+        "input": "max_profit([3, 3, 3])",
+        "expected": "0"
+      }
+    ],
+    "test_code": "assert max_profit([7, 1, 5, 3, 6, 4]) == 5\nassert max_profit([7, 6, 4, 3, 1]) == 0\nassert max_profit([1, 2]) == 1\nassert max_profit([3, 3, 3]) == 0"
+  },
+  {
+    "id": "py-038",
+    "title": "The Treasure Map",
+    "difficulty": "medium",
+    "dataset": "Loops",
+    "prompt": "A pirate follows a treasure map. Starting at position (0, 0), she receives a list of directions:\n\ndirections = [\"N\", \"N\", \"E\", \"S\", \"E\", \"E\", \"N\"]\n\nEach move changes her position:\n- \"N\" \u2192 y + 1\n- \"S\" \u2192 y - 1\n- \"E\" \u2192 x + 1\n- \"W\" \u2192 x - 1\n\nWrite a function  that returns her final position as a list [x, y].",
+    "hint": "Start with x=0, y=0. Loop through directions and update x or y based on each command.",
+    "initial_code": "def treasure_location(directions):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "treasure_location([\"N\", \"N\", \"E\", \"S\", \"E\", \"E\", \"N\"])",
+        "expected": "[3, 2]"
+      },
+      {
+        "input": "treasure_location([\"N\", \"S\", \"E\", \"W\"])",
+        "expected": "[0, 0]"
+      },
+      {
+        "input": "treasure_location([\"E\", \"E\", \"E\"])",
+        "expected": "[3, 0]"
+      },
+      {
+        "input": "treasure_location([])",
+        "expected": "[0, 0]"
+      }
+    ],
+    "test_code": "assert treasure_location([\"N\", \"N\", \"E\", \"S\", \"E\", \"E\", \"N\"]) == [3, 2]\nassert treasure_location([\"N\", \"S\", \"E\", \"W\"]) == [0, 0]\nassert treasure_location([\"E\", \"E\", \"E\"]) == [3, 0]\nassert treasure_location([]) == [0, 0]"
+  },
+  {
+    "id": "py-039",
+    "title": "The Spell Checker",
+    "difficulty": "medium",
+    "dataset": "Dictionaries",
+    "prompt": "A wizard keeps a spellbook. Each spell has a mana cost:\n\nspellbook = {\"fireball\": 30, \"heal\": 15, \"shield\": 20, \"teleport\": 50}\n\nThe wizard has 80 mana and wants to cast a sequence of spells:\n\nsequence = [\"heal\", \"fireball\", \"shield\"]\n\nWrite a function  that simulates casting the spells in order. Return a list of spell names that were successfully cast (only cast a spell if there is enough mana remaining).",
+    "hint": "Loop through the sequence. For each spell, look up its cost. If mana >= cost, subtract the cost and add the spell to your results list.",
+    "initial_code": "def cast_spells(spellbook, sequence, mana):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "cast_spells({\"fireball\": 30, \"heal\": 15, \"shield\": 20, \"teleport\": 50}, [\"heal\", \"fireball\", \"shield\"], 80)",
+        "expected": "[\"heal\", \"fireball\", \"shield\"]"
+      },
+      {
+        "input": "cast_spells({\"fireball\": 30, \"heal\": 15, \"shield\": 20, \"teleport\": 50}, [\"teleport\", \"fireball\"], 40)",
+        "expected": "[\"teleport\"]"
+      },
+      {
+        "input": "cast_spells({\"fireball\": 30, \"heal\": 15, \"shield\": 20, \"teleport\": 50}, [\"fireball\", \"fireball\", \"fireball\"], 80)",
+        "expected": "[\"fireball\", \"fireball\"]"
+      }
+    ],
+    "test_code": "assert cast_spells({\"fireball\": 30, \"heal\": 15, \"shield\": 20, \"teleport\": 50}, [\"heal\", \"fireball\", \"shield\"], 80) == [\"heal\", \"fireball\", \"shield\"]\nassert cast_spells({\"fireball\": 30, \"heal\": 15, \"shield\": 20, \"teleport\": 50}, [\"teleport\", \"fireball\"], 40) == [\"teleport\"]\nassert cast_spells({\"fireball\": 30, \"heal\": 15, \"shield\": 20, \"teleport\": 50}, [\"fireball\", \"fireball\", \"fireball\"], 80) == [\"fireball\", \"fireball\"]"
+  },
+  {
+    "id": "py-040",
+    "title": "The Virus Spread",
+    "difficulty": "medium",
+    "dataset": "Lists",
+    "prompt": "Scientists model a viral spread across a row of cities. Each city is either infected (1) or healthy (0):\n\ncities = [0, 1, 0, 0, 1, 0, 0, 0]\n\nAfter one day, a healthy city becomes infected if it has at least one infected neighbor (left or right).\n\nWrite a function  that returns the new state of the cities after one day of spreading. The original list should not be modified.",
+    "hint": "Create a new list. For each city at index i, check if cities[i] is 1, or if any neighbor (i-1 or i+1, within bounds) is 1.",
+    "initial_code": "def spread(cities):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "spread([0, 1, 0, 0, 1, 0, 0, 0])",
+        "expected": "[1, 1, 1, 1, 1, 1, 0, 0]"
+      },
+      {
+        "input": "spread([1, 0, 0, 0, 1])",
+        "expected": "[1, 1, 0, 1, 1]"
+      },
+      {
+        "input": "spread([0, 0, 0])",
+        "expected": "[0, 0, 0]"
+      },
+      {
+        "input": "spread([1, 1, 1])",
+        "expected": "[1, 1, 1]"
+      }
+    ],
+    "test_code": "assert spread([0, 1, 0, 0, 1, 0, 0, 0]) == [1, 1, 1, 1, 1, 1, 0, 0]\nassert spread([1, 0, 0, 0, 1]) == [1, 1, 0, 1, 1]\nassert spread([0, 0, 0]) == [0, 0, 0]\nassert spread([1, 1, 1]) == [1, 1, 1]"
   }
 ]
