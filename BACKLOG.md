@@ -1,4 +1,5 @@
 - [ ] Add light mode support
 - [ ] add more levels to robot gardner
 - [ ] Improve the UI to better match IBM UI
-- [ ]
+- [ ] Add more problems to python module
+- [ ] Add more simulation games maybe...
