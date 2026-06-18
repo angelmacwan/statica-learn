@@ -1,9 +1,31 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useTheme } from '../context/ThemeContext.jsx'
+
+const SunIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="8" cy="8" r="3" />
+    <line x1="8" y1="1" x2="8" y2="3" />
+    <line x1="8" y1="13" x2="8" y2="15" />
+    <line x1="1" y1="8" x2="3" y2="8" />
+    <line x1="13" y1="8" x2="15" y2="8" />
+    <line x1="3.05" y1="3.05" x2="4.46" y2="4.46" />
+    <line x1="11.54" y1="11.54" x2="12.95" y2="12.95" />
+    <line x1="3.05" y1="12.95" x2="4.46" y2="11.54" />
+    <line x1="11.54" y1="4.46" x2="12.95" y2="3.05" />
+  </svg>
+)
+
+const MoonIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 10.5a5.5 5.5 0 1 1-5-5 5.5 5.5 0 0 0 5 5z" />
+  </svg>
+)
 
 export default function Header({ currentIndex, challenges, challengeData, onGoTo, sidebarOpen, onToggleSidebar }) {
   const total = challenges.length
   const solvedCount = Object.values(challengeData || {}).filter(d => d.status === 'solved').length
+  const { theme, toggleTheme, isDark } = useTheme()
 
   return (
     <header className="app-header">
@@ -64,7 +86,7 @@ export default function Header({ currentIndex, challenges, challengeData, onGoTo
         </span>
       </div>
 
-      <div className="header-right">
+      <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <span style={{
           fontSize: '12px',
           color: 'var(--text-secondary)',
@@ -72,6 +94,14 @@ export default function Header({ currentIndex, challenges, challengeData, onGoTo
         }}>
           Challenge {currentIndex + 1} of {total}
         </span>
+        <button
+          className="btn btn-ghost btn-sm"
+          onClick={toggleTheme}
+          title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem 0.5rem', width: '28px', height: '28px' }}
+        >
+          {isDark ? <SunIcon /> : <MoonIcon />}
+        </button>
       </div>
     </header>
   )

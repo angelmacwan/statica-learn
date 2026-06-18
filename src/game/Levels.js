@@ -124,6 +124,33 @@ move_forward()`,
     allowedCommands: ['move_forward', 'move_right', 'move_left', 'turn_left', 'turn_right', 'water', 'check_cell', 'get_inventory', 'print'],
     newConcept: 'check_cell() · inventory',
   },
+  {
+    id: 'L1_6',
+    tier: 1,
+    tierLevel: 6,
+    title: 'Watering Run',
+    objective: 'Gather water from the water source at (3, 2), then move to (3, 5) and water the dry seed.',
+    hint: 'Move forward twice to the water source, collect water by calling water(), turn around, move to (3, 5), and call water() again.',
+    gridSize: 8,
+    robotStart: { x: 3, y: 4, dir: 0 },
+    initialCells: [
+      { x: 3, y: 2, type: 'water_source' },
+      { x: 3, y: 5, type: 'seed' }
+    ],
+    successCondition: { type: 'watered_count', count: 1 },
+    starterCode: `# Fetch water from (3,2), then water the seed at (3,5)
+move_forward()
+move_forward()
+water()
+turn_right()
+turn_right()
+move_forward()
+move_forward()
+move_forward()
+water()`,
+    allowedCommands: ['move_forward', 'turn_left', 'turn_right', 'water', 'print'],
+    newConcept: 'Sequence integration',
+  },
 
   // ─── TIER 2: CONTROL FLOW ────────────────────────────────────
   {
@@ -256,6 +283,31 @@ for pos in positions:
     pass`,
     allowedCommands: ['move_forward', 'move_right', 'move_left', 'turn_left', 'turn_right', 'water', 'harvest', 'check_cell', 'get_inventory', 'print'],
     newConcept: 'Multi-step state · nested ideas',
+  },
+  {
+    id: 'L2_6',
+    tier: 2,
+    tierLevel: 6,
+    title: 'Smart Planting',
+    objective: 'Walk across the row from columns 1 to 5. Check each cell using check_cell(), and if it is "soil", plant a seed.',
+    hint: 'Use a for loop and check_cell() to check if it is "soil", then plant().',
+    gridSize: 8,
+    robotStart: { x: 1, y: 4, dir: 1 },
+    initialCells: [
+      { x: 1, y: 4, type: 'soil' },
+      { x: 2, y: 4, type: 'empty' },
+      { x: 3, y: 4, type: 'soil' },
+      { x: 4, y: 4, type: 'empty' },
+      { x: 5, y: 4, type: 'soil' }
+    ],
+    successCondition: { type: 'seeds_count', count: 3 },
+    starterCode: `# Check each cell and plant if it is soil
+for i in range(5):
+    if check_cell() == "soil":
+        plant()
+    move_forward()`,
+    allowedCommands: ['move_forward', 'move_right', 'move_left', 'turn_left', 'turn_right', 'plant', 'check_cell', 'print'],
+    newConcept: 'Checking soil before planting',
   },
 
   // ─── TIER 3: ADVANCED ────────────────────────────────────────
@@ -407,6 +459,35 @@ move_forward()
 full_cycle()`,
     allowedCommands: ['move_forward', 'move_right', 'move_left', 'turn_left', 'turn_right', 'plant', 'water', 'harvest', 'check_cell', 'get_inventory', 'print'],
     newConcept: 'State machines · composability',
+  },
+  {
+    id: 'L3_6',
+    tier: 3,
+    tierLevel: 6,
+    title: 'Diagonal Irrigation',
+    objective: 'Plant and water twice to make a diagonal line of 4 seeds mature at (1,1), (2,2), (3,3), and (4,4).',
+    hint: 'Use a loop and relative moves. For each diagonal step, plant a seed, water it twice, then move diagonally to the next plot.',
+    gridSize: 8,
+    robotStart: { x: 1, y: 1, dir: 1 },
+    initialCells: [
+      { x: 1, y: 1, type: 'soil' },
+      { x: 2, y: 2, type: 'soil' },
+      { x: 3, y: 3, type: 'soil' },
+      { x: 4, y: 4, type: 'soil' }
+    ],
+    successCondition: { type: 'watered_count', count: 4 },
+    starterCode: `# Plant and water a diagonal line of 4 plots
+for i in range(4):
+    plant()
+    water()
+    water()
+    if i < 3:
+        turn_right()
+        move_forward()
+        turn_left()
+        move_forward()`,
+    allowedCommands: ['move_forward', 'move_right', 'move_left', 'turn_left', 'turn_right', 'plant', 'water', 'print'],
+    newConcept: 'Diagonal pathing',
   },
 ];
 

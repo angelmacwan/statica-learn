@@ -8,6 +8,7 @@ import { checkSuccess } from '../game/GameState.js';
 import GameCanvas from '../components/GameCanvas.jsx';
 import GameCodeEditor from '../components/GameCodeEditor.jsx';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext.jsx';
 
 const SKULPT_CDN = 'https://skulpt.org/js/skulpt.min.js';
 const SKULPT_STDLIB = 'https://skulpt.org/js/skulpt-stdlib.js';
@@ -36,6 +37,7 @@ function saveProgress(data) {
 
 export default function RobotGardenerModule() {
   const navigate = useNavigate();
+  const { theme, toggleTheme, isDark } = useTheme();
 
   // ─── State ───────────────────────────────────────────────────
   const [skulptReady, setSkulptReady] = useState(false);
@@ -262,10 +264,34 @@ export default function RobotGardenerModule() {
           </span>
           <span className="rg-level-title">{level.title}</span>
         </div>
-        <div className="rg-header-right">
+        <div className="rg-header-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span className="rg-progress-text">
             {solvedCount}/{LEVELS.length} solved
           </span>
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={toggleTheme}
+            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem 0.5rem', width: '28px', height: '28px', background: 'transparent', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
+          >
+            {isDark ? (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="8" cy="8" r="3" />
+                <line x1="8" y1="1" x2="8" y2="3" />
+                <line x1="8" y1="13" x2="8" y2="15" />
+                <line x1="1" y1="8" x2="3" y2="8" />
+                <line x1="13" y1="8" x2="15" y2="8" />
+                <line x1="3.05" y1="3.05" x2="4.46" y2="4.46" />
+                <line x1="11.54" y1="11.54" x2="12.95" y2="12.95" />
+                <line x1="3.05" y1="12.95" x2="4.46" y2="11.54" />
+                <line x1="11.54" y1="4.46" x2="12.95" y2="3.05" />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 10.5a5.5 5.5 0 1 1-5-5 5.5 5.5 0 0 0 5 5z" />
+              </svg>
+            )}
+          </button>
           <button
             className="rg-sidebar-btn"
             onClick={() => setSidebarOpen(v => !v)}

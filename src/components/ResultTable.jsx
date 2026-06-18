@@ -29,14 +29,28 @@ export default function ResultTable({ result, label }) {
 
   const { columns, rows, truncated, totalRows } = result
 
+  const numericColumns = React.useMemo(() => {
+    if (!rows || rows.length === 0) return {}
+    const isNum = {}
+    columns.forEach((_, colIndex) => {
+      // Check if all non-null values in this column are numeric
+      const allNumeric = rows.every(row => {
+        const val = row[colIndex]
+        return val === null || val === undefined || val === '' || !isNaN(Number(val))
+      })
+      isNum[colIndex] = allNumeric
+    })
+    return isNum
+  }, [columns, rows])
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="result-table-wrap" style={{ flex: 1, overflow: 'auto' }}>
         <table className="result-table">
           <thead>
             <tr>
-              {columns.map((col) => (
-                <th key={col}>{col}</th>
+              {columns.map((col, ci) => (
+                <th key={col} style={{ textAlign: numericColumns[ci] ? 'right' : 'left' }}>{col}</th>
               ))}
             </tr>
           </thead>
@@ -44,7 +58,14 @@ export default function ResultTable({ result, label }) {
             {rows.map((row, ri) => (
               <tr key={ri}>
                 {row.map((cell, ci) => (
-                  <td key={ci} title={cell === null ? 'NULL' : String(cell)}>
+                  <td 
+                    key={ci} 
+                    title={cell === null ? 'NULL' : String(cell)}
+                    style={{ 
+                      textAlign: numericColumns[ci] ? 'right' : 'left',
+                      fontVariantNumeric: numericColumns[ci] ? 'tabular-nums' : 'normal'
+                    }}
+                  >
                     {cell === null
                       ? <span style={{ color: 'var(--text-placeholder)', fontStyle: 'italic' }}>NULL</span>
                       : String(cell)

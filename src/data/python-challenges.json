@@ -1070,5 +1070,61 @@
       }
     ],
     "test_code": "assert spread([0, 1, 0, 0, 1, 0, 0, 0]) == [1, 1, 1, 1, 1, 1, 0, 0]\nassert spread([1, 0, 0, 0, 1]) == [1, 1, 0, 1, 1]\nassert spread([0, 0, 0]) == [0, 0, 0]\nassert spread([1, 1, 1]) == [1, 1, 1]"
+  },
+  {
+    "id": "py-041",
+    "title": "Find Missing Number",
+    "difficulty": "medium",
+    "dataset": "Lists",
+    "prompt": "Write a function `find_missing(arr)` that takes a list of integers containing unique numbers from 1 to n+1 (where one number in the sequence is missing, and the list length is n) and returns the missing number. The list is not sorted.",
+    "hint": "Calculate the sum of numbers from 1 to n+1 using the formula `(n + 1) * (n + 2) // 2`, where `n = len(arr)`. The missing number is this expected sum minus the sum of the numbers in `arr`.",
+    "initial_code": "def find_missing(arr):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "find_missing([1, 2, 4])",
+        "expected": "3"
+      },
+      {
+        "input": "find_missing([3, 1, 5, 4])",
+        "expected": "2"
+      },
+      {
+        "input": "find_missing([2, 3, 4, 5, 6, 1, 8])",
+        "expected": "7"
+      },
+      {
+        "input": "find_missing([2])",
+        "expected": "1"
+      }
+    ],
+    "test_code": "assert find_missing([1, 2, 4]) == 3\nassert find_missing([3, 1, 5, 4]) == 2\nassert find_missing([2, 3, 4, 5, 6, 1, 8]) == 7\nassert find_missing([2]) == 1"
+  },
+  {
+    "id": "py-042",
+    "title": "Palindrome Checker",
+    "difficulty": "easy",
+    "dataset": "Strings",
+    "prompt": "Write a function `is_palindrome(s)` that returns True if the string `s` is a palindrome, and False otherwise. A palindrome is a word, phrase, number, or other sequence of characters that reads the same forward and backward, ignoring case and all non-alphanumeric characters.",
+    "hint": "Filter the string to keep only lowercase alphanumeric characters, then compare it to its reverse `filtered[::-1]`.",
+    "initial_code": "def is_palindrome(s):\n    # Write your code here\n    pass",
+    "test_cases": [
+      {
+        "input": "is_palindrome('A man, a plan, a canal: Panama')",
+        "expected": "True"
+      },
+      {
+        "input": "is_palindrome('race a car')",
+        "expected": "False"
+      },
+      {
+        "input": "is_palindrome(' ') ",
+        "expected": "True"
+      },
+      {
+        "input": "is_palindrome(\"No 'x' in Nixon\")",
+        "expected": "True"
+      }
+    ],
+    "test_code": "assert is_palindrome('A man, a plan, a canal: Panama') == True\nassert is_palindrome('race a car') == False\nassert is_palindrome(' ') == True\nassert is_palindrome(\"No 'x' in Nixon\") == True"
   }
 ]

@@ -1,14 +1,17 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { EditorView, keymap, lineNumbers } from '@codemirror/view';
-import { EditorState } from '@codemirror/state';
+import { EditorState, Compartment } from '@codemirror/state';
 import { python } from '@codemirror/lang-python';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { autocompletion } from '@codemirror/autocomplete';
+import { useTheme } from '../context/ThemeContext.jsx';
 
 export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
+  const themeCompartment = useRef(new Compartment()).current;
   const editorRef = useRef(null);
   const viewRef = useRef(null);
+  const { isDark } = useTheme();
 
   const handleRun = useCallback(() => {
     if (!disabled && onRun) onRun();
@@ -34,7 +37,7 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
         lineNumbers(),
         history(),
         python(),
-        oneDark,
+        themeCompartment.of(isDark ? oneDark : []),
         autocompletion(),
         keymap.of([...defaultKeymap, ...historyKeymap]),
         runKeymap,
@@ -49,6 +52,7 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
           '.cm-content': { padding: '8px 0' },
           '&.cm-focused': { outline: 'none' },
           '.cm-line': { padding: '0 8px' },
+          '.cm-gutters': { backgroundColor: 'var(--bg-base)', color: 'var(--text-secondary)', border: 'none' },
         }),
       ],
     });
@@ -62,6 +66,15 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Sync theme when context updates
+  useEffect(() => {
+    if (viewRef.current) {
+      viewRef.current.dispatch({
+        effects: themeCompartment.reconfigure(isDark ? oneDark : [])
+      });
+    }
+  }, [isDark]);
 
   // Update content when code prop changes externally (level switch)
   const prevCodeRef = useRef(code);

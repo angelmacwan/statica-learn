@@ -6,6 +6,7 @@ import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirro
 import { indentOnInput, syntaxHighlighting, defaultHighlightStyle, bracketMatching, foldKeymap, indentUnit } from '@codemirror/language'
 import { python } from '@codemirror/lang-python'
 import { oneDark } from '@codemirror/theme-one-dark'
+import { useTheme } from '../context/ThemeContext.jsx'
 
 const DEFAULT_PYTHON = `# Write your Python code here
 # Press Ctrl+Enter (Cmd+Enter on Mac) to run
@@ -14,13 +15,15 @@ def solve():
     pass
 `
 
-const editableCompartment = new Compartment()
-
 export default function PythonEditor({ value, onChange, onRun, disabled }) {
+  const themeCompartment = React.useMemo(() => new Compartment(), [])
+  const editableCompartment = React.useMemo(() => new Compartment(), [])
+
   const editorRef = useRef(null)
   const viewRef = useRef(null)
   const onChangeRef = useRef(onChange)
   const onRunRef = useRef(onRun)
+  const { isDark } = useTheme()
 
   useEffect(() => {
     onChangeRef.current = onChange
@@ -33,7 +36,7 @@ export default function PythonEditor({ value, onChange, onRun, disabled }) {
     const startState = EditorState.create({
       doc: value ?? DEFAULT_PYTHON,
       extensions: [
-        oneDark,
+        themeCompartment.of(isDark ? oneDark : []),
         python(),
         indentUnit.of("    "),
         history(),
@@ -69,7 +72,7 @@ export default function PythonEditor({ value, onChange, onRun, disabled }) {
         EditorView.theme({
           '&': { height: '100%', fontSize: '14px' },
           '.cm-scroller': { overflow: 'auto', fontFamily: "'IBM Plex Mono', 'Fira Code', monospace" },
-          '.cm-gutters': { backgroundColor: '#161616', color: '#525252', border: 'none' },
+          '.cm-gutters': { backgroundColor: 'var(--bg-base)', color: 'var(--text-secondary)', border: 'none' },
         })
       ]
     })
@@ -85,6 +88,15 @@ export default function PythonEditor({ value, onChange, onRun, disabled }) {
       view.destroy()
     }
   }, [])
+
+  // Sync theme when context updates
+  useEffect(() => {
+    if (viewRef.current) {
+      viewRef.current.dispatch({
+        effects: themeCompartment.reconfigure(isDark ? oneDark : [])
+      })
+    }
+  }, [isDark])
 
   // Sync value from props to editor if it changes externally
   useEffect(() => {

@@ -50,6 +50,45 @@
   --panel-gap: 1px;
 }
 
+:root[data-theme='light'],
+.light-theme {
+  /* Carbon White / Gray 10 palette */
+  --bg-base: #f4f4f4;
+  --bg-layer: #ffffff;
+  --bg-layer-2: #e0e0e0;
+  --bg-hover: #e5e5e5;
+  --bg-selected: #e0e0e0;
+  --border-subtle: #e0e0e0;
+  --border-strong: #8d8d8d;
+
+  /* Text */
+  --text-primary: #161616;
+  --text-secondary: #525252;
+  --text-placeholder: #6f6f6f;
+  --text-disabled: #8d8d8d;
+
+  /* Brand / Interactive */
+  --color-blue: #0f62fe;
+  --color-blue-hover: #0353e9;
+  --color-blue-dark: #002d9c;
+  --color-teal: #008580;
+  --color-green: #198038;
+  --color-green-bg: #def8e9;
+  --color-red: #da1e28;
+  --color-red-bg: #ffd7d9;
+  --color-yellow: #8a6500;
+  --color-orange: #b24e00;
+  --color-purple: #8a3ffc;
+
+  /* Difficulty colors */
+  --easy-color: #198038;
+  --easy-bg: #def8e9;
+  --medium-color: #b24e00;
+  --medium-bg: #fdf3d0;
+  --hard-color: #da1e28;
+  --hard-bg: #ffd7d9;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -74,6 +113,7 @@ html, body {
 ::-webkit-scrollbar-track { background: var(--bg-base); }
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #6f6f6f; }
+.light-theme ::-webkit-scrollbar-thumb:hover { background: #8d8d8d; }
 
 /* ─── Header ─────────────────────────────────── */
 .app-header {
@@ -347,7 +387,7 @@ html, body {
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  background: #161616;
+  background: var(--bg-base);
   height: 100%;
 }
 
@@ -363,6 +403,8 @@ html, body {
 .cm-editor {
   height: 100%;
   outline: none !important;
+  color: var(--text-primary);
+  background-color: var(--bg-layer);
 }
 
 .cm-focused {
@@ -1126,7 +1168,7 @@ html, body {
 }
 
 .carbon-nav-link:hover {
-  color: #ffffff;
+  color: var(--text-primary);
   background-color: var(--bg-hover);
 }
 
@@ -1157,7 +1199,7 @@ html, body {
   font-weight: 300; /* Light Carbon typeface */
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 1rem 0;
 }
 
@@ -1244,7 +1286,7 @@ html, body {
 .carbon-card-title {
   font-size: 1.75rem;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0;
   letter-spacing: -0.01em;
 }

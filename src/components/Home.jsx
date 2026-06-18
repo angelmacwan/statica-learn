@@ -1,5 +1,26 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext.jsx';
+
+const SunIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="8" cy="8" r="3" />
+    <line x1="8" y1="1" x2="8" y2="3" />
+    <line x1="8" y1="13" x2="8" y2="15" />
+    <line x1="1" y1="8" x2="3" y2="8" />
+    <line x1="13" y1="8" x2="15" y2="8" />
+    <line x1="3.05" y1="3.05" x2="4.46" y2="4.46" />
+    <line x1="11.54" y1="11.54" x2="12.95" y2="12.95" />
+    <line x1="3.05" y1="12.95" x2="4.46" y2="11.54" />
+    <line x1="11.54" y1="4.46" x2="12.95" y2="3.05" />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 10.5a5.5 5.5 0 1 1-5-5 5.5 5.5 0 0 0 5 5z" />
+  </svg>
+);
 
 // =========================================================================
 // IBM Carbon Design System Icon Components
@@ -124,6 +145,7 @@ const MODULES = [
 
 const Home = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme, isDark } = useTheme();
 
   return (
     <div className="carbon-layout">
@@ -153,7 +175,7 @@ const Home = () => {
             <span style={{ fontSize: '11px', color: 'var(--text-placeholder)', fontWeight: 400, letterSpacing: '0.02em' }}>by StaticaLabs</span>
           </div>
         </Link>
-        <nav className="carbon-header-nav" role="navigation" aria-label="Global navigation">
+        <nav className="carbon-header-nav" role="navigation" aria-label="Global navigation" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <a 
             href="https://staticalabs.com" 
             className="carbon-nav-link" 
@@ -163,6 +185,14 @@ const Home = () => {
           >
             StaticaLabs
           </a>
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={toggleTheme}
+            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem 0.5rem', width: '28px', height: '28px', background: 'transparent', border: '1px solid var(--border-subtle)' }}
+          >
+            {isDark ? <SunIcon /> : <MoonIcon />}
+          </button>
         </nav>
       </header>
 
