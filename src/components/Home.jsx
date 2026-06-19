@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.jsx';
-import sqlChallenges from '../data/challenges.json';
+import sqlChallenges from '../data/sql-challenges.json';
 import pythonChallenges from '../data/python-challenges.json';
 import { LEVELS } from '../game/Levels.js';
 

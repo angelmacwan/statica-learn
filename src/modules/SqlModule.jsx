@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import confetti from 'canvas-confetti'
-import challenges from '../data/challenges.json'
+import challenges from '../data/sql-challenges.json'
 import { useDatabase, checkAnswer } from '../hooks/useDatabase.js'
 import { useProgress } from '../hooks/useProgress.js'
 import Header from '../components/Header.jsx'

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import SchemaViewer from './SchemaViewer.jsx'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import remarkBreaks from 'remark-breaks'
 
 export default function ChallengeInfo({ challenge }) {
   const [hintVisible, setHintVisible] = useState(false)
@@ -22,7 +25,9 @@ export default function ChallengeInfo({ challenge }) {
 
       <div className="challenge-body" style={{ flex: 1, overflowY: 'auto', padding: '1rem' }}>
         <h1 className="challenge-title" style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>{challenge.title}</h1>
-        <p className="challenge-prompt" style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)' }}>{challenge.prompt}</p>
+        <div className="challenge-prompt markdown-body" style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)' }}>
+          <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{challenge.prompt}</ReactMarkdown>
+        </div>
 
         {challenge.hint && (
           <div style={{ marginBottom: '1.5rem' }}>
@@ -34,7 +39,9 @@ export default function ChallengeInfo({ challenge }) {
               {hintVisible ? 'Hide hint' : 'Show hint'}
             </button>
             {hintVisible && (
-              <div className="hint-box">{challenge.hint}</div>
+              <div className="hint-box markdown-body">
+                <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{challenge.hint}</ReactMarkdown>
+              </div>
             )}
           </div>
         )}
