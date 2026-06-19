@@ -489,10 +489,295 @@ for i in range(4):
     allowedCommands: ['move_forward', 'move_right', 'move_left', 'turn_left', 'turn_right', 'plant', 'water', 'print'],
     newConcept: 'Diagonal pathing',
   },
+
+  // ─── TIER 4: CHALLENGE GARDENS ──────────────────────────────
+  {
+    id: 'L4_1',
+    tier: 4,
+    tierLevel: 1,
+    title: 'Serpentine Orchard',
+    objective: 'Plant every soil tile in the 4x3 orchard using a back-and-forth route. Finish with exactly 12 seeds planted.',
+    hint: 'Plant one row, move down, reverse direction, and repeat. row % 2 helps choose the turn direction.',
+    gridSize: 8,
+    robotStart: { x: 1, y: 1, dir: 1 },
+    initialCells: [
+      ...[1, 2, 3].flatMap(y => [1, 2, 3, 4].map(x => ({ x, y, type: 'soil' }))),
+    ],
+    successCondition: {
+      type: 'all_of',
+      conditions: [
+        { type: 'seeds_at', positions: [1, 2, 3].flatMap(y => [1, 2, 3, 4].map(x => ({ x, y }))) },
+        { type: 'type_count', cellType: 'seed', count: 12 },
+      ],
+    },
+    starterCode: `# Plant the orchard in a serpentine pattern
+for row in range(3):
+    for col in range(4):
+        plant()
+        if col < 3:
+            move_forward()
+
+    if row < 2:
+        if row % 2 == 0:
+            turn_right()
+            move_forward()
+            turn_right()
+        else:
+            turn_left()
+            move_forward()
+            turn_left()`,
+    allowedCommands: ['move_forward', 'turn_left', 'turn_right', 'plant', 'print'],
+    newConcept: 'Nested loops · parity',
+  },
+  {
+    id: 'L4_2',
+    tier: 4,
+    tierLevel: 2,
+    title: 'Patch Triage',
+    objective: 'Walk across the row and make the right decision for each plot: water seeds, plant soil, harvest mature crops, and leave everything else alone.',
+    hint: 'Store check_cell() in a variable, then use if / elif branches for "seed", "soil", and "mature".',
+    gridSize: 8,
+    robotStart: { x: 1, y: 4, dir: 1 },
+    initialCells: [
+      { x: 1, y: 4, type: 'seed' },
+      { x: 2, y: 4, type: 'mature' },
+      { x: 3, y: 4, type: 'soil' },
+      { x: 4, y: 4, type: 'plant' },
+      { x: 5, y: 4, type: 'empty' },
+      { x: 6, y: 4, type: 'seed' },
+    ],
+    successCondition: {
+      type: 'all_of',
+      conditions: [
+        { type: 'harvested_count', count: 1 },
+        {
+          type: 'cells_at',
+          positions: [
+            { x: 1, y: 4, type: 'plant' },
+            { x: 2, y: 4, type: 'soil' },
+            { x: 3, y: 4, type: 'seed' },
+            { x: 4, y: 4, type: 'plant' },
+            { x: 5, y: 4, type: 'empty' },
+            { x: 6, y: 4, type: 'plant' },
+          ],
+        },
+      ],
+    },
+    starterCode: `# Triage each plot based on its current state
+for step in range(6):
+    cell = check_cell()
+    if cell == "seed":
+        water()
+    elif cell == "soil":
+        plant()
+    elif cell == "mature":
+        harvest()
+
+    if step < 5:
+        move_forward()`,
+    allowedCommands: ['move_forward', 'plant', 'water', 'harvest', 'check_cell', 'print'],
+    newConcept: 'Branching with elif',
+  },
+  {
+    id: 'L4_3',
+    tier: 4,
+    tierLevel: 3,
+    title: 'Reservoir Route',
+    objective: 'Collect water, water the three corner seeds, then reach the goal at (3, 3) in 18 moves or fewer.',
+    hint: 'Trace the outside path first: reservoir, top-right seed, bottom-right seed, bottom-left seed, then cut back to the goal.',
+    gridSize: 8,
+    robotStart: { x: 1, y: 3, dir: 0 },
+    initialCells: [
+      { x: 1, y: 1, type: 'water_source' },
+      { x: 5, y: 1, type: 'seed' },
+      { x: 5, y: 5, type: 'seed' },
+      { x: 1, y: 5, type: 'seed' },
+      { x: 3, y: 3, type: 'goal' },
+      { x: 2, y: 2, type: 'wall' },
+      { x: 3, y: 2, type: 'wall' },
+      { x: 4, y: 2, type: 'wall' },
+      { x: 2, y: 4, type: 'wall' },
+      { x: 4, y: 4, type: 'wall' },
+    ],
+    successCondition: {
+      type: 'all_of',
+      conditions: [
+        { type: 'robot_at_within_moves', x: 3, y: 3, maxMoves: 18 },
+        {
+          type: 'cells_at',
+          positions: [
+            { x: 5, y: 1, type: 'plant' },
+            { x: 5, y: 5, type: 'plant' },
+            { x: 1, y: 5, type: 'plant' },
+          ],
+        },
+      ],
+    },
+    starterCode: `# Water all three seeds and finish at the goal
+move_forward()
+move_forward()
+water()
+
+turn_right()
+for i in range(4):
+    move_forward()
+water()
+
+turn_right()
+for i in range(4):
+    move_forward()
+water()
+
+turn_right()
+for i in range(4):
+    move_forward()
+water()
+
+turn_right()
+turn_right()
+move_forward()
+move_forward()
+turn_left()
+move_forward()
+move_forward()`,
+    allowedCommands: ['move_forward', 'turn_left', 'turn_right', 'water', 'print'],
+    newConcept: 'Route planning · move budget',
+  },
+  {
+    id: 'L4_4',
+    tier: 4,
+    tierLevel: 4,
+    title: 'Perimeter Harvest',
+    objective: 'Harvest the four mature crops on the perimeter loop, then return to the starting tile.',
+    hint: 'Each side is the same pattern: harvest, move 5 times, turn right.',
+    gridSize: 8,
+    robotStart: { x: 1, y: 6, dir: 0 },
+    initialCells: [
+      { x: 1, y: 6, type: 'mature' },
+      { x: 1, y: 1, type: 'mature' },
+      { x: 6, y: 1, type: 'mature' },
+      { x: 6, y: 6, type: 'mature' },
+    ],
+    successCondition: {
+      type: 'all_of',
+      conditions: [
+        { type: 'harvested_count', count: 4 },
+        { type: 'robot_at', x: 1, y: 6 },
+      ],
+    },
+    starterCode: `# Use the repeated perimeter pattern
+for side in range(4):
+    harvest()
+    for step in range(5):
+        move_forward()
+    turn_right()`,
+    allowedCommands: ['move_forward', 'turn_right', 'harvest', 'print'],
+    newConcept: 'Loop decomposition',
+  },
+  {
+    id: 'L4_5',
+    tier: 4,
+    tierLevel: 5,
+    title: 'Checkerboard Survey',
+    objective: 'Scan the 4x4 patch in a serpentine path and plant only the soil tiles. Finish with exactly 8 seeds.',
+    hint: 'Combine the serpentine route with check_cell() so empty cells are skipped.',
+    gridSize: 8,
+    robotStart: { x: 1, y: 1, dir: 1 },
+    initialCells: [
+      ...[1, 2, 3, 4].flatMap(y =>
+        [1, 2, 3, 4]
+          .filter(x => (x + y) % 2 === 0)
+          .map(x => ({ x, y, type: 'soil' }))
+      ),
+    ],
+    successCondition: {
+      type: 'all_of',
+      conditions: [
+        {
+          type: 'seeds_at',
+          positions: [1, 2, 3, 4].flatMap(y =>
+            [1, 2, 3, 4]
+              .filter(x => (x + y) % 2 === 0)
+              .map(x => ({ x, y }))
+          ),
+        },
+        { type: 'type_count', cellType: 'seed', count: 8 },
+      ],
+    },
+    starterCode: `# Plant only soil cells while scanning the patch
+for row in range(4):
+    for col in range(4):
+        if check_cell() == "soil":
+            plant()
+        if col < 3:
+            move_forward()
+
+    if row < 3:
+        if row % 2 == 0:
+            turn_right()
+            move_forward()
+            turn_right()
+        else:
+            turn_left()
+            move_forward()
+            turn_left()`,
+    allowedCommands: ['move_forward', 'turn_left', 'turn_right', 'plant', 'check_cell', 'print'],
+    newConcept: 'Pattern scanning · filtering',
+  },
+  {
+    id: 'L4_6',
+    tier: 4,
+    tierLevel: 6,
+    title: 'Crop Pipeline',
+    objective: 'Use your 5 seeds to complete plant-water-water-harvest on every marked plot, then park on the goal at (5, 3).',
+    hint: 'Write one helper for the full crop cycle, reuse it on the row, then turn north for the last two plots.',
+    gridSize: 8,
+    robotStart: { x: 1, y: 5, dir: 1 },
+    initialCells: [
+      { x: 1, y: 5, type: 'soil' },
+      { x: 2, y: 5, type: 'soil' },
+      { x: 3, y: 5, type: 'soil' },
+      { x: 3, y: 4, type: 'soil' },
+      { x: 3, y: 3, type: 'soil' },
+      { x: 5, y: 3, type: 'goal' },
+    ],
+    startInventory: ['seed', 'seed', 'seed', 'seed', 'seed'],
+    successCondition: {
+      type: 'all_of',
+      conditions: [
+        { type: 'harvested_count', count: 5 },
+        { type: 'inventory_count', item: 'seed', count: 0 },
+        { type: 'robot_at', x: 5, y: 3 },
+      ],
+    },
+    starterCode: `# Complete a full crop pipeline on all 5 plots
+def full_cycle():
+    plant()
+    water()
+    water()
+    harvest()
+
+for i in range(3):
+    full_cycle()
+    if i < 2:
+        move_forward()
+
+turn_left()
+for i in range(2):
+    move_forward()
+    full_cycle()
+
+turn_right()
+move_forward()
+move_forward()`,
+    allowedCommands: ['move_forward', 'turn_left', 'turn_right', 'plant', 'water', 'harvest', 'get_inventory', 'print'],
+    newConcept: 'Inventory · reusable workflows',
+  },
 ];
 
 export const TIER_INFO = {
   1: { name: 'Sequencing', color: '#4589ff', icon: '▶' },
   2: { name: 'Control Flow', color: '#08bdba', icon: '↺' },
   3: { name: 'Advanced', color: '#be95ff', icon: '⬡' },
+  4: { name: 'Challenge Gardens', color: '#ff7eb6', icon: '◆' },
 };

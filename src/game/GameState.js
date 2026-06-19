@@ -1,6 +1,11 @@
 // Success condition checker
 export function checkSuccess(condition, robot, grid, harvestedCount) {
   switch (condition.type) {
+    case 'all_of':
+      return condition.conditions.every(c =>
+        checkSuccess(c, robot, grid, harvestedCount)
+      );
+
     case 'robot_at':
       return robot.x === condition.x && robot.y === condition.y;
 
@@ -23,6 +28,15 @@ export function checkSuccess(condition, robot, grid, harvestedCount) {
       );
     }
 
+    case 'cells_at': {
+      return condition.positions.every(pos =>
+        grid.getCell(pos.x, pos.y) === pos.type
+      );
+    }
+
+    case 'type_count':
+      return grid.countType(condition.cellType) === condition.count;
+
     case 'seeds_count':
       return grid.countType('seed') >= condition.count;
 
@@ -31,6 +45,9 @@ export function checkSuccess(condition, robot, grid, harvestedCount) {
 
     case 'harvested_count':
       return harvestedCount >= condition.count;
+
+    case 'inventory_count':
+      return robot.inventory.filter(i => i === condition.item).length === condition.count;
 
     case 'inventory_empty_and_seeds':
       return robot.inventory.filter(i => i === 'seed').length === 0 &&

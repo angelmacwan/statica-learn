@@ -1,4 +1,0 @@
-- [x] there are some visual inconsistancies in the UI like the back button being diffrent or the location of the light mode toggle that needs to be fixed. In the home page we have a nav bar. to the right of the nav bar we have a link to staticalabs and then the icon for dark mode... we need the darkmode icon first then the link to statica labs. But for other pages the dark mode icon goes to the far left at the end(the way it is right now, do not change it in other pages)
-- [x] i wanna see a progress bar in card for each module
-- [x] need better text / verbage on landing page (right now it sounds like a IBM internal tool, its actually a personal project)
-- [x] sidebar for "Robot gardner" is a little diffrent than other modules. They should all match. UI should be consistant throughout

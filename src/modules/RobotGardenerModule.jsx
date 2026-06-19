@@ -19,6 +19,7 @@ const LEVEL_FILTERS = [
   { value: '1', label: 'Tier 1', className: 'tier-1' },
   { value: '2', label: 'Tier 2', className: 'tier-2' },
   { value: '3', label: 'Tier 3', className: 'tier-3' },
+  { value: '4', label: 'Tier 4', className: 'tier-4' },
 ];
 
 function loadScript(src) {

@@ -53,6 +53,9 @@ export class Robot {
       throw new Error(`Cannot plant: cell is "${cell}", not empty soil`);
     }
     grid.setCell(this.x, this.y, 'seed');
+    if (this.inventory.includes('seed')) {
+      this.removeInventory('seed');
+    }
     return true;
   }
 
