@@ -7,7 +7,7 @@ import { Executor } from '../game/Executor.js';
 import { checkSuccess } from '../game/GameState.js';
 import GameCanvas from '../components/GameCanvas.jsx';
 import GameCodeEditor from '../components/GameCodeEditor.jsx';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.jsx';
 
 const SKULPT_CDN = 'https://skulpt.org/js/skulpt.min.js';
@@ -36,8 +36,7 @@ function saveProgress(data) {
 }
 
 export default function RobotGardenerModule() {
-  const navigate = useNavigate();
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
 
   // ─── State ───────────────────────────────────────────────────
   const [skulptReady, setSkulptReady] = useState(false);
@@ -250,13 +249,10 @@ export default function RobotGardenerModule() {
       {/* ── Header ── */}
       <header className="rg-header">
         <div className="rg-header-left">
-          <button className="rg-back-btn" onClick={() => navigate('/')} title="Back to Home">
-            ← Home
-          </button>
-          <div className="rg-logo">
+          <Link className="rg-logo app-logo" to="/" title="Back to Home">
             <span className="rg-logo-icon">🤖</span>
             <span className="rg-logo-name">Robot Gardener</span>
-          </div>
+          </Link>
         </div>
         <div className="rg-header-center">
           <span className="rg-level-badge" style={{ color: TIER_INFO[level.tier].color }}>

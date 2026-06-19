@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.jsx';
 
@@ -145,7 +144,7 @@ const MODULES = [
 
 const Home = () => {
   const navigate = useNavigate();
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
 
   return (
     <div className="carbon-layout">
@@ -176,6 +175,14 @@ const Home = () => {
           </div>
         </Link>
         <nav className="carbon-header-nav" role="navigation" aria-label="Global navigation" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={toggleTheme}
+            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem 0.5rem', width: '28px', height: '28px', background: 'transparent', border: '1px solid var(--border-subtle)' }}
+          >
+            {isDark ? <SunIcon /> : <MoonIcon />}
+          </button>
           <a 
             href="https://staticalabs.com" 
             className="carbon-nav-link" 
@@ -185,14 +192,6 @@ const Home = () => {
           >
             StaticaLabs
           </a>
-          <button
-            className="btn btn-ghost btn-sm"
-            onClick={toggleTheme}
-            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem 0.5rem', width: '28px', height: '28px', background: 'transparent', border: '1px solid var(--border-subtle)' }}
-          >
-            {isDark ? <SunIcon /> : <MoonIcon />}
-          </button>
         </nav>
       </header>
 

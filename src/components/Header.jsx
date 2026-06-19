@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext.jsx'
 
@@ -25,7 +24,7 @@ const MoonIcon = () => (
 export default function Header({ currentIndex, challenges, challengeData, onGoTo, sidebarOpen, onToggleSidebar }) {
   const total = challenges.length
   const solvedCount = Object.values(challengeData || {}).filter(d => d.status === 'solved').length
-  const { theme, toggleTheme, isDark } = useTheme()
+  const { toggleTheme, isDark } = useTheme()
 
   return (
     <header className="app-header">
