@@ -1,5 +1,9 @@
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.jsx';
+import sqlChallenges from '../data/challenges.json';
+import pythonChallenges from '../data/python-challenges.json';
+import { LEVELS } from '../game/Levels.js';
 
 const SunIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -113,38 +117,74 @@ const MODULES = [
   {
     id: 'sql',
     title: 'SQL Module',
-    category: 'Database Querying',
+    category: 'Query Practice',
     tag: 'Database',
-    desc: 'Master structured querying, relational database design, and data manipulation with interactive SQL challenges.',
+    desc: 'Practice writing SQL against small, realistic datasets. Start with selects and filters, then build up to joins, grouping, and reporting queries.',
     path: '/sql',
     accentColor: '#4589ff', // Carbon Blue 50
+    progressKey: 'statica-learn-progress',
+    totalChallenges: sqlChallenges.length,
+    progressType: 'challengeData',
     Icon: SqlIcon,
   },
   {
     id: 'python',
     title: 'Python Module',
-    category: 'Syntax & Logic Flow',
+    category: 'Code Practice',
     tag: 'Programming',
-    desc: 'Learn programming fundamentals, code structure, control flow, and data types through hands-on Python exercises.',
+    desc: 'Work through Python fundamentals with tiny problems that run in the browser. Each exercise is meant to make one idea click.',
     path: '/python',
     accentColor: '#08bdba', // Carbon Teal 50
+    progressKey: 'statica-learn-python-progress',
+    totalChallenges: pythonChallenges.length,
+    progressType: 'challengeData',
     Icon: PythonIcon,
   },
   {
     id: 'robot-gardener',
     title: 'Robot Gardener',
-    category: 'Visual Game Sandbox',
+    category: 'Python Game',
     tag: 'Simulation',
-    desc: 'Program an autonomous robot on a grid. Write Python code to control navigation, loop iterations, and harvest actions.',
+    desc: 'Use code to guide a robot around a garden grid. It turns movement, loops, and planning into something you can see immediately.',
     path: '/robot-gardener',
     accentColor: '#42be65', // Carbon Green 50
+    progressKey: 'statica-robot-gardener-progress',
+    totalChallenges: LEVELS.length,
+    progressType: 'robotLevels',
     Icon: RobotIcon,
   }
 ];
 
+function loadModuleProgress(module) {
+  try {
+    const raw = localStorage.getItem(module.progressKey);
+    if (!raw) return { solved: 0, total: module.totalChallenges, percent: 0 };
+
+    const parsed = JSON.parse(raw);
+    const solved = module.progressType === 'robotLevels'
+      ? Object.values(parsed || {}).filter(item => item?.solved).length
+      : Object.values(parsed?.challengeData || {}).filter(item => item?.status === 'solved').length;
+    const percent = module.totalChallenges > 0
+      ? Math.round((solved / module.totalChallenges) * 100)
+      : 0;
+
+    return { solved, total: module.totalChallenges, percent };
+  } catch {
+    return { solved: 0, total: module.totalChallenges, percent: 0 };
+  }
+}
+
+function getModuleProgress() {
+  return MODULES.reduce((acc, module) => {
+    acc[module.id] = loadModuleProgress(module);
+    return acc;
+  }, {});
+}
+
 const Home = () => {
   const navigate = useNavigate();
   const { toggleTheme, isDark } = useTheme();
+  const [moduleProgress] = useState(getModuleProgress);
 
   return (
     <div className="carbon-layout">
@@ -202,10 +242,10 @@ const Home = () => {
           {/* Hero Section */}
           <section className="carbon-hero">
             <h1 className="carbon-hero-title">
-              Enterprise Module Ecosystem
+              StaticaLearn
             </h1>
             <p className="carbon-hero-subtitle">
-              An enterprise-grade training and evaluation platform for structured queries, scripting logic, and automated systems orchestration.
+              A personal practice space for learning SQL, Python, and problem solving through small interactive challenges.
             </p>
           </section>
 
@@ -217,6 +257,7 @@ const Home = () => {
           >
             {MODULES.map((module) => {
               const { id, title, category, tag, desc, path, accentColor, Icon } = module;
+              const progress = moduleProgress[id];
               return (
                 <article 
                   key={id}
@@ -250,6 +291,18 @@ const Home = () => {
                   </div>
 
                   <div className="carbon-card-footer">
+                    <div className="carbon-card-progress" aria-label={`${title} progress: ${progress.solved} of ${progress.total} complete`}>
+                      <div className="carbon-card-progress-meta">
+                        <span>Progress</span>
+                        <span>{progress.solved}/{progress.total}</span>
+                      </div>
+                      <div className="carbon-card-progress-track">
+                        <span
+                          className="carbon-card-progress-fill"
+                          style={{ width: `${progress.percent}%` }}
+                        />
+                      </div>
+                    </div>
                     <button 
                       className="carbon-btn-primary" 
                       onClick={(e) => {

@@ -1308,6 +1308,41 @@ html, body {
 
 .carbon-card-footer {
   margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.carbon-card-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.carbon-card-progress-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.carbon-card-progress-track {
+  height: 8px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+
+.carbon-card-progress-fill {
+  display: block;
+  height: 100%;
+  min-width: 0;
+  background: var(--hover-accent-color, var(--color-blue));
+  transition: width 0.2s ease;
 }
 
 /* Carbon Button */
