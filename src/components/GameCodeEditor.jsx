@@ -4,7 +4,7 @@ import { EditorState, Compartment } from '@codemirror/state';
 import { python } from '@codemirror/lang-python';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
-import { autocompletion } from '@codemirror/autocomplete';
+
 import { useTheme } from '../context/ThemeContext.jsx';
 
 export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
@@ -38,7 +38,7 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
         history(),
         python(),
         themeCompartment.of(isDark ? oneDark : []),
-        autocompletion(),
+
         keymap.of([...defaultKeymap, ...historyKeymap]),
         runKeymap,
         EditorView.updateListener.of((update) => {
