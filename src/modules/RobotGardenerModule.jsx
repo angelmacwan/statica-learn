@@ -5,15 +5,21 @@ import { Robot } from '../game/Robot.js';
 import { Grid } from '../game/Grid.js';
 import { Executor } from '../game/Executor.js';
 import { checkSuccess } from '../game/GameState.js';
+import ChallengesList from '../components/ChallengesList.jsx';
+import Header from '../components/Header.jsx';
 import GameCanvas from '../components/GameCanvas.jsx';
 import GameCodeEditor from '../components/GameCodeEditor.jsx';
-import { Link } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext.jsx';
 
 const SKULPT_CDN = 'https://skulpt.org/js/skulpt.min.js';
 const SKULPT_STDLIB = 'https://skulpt.org/js/skulpt-stdlib.js';
 const ANIM_SPEED = 500; // ms per step
 const PROGRESS_KEY = 'statica-robot-gardener-progress';
+const LEVEL_FILTERS = [
+  { value: 'all', label: 'All' },
+  { value: '1', label: 'Tier 1', className: 'tier-1' },
+  { value: '2', label: 'Tier 2', className: 'tier-2' },
+  { value: '3', label: 'Tier 3', className: 'tier-3' },
+];
 
 function loadScript(src) {
   return new Promise((resolve, reject) => {
@@ -36,8 +42,6 @@ function saveProgress(data) {
 }
 
 export default function RobotGardenerModule() {
-  const { toggleTheme, isDark } = useTheme();
-
   // ─── State ───────────────────────────────────────────────────
   const [skulptReady, setSkulptReady] = useState(false);
   const [skulptError, setSkulptError] = useState(null);
@@ -235,110 +239,44 @@ export default function RobotGardenerModule() {
     return () => clearTimeout(animTimerRef.current);
   }, []);
 
-  // ─── Tier grouping for sidebar ───────────────────────────────
-  const tieredLevels = [1, 2, 3].map(tier => ({
-    tier,
-    levels: LEVELS.filter(l => l.tier === tier),
-  }));
-
-  const isSolved = (id) => !!progress[id]?.solved;
-  const solvedCount = Object.values(progress).filter(p => p?.solved).length;
+  const levelChallengeData = LEVELS.reduce((acc, l) => {
+    acc[l.id] = { status: progress[l.id]?.solved ? 'solved' : 'none' };
+    return acc;
+  }, {});
 
   return (
     <div className="rg-shell">
-      {/* ── Header ── */}
-      <header className="rg-header">
-        <div className="rg-header-left">
-          <Link className="rg-logo app-logo" to="/" title="Back to Home">
-            <span className="rg-logo-icon">🤖</span>
-            <span className="rg-logo-name">Robot Gardener</span>
-          </Link>
-        </div>
-        <div className="rg-header-center">
-          <span className="rg-level-badge" style={{ color: TIER_INFO[level.tier].color }}>
-            {TIER_INFO[level.tier].icon} Tier {level.tier} · Level {level.tierLevel}
-          </span>
-          <span className="rg-level-title">{level.title}</span>
-        </div>
-        <div className="rg-header-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span className="rg-progress-text">
-            {solvedCount}/{LEVELS.length} solved
-          </span>
-          <button
-            className="btn btn-ghost btn-sm"
-            onClick={toggleTheme}
-            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem 0.5rem', width: '28px', height: '28px', background: 'transparent', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
-          >
-            {isDark ? (
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="8" cy="8" r="3" />
-                <line x1="8" y1="1" x2="8" y2="3" />
-                <line x1="8" y1="13" x2="8" y2="15" />
-                <line x1="1" y1="8" x2="3" y2="8" />
-                <line x1="13" y1="8" x2="15" y2="8" />
-                <line x1="3.05" y1="3.05" x2="4.46" y2="4.46" />
-                <line x1="11.54" y1="11.54" x2="12.95" y2="12.95" />
-                <line x1="3.05" y1="12.95" x2="4.46" y2="11.54" />
-                <line x1="11.54" y1="4.46" x2="12.95" y2="3.05" />
-              </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M12 10.5a5.5 5.5 0 1 1-5-5 5.5 5.5 0 0 0 5 5z" />
-              </svg>
-            )}
-          </button>
-          <button
-            className="rg-sidebar-btn"
-            onClick={() => setSidebarOpen(v => !v)}
-            title="Toggle sidebar"
-          >
-            ☰
-          </button>
-        </div>
-      </header>
+      <Header
+        currentIndex={levelIndex}
+        challenges={LEVELS}
+        challengeData={levelChallengeData}
+        onGoTo={handleSelectLevel}
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={() => setSidebarOpen(v => !v)}
+      />
 
       <div className="rg-body">
         {/* ── Sidebar ── */}
-        <AnimatePresence>
-          {sidebarOpen && (
-            <motion.aside
-              className="rg-sidebar"
-              initial={{ x: -260, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -260, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-            >
-              <div className="rg-sidebar-header">Levels</div>
-              <div className="rg-sidebar-body">
-                {tieredLevels.map(({ tier, levels: tLevels }) => (
-                  <div key={tier} className="rg-tier-group">
-                    <div className="rg-tier-label" style={{ color: TIER_INFO[tier].color }}>
-                      {TIER_INFO[tier].icon} Tier {tier}: {TIER_INFO[tier].name}
-                    </div>
-                    {tLevels.map((l) => {
-                      const idx = LEVELS.findIndex(x => x.id === l.id);
-                      const solved = isSolved(l.id);
-                      const active = idx === levelIndex;
-                      return (
-                        <button
-                          key={l.id}
-                          className={`rg-level-item ${active ? 'active' : ''} ${solved ? 'solved' : ''}`}
-                          onClick={() => handleSelectLevel(idx)}
-                        >
-                          <span className="rg-level-item-icon">
-                            {solved ? '✅' : active ? '▶' : '○'}
-                          </span>
-                          <span className="rg-level-item-title">{l.title}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-            </motion.aside>
-          )}
-        </AnimatePresence>
+        {sidebarOpen && (
+          <aside className="rg-sidebar">
+            <ChallengesList
+              title="Levels"
+              challenges={LEVELS}
+              currentIndex={levelIndex}
+              challengeData={levelChallengeData}
+              onSelect={handleSelectLevel}
+              filterOptions={LEVEL_FILTERS}
+              getFilterValue={l => String(l.tier)}
+              getGroupKey={l => `Tier ${l.tier}: ${TIER_INFO[l.tier].name}`}
+              getSearchText={l => `${l.title} Tier ${l.tier} ${TIER_INFO[l.tier].name}`}
+              renderBadge={l => (
+                <span className={`cl-item-badge tier-${l.tier}`}>
+                  {l.tierLevel}
+                </span>
+              )}
+            />
+          </aside>
+        )}
 
         {/* ── Main ── */}
         <div className="rg-main">

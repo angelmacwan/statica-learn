@@ -551,6 +551,9 @@ html, body {
 .cl-filter-btn.active.easy { border-color: var(--easy-color); color: var(--easy-color); }
 .cl-filter-btn.active.medium { border-color: var(--medium-color); color: var(--medium-color); }
 .cl-filter-btn.active.hard { border-color: var(--hard-color); color: var(--hard-color); }
+.cl-filter-btn.active.tier-1 { border-color: #42be65; color: #42be65; }
+.cl-filter-btn.active.tier-2 { border-color: #08bdba; color: #08bdba; }
+.cl-filter-btn.active.tier-3 { border-color: var(--color-yellow); color: var(--color-yellow); }
 
 .cl-body {
   flex: 1;
@@ -660,6 +663,9 @@ html, body {
 .cl-item-badge.easy { background: var(--easy-bg); color: var(--easy-color); }
 .cl-item-badge.medium { background: var(--medium-bg); color: var(--medium-color); }
 .cl-item-badge.hard { background: var(--hard-bg); color: var(--hard-color); }
+.cl-item-badge.tier-1 { background: rgba(66, 190, 101, 0.1); color: #42be65; }
+.cl-item-badge.tier-2 { background: rgba(8, 189, 186, 0.1); color: #08bdba; }
+.cl-item-badge.tier-3 { background: rgba(241, 194, 27, 0.1); color: var(--color-yellow); }
 
 .cl-empty {
   padding: 2rem 1rem;
@@ -1509,40 +1515,17 @@ html, body {
 .rg-sidebar-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
 .rg-body { flex: 1; display: flex; overflow: hidden; min-height: 0; }
 .rg-sidebar {
-  width: 220px; min-width: 180px; background: var(--bg-layer);
-  border-right: 1px solid var(--border-subtle);
-  display: flex; flex-direction: column; overflow: hidden; flex-shrink: 0;
+  width: 240px;
+  min-width: 200px;
+  max-width: 280px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
-.rg-sidebar-header {
-  padding: 8px 12px; font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle); flex-shrink: 0;
+.rg-sidebar .challenges-list {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
 }
-.rg-sidebar-body { flex: 1; overflow-y: auto; min-height: 0; }
-.rg-tier-group { border-bottom: 1px solid var(--border-subtle); padding-bottom: 4px; }
-.rg-tier-label {
-  padding: 8px 12px 4px; font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em; background: rgba(255,255,255,0.03);
-}
-.rg-level-item {
-  display: flex; align-items: center; gap: 7px; width: 100%;
-  padding: 6px 12px; background: none; border: none;
-  border-bottom: 1px solid rgba(57,57,57,0.3); cursor: pointer;
-  text-align: left; font-family: inherit; font-size: 12px;
-  color: var(--text-secondary); transition: background 0.1s, color 0.1s;
-}
-.rg-level-item:hover { background: var(--bg-hover); color: var(--text-primary); }
-.rg-level-item.active {
-  background: rgba(69,137,255,0.12); color: var(--color-blue);
-  border-left: 2px solid var(--color-blue); padding-left: 10px;
-}
-.rg-level-item.solved { color: var(--color-green); }
-.rg-level-item.solved.active {
-  background: rgba(66,190,101,0.1); color: var(--color-green);
-  border-left-color: var(--color-green);
-}
-.rg-level-item-icon { font-size: 11px; flex-shrink: 0; width: 14px; }
-.rg-level-item-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rg-main {
   flex: 1; display: grid; grid-template-columns: 420px 1fr;
   gap: 1px; background: var(--border-subtle); overflow: hidden; min-height: 0;

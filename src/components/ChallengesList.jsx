@@ -1,35 +1,54 @@
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 
-export default function ChallengesList({ challenges, currentIndex, challengeData, onSelect }) {
+const DEFAULT_FILTERS = [
+  { value: 'all', label: 'All' },
+  { value: 'easy', label: 'Easy', className: 'easy' },
+  { value: 'medium', label: 'Medium', className: 'medium' },
+  { value: 'hard', label: 'Hard', className: 'hard' },
+]
+
+export default function ChallengesList({
+  challenges,
+  currentIndex,
+  challengeData,
+  onSelect,
+  title = 'Challenges',
+  filterOptions = DEFAULT_FILTERS,
+  getFilterValue = ch => ch.difficulty,
+  getGroupKey = ch => ch.dataset,
+  getSearchText = ch => `${ch.title} ${ch.dataset}`,
+  getStatus = (ch, data) => data[ch.id]?.status || 'none',
+  renderBadge,
+}) {
   const [search, setSearch] = useState('')
-  const [filter, setFilter] = useState('all') // 'all' | 'easy' | 'medium' | 'hard'
+  const [filter, setFilter] = useState('all')
 
   // Group challenges by dataset
   const grouped = useMemo(() => {
     const q = search.toLowerCase().trim()
-    const filtered = challenges.filter((ch, i) => {
-      const matchSearch = !q || ch.title.toLowerCase().includes(q) || ch.dataset.toLowerCase().includes(q)
-      const matchDiff = filter === 'all' || ch.difficulty === filter
+    const filtered = challenges.filter((ch) => {
+      const matchSearch = !q || getSearchText(ch).toLowerCase().includes(q)
+      const matchDiff = filter === 'all' || getFilterValue(ch) === filter
       return matchSearch && matchDiff
     })
 
     const groups = {}
-    filtered.forEach((ch, _) => {
-      const key = ch.dataset
+    filtered.forEach((ch) => {
+      const key = getGroupKey(ch)
       if (!groups[key]) groups[key] = []
       groups[key].push(ch)
     })
     return groups
-  }, [challenges, search, filter])
+  }, [challenges, search, filter, getFilterValue, getGroupKey, getSearchText])
 
-  const solvedCount = Object.values(challengeData || {}).filter(d => d.status === 'solved').length
+  const solvedCount = challenges.filter(ch => getStatus(ch, challengeData || {}) === 'solved').length
 
   return (
     <div className="challenges-list">
       {/* List header */}
       <div className="cl-header">
         <div className="cl-title-row">
-          <span className="cl-title">Challenges</span>
+          <span className="cl-title">{title}</span>
           <span className="cl-count">{solvedCount}/{challenges.length}</span>
         </div>
 
@@ -51,13 +70,13 @@ export default function ChallengesList({ challenges, currentIndex, challengeData
 
         {/* Difficulty filter pills */}
         <div className="cl-filters">
-          {['all', 'easy', 'medium', 'hard'].map(d => (
+          {filterOptions.map(({ value, label, className = '' }) => (
             <button
-              key={d}
-              className={`cl-filter-btn ${filter === d ? 'active' : ''} ${d !== 'all' ? d : ''}`}
-              onClick={() => setFilter(d)}
+              key={value}
+              className={`cl-filter-btn ${filter === value ? 'active' : ''} ${className}`}
+              onClick={() => setFilter(value)}
             >
-              {d === 'all' ? 'All' : d.charAt(0).toUpperCase() + d.slice(1)}
+              {label}
             </button>
           ))}
         </div>
@@ -74,7 +93,7 @@ export default function ChallengesList({ challenges, currentIndex, challengeData
               {chs.map(ch => {
                 const idx = challenges.findIndex(c => c.id === ch.id)
                 const isCurrent = idx === currentIndex
-                const status = challengeData[ch.id]?.status || 'none'
+                const status = getStatus(ch, challengeData || {})
                 const isDone = status === 'solved'
                 const isAttempted = status === 'attempted'
                 
@@ -90,9 +109,11 @@ export default function ChallengesList({ challenges, currentIndex, challengeData
                       {isDone ? '✓' : isAttempted ? '○' : isCurrent ? '▶' : '·'}
                     </span>
                     <span className="cl-item-title">{ch.title}</span>
-                    <span className={`cl-item-badge ${ch.difficulty}`}>
-                      {ch.difficulty[0].toUpperCase()}
-                    </span>
+                    {renderBadge ? renderBadge(ch) : (
+                      <span className={`cl-item-badge ${ch.difficulty}`}>
+                        {ch.difficulty[0].toUpperCase()}
+                      </span>
+                    )}
                   </button>
                 )
               })}
