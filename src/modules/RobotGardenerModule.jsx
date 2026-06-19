@@ -347,6 +347,21 @@ export default function RobotGardenerModule() {
               </AnimatePresence>
             </div>
 
+            {/* Reference card */}
+            <div className="rg-commands">
+              <div className="rg-commands-header">Available Commands</div>
+              <div className="rg-commands-body">
+                {[
+                  'move_forward()', 'move_right()', 'move_left()',
+                  'turn_right()', 'turn_left()',
+                  'plant()', 'water()', 'harvest()', 'check_cell()',
+                  'get_inventory()', 'print(msg)',
+                ].map(cmd => (
+                  <span key={cmd} className="rg-cmd-pill">{cmd}</span>
+                ))}
+              </div>
+            </div>
+
             {/* Inventory */}
             {robotState?.inventory?.length > 0 && (
               <div className="rg-inventory">
@@ -443,20 +458,7 @@ export default function RobotGardenerModule() {
               </div>
             </div>
 
-            {/* Reference card */}
-            <div className="rg-commands">
-              <div className="rg-commands-header">Available Commands</div>
-              <div className="rg-commands-body">
-                {[
-                  'move_forward()', 'move_right()', 'move_left()',
-                  'turn_right()', 'turn_left()',
-                  'plant()', 'water()', 'harvest()', 'check_cell()',
-                  'get_inventory()', 'print(msg)',
-                ].map(cmd => (
-                  <span key={cmd} className="rg-cmd-pill">{cmd}</span>
-                ))}
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
