@@ -68,6 +68,7 @@ const PLANTS = {
 
 const INITIAL_MONEY = 10;
 const PROGRESS_KEY = 'statica-robot-gardener-game-save';
+const CODE_KEY = 'statica-robot-gardener-code-save';
 
 class VirtualGame {
 	constructor(state) {
@@ -178,9 +179,9 @@ class VirtualGame {
 export default function RobotGardenerGameModule() {
 	const [skulptReady, setSkulptReady] = useState(false);
 	const [animating, setAnimating] = useState(false);
-	const [editorCode, setEditorCode] = useState(
-		"print('Starting bot...')\nmove_forward()\n",
-	);
+	const [editorCode, setEditorCode] = useState(() => {
+		return localStorage.getItem(CODE_KEY) || "print('Starting bot...')\nmove_forward()\n";
+	});
 	const [consoleLines, setConsoleLines] = useState([]);
 	const [leftTab, setLeftTab] = useState('api');
 	const [expandedApi, setExpandedApi] = useState(null);
@@ -208,6 +209,10 @@ export default function RobotGardenerGameModule() {
 	useEffect(() => {
 		localStorage.setItem(PROGRESS_KEY, JSON.stringify(gameState));
 	}, [gameState]);
+
+	useEffect(() => {
+		localStorage.setItem(CODE_KEY, editorCode);
+	}, [editorCode]);
 
 	useEffect(() => {
 		(async () => {
