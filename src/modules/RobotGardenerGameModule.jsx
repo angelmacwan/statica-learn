@@ -158,6 +158,7 @@ class VirtualGame {
 		if (!cell) return 'empty';
 		if (cell.state === 'STONE') return 'stone';
 		if (cell.state === 'BRANCH') return 'branch';
+		if (cell.state === 'HARVESTABLE') return 'ready';
 		if (cell.plantType) return cell.plantType;
 		return 'empty';
 	}
@@ -506,7 +507,7 @@ export default function RobotGardenerGameModule() {
 									{ id: 'harvest', label: 'harvest()', doc: 'Harvests a fully grown plant on the current tile and adds its value to your money.' },
 									{ id: 'use_pickaxe', label: 'use_pickaxe()', doc: 'Destroys a stone obstacle on the current tile, freeing up the space.' },
 									{ id: 'use_axe', label: 'use_axe()', doc: 'Destroys a wooden branch obstacle on the current tile, freeing up the space.' },
-									{ id: 'check_block', label: 'check_block()', doc: "Returns a string representing what is on the current tile. Possible values: 'empty', 'stone', 'branch', 'wheat', 'tomato', 'sunflower', 'pumpkin'." },
+									{ id: 'check_block', label: 'check_block()', doc: "Returns a string representing what is on the current tile. Possible values: 'empty', 'stone', 'branch', 'ready', 'wheat', 'tomato', 'sunflower', 'pumpkin'." },
 									{ id: 'reset_bot', label: 'reset_bot()', doc: 'Instantly teleports the robot back to the starting coordinates (0, 0) and faces it East.' },
 									{ id: 'get_money', label: 'get_money()', doc: 'Returns your current total money as an integer.' },
 									{ id: 'get_farm_size', label: 'get_farm_size()', doc: 'Returns a tuple (width, height) representing the current size of the farm grid.' },
