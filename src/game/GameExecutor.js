@@ -31,9 +31,16 @@ export class GameExecutor {
           }
           return Sk.builtinFiles.files[x];
         },
-        execLimit: 20000,
+        execLimit: 3000,
+        yieldLimit: 100,
         __future__: Sk.python3,
       });
+
+      const checkLogLimit = () => {
+        if (log.length > 500) {
+          throw new Error("Maximum execution steps (500) exceeded. You might have an infinite loop!");
+        }
+      };
 
       const makeSkulptFn = (jsFn) => {
         return new Sk.builtin.func(function (...skArgs) {
@@ -66,37 +73,50 @@ export class GameExecutor {
         move_forward: () => {
           robot.moveForward(grid);
           log.push({ type: 'move', robot: snapRobot() });
+          checkLogLimit();
         },
         turn_right: () => {
           robot.turnRight();
           log.push({ type: 'turn', robot: snapRobot() });
+          checkLogLimit();
         },
         turn_left: () => {
           robot.turnLeft();
           log.push({ type: 'turn', robot: snapRobot() });
+          checkLogLimit();
         },
         plant: (type) => {
           const res = robot.plant(grid, type || 'wheat');
           log.push({ type: 'plant', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          checkLogLimit();
         },
         water: () => {
           const res = robot.water(grid);
           log.push({ type: 'water', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          checkLogLimit();
         },
         harvest: () => {
           const res = robot.harvest(grid);
           log.push({ type: 'harvest', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          checkLogLimit();
         },
         use_pickaxe: () => {
           const res = robot.clear(grid, 'STONE');
           log.push({ type: 'clear', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          checkLogLimit();
         },
         use_axe: () => {
           const res = robot.clear(grid, 'BRANCH');
           log.push({ type: 'clear', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          checkLogLimit();
         },
         check_block: () => {
           return robot.checkBlock(grid);
+        },
+        reset_bot: () => {
+          robot.resetBot();
+          log.push({ type: 'move', robot: snapRobot() });
+          checkLogLimit();
         },
         get_money: () => {
           return robot.money;

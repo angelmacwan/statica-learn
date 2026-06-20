@@ -162,6 +162,12 @@ class VirtualGame {
 		return 'empty';
 	}
 
+	resetBot() {
+		this.x = 0;
+		this.y = 0;
+		this.dir = 1; // Facing East
+	}
+
 	buyLand() {
 		const next = GRID_TIERS.find((t) => t.level === this.tier + 1);
 		if (!next) throw new Error(`Max level reached`);
@@ -292,15 +298,12 @@ export default function RobotGardenerGameModule() {
 			result.output ? result.output.split('\n').filter(Boolean) : [],
 		);
 
-		if (!result.success) {
-			setConsoleLines((prev) => [...prev, `[ERROR]: ${result.error}`]);
-			setAnimating(false);
-			return;
-		}
-
 		const log = result.log || [];
 		if (log.length === 0) {
 			setAnimating(false);
+			if (!result.success) {
+				setConsoleLines((prev) => [...prev, `[ERROR]: ${result.error}`]);
+			}
 			return;
 		}
 
@@ -309,6 +312,9 @@ export default function RobotGardenerGameModule() {
 		const tickAnim = () => {
 			if (step >= log.length) {
 				setAnimating(false);
+				if (!result.success) {
+					setConsoleLines((prev) => [...prev, `[ERROR]: ${result.error}`]);
+				}
 				return;
 			}
 			const action = log[step];
@@ -349,7 +355,19 @@ export default function RobotGardenerGameModule() {
 		tickAnim();
 	};
 
+	const handleStop = () => {
+		if (animTimerRef.current) {
+			clearTimeout(animTimerRef.current);
+			animTimerRef.current = null;
+		}
+		setAnimating(false);
+		setConsoleLines((prev) => [...prev, '[SYSTEM]: Execution stopped by user.']);
+	};
+
 	const handleReset = () => {
+		if (!window.confirm('All progress will be lost, and your money will reset to zero. Are you sure you want to reset the game?')) {
+			return;
+		}
 		setGameState({
 			money: INITIAL_MONEY,
 			tier: 1,
@@ -358,6 +376,7 @@ export default function RobotGardenerGameModule() {
 			ry: 0,
 			rdir: 1,
 		});
+		setConsoleLines(['[SYSTEM]: Game reset to tier 1.']);
 	};
 
 	const handleUpgrade = () => {
@@ -488,6 +507,7 @@ export default function RobotGardenerGameModule() {
 									{ id: 'use_pickaxe', label: 'use_pickaxe()', doc: 'Destroys a stone obstacle on the current tile, freeing up the space.' },
 									{ id: 'use_axe', label: 'use_axe()', doc: 'Destroys a wooden branch obstacle on the current tile, freeing up the space.' },
 									{ id: 'check_block', label: 'check_block()', doc: "Returns a string representing what is on the current tile. Possible values: 'empty', 'stone', 'branch', 'wheat', 'tomato', 'sunflower', 'pumpkin'." },
+									{ id: 'reset_bot', label: 'reset_bot()', doc: 'Instantly teleports the robot back to the starting coordinates (0, 0) and faces it East.' },
 									{ id: 'get_money', label: 'get_money()', doc: 'Returns your current total money as an integer.' },
 									{ id: 'get_farm_size', label: 'get_farm_size()', doc: 'Returns a tuple (width, height) representing the current size of the farm grid.' },
 									{ id: 'get_position', label: 'get_position()', doc: "Returns a tuple (x, y) representing the robot's current coordinates." },
@@ -717,13 +737,23 @@ export default function RobotGardenerGameModule() {
 							gap: '1rem',
 						}}
 					>
-						<button
-							className="btn btn-primary"
-							onClick={handleRun}
-							disabled={animating || !skulptReady}
-						>
-							{animating ? '⏳ Running…' : '▶ Run Code'}
-						</button>
+						{animating ? (
+							<button
+								className="btn btn-primary"
+								style={{ backgroundColor: 'var(--color-danger)', borderColor: 'var(--color-danger)', color: 'white' }}
+								onClick={handleStop}
+							>
+								🛑 Stop Script
+							</button>
+						) : (
+							<button
+								className="btn btn-primary"
+								onClick={handleRun}
+								disabled={!skulptReady}
+							>
+								▶ Run Code
+							</button>
+						)}
 						<button
 							className="btn btn-ghost"
 							onClick={handleReset}
