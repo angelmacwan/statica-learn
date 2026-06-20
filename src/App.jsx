@@ -4,6 +4,7 @@ import Home from './components/Home.jsx'
 import SqlModule from './modules/SqlModule.jsx'
 import PythonModule from './modules/PythonModule.jsx'
 import RobotGardenerModule from './modules/RobotGardenerModule.jsx'
+import RobotGardenerGameModule from './modules/RobotGardenerGameModule.jsx'
 
 export default function App() {
   const location = useLocation()
@@ -14,6 +15,7 @@ export default function App() {
       <Route path="/sql" element={<SqlModule />} />
       <Route path="/python" element={<PythonModule />} />
       <Route path="/robot-gardener" element={<RobotGardenerModule />} />
+      <Route path="/robot-gardener-game" element={<RobotGardenerGameModule />} />
     </Routes>
   )
 }

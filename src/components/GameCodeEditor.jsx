@@ -3,7 +3,7 @@ import { EditorView, keymap, lineNumbers } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
 import { python } from '@codemirror/lang-python';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
 
 import { useTheme } from '../context/ThemeContext.jsx';
 
@@ -39,7 +39,7 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
         python(),
         themeCompartment.of(isDark ? oneDark : []),
 
-        keymap.of([...defaultKeymap, ...historyKeymap]),
+        keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
         runKeymap,
         EditorView.updateListener.of((update) => {
           if (update.docChanged && onChange) {

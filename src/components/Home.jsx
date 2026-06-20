@@ -152,6 +152,19 @@ const MODULES = [
     totalChallenges: LEVELS.length,
     progressType: 'robotLevels',
     Icon: RobotIcon,
+  },
+  {
+    id: 'robot-gardener-game',
+    title: 'Robot Gardner the game',
+    category: 'Farming Simulation',
+    tag: 'Game',
+    desc: 'Grow crops, earn money, and expand your farm in this engaging progression-driven farming simulation game.',
+    path: '/robot-gardener-game',
+    accentColor: '#f1c21b', // Carbon Yellow 40
+    progressKey: 'statica-robot-gardener-game-progress',
+    totalChallenges: 0,
+    progressType: 'none',
+    Icon: RobotIcon,
   }
 ];
 
