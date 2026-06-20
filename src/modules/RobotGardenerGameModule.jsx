@@ -96,10 +96,6 @@ class VirtualGame {
 			ny >= 0 &&
 			ny < currentTier.rows
 		) {
-			const cell = this.cells[`${nx},${ny}`];
-			if (cell && (cell.state === 'STONE' || cell.state === 'BRANCH')) {
-				throw new Error(`Cannot move into ${cell.state}`);
-			}
 			this.x = nx;
 			this.y = ny;
 		} else {
@@ -156,9 +152,13 @@ class VirtualGame {
 		return { key, cell: null };
 	}
 
-	checkCell() {
+	checkBlock() {
 		const cell = this.cells[`${this.x},${this.y}`];
-		return cell ? cell.state : 'EMPTY';
+		if (!cell) return 'empty';
+		if (cell.state === 'STONE') return 'stone';
+		if (cell.state === 'BRANCH') return 'branch';
+		if (cell.plantType) return cell.plantType;
+		return 'empty';
 	}
 
 	buyLand() {
@@ -182,6 +182,8 @@ export default function RobotGardenerGameModule() {
 		"print('Starting bot...')\nmove_forward()\n",
 	);
 	const [consoleLines, setConsoleLines] = useState([]);
+	const [leftTab, setLeftTab] = useState('api');
+	const [expandedApi, setExpandedApi] = useState(null);
 
 	const [gameState, setGameState] = useState(() => {
 		const saved = localStorage.getItem(PROGRESS_KEY);
@@ -400,100 +402,192 @@ export default function RobotGardenerGameModule() {
 						width: '300px',
 						display: 'flex',
 						flexDirection: 'column',
-						padding: '1rem',
 						borderRight: '1px solid var(--border-subtle)',
 						backgroundColor: 'var(--ui-01)',
-						overflowY: 'auto',
 					}}
 				>
-					<h3 style={{ margin: '0 0 1rem 0', fontSize: '1.4rem' }}>
-						API Reference
-					</h3>
 					<div
 						style={{
 							display: 'flex',
-							flexDirection: 'column',
-							gap: '0.75rem',
+							borderBottom: '1px solid var(--border-subtle)',
 						}}
 					>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
+						<button
+							style={{
+								flex: 1,
+								padding: '1rem',
+								background:
+									leftTab === 'api'
+										? 'transparent'
+										: 'var(--ui-02)',
+								border: 'none',
+								borderBottom:
+									leftTab === 'api'
+										? '2px solid var(--color-yellow)'
+										: 'none',
+								color:
+									leftTab === 'api'
+										? 'var(--text-primary)'
+										: 'var(--text-secondary)',
+								cursor: 'pointer',
+								fontWeight: 'bold',
+							}}
+							onClick={() => setLeftTab('api')}
 						>
-							move_forward()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
+							API
+						</button>
+						<button
+							style={{
+								flex: 1,
+								padding: '1rem',
+								background:
+									leftTab === 'plants'
+										? 'transparent'
+										: 'var(--ui-02)',
+								border: 'none',
+								borderBottom:
+									leftTab === 'plants'
+										? '2px solid var(--color-yellow)'
+										: 'none',
+								color:
+									leftTab === 'plants'
+										? 'var(--text-primary)'
+										: 'var(--text-secondary)',
+								cursor: 'pointer',
+								fontWeight: 'bold',
+							}}
+							onClick={() => setLeftTab('plants')}
 						>
-							turn_right()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							turn_left()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							plant(str)
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							water()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							harvest()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							use_pickaxe()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							use_axe()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							check_cell()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							get_money()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							get_farm_size()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							get_position()
-						</span>
-						<span
-							className="rg-cmd-pill"
-							style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}
-						>
-							print(msg)
-						</span>
+							Plants
+						</button>
+					</div>
+
+					<div
+						style={{ padding: '1rem', overflowY: 'auto', flex: 1 }}
+					>
+						{leftTab === 'api' && (
+							<div
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '0.75rem',
+								}}
+							>
+								{[
+									{ id: 'move_forward', label: 'move_forward()', doc: 'Moves the robot one tile forward in the direction it is currently facing. Fails if it hits the edge of the farm.' },
+									{ id: 'turn_right', label: 'turn_right()', doc: 'Turns the robot 90 degrees clockwise.' },
+									{ id: 'turn_left', label: 'turn_left()', doc: 'Turns the robot 90 degrees counter-clockwise.' },
+									{ id: 'plant', label: "plant('wheat'|'tomato'|'sunflower'|'pumpkin')", doc: 'Plants a seed of the specified type on the current tile. Costs money. Tile must be empty.' },
+									{ id: 'water', label: 'water()', doc: 'Waters the seed on the current tile, causing it to start growing.' },
+									{ id: 'harvest', label: 'harvest()', doc: 'Harvests a fully grown plant on the current tile and adds its value to your money.' },
+									{ id: 'use_pickaxe', label: 'use_pickaxe()', doc: 'Destroys a stone obstacle on the current tile, freeing up the space.' },
+									{ id: 'use_axe', label: 'use_axe()', doc: 'Destroys a wooden branch obstacle on the current tile, freeing up the space.' },
+									{ id: 'check_block', label: 'check_block()', doc: "Returns a string representing what is on the current tile. Possible values: 'empty', 'stone', 'branch', 'wheat', 'tomato', 'sunflower', 'pumpkin'." },
+									{ id: 'get_money', label: 'get_money()', doc: 'Returns your current total money as an integer.' },
+									{ id: 'get_farm_size', label: 'get_farm_size()', doc: 'Returns a tuple (width, height) representing the current size of the farm grid.' },
+									{ id: 'get_position', label: 'get_position()', doc: "Returns a tuple (x, y) representing the robot's current coordinates." },
+									{ id: 'print', label: 'print(msg)', doc: 'Prints a message to the console for debugging.' },
+								].map(cmd => (
+									<div key={cmd.id} style={{ display: 'flex', flexDirection: 'column' }}>
+										<span
+											className="rg-cmd-pill"
+											onClick={() => setExpandedApi(expandedApi === cmd.id ? null : cmd.id)}
+											style={{
+												fontSize: '1rem',
+												padding: '0.5rem 1rem',
+												cursor: 'pointer',
+												userSelect: 'none',
+												border: expandedApi === cmd.id ? '2px solid var(--color-yellow)' : '2px solid transparent',
+												whiteSpace: 'normal',
+												wordBreak: 'break-all',
+												display: 'inline-block'
+											}}
+										>
+											{cmd.label}
+										</span>
+										{expandedApi === cmd.id && (
+											<div style={{ marginTop: '0.5rem', padding: '0.75rem', backgroundColor: 'rgba(0,0,0,0.15)', borderRadius: '6px', fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+												{cmd.doc}
+											</div>
+										)}
+									</div>
+								))}
+							</div>
+						)}
+						{leftTab === 'plants' && (
+							<div
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '1rem',
+								}}
+							>
+								{Object.values(PLANTS).map((p) => (
+									<div
+										key={p.id}
+										style={{
+											background: 'rgba(0,0,0,0.2)',
+											padding: '1rem',
+											borderRadius: '8px',
+										}}
+									>
+										<div
+											style={{
+												fontSize: '1.2rem',
+												fontWeight: 'bold',
+												marginBottom: '0.5rem',
+											}}
+										>
+											{p.icon} {p.name}
+										</div>
+										<div
+											style={{
+												fontSize: '0.9rem',
+												color: 'var(--text-secondary)',
+												display: 'grid',
+												gridTemplateColumns: '1fr 1fr',
+												gap: '0.5rem',
+											}}
+										>
+											<div>
+												Cost:{' '}
+												<span
+													style={{
+														color: '#e74c3c',
+														fontWeight: 'bold',
+													}}
+												>
+													-${p.cost}
+												</span>
+											</div>
+											<div>
+												Earn:{' '}
+												<span
+													style={{
+														color: '#2ecc71',
+														fontWeight: 'bold',
+													}}
+												>
+													+${p.value}
+												</span>
+											</div>
+											<div
+												style={{ gridColumn: 'span 2' }}
+											>
+												Grow Time:{' '}
+												<span
+													style={{
+														color: 'var(--text-primary)',
+													}}
+												>
+													{p.growTime}s
+												</span>
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+						)}
 					</div>
 				</div>
 

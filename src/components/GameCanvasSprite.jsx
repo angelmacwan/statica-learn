@@ -1,177 +1,169 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
-const ASSETS = {
-	tilemap: '/assets/Tiny Wonder Farm Free/tilemaps/spring farm tilemap.png',
-	plants: '/assets/Tiny Wonder Farm Free/objects&items/plants free.png',
-	character:
-		'/assets/Tiny Wonder Farm Free/characters/main character/walk and idle.png',
-	objects:
-		'/assets/Tiny Wonder Farm Free/objects&items/farm objects free.png',
+const SVG_STRINGS = {
+  stone: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M20,70 C10,40 40,20 60,30 C80,40 90,60 80,80 C70,95 30,95 20,70 Z" fill="#7f8c8d"/>
+    <path d="M30,65 C25,45 45,35 60,40" stroke="#95a5a6" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  branch: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M15,85 L85,15 L95,25 L25,95 Z" fill="#8b4513"/>
+    <path d="M25,75 L75,25" stroke="#5c2e0b" stroke-width="4"/>
+    <path d="M50,50 L30,30" stroke="#8b4513" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="30" cy="30" r="12" fill="#27ae60"/>
+    <circle cx="70" cy="40" r="10" fill="#27ae60"/>
+  </svg>`,
+  seed: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <ellipse cx="50" cy="70" rx="30" ry="15" fill="#5c3a21"/>
+    <circle cx="40" cy="65" r="4" fill="#f1c40f"/>
+    <circle cx="55" cy="60" r="4" fill="#f1c40f"/>
+    <circle cx="65" cy="70" r="4" fill="#f1c40f"/>
+  </svg>`,
+  growing: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M50,80 Q50,50 30,30" stroke="#2ecc71" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M50,80 Q50,60 70,40" stroke="#2ecc71" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="30" cy="30" rx="15" ry="8" fill="#2ecc71" transform="rotate(45 30 30)"/>
+    <ellipse cx="70" cy="40" rx="12" ry="6" fill="#2ecc71" transform="rotate(-45 70 40)"/>
+    <path d="M50,80 L50,60" stroke="#27ae60" stroke-width="8" stroke-linecap="round"/>
+  </svg>`,
+  wheat: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M40,90 L40,20 M50,90 L50,15 M60,90 L60,25" stroke="#f1c40f" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="40" cy="20" r="6" fill="#f39c12"/><circle cx="40" cy="35" r="6" fill="#f39c12"/>
+    <circle cx="50" cy="15" r="6" fill="#f39c12"/><circle cx="50" cy="30" r="6" fill="#f39c12"/>
+    <circle cx="60" cy="25" r="6" fill="#f39c12"/><circle cx="60" cy="40" r="6" fill="#f39c12"/>
+  </svg>`,
+  tomato: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M50,90 Q40,60 50,20" stroke="#2ecc71" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <circle cx="35" cy="50" r="15" fill="#e74c3c"/>
+    <circle cx="65" cy="40" r="12" fill="#e74c3c"/>
+    <circle cx="45" cy="25" r="14" fill="#e74c3c"/>
+    <path d="M35,35 L35,50 M65,28 L65,40 M45,11 L45,25" stroke="#27ae60" stroke-width="3"/>
+  </svg>`,
+  sunflower: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M50,90 L50,40" stroke="#2ecc71" stroke-width="8" stroke-linecap="round"/>
+    <path d="M50,70 Q70,70 80,50" stroke="#2ecc71" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <circle cx="50" cy="35" r="25" fill="#f1c40f"/>
+    <circle cx="50" cy="35" r="15" fill="#8e44ad"/>
+    <circle cx="50" cy="35" r="10" fill="#2c3e50"/>
+  </svg>`,
+  pumpkin: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M20,80 Q50,90 80,80" stroke="#2ecc71" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="50" cy="65" rx="35" ry="25" fill="#e67e22"/>
+    <ellipse cx="50" cy="65" rx="20" ry="25" fill="#d35400"/>
+    <ellipse cx="50" cy="65" rx="8" ry="25" fill="#e67e22"/>
+    <path d="M50,40 Q40,25 60,20" stroke="#27ae60" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  robot: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect x="15" y="10" width="70" height="20" fill="#2c3e50" rx="5"/>
+    <rect x="15" y="70" width="70" height="20" fill="#2c3e50" rx="5"/>
+    <circle cx="50" cy="50" r="35" fill="#3498db" stroke="#1f3a52" stroke-width="4"/>
+    <path d="M 60 50 A 20 20 0 0 0 80 30 L 95 50 L 80 70 A 20 20 0 0 0 60 50 Z" fill="#f1c40f" stroke="#1f3a52" stroke-width="2"/>
+  </svg>`
 };
 
-function useGameAssets() {
-	const [loaded, setLoaded] = useState(false);
-	const imagesRef = useRef({});
+const makeSvgUri = (svgStr) => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgStr)}`;
+
+export default function GameCanvasSprite({ cols, rows, cells, robot, onCellClick }) {
+	const canvasRef = useRef(null);
+	const [svgs, setSvgs] = useState({});
 
 	useEffect(() => {
-		let loadedCount = 0;
-		const total = Object.keys(ASSETS).length;
-
-		for (const [key, src] of Object.entries(ASSETS)) {
+		const loaded = {};
+		let toLoad = Object.keys(SVG_STRINGS).length;
+		for (const [key, str] of Object.entries(SVG_STRINGS)) {
 			const img = new Image();
-			img.src = src;
 			img.onload = () => {
-				imagesRef.current[key] = img;
-				loadedCount++;
-				if (loadedCount === total) {
-					setLoaded(true);
-				}
+				loaded[key] = img;
+				toLoad--;
+				if (toLoad === 0) setSvgs(loaded);
 			};
-			img.onerror = () => {
-				console.error(`Failed to load image: ${src}`);
-				loadedCount++;
-				if (loadedCount === total) {
-					setLoaded(true);
-				}
-			};
+			img.src = makeSvgUri(str);
 		}
 	}, []);
 
-	return { loaded, images: imagesRef.current };
-}
-
-export default function GameCanvasSprite({
-	cols,
-	rows,
-	cells,
-	robot,
-	onCellClick,
-}) {
-	const canvasRef = useRef(null);
-	const { loaded, images } = useGameAssets();
-
-	const draw = useCallback(() => {
+	useEffect(() => {
 		const canvas = canvasRef.current;
-		if (!canvas || !loaded) return;
+		if (!canvas) return;
 		const ctx = canvas.getContext('2d');
 		const W = canvas.width;
 		const H = canvas.height;
-
-		const cellW = Math.min(Math.floor(W / cols), Math.floor(H / rows));
+		
+		const cellW = Math.min(Math.floor(W / Math.max(cols, 1)), Math.floor(H / Math.max(rows, 1)));
 		const cellH = cellW;
 		const offsetX = Math.floor((W - cols * cellW) / 2);
 		const offsetY = Math.floor((H - rows * cellH) / 2);
 
 		ctx.clearRect(0, 0, W, H);
-		ctx.imageSmoothingEnabled = false;
+		ctx.imageSmoothingEnabled = true;
 
-		// Procedural ground function
 		const drawProceduralGround = (px, py, cx, cy, isWatered, isLocked) => {
-			// Base dirt colors
-			const normalColor = '#cda171'; // Slightly warmer dry dirt
-			const wateredColor = '#6c441f'; // Rich dark wet soil
-			const lockedColor = '#2b332b'; // Darker for locked
+			const normalColor = '#cda171'; 
+			const wateredColor = '#6c441f'; 
+			const lockedColor = '#2b332b'; 
 
-			ctx.save(); // Save context before clipping
-
-			// Define cell path for clipping so no procedural details spill out of bounds
+			ctx.save();
 			ctx.beginPath();
 			ctx.rect(px, py, cellW, cellH);
 			ctx.clip();
 
-			// Fill base color
-			ctx.fillStyle = isLocked
-				? lockedColor
-				: isWatered
-					? wateredColor
-					: normalColor;
+			ctx.fillStyle = isLocked ? lockedColor : (isWatered ? wateredColor : normalColor);
 			ctx.fillRect(px, py, cellW, cellH);
 
-			// Procedural detail pass (pebbles, dirt clumps, tiny weeds)
-			// We use a pseudo-random hash based on coordinates to keep it static
-			const noiseCount = isLocked ? 8 : 15; // More details on unlocked land
-
+			const noiseCount = isLocked ? 8 : 15;
 			for (let i = 0; i < noiseCount; i++) {
-				const hash =
-					Math.abs(Math.sin(cx * 12.9898 + cy * 78.233 + i * 13.54)) *
-					10000;
+				const hash = Math.abs(Math.sin(cx * 12.9898 + cy * 78.233 + i * 13.54)) * 10000;
 				const rX = hash % 1;
 				const rY = (hash * 10) % 1;
-				const detailType = (hash * 100) % 3; // 0: dark clump, 1: light pebble, 2: green weed
-				const sizeRatio = 0.05 + ((hash * 1000) % 0.1); // Small details between 5% and 15% of cell width
-
+				const detailType = (hash * 100) % 3;
+				const sizeRatio = 0.05 + ((hash * 1000) % 0.1);
+				
 				const w = cellW * sizeRatio;
 				const h = cellH * sizeRatio;
-
-				// Colors
+				
 				if (detailType < 1.5) {
-					ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'; // Dark dirt clump
+				   ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'; 
 				} else if (detailType < 2.5) {
-					ctx.fillStyle = 'rgba(255, 255, 255, 0.12)'; // Light pebble / sand
+				   ctx.fillStyle = 'rgba(255, 255, 255, 0.12)'; 
 				} else {
-					// Tiny green weed/moss (only on unlocked dry soil, not locked)
-					ctx.fillStyle =
-						!isLocked && !isWatered
-							? 'rgba(70, 140, 50, 0.3)'
-							: 'rgba(0,0,0,0.1)';
+				   ctx.fillStyle = (!isLocked && !isWatered) ? 'rgba(70, 140, 50, 0.3)' : 'rgba(0,0,0,0.1)';
 				}
 
 				ctx.fillRect(px + rX * cellW, py + rY * cellH, w, h);
 			}
-
-			ctx.restore(); // Remove clipping mask
+			ctx.restore();
 		};
 
-		const drawPlant = (row, px, py) => {
-			if (!images.plants) return;
-			const tileSize = 16;
-			const tx = 0;
-			const ty = row * tileSize;
-			ctx.drawImage(
-				images.plants,
-				tx,
-				ty,
-				tileSize,
-				tileSize,
-				px,
-				py,
-				cellW,
-				cellH,
-			);
-		};
-
-		const drawObject = (tx, ty, tw, th, px, py) => {
-			if (!images.objects) return;
-			ctx.drawImage(images.objects, tx, ty, tw, th, px, py, cellW, cellH);
+		const drawEntity = (key, px, py) => {
+			if (!svgs[key]) return;
+			const p = 0.1; 
+			ctx.drawImage(svgs[key], px + cellW * p, py + cellH * p, cellW * (1 - p*2), cellH * (1 - p*2));
 		};
 
 		for (let y = 0; y < rows; y++) {
 			for (let x = 0; x < cols; x++) {
 				const px = offsetX + x * cellW;
 				const py = offsetY + y * cellH;
-
+				
 				const cell = cells[y]?.[x];
 				const state = cell ? cell.state : 'LOCKED';
-
-				const isWatered =
-					state === 'GROWING' || state === 'HARVESTABLE';
-
+				
+				const isWatered = (state === 'GROWING' || state === 'HARVESTABLE');
+				
 				if (state === 'LOCKED') {
 					drawProceduralGround(px, py, x, y, false, true);
 				} else {
-					// Draw procedural ground behind everything
 					drawProceduralGround(px, py, x, y, isWatered, false);
-
+					
 					if (state === 'STONE') {
-						drawObject(0, 48, 16, 16, px, py);
+						drawEntity('stone', px, py);
 					} else if (state === 'BRANCH') {
-						drawObject(16, 48, 16, 16, px, py);
+						drawEntity('branch', px, py);
 					} else if (state === 'SEEDED') {
-						drawPlant(0, px, py);
+						drawEntity('seed', px, py);
 					} else if (state === 'GROWING') {
-						drawPlant(2, px, py);
+						drawEntity('growing', px, py);
 					} else if (state === 'HARVESTABLE') {
-						drawPlant(3, px, py);
+						const plantType = cell.plantType || 'wheat';
+						drawEntity(plantType, px, py);
 					}
 				}
 
@@ -181,62 +173,33 @@ export default function GameCanvasSprite({
 			}
 		}
 
-		// Draw robot
-		if (robot) {
+		if (robot && svgs.robot) {
 			const px = offsetX + robot.x * cellW;
 			const py = offsetY + robot.y * cellH;
 			
-			const charW = cellW * 0.7;
-			const charH = cellH * 0.7;
+			const charW = cellW * 0.8;
+			const charH = cellH * 0.8;
 			const charPx = px + (cellW - charW) / 2;
 			const charPy = py + (cellH - charH) / 2;
 			
 			const cx = charPx + charW / 2;
 			const cy = charPy + charH / 2;
-			const r = Math.min(charW, charH) * 0.45;
 
 			ctx.save();
 			ctx.translate(cx, cy);
 
-			// Rotate canvas based on direction
-			// 0=N (Up), 1=E (Right), 2=S (Down), 3=W (Left)
 			let angle = 0;
-			if (robot.dir === 0) angle = -Math.PI / 2;      // Up
-			else if (robot.dir === 1) angle = 0;            // Right
-			else if (robot.dir === 2) angle = Math.PI / 2;  // Down
-			else if (robot.dir === 3) angle = Math.PI;      // Left
+			if (robot.dir === 0) angle = -Math.PI / 2;      
+			else if (robot.dir === 1) angle = 0;            
+			else if (robot.dir === 2) angle = Math.PI / 2;  
+			else if (robot.dir === 3) angle = Math.PI;      
 			ctx.rotate(angle);
 
-			// Draw Treads (Wheels)
-			ctx.fillStyle = '#2c3e50';
-			ctx.fillRect(-r * 0.7, -r * 1.1, r * 1.4, r * 0.5);
-			ctx.fillRect(-r * 0.7, r * 0.6, r * 1.4, r * 0.5);
-
-			// Draw Main Body (Dome)
-			ctx.beginPath();
-			ctx.arc(0, 0, r, 0, Math.PI * 2);
-			ctx.fillStyle = '#3498db'; // Robot Blue
-			ctx.fill();
-			ctx.strokeStyle = '#1f3a52';
-			ctx.lineWidth = 2;
-			ctx.stroke();
-
-			// Draw Visor (Shows direction)
-			ctx.beginPath();
-			ctx.arc(r * 0.2, 0, r * 0.6, -Math.PI/2.2, Math.PI/2.2);
-			ctx.lineTo(r * 0.9, 0);
-			ctx.closePath();
-			ctx.fillStyle = '#f1c40f'; // Glowing Yellow Eye
-			ctx.fill();
-			ctx.stroke();
+			ctx.drawImage(svgs.robot, -charW / 2, -charH / 2, charW, charH);
 
 			ctx.restore();
 		}
-	}, [cells, cols, rows, loaded, images, robot]);
-
-	useEffect(() => {
-		draw();
-	}, [draw]);
+	}, [cells, cols, rows, robot, svgs]);
 
 	const handleCanvasClick = (e) => {
 		if (!onCellClick) return;
@@ -248,40 +211,37 @@ export default function GameCanvasSprite({
 
 		const scaleX = canvas.width / rect.width;
 		const scaleY = canvas.height / rect.height;
+		const mouseX = (e.clientX - rect.left) * scaleX;
+		const mouseY = (e.clientY - rect.top) * scaleY;
 
-		const clickX = (e.clientX - rect.left) * scaleX;
-		const clickY = (e.clientY - rect.top) * scaleY;
-
-		const cellW = Math.min(Math.floor(W / cols), Math.floor(H / rows));
+		const cellW = Math.min(Math.floor(W / Math.max(cols, 1)), Math.floor(H / Math.max(rows, 1)));
 		const cellH = cellW;
 		const offsetX = Math.floor((W - cols * cellW) / 2);
 		const offsetY = Math.floor((H - rows * cellH) / 2);
 
-		const x = Math.floor((clickX - offsetX) / cellW);
-		const y = Math.floor((clickY - offsetY) / cellH);
+		const cx = Math.floor((mouseX - offsetX) / cellW);
+		const cy = Math.floor((mouseY - offsetY) / cellH);
 
-		if (x >= 0 && x < cols && y >= 0 && y < rows) {
-			onCellClick(x, y);
+		if (cx >= 0 && cx < cols && cy >= 0 && cy < rows) {
+			onCellClick(cx, cy);
 		}
 	};
 
 	return (
 		<canvas
 			ref={canvasRef}
-			width={600}
-			height={600}
+			width={800}
+			height={800}
 			onClick={handleCanvasClick}
 			style={{
 				width: '100%',
-				maxWidth: '600px',
-				aspectRatio: '1/1',
-				display: 'block',
-				margin: '0 auto',
-				imageRendering: 'pixelated',
+				height: '100%',
+				objectFit: 'contain',
 				cursor: onCellClick ? 'pointer' : 'default',
 				border: '2px solid var(--border-subtle)',
 				borderRadius: '8px',
 				backgroundColor: '#1a2a1a',
+				imageRendering: 'auto',
 			}}
 		/>
 	);

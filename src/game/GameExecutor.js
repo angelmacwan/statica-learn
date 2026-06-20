@@ -95,8 +95,8 @@ export class GameExecutor {
           const res = robot.clear(grid, 'BRANCH');
           log.push({ type: 'clear', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
         },
-        check_cell: () => {
-          return robot.checkCell(grid);
+        check_block: () => {
+          return robot.checkBlock(grid);
         },
         get_money: () => {
           return robot.money;
