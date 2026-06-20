@@ -24,10 +24,13 @@ export class GameExecutor {
       const snapRobot = () => ({ x: robot.x, y: robot.y, dir: robot.dir, money: robot.money });
       
       Sk.configure({
-        output: (text) => { outputLines.push(text); },
+        output: (text) => { 
+          outputLines.push(text);
+          log.push({ type: 'print', text });
+        },
         read: (x) => {
           if (Sk.builtinFiles === undefined || Sk.builtinFiles.files[x] === undefined) {
-            throw new Error(`File not found: ${x}`);
+            throw "File not found: '" + x + "'";
           }
           return Sk.builtinFiles.files[x];
         },
@@ -71,49 +74,59 @@ export class GameExecutor {
 
       const commands = {
         move_forward: () => {
+          robot.advanceTime(200);
           robot.moveForward(grid);
           log.push({ type: 'move', robot: snapRobot() });
           checkLogLimit();
         },
         turn_right: () => {
+          robot.advanceTime(200);
           robot.turnRight();
           log.push({ type: 'turn', robot: snapRobot() });
           checkLogLimit();
         },
         turn_left: () => {
+          robot.advanceTime(200);
           robot.turnLeft();
           log.push({ type: 'turn', robot: snapRobot() });
           checkLogLimit();
         },
         plant: (type) => {
+          robot.advanceTime(200);
           const res = robot.plant(grid, type || 'wheat');
           log.push({ type: 'plant', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
           checkLogLimit();
         },
         water: () => {
+          robot.advanceTime(200);
           const res = robot.water(grid);
           log.push({ type: 'water', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
           checkLogLimit();
         },
         harvest: () => {
+          robot.advanceTime(200);
           const res = robot.harvest(grid);
           log.push({ type: 'harvest', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
           checkLogLimit();
         },
         use_pickaxe: () => {
+          robot.advanceTime(200);
           const res = robot.clear(grid, 'STONE');
           log.push({ type: 'clear', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
           checkLogLimit();
         },
         use_axe: () => {
+          robot.advanceTime(200);
           const res = robot.clear(grid, 'BRANCH');
           log.push({ type: 'clear', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
           checkLogLimit();
         },
         check_block: () => {
+          robot.advanceTime(200);
           return robot.checkBlock(grid);
         },
         reset_bot: () => {
+          robot.advanceTime(200);
           robot.resetBot();
           log.push({ type: 'move', robot: snapRobot() });
           checkLogLimit();
@@ -126,9 +139,6 @@ export class GameExecutor {
         },
         get_position: () => {
           return [robot.x, robot.y];
-        },
-        print: (msg) => {
-          outputLines.push(String(msg));
         }
       };
 

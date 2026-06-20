@@ -78,6 +78,11 @@ class VirtualGame {
 		this.money = state.money;
 		this.tier = state.tier;
 		this.cells = JSON.parse(JSON.stringify(state.cells));
+		this.time = Date.now();
+	}
+
+	advanceTime(ms = 200) {
+		this.time += ms;
 	}
 
 	moveForward(grid) {
@@ -128,7 +133,7 @@ class VirtualGame {
 		this.cells[key] = {
 			...this.cells[key],
 			state: 'GROWING',
-			plantTime: Date.now(),
+			plantTime: this.time,
 		};
 		return { key, cell: this.cells[key] };
 	}
@@ -158,6 +163,14 @@ class VirtualGame {
 		if (!cell) return 'empty';
 		if (cell.state === 'STONE') return 'stone';
 		if (cell.state === 'BRANCH') return 'branch';
+		
+		if (cell.state === 'GROWING') {
+			const p = PLANTS[cell.plantType];
+			if (p && this.time - cell.plantTime >= p.growTime * 1000) {
+				cell.state = 'HARVESTABLE';
+			}
+		}
+
 		if (cell.state === 'HARVESTABLE') return 'ready';
 		if (cell.plantType) return cell.plantType;
 		return 'empty';
@@ -189,7 +202,7 @@ export default function RobotGardenerGameModule() {
 	const [editorCode, setEditorCode] = useState(() => {
 		return localStorage.getItem(CODE_KEY) || "print('Starting bot...')\nmove_forward()\n";
 	});
-	const [consoleLines, setConsoleLines] = useState([]);
+	const [consoleText, setConsoleText] = useState('');
 	const [leftTab, setLeftTab] = useState('api');
 	const [expandedApi, setExpandedApi] = useState(null);
 
@@ -286,7 +299,6 @@ export default function RobotGardenerGameModule() {
 		if (!skulptReady || animating) return;
 		clearTimeout(animTimerRef.current);
 		setAnimating(true);
-		setConsoleLines([]);
 
 		const vGame = new VirtualGame(gameState);
 		const result = await executorRef.current.execute(
@@ -295,15 +307,13 @@ export default function RobotGardenerGameModule() {
 			vGame,
 		);
 
-		setConsoleLines(
-			result.output ? result.output.split('\n').filter(Boolean) : [],
-		);
+		setConsoleText('');
 
 		const log = result.log || [];
 		if (log.length === 0) {
 			setAnimating(false);
 			if (!result.success) {
-				setConsoleLines((prev) => [...prev, `[ERROR]: ${result.error}`]);
+				setConsoleText((prev) => prev + `\n[ERROR]: ${result.error}\n`);
 			}
 			return;
 		}
@@ -314,41 +324,41 @@ export default function RobotGardenerGameModule() {
 			if (step >= log.length) {
 				setAnimating(false);
 				if (!result.success) {
-					setConsoleLines((prev) => [...prev, `[ERROR]: ${result.error}`]);
+					setConsoleText((prev) => prev + `\n[ERROR]: ${result.error}\n`);
 				}
 				return;
 			}
 			const action = log[step];
 
-			setGameState((prev) => {
-				const next = {
+			if (action.type === 'move' || action.type === 'turn') {
+				setGameState((prev) => ({
 					...prev,
 					rx: action.robot.x,
 					ry: action.robot.y,
 					rdir: action.robot.dir,
-					money: action.robot.money,
-				};
-				if (action.cellKey) {
-					const cells = { ...next.cells };
+				}));
+			} else if (
+				action.type === 'plant' ||
+				action.type === 'water' ||
+				action.type === 'harvest' ||
+				action.type === 'clear'
+			) {
+				setGameState((prev) => {
+					const newCells = { ...prev.cells };
 					if (action.cellData === null) {
-						delete cells[action.cellKey];
+						delete newCells[action.cellKey];
 					} else {
-						cells[action.cellKey] = action.cellData;
+						newCells[action.cellKey] = action.cellData;
 					}
-					next.cells = cells;
-				}
-				if (action.type === 'buy_land') {
-					next.tier = action.robot.tier || prev.tier + 1; // vGame already bumped the tier, but let's increment safely
-					const nTier = GRID_TIERS.find((t) => t.cost <= next.money); // Hack: use precise tier logic if needed
-					// Actually, virtualGame updated money, so just sync tier
-					const currentPossibleTier = GRID_TIERS.slice()
-						.reverse()
-						.find((t) => t.cost <= INITIAL_MONEY + prev.money);
-					// Safest is to just re-evaluate tier based on log if needed, or simply increment.
-					next.tier = prev.tier + 1;
-				}
-				return next;
-			});
+					return {
+						...prev,
+						money: action.robot.money,
+						cells: newCells,
+					};
+				});
+			} else if (action.type === 'print') {
+				setConsoleText((prev) => prev + action.text);
+			}
 
 			step++;
 			animTimerRef.current = setTimeout(tickAnim, ANIM_SPEED);
@@ -362,7 +372,7 @@ export default function RobotGardenerGameModule() {
 			animTimerRef.current = null;
 		}
 		setAnimating(false);
-		setConsoleLines((prev) => [...prev, '[SYSTEM]: Execution stopped by user.']);
+		setConsoleText((prev) => prev + '\n[SYSTEM]: Execution stopped by user.\n');
 	};
 
 	const handleReset = () => {
@@ -377,7 +387,7 @@ export default function RobotGardenerGameModule() {
 			ry: 0,
 			rdir: 1,
 		});
-		setConsoleLines(['[SYSTEM]: Game reset to tier 1.']);
+		setConsoleText('[SYSTEM]: Game reset to tier 1.\n');
 	};
 
 	const handleUpgrade = () => {
@@ -772,10 +782,8 @@ export default function RobotGardenerGameModule() {
 						}}
 					>
 						<div className="rg-console-header">Console Output</div>
-						<div className="rg-console-body">
-							{consoleLines.map((l, i) => (
-								<div key={i}>&gt; {l}</div>
-							))}
+						<div className="rg-console-body" style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>
+							{consoleText}
 						</div>
 					</div>
 				</div>
