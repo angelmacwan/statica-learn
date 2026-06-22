@@ -711,12 +711,54 @@ export default function RobotGardenerGameModule() {
 									gap: '1rem',
 								}}
 							>
+								{/* Land Upgrade */}
+								<div
+									style={{
+										background: 'rgba(0,0,0,0.2)',
+										padding: '1rem',
+										borderRadius: '8px',
+										border: '1px solid var(--border-subtle)',
+									}}
+								>
+									<div
+										style={{
+											fontSize: '1.2rem',
+											fontWeight: 'bold',
+											marginBottom: '0.5rem',
+										}}
+									>
+										🗺️ Expand Farm
+									</div>
+									<div
+										style={{
+											fontSize: '0.9rem',
+											color: 'var(--text-secondary)',
+											marginBottom: '0.5rem',
+										}}
+									>
+										Current Size: {displayCols}x{displayRows}
+									</div>
+									{nextTier ? (
+										<button
+											className="btn btn-primary"
+											style={{ width: '100%', padding: '0.75rem', fontWeight: 'bold' }}
+											disabled={gameState.money < nextTier.cost || animating}
+											onClick={handleUpgrade}
+										>
+											Expand to {nextTier.cols}x{nextTier.rows} (${nextTier.cost})
+										</button>
+									) : (
+										<div style={{ color: 'var(--color-yellow)', fontWeight: 'bold', padding: '0.75rem', textAlign: 'center', background: 'rgba(255,255,255,0.05)', borderRadius: '4px' }}>MAX SIZE REACHED</div>
+									)}
+								</div>
+
 								{/* Bot Speed Upgrade */}
 								<div
 									style={{
 										background: 'rgba(0,0,0,0.2)',
 										padding: '1rem',
 										borderRadius: '8px',
+										border: '1px solid var(--border-subtle)',
 									}}
 								>
 									<div
@@ -740,7 +782,7 @@ export default function RobotGardenerGameModule() {
 									{gameState.botSpeedLevel < BOT_SPEED_COSTS.length ? (
 										<button
 											className="btn btn-primary"
-											style={{ width: '100%', padding: '0.5rem' }}
+											style={{ width: '100%', padding: '0.75rem', fontWeight: 'bold' }}
 											disabled={gameState.money < BOT_SPEED_COSTS[gameState.botSpeedLevel] || animating}
 											onClick={() => {
 												const cost = BOT_SPEED_COSTS[gameState.botSpeedLevel];
@@ -756,7 +798,7 @@ export default function RobotGardenerGameModule() {
 											Upgrade to Lvl {gameState.botSpeedLevel + 1} (${BOT_SPEED_COSTS[gameState.botSpeedLevel]})
 										</button>
 									) : (
-										<div style={{ color: 'var(--color-yellow)', fontWeight: 'bold' }}>MAX LEVEL</div>
+										<div style={{ color: 'var(--color-yellow)', fontWeight: 'bold', padding: '0.75rem', textAlign: 'center', background: 'rgba(255,255,255,0.05)', borderRadius: '4px' }}>MAX LEVEL</div>
 									)}
 								</div>
 
@@ -771,6 +813,7 @@ export default function RobotGardenerGameModule() {
 												background: 'rgba(0,0,0,0.2)',
 												padding: '1rem',
 												borderRadius: '8px',
+												border: '1px solid var(--border-subtle)',
 											}}
 										>
 											<div
@@ -794,7 +837,7 @@ export default function RobotGardenerGameModule() {
 											{upgradeLevel < PLANT_SPEED_COSTS.length ? (
 												<button
 													className="btn btn-primary"
-													style={{ width: '100%', padding: '0.5rem', backgroundColor: 'var(--ui-03)' }}
+													style={{ width: '100%', padding: '0.75rem', fontWeight: 'bold' }}
 													disabled={gameState.money < cost || animating}
 													onClick={() => {
 														if (gameState.money >= cost) {
@@ -812,7 +855,7 @@ export default function RobotGardenerGameModule() {
 													Upgrade to Lvl {upgradeLevel + 1} (${cost})
 												</button>
 											) : (
-												<div style={{ color: 'var(--color-yellow)', fontWeight: 'bold' }}>MAX LEVEL</div>
+												<div style={{ color: 'var(--color-yellow)', fontWeight: 'bold', padding: '0.75rem', textAlign: 'center', background: 'rgba(255,255,255,0.05)', borderRadius: '4px' }}>MAX LEVEL</div>
 											)}
 										</div>
 									);
@@ -856,26 +899,9 @@ export default function RobotGardenerGameModule() {
 								gap: '1rem',
 							}}
 						>
-							<div style={{ color: 'var(--text-secondary)' }}>
+							<div style={{ color: 'var(--text-secondary)', marginRight: '1rem' }}>
 								Land: {displayCols}x{displayRows}
 							</div>
-							{nextTier && (
-								<button
-									className="btn btn-primary"
-									style={{
-										padding: '0.25rem 0.75rem',
-										fontSize: '0.875rem',
-									}}
-									disabled={
-										gameState.money < nextTier.cost ||
-										animating
-									}
-									onClick={handleUpgrade}
-								>
-									Buy Land {nextTier.cols}x{nextTier.rows} ($
-									{nextTier.cost})
-								</button>
-							)}
 						</div>
 					</div>
 
