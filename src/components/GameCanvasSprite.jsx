@@ -52,6 +52,35 @@ const SVG_STRINGS = {
     <ellipse cx="50" cy="65" rx="8" ry="25" fill="#e67e22"/>
     <path d="M50,40 Q40,25 60,20" stroke="#27ae60" stroke-width="6" fill="none" stroke-linecap="round"/>
   </svg>`,
+  meteor: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <defs>
+      <radialGradient id="mg" cx="40%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#c0392b"/>
+        <stop offset="60%" stop-color="#7f1f1f"/>
+        <stop offset="100%" stop-color="#2c1111"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="50" cy="55" rx="38" ry="35" fill="url(#mg)" stroke="#e74c3c" stroke-width="2"/>
+    <circle cx="35" cy="45" r="6" fill="#2c1111" stroke="#c0392b" stroke-width="1"/>
+    <circle cx="58" cy="38" r="4" fill="#2c1111" stroke="#c0392b" stroke-width="1"/>
+    <circle cx="62" cy="62" r="7" fill="#2c1111" stroke="#c0392b" stroke-width="1"/>
+    <path d="M15,20 L30,45" stroke="#ff6b35" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <path d="M20,10 L32,38" stroke="#ff9f43" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <path d="M10,30 L28,50" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  </svg>`,
+  coin: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <defs>
+      <radialGradient id="cg" cx="35%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#f9ca24"/>
+        <stop offset="50%" stop-color="#f0932b"/>
+        <stop offset="100%" stop-color="#c0392b" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="50" r="42" fill="#f39c12" stroke="#d68910" stroke-width="3"/>
+    <circle cx="50" cy="50" r="34" fill="url(#cg)"/>
+    <text x="50" y="58" text-anchor="middle" font-size="36" font-weight="bold" font-family="serif" fill="#7d5a00">$</text>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#f9ca24" stroke-width="2" opacity="0.6"/>
+  </svg>`,
   robot: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
     <rect x="15" y="10" width="70" height="20" fill="#2c3e50" rx="5"/>
     <rect x="15" y="70" width="70" height="20" fill="#2c3e50" rx="5"/>
@@ -150,6 +179,14 @@ export default function GameCanvasSprite({ cols, rows, cells, robot, onCellClick
 				
 				if (state === 'LOCKED') {
 					drawProceduralGround(px, py, x, y, false, true);
+				} else if (state === 'METEOR') {
+					// Meteor: dark scorched background + meteor sprite across 2x2 area
+					ctx.fillStyle = '#1a0a0a';
+					ctx.fillRect(px, py, cellW, cellH);
+					if (cell.meteorOrigin) {
+						// Only the top-left corner of a 2x2 meteor draws the full sprite
+						drawEntity('meteor', px, py);
+					}
 				} else {
 					drawProceduralGround(px, py, x, y, isWatered, false);
 					
@@ -164,12 +201,40 @@ export default function GameCanvasSprite({ cols, rows, cells, robot, onCellClick
 					} else if (state === 'HARVESTABLE') {
 						const plantType = cell.plantType || 'wheat';
 						drawEntity(plantType, px, py);
+					} else if (state === 'COIN') {
+						drawEntity('coin', px, py);
+						// Draw coin value label
+						const val = cell.value || 10;
+						ctx.fillStyle = '#fff';
+						ctx.font = `bold ${Math.max(8, Math.floor(cellW * 0.22))}px sans-serif`;
+						ctx.textAlign = 'center';
+						ctx.textBaseline = 'bottom';
+						ctx.fillText(`$${val}`, px + cellW / 2, py + cellH - 2);
 					}
 				}
 
 				ctx.strokeStyle = 'rgba(0,0,0,0.3)';
 				ctx.lineWidth = 1;
 				ctx.strokeRect(px, py, cellW, cellH);
+			}
+		}
+
+		// Draw meteor overlay (full 2x2 sprite on top of cells)
+		const drawnMeteors = new Set();
+		for (let y = 0; y < rows; y++) {
+			for (let x = 0; x < cols; x++) {
+				const cell = cells[y]?.[x];
+				if (cell && cell.state === 'METEOR' && cell.meteorOrigin) {
+					const key = `${x},${y}`;
+					if (!drawnMeteors.has(key)) {
+						drawnMeteors.add(key);
+						const px = offsetX + x * cellW;
+						const py = offsetY + y * cellH;
+						if (svgs.meteor) {
+							ctx.drawImage(svgs.meteor, px, py, cellW * 2, cellH * 2);
+						}
+					}
+				}
 			}
 		}
 

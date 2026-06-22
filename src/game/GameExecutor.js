@@ -73,17 +73,25 @@ export class GameExecutor {
             return a;
           });
           try {
+            const jsToSk = (val) => {
+              if (val === undefined || val === null) return Sk.builtin.none.none$;
+              if (typeof val === 'string') return new Sk.builtin.str(val);
+              if (typeof val === 'number') return new Sk.builtin.int_(val);
+              if (typeof val === 'boolean') return new Sk.builtin.bool(val);
+              if (Array.isArray(val)) {
+                // Nested arrays become lists of tuples (for get_coins)
+                if (val.length > 0 && Array.isArray(val[0])) {
+                  return new Sk.builtin.list(val.map(inner =>
+                    new Sk.builtin.tuple(inner.map(jsToSk))
+                  ));
+                }
+                return new Sk.builtin.tuple(val.map(jsToSk));
+              }
+              return Sk.builtin.none.none$;
+            };
             const result = jsFn(...jsArgs);
             if (result === undefined || result === null) return Sk.builtin.none.none$;
-            if (typeof result === 'string') return new Sk.builtin.str(result);
-            if (typeof result === 'number') return new Sk.builtin.int_(result);
-            if (typeof result === 'boolean') return new Sk.builtin.bool(result);
-            if (Array.isArray(result)) {
-              return new Sk.builtin.tuple(result.map(item =>
-                typeof item === 'string' ? new Sk.builtin.str(item) : new Sk.builtin.int_(item)
-              ));
-            }
-            return Sk.builtin.none.none$;
+            return jsToSk(result);
           } catch (err) {
             throw new Sk.builtin.RuntimeError(err.message);
           }
@@ -133,6 +141,12 @@ export class GameExecutor {
           log.push({ type: 'clear', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
+        use_upgraded_pickaxe: () => {
+          robot.advanceTime(robot.animSpeed);
+          const res = robot.clear(grid, 'METEOR');
+          log.push({ type: 'clear', cellKey: res.key, cellData: null, meteorRemoved: res.meteorRemoved || false, originX: res.originX, originY: res.originY, robot: snapRobot() });
+          checkLogLimit();
+        },
         use_axe: () => {
           robot.advanceTime(robot.animSpeed);
           const res = robot.clear(grid, 'BRANCH');
@@ -144,6 +158,16 @@ export class GameExecutor {
           log.push({ type: 'wait', duration: robot.animSpeed, robot: snapRobot() });
           checkLogLimit();
           return robot.checkBlock(grid);
+        },
+        pickup_coin: () => {
+          robot.advanceTime(robot.animSpeed);
+          const res = robot.pickupCoin();
+          log.push({ type: 'coin', cellKey: res.key, cellData: null, robot: snapRobot() });
+          checkLogLimit();
+          return res.value;
+        },
+        get_coins: () => {
+          return robot.getCoins();
         },
         reset_bot: () => {
           robot.advanceTime(robot.animSpeed);
