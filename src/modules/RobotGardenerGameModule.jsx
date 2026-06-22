@@ -6,7 +6,12 @@ import { GameExecutor } from '../game/GameExecutor.js';
 
 const SKULPT_CDN = 'https://skulpt.org/js/skulpt.min.js';
 const SKULPT_STDLIB = 'https://skulpt.org/js/skulpt-stdlib.js';
-const ANIM_SPEED = 200;
+
+const BOT_SPEED_COSTS = [0, 100, 500, 2500, 10000]; // Levels 1 to 5
+const BOT_SPEED_ANIM = [200, 150, 100, 50, 20]; // Animation delays in ms
+
+const PLANT_SPEED_COSTS = [0, 50, 200, 1000, 5000]; // Levels 1 to 5
+const PLANT_SPEED_MODIFIERS = [1, 0.8, 0.6, 0.4, 0.2]; // Growth time multipliers
 
 function loadScript(src) {
 	return new Promise((resolve, reject) => {
@@ -79,6 +84,9 @@ class VirtualGame {
 		this.tier = state.tier;
 		this.cells = JSON.parse(JSON.stringify(state.cells));
 		this.time = Date.now();
+		this.botSpeedLevel = state.botSpeedLevel || 1;
+		this.plantUpgrades = state.plantUpgrades || { wheat: 1, tomato: 1, sunflower: 1, pumpkin: 1 };
+		this.animSpeed = BOT_SPEED_ANIM[this.botSpeedLevel - 1] || 200;
 	}
 
 	advanceTime(ms = 200) {
@@ -167,16 +175,21 @@ class VirtualGame {
 		if (cell.state === 'WATERED' || cell.state === 'GROWING') {
 			const p = PLANTS[cell.plantType];
 			if (p) {
+				const upgradeLevel = this.plantUpgrades[cell.plantType] || 1;
+				const modifier = PLANT_SPEED_MODIFIERS[upgradeLevel - 1] || 1;
+				const actualGrowTime = p.growTime * modifier;
+
 				const elapsed = this.time - cell.plantTime;
-				if (elapsed >= p.growTime * 1000) {
+				if (elapsed >= actualGrowTime * 1000) {
 					cell.state = 'HARVESTABLE';
-				} else if (elapsed >= p.growTime * 500) {
+				} else if (elapsed >= actualGrowTime * 500) {
 					cell.state = 'GROWING';
 				}
 			}
 		}
 
 		if (cell.state === 'HARVESTABLE') return 'ready';
+		if (cell.state === 'SEEDED') return 'seeded';
 		if (cell.plantType) return cell.plantType;
 		return 'empty';
 	}
@@ -215,7 +228,10 @@ export default function RobotGardenerGameModule() {
 		const saved = localStorage.getItem(PROGRESS_KEY);
 		if (saved) {
 			try {
-				return JSON.parse(saved);
+				const parsed = JSON.parse(saved);
+				if (!parsed.botSpeedLevel) parsed.botSpeedLevel = 1;
+				if (!parsed.plantUpgrades) parsed.plantUpgrades = { wheat: 1, tomato: 1, sunflower: 1, pumpkin: 1 };
+				return parsed;
 			} catch (e) {}
 		}
 		return {
@@ -225,6 +241,8 @@ export default function RobotGardenerGameModule() {
 			rx: 0,
 			ry: 0,
 			rdir: 1, // Robot pos
+			botSpeedLevel: 1,
+			plantUpgrades: { wheat: 1, tomato: 1, sunflower: 1, pumpkin: 1 }
 		};
 	});
 
@@ -260,6 +278,9 @@ export default function RobotGardenerGameModule() {
 					(t) => t.level === prev.tier,
 				);
 
+				const botSpeedLevel = prev.botSpeedLevel || 1;
+				const plantUpgrades = prev.plantUpgrades || { wheat: 1, tomato: 1, sunflower: 1, pumpkin: 1 };
+
 				for (let y = 0; y < currentTier.rows; y++) {
 					for (let x = 0; x < currentTier.cols; x++) {
 						const key = `${x},${y}`;
@@ -268,15 +289,19 @@ export default function RobotGardenerGameModule() {
 							if (cell.state === 'WATERED' || cell.state === 'GROWING') {
 								const plantInfo = PLANTS[cell.plantType];
 								if (plantInfo) {
+									const upgradeLevel = plantUpgrades[cell.plantType] || 1;
+									const modifier = PLANT_SPEED_MODIFIERS[upgradeLevel - 1] || 1;
+									const actualGrowTime = plantInfo.growTime * modifier;
+
 									const elapsedSeconds =
 										(now - cell.plantTime) / 1000;
-									if (elapsedSeconds >= plantInfo.growTime) {
+									if (elapsedSeconds >= actualGrowTime) {
 										newCells[key] = {
 											...cell,
 											state: 'HARVESTABLE',
 										};
 										changed = true;
-									} else if (elapsedSeconds >= plantInfo.growTime / 2 && cell.state === 'WATERED') {
+									} else if (elapsedSeconds >= actualGrowTime / 2 && cell.state === 'WATERED') {
 										newCells[key] = {
 											...cell,
 											state: 'GROWING',
@@ -328,6 +353,8 @@ export default function RobotGardenerGameModule() {
 			return;
 		}
 
+		const currentAnimSpeed = vGame.animSpeed;
+
 		// Playback
 		let step = 0;
 		const tickAnim = () => {
@@ -348,7 +375,7 @@ export default function RobotGardenerGameModule() {
 					rdir: action.robot.dir,
 				}));
 				step++;
-				animTimerRef.current = setTimeout(tickAnim, action.duration || ANIM_SPEED);
+				animTimerRef.current = setTimeout(tickAnim, action.duration || currentAnimSpeed);
 				return;
 			}
 
@@ -386,7 +413,7 @@ export default function RobotGardenerGameModule() {
 			}
 
 			step++;
-			animTimerRef.current = setTimeout(tickAnim, ANIM_SPEED);
+			animTimerRef.current = setTimeout(tickAnim, currentAnimSpeed);
 		};
 		tickAnim();
 	};
@@ -520,6 +547,30 @@ export default function RobotGardenerGameModule() {
 						>
 							Plants
 						</button>
+						<button
+							style={{
+								flex: 1,
+								padding: '1rem',
+								background:
+									leftTab === 'upgrades'
+										? 'transparent'
+										: 'var(--ui-02)',
+								border: 'none',
+								borderBottom:
+									leftTab === 'upgrades'
+										? '2px solid var(--color-yellow)'
+										: 'none',
+								color:
+									leftTab === 'upgrades'
+										? 'var(--text-primary)'
+										: 'var(--text-secondary)',
+								cursor: 'pointer',
+								fontWeight: 'bold',
+							}}
+							onClick={() => setLeftTab('upgrades')}
+						>
+							Upgrades
+						</button>
 					</div>
 
 					<div
@@ -534,20 +585,20 @@ export default function RobotGardenerGameModule() {
 								}}
 							>
 								{[
-									{ id: 'move_forward', label: 'move_forward()', doc: 'Moves the robot one tile forward in the direction it is currently facing. Fails if it hits the edge of the farm.' },
-									{ id: 'turn_right', label: 'turn_right()', doc: 'Turns the robot 90 degrees clockwise.' },
-									{ id: 'turn_left', label: 'turn_left()', doc: 'Turns the robot 90 degrees counter-clockwise.' },
-									{ id: 'plant', label: "plant('wheat'|'tomato'|'sunflower'|'pumpkin')", doc: 'Plants a seed of the specified type on the current tile. Costs money. Tile must be empty.' },
-									{ id: 'water', label: 'water()', doc: 'Waters the seed on the current tile, causing it to start growing.' },
-									{ id: 'harvest', label: 'harvest()', doc: 'Harvests a fully grown plant on the current tile and adds its value to your money.' },
-									{ id: 'use_pickaxe', label: 'use_pickaxe()', doc: 'Destroys a stone obstacle on the current tile, freeing up the space.' },
-									{ id: 'use_axe', label: 'use_axe()', doc: 'Destroys a wooden branch obstacle on the current tile, freeing up the space.' },
-									{ id: 'check_block', label: 'check_block()', doc: "Returns a string representing what is on the current tile. Possible values: 'empty', 'stone', 'branch', 'ready', 'wheat', 'tomato', 'sunflower', 'pumpkin'." },
-									{ id: 'reset_bot', label: 'reset_bot()', doc: 'Instantly teleports the robot back to the starting coordinates (0, 0) and faces it East.' },
+									{ id: 'move_forward', label: 'move_forward()', doc: 'Moves the robot one tile forward in the direction it is currently facing. Fails if it hits the edge of the farm. Returns: None.' },
+									{ id: 'turn_right', label: 'turn_right()', doc: 'Turns the robot 90 degrees clockwise. Returns: None.' },
+									{ id: 'turn_left', label: 'turn_left()', doc: 'Turns the robot 90 degrees counter-clockwise. Returns: None.' },
+									{ id: 'plant', label: "plant(type)", doc: "Plants a seed of the specified type on the current tile. Arguments: type (string) - 'wheat', 'tomato', 'sunflower', or 'pumpkin'. Costs money. Tile must be empty. Returns: None." },
+									{ id: 'water', label: 'water()', doc: 'Waters the seed on the current tile, causing it to start growing. Returns: None.' },
+									{ id: 'harvest', label: 'harvest()', doc: 'Harvests a fully grown plant on the current tile and adds its value to your money. Returns: None.' },
+									{ id: 'use_pickaxe', label: 'use_pickaxe()', doc: 'Destroys a stone obstacle on the current tile, freeing up the space. Returns: None.' },
+									{ id: 'use_axe', label: 'use_axe()', doc: 'Destroys a wooden branch obstacle on the current tile, freeing up the space. Returns: None.' },
+									{ id: 'check_block', label: 'check_block()', doc: "Returns a string representing what is on the current tile. Possible values: 'empty', 'stone', 'branch', 'seeded', 'ready', 'wheat', 'tomato', 'sunflower', 'pumpkin'." },
+									{ id: 'reset_bot', label: 'reset_bot()', doc: 'Instantly teleports the robot back to the starting coordinates (0, 0) and faces it East. Returns: None.' },
 									{ id: 'get_money', label: 'get_money()', doc: 'Returns your current total money as an integer.' },
 									{ id: 'get_farm_size', label: 'get_farm_size()', doc: 'Returns a tuple (width, height) representing the current size of the farm grid.' },
 									{ id: 'get_position', label: 'get_position()', doc: "Returns a tuple (x, y) representing the robot's current coordinates." },
-									{ id: 'print', label: 'print(msg)', doc: 'Prints a message to the console for debugging.' },
+									{ id: 'print', label: 'print(msg)', doc: 'Prints a message to the console for debugging. Returns: None.' },
 								].map(cmd => (
 									<div key={cmd.id} style={{ display: 'flex', flexDirection: 'column' }}>
 										<span
@@ -596,10 +647,13 @@ export default function RobotGardenerGameModule() {
 											style={{
 												fontSize: '1.2rem',
 												fontWeight: 'bold',
-												marginBottom: '0.5rem',
+												marginBottom: '0.25rem',
 											}}
 										>
 											{p.icon} {p.name}
+										</div>
+										<div style={{ fontSize: '0.85rem', color: 'var(--color-yellow)', marginBottom: '0.75rem' }}>
+											<code>plant('{p.id}')</code>
 										</div>
 										<div
 											style={{
@@ -647,6 +701,122 @@ export default function RobotGardenerGameModule() {
 										</div>
 									</div>
 								))}
+							</div>
+						)}
+						{leftTab === 'upgrades' && (
+							<div
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '1rem',
+								}}
+							>
+								{/* Bot Speed Upgrade */}
+								<div
+									style={{
+										background: 'rgba(0,0,0,0.2)',
+										padding: '1rem',
+										borderRadius: '8px',
+									}}
+								>
+									<div
+										style={{
+											fontSize: '1.2rem',
+											fontWeight: 'bold',
+											marginBottom: '0.5rem',
+										}}
+									>
+										⚡ Bot Speed
+									</div>
+									<div
+										style={{
+											fontSize: '0.9rem',
+											color: 'var(--text-secondary)',
+											marginBottom: '0.5rem',
+										}}
+									>
+										Current: Level {gameState.botSpeedLevel} ({BOT_SPEED_ANIM[gameState.botSpeedLevel - 1]}ms per action)
+									</div>
+									{gameState.botSpeedLevel < BOT_SPEED_COSTS.length ? (
+										<button
+											className="btn btn-primary"
+											style={{ width: '100%', padding: '0.5rem' }}
+											disabled={gameState.money < BOT_SPEED_COSTS[gameState.botSpeedLevel] || animating}
+											onClick={() => {
+												const cost = BOT_SPEED_COSTS[gameState.botSpeedLevel];
+												if (gameState.money >= cost) {
+													setGameState(prev => ({
+														...prev,
+														money: prev.money - cost,
+														botSpeedLevel: prev.botSpeedLevel + 1
+													}));
+												}
+											}}
+										>
+											Upgrade to Lvl {gameState.botSpeedLevel + 1} (${BOT_SPEED_COSTS[gameState.botSpeedLevel]})
+										</button>
+									) : (
+										<div style={{ color: 'var(--color-yellow)', fontWeight: 'bold' }}>MAX LEVEL</div>
+									)}
+								</div>
+
+								{/* Plant Upgrades */}
+								{Object.values(PLANTS).map((p) => {
+									const upgradeLevel = gameState.plantUpgrades[p.id] || 1;
+									const cost = PLANT_SPEED_COSTS[upgradeLevel];
+									return (
+										<div
+											key={p.id + '_upgrade'}
+											style={{
+												background: 'rgba(0,0,0,0.2)',
+												padding: '1rem',
+												borderRadius: '8px',
+											}}
+										>
+											<div
+												style={{
+													fontSize: '1.2rem',
+													fontWeight: 'bold',
+													marginBottom: '0.5rem',
+												}}
+											>
+												{p.icon} {p.name} Growth
+											</div>
+											<div
+												style={{
+													fontSize: '0.9rem',
+													color: 'var(--text-secondary)',
+													marginBottom: '0.5rem',
+												}}
+											>
+												Current: Level {upgradeLevel} ({(p.growTime * PLANT_SPEED_MODIFIERS[upgradeLevel - 1]).toFixed(1)}s)
+											</div>
+											{upgradeLevel < PLANT_SPEED_COSTS.length ? (
+												<button
+													className="btn btn-primary"
+													style={{ width: '100%', padding: '0.5rem', backgroundColor: 'var(--ui-03)' }}
+													disabled={gameState.money < cost || animating}
+													onClick={() => {
+														if (gameState.money >= cost) {
+															setGameState(prev => ({
+																...prev,
+																money: prev.money - cost,
+																plantUpgrades: {
+																	...prev.plantUpgrades,
+																	[p.id]: upgradeLevel + 1
+																}
+															}));
+														}
+													}}
+												>
+													Upgrade to Lvl {upgradeLevel + 1} (${cost})
+												</button>
+											) : (
+												<div style={{ color: 'var(--color-yellow)', fontWeight: 'bold' }}>MAX LEVEL</div>
+											)}
+										</div>
+									);
+								})}
 							</div>
 						)}
 					</div>

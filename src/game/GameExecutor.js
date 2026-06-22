@@ -29,10 +29,28 @@ export class GameExecutor {
           log.push({ type: 'print', text });
         },
         read: (x) => {
-          if (Sk.builtinFiles === undefined || Sk.builtinFiles.files[x] === undefined) {
-            throw "File not found: '" + x + "'";
+          if (Sk.builtinFiles === undefined) {
+            throw "File not found: '" + x + "' (Sk.builtinFiles is undefined)";
           }
-          return Sk.builtinFiles.files[x];
+          if (Sk.builtinFiles.files[x] !== undefined) {
+            return Sk.builtinFiles.files[x];
+          }
+          const fallbacks = [
+            'src/lib/' + x,
+            'src/lib/' + x + '.js',
+            'src/lib/' + x + '/__init__.js',
+            'src/lib/' + x + '.py',
+            'src/lib/' + x + '/__init__.py',
+            'src/builtin/' + x + '.js',
+            x + '.js',
+            x + '.py'
+          ];
+          for (let f of fallbacks) {
+            if (Sk.builtinFiles.files[f] !== undefined) {
+              return Sk.builtinFiles.files[f];
+            }
+          }
+          throw "File not found: '" + x + "'";
         },
         execLimit: 3000,
         yieldLimit: 100,
@@ -74,61 +92,61 @@ export class GameExecutor {
 
       const commands = {
         move_forward: () => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           robot.moveForward(grid);
           log.push({ type: 'move', robot: snapRobot() });
           checkLogLimit();
         },
         turn_right: () => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           robot.turnRight();
           log.push({ type: 'turn', robot: snapRobot() });
           checkLogLimit();
         },
         turn_left: () => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           robot.turnLeft();
           log.push({ type: 'turn', robot: snapRobot() });
           checkLogLimit();
         },
         plant: (type) => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           const res = robot.plant(grid, type || 'wheat');
           log.push({ type: 'plant', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         water: () => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           const res = robot.water(grid);
           log.push({ type: 'water', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         harvest: () => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           const res = robot.harvest(grid);
           log.push({ type: 'harvest', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         use_pickaxe: () => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           const res = robot.clear(grid, 'STONE');
           log.push({ type: 'clear', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         use_axe: () => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           const res = robot.clear(grid, 'BRANCH');
           log.push({ type: 'clear', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         check_block: () => {
-          robot.advanceTime(200);
-          log.push({ type: 'wait', duration: 200, robot: snapRobot() });
+          robot.advanceTime(robot.animSpeed);
+          log.push({ type: 'wait', duration: robot.animSpeed, robot: snapRobot() });
           checkLogLimit();
           return robot.checkBlock(grid);
         },
         reset_bot: () => {
-          robot.advanceTime(200);
+          robot.advanceTime(robot.animSpeed);
           robot.resetBot();
           log.push({ type: 'move', robot: snapRobot() });
           checkLogLimit();
