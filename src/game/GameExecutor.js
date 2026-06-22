@@ -40,8 +40,8 @@ export class GameExecutor {
       });
 
       const checkLogLimit = () => {
-        if (log.length > 500) {
-          throw new Error("Maximum execution steps (500) exceeded. You might have an infinite loop!");
+        if (log.length > 5000) {
+          throw new Error("Maximum execution steps (5000) exceeded. You might have an infinite loop!");
         }
       };
 
@@ -94,35 +94,37 @@ export class GameExecutor {
         plant: (type) => {
           robot.advanceTime(200);
           const res = robot.plant(grid, type || 'wheat');
-          log.push({ type: 'plant', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          log.push({ type: 'plant', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         water: () => {
           robot.advanceTime(200);
           const res = robot.water(grid);
-          log.push({ type: 'water', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          log.push({ type: 'water', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         harvest: () => {
           robot.advanceTime(200);
           const res = robot.harvest(grid);
-          log.push({ type: 'harvest', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          log.push({ type: 'harvest', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         use_pickaxe: () => {
           robot.advanceTime(200);
           const res = robot.clear(grid, 'STONE');
-          log.push({ type: 'clear', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          log.push({ type: 'clear', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         use_axe: () => {
           robot.advanceTime(200);
           const res = robot.clear(grid, 'BRANCH');
-          log.push({ type: 'clear', cellKey: res.key, cellData: res.cell, robot: snapRobot() });
+          log.push({ type: 'clear', cellKey: res.key, cellData: res.cell ? JSON.parse(JSON.stringify(res.cell)) : null, robot: snapRobot() });
           checkLogLimit();
         },
         check_block: () => {
           robot.advanceTime(200);
+          log.push({ type: 'wait', duration: 200, robot: snapRobot() });
+          checkLogLimit();
           return robot.checkBlock(grid);
         },
         reset_bot: () => {

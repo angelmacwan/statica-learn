@@ -141,19 +141,6 @@ const MODULES = [
     Icon: PythonIcon,
   },
   {
-    id: 'robot-gardener',
-    title: 'Robot Gardener',
-    category: 'Python Game',
-    tag: 'Simulation',
-    desc: 'Use code to guide a robot around a garden grid. It turns movement, loops, and planning into something you can see immediately.',
-    path: '/robot-gardener',
-    accentColor: '#42be65', // Carbon Green 50
-    progressKey: 'statica-robot-gardener-progress',
-    totalChallenges: LEVELS.length,
-    progressType: 'robotLevels',
-    Icon: RobotIcon,
-  },
-  {
     id: 'robot-gardener-game',
     title: 'Robot Gardner the game',
     category: 'Farming Simulation',

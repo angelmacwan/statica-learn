@@ -132,7 +132,7 @@ class VirtualGame {
 			throw new Error(`Nothing to water`);
 		this.cells[key] = {
 			...this.cells[key],
-			state: 'GROWING',
+			state: 'WATERED',
 			plantTime: this.time,
 		};
 		return { key, cell: this.cells[key] };
@@ -164,10 +164,15 @@ class VirtualGame {
 		if (cell.state === 'STONE') return 'stone';
 		if (cell.state === 'BRANCH') return 'branch';
 		
-		if (cell.state === 'GROWING') {
+		if (cell.state === 'WATERED' || cell.state === 'GROWING') {
 			const p = PLANTS[cell.plantType];
-			if (p && this.time - cell.plantTime >= p.growTime * 1000) {
-				cell.state = 'HARVESTABLE';
+			if (p) {
+				const elapsed = this.time - cell.plantTime;
+				if (elapsed >= p.growTime * 1000) {
+					cell.state = 'HARVESTABLE';
+				} else if (elapsed >= p.growTime * 500) {
+					cell.state = 'GROWING';
+				}
 			}
 		}
 
@@ -246,7 +251,6 @@ export default function RobotGardenerGameModule() {
 
 	// Growth Tick
 	useEffect(() => {
-		if (animating) return; // Pause growth while animating to prevent conflicts
 		const tick = setInterval(() => {
 			setGameState((prev) => {
 				let changed = false;
@@ -261,7 +265,7 @@ export default function RobotGardenerGameModule() {
 						const key = `${x},${y}`;
 						const cell = newCells[key];
 						if (cell) {
-							if (cell.state === 'GROWING') {
+							if (cell.state === 'WATERED' || cell.state === 'GROWING') {
 								const plantInfo = PLANTS[cell.plantType];
 								if (plantInfo) {
 									const elapsedSeconds =
@@ -270,6 +274,12 @@ export default function RobotGardenerGameModule() {
 										newCells[key] = {
 											...cell,
 											state: 'HARVESTABLE',
+										};
+										changed = true;
+									} else if (elapsedSeconds >= plantInfo.growTime / 2 && cell.state === 'WATERED') {
+										newCells[key] = {
+											...cell,
+											state: 'GROWING',
 										};
 										changed = true;
 									}
@@ -293,7 +303,7 @@ export default function RobotGardenerGameModule() {
 			});
 		}, 1000);
 		return () => clearInterval(tick);
-	}, [animating]);
+	}, []);
 
 	const handleRun = async () => {
 		if (!skulptReady || animating) return;
@@ -330,6 +340,18 @@ export default function RobotGardenerGameModule() {
 			}
 			const action = log[step];
 
+			if (action.type === 'wait') {
+				setGameState((prev) => ({
+					...prev,
+					rx: action.robot.x,
+					ry: action.robot.y,
+					rdir: action.robot.dir,
+				}));
+				step++;
+				animTimerRef.current = setTimeout(tickAnim, action.duration || ANIM_SPEED);
+				return;
+			}
+
 			if (action.type === 'move' || action.type === 'turn') {
 				setGameState((prev) => ({
 					...prev,
@@ -349,6 +371,9 @@ export default function RobotGardenerGameModule() {
 						delete newCells[action.cellKey];
 					} else {
 						newCells[action.cellKey] = action.cellData;
+						if (action.type === 'water') {
+							newCells[action.cellKey].plantTime = Date.now();
+						}
 					}
 					return {
 						...prev,

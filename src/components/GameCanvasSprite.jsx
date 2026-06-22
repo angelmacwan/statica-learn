@@ -146,7 +146,7 @@ export default function GameCanvasSprite({ cols, rows, cells, robot, onCellClick
 				const cell = cells[y]?.[x];
 				const state = cell ? cell.state : 'LOCKED';
 				
-				const isWatered = (state === 'GROWING' || state === 'HARVESTABLE');
+				const isWatered = (state === 'WATERED' || state === 'GROWING' || state === 'HARVESTABLE');
 				
 				if (state === 'LOCKED') {
 					drawProceduralGround(px, py, x, y, false, true);
@@ -157,7 +157,7 @@ export default function GameCanvasSprite({ cols, rows, cells, robot, onCellClick
 						drawEntity('stone', px, py);
 					} else if (state === 'BRANCH') {
 						drawEntity('branch', px, py);
-					} else if (state === 'SEEDED') {
+					} else if (state === 'SEEDED' || state === 'WATERED') {
 						drawEntity('seed', px, py);
 					} else if (state === 'GROWING') {
 						drawEntity('growing', px, py);

@@ -93,8 +93,8 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
     <div
       ref={editorRef}
       style={{
-        flex: 1,
-        minHeight: 0,
+        width: '100%',
+        height: '100%',
         overflow: 'hidden',
         opacity: disabled ? 0.5 : 1,
         transition: 'opacity 0.2s',
