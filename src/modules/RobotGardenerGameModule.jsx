@@ -150,7 +150,12 @@ class VirtualGame {
 		if (!PLANTS[type]) throw new Error(`Unknown plant: ${type}`);
 		if (this.money < PLANTS[type].cost) throw new Error(`Not enough money`);
 		const key = `${this.x},${this.y}`;
-		if (this.cells[key] && this.cells[key].state !== 'EMPTY')
+		const existingCell = this.cells[key];
+		if (existingCell && existingCell.state === 'METEOR')
+			throw new Error(
+				'Cannot plant on a meteor! Use use_upgraded_pickaxe() to clear it first.',
+			);
+		if (existingCell && existingCell.state !== 'EMPTY')
 			throw new Error(`Cell not empty`);
 		this.money -= PLANTS[type].cost;
 		this.cells[key] = { state: 'SEEDED', plantType: type };
@@ -159,10 +164,15 @@ class VirtualGame {
 
 	water() {
 		const key = `${this.x},${this.y}`;
-		if (!this.cells[key] || this.cells[key].state !== 'SEEDED')
+		const cell = this.cells[key];
+		if (cell && cell.state === 'METEOR')
+			throw new Error(
+				'Cannot water a meteor tile! Use use_upgraded_pickaxe() to clear it first.',
+			);
+		if (!cell || cell.state !== 'SEEDED')
 			throw new Error(`Nothing to water`);
 		this.cells[key] = {
-			...this.cells[key],
+			...cell,
 			state: 'WATERED',
 			plantTime: this.time,
 		};
@@ -287,6 +297,135 @@ class VirtualGame {
 	}
 }
 
+// ── Meteor Toast Component ──────────────────────────────────────────────────
+// Injects keyframe CSS once, then renders a sliding toast.
+let _meteorToastStyleInjected = false;
+function ensureMeteorToastStyle() {
+	if (_meteorToastStyleInjected) return;
+	_meteorToastStyleInjected = true;
+	const style = document.createElement('style');
+	style.textContent = `
+		@keyframes meteorToastSlideIn {
+			from { transform: translateX(calc(100% + 1.5rem)); opacity: 0; }
+			to   { transform: translateX(0); opacity: 1; }
+		}
+		@keyframes meteorToastSlideOut {
+			from { transform: translateX(0); opacity: 1; }
+			to   { transform: translateX(calc(100% + 1.5rem)); opacity: 0; }
+		}
+		.meteor-toast {
+			animation: meteorToastSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+		}
+		.meteor-toast.dismissing {
+			animation: meteorToastSlideOut 0.3s ease-in both;
+		}
+	`;
+	document.head.appendChild(style);
+}
+
+function MeteorToast({ toast, onClose }) {
+	const [dismissing, setDismissing] = useState(false);
+
+	// Ensure CSS is injected
+	ensureMeteorToastStyle();
+
+	const handleClose = () => {
+		setDismissing(true);
+		setTimeout(() => {
+			onClose();
+		}, 300); // wait for slide-out animation
+	};
+
+	return (
+		<div
+			className={`meteor-toast${dismissing ? ' dismissing' : ''}`}
+			style={{
+				width: '340px',
+				background:
+					'linear-gradient(135deg, rgba(192,57,43,0.97), rgba(100,10,10,0.98))',
+				border: '1px solid #e74c3c',
+				borderRadius: '10px',
+				boxShadow:
+					'0 4px 24px rgba(231,76,60,0.55), 0 2px 8px rgba(0,0,0,0.4)',
+				padding: '0.9rem 1rem 0.9rem 1rem',
+				color: '#fff',
+				display: 'flex',
+				alignItems: 'flex-start',
+				gap: '0.75rem',
+				pointerEvents: 'auto',
+			}}
+		>
+			<span style={{ fontSize: '1.6rem', lineHeight: 1, flexShrink: 0 }}>
+				☄️
+			</span>
+			<div style={{ flex: 1, minWidth: 0 }}>
+				<div
+					style={{
+						fontWeight: 'bold',
+						fontSize: '0.95rem',
+						marginBottom: '0.3rem',
+					}}
+				>
+					☄️ METEOR IMPACT!
+				</div>
+				<div
+					style={{
+						fontSize: '0.8rem',
+						fontWeight: 'normal',
+						opacity: 0.9,
+						lineHeight: 1.5,
+					}}
+				>
+					Landed at ({toast.x}, {toast.y})! That 2×2 area is now{' '}
+					<strong>blocked</strong>. Use{' '}
+					<code
+						style={{
+							background: 'rgba(255,255,255,0.18)',
+							padding: '1px 5px',
+							borderRadius: '3px',
+							fontSize: '0.78rem',
+						}}
+					>
+						use_upgraded_pickaxe()
+					</code>{' '}
+					on any of its tiles to clear it.
+				</div>
+			</div>
+			<button
+				onClick={handleClose}
+				title="Dismiss"
+				style={{
+					background: 'rgba(255,255,255,0.15)',
+					border: 'none',
+					borderRadius: '50%',
+					width: '24px',
+					height: '24px',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					cursor: 'pointer',
+					color: '#fff',
+					fontSize: '0.85rem',
+					fontWeight: 'bold',
+					flexShrink: 0,
+					lineHeight: 1,
+					padding: 0,
+					marginLeft: '0.25rem',
+					transition: 'background 0.15s',
+				}}
+				onMouseEnter={(e) =>
+					(e.currentTarget.style.background = 'rgba(255,255,255,0.3)')
+				}
+				onMouseLeave={(e) =>
+					(e.currentTarget.style.background = 'rgba(255,255,255,0.15)')
+				}
+			>
+				✕
+			</button>
+		</div>
+	);
+}
+
 export default function RobotGardenerGameModule() {
 	const [skulptReady, setSkulptReady] = useState(false);
 	const [animating, setAnimating] = useState(false);
@@ -299,7 +438,9 @@ export default function RobotGardenerGameModule() {
 	const [consoleText, setConsoleText] = useState('');
 	const [leftTab, setLeftTab] = useState('api');
 	const [expandedApi, setExpandedApi] = useState(null);
-	const [meteorAlert, setMeteorAlert] = useState(null); // {x,y} of meteor origin when it lands
+	// Toast state: array of {id, x, y} for each active meteor alert
+	const [meteorToasts, setMeteorToasts] = useState([]);
+	const meteorToastTimers = useRef({});
 
 	const [gameState, setGameState] = useState(() => {
 		const saved = localStorage.getItem(PROGRESS_KEY);
@@ -457,9 +598,18 @@ export default function RobotGardenerGameModule() {
 									};
 						}
 						changed = true;
-						// Trigger meteor alert (we'll handle this outside the setState)
-						setMeteorAlert({ x: mx, y: my });
-						setTimeout(() => setMeteorAlert(null), 5000);
+						// Spawn a toast notification for this meteor
+						const toastId = `meteor-${Date.now()}-${mx}-${my}`;
+						setMeteorToasts((prev) => [
+							...prev,
+							{ id: toastId, x: mx, y: my },
+						]);
+						meteorToastTimers.current[toastId] = setTimeout(() => {
+							setMeteorToasts((prev) =>
+								prev.filter((t) => t.id !== toastId),
+							);
+							delete meteorToastTimers.current[toastId];
+						}, 5000);
 					}
 				}
 
@@ -1604,51 +1754,41 @@ export default function RobotGardenerGameModule() {
 						</div>
 					</div>
 
-					{/* Meteor Alert */}
-					{meteorAlert && (
+					{/* Meteor Toasts – fixed overlay stacked vertically in top-right */}
+					{meteorToasts.length > 0 && (
 						<div
 							style={{
-								marginBottom: '0.5rem',
-								padding: '0.75rem 1rem',
-								background:
-									'linear-gradient(135deg, rgba(192,57,43,0.9), rgba(127,15,15,0.95))',
-								borderRadius: '8px',
-								border: '1px solid #e74c3c',
-								color: '#fff',
-								fontWeight: 'bold',
+								position: 'fixed',
+								top: '5rem',
+								right: '1.25rem',
+								zIndex: 9999,
 								display: 'flex',
-								alignItems: 'center',
-								gap: '0.75rem',
-								boxShadow: '0 0 20px rgba(231,76,60,0.5)',
+								flexDirection: 'column',
+								gap: '0.6rem',
+								pointerEvents: 'none',
 							}}
 						>
-							<span style={{ fontSize: '1.5rem' }}>☄️</span>
-							<div>
-								<div style={{ fontSize: '1rem' }}>
-									METEOR IMPACT!
-								</div>
-								<div
-									style={{
-										fontSize: '0.78rem',
-										fontWeight: 'normal',
-										opacity: 0.85,
+							{meteorToasts.map((toast) => (
+								<MeteorToast
+									key={toast.id}
+									toast={toast}
+									onClose={() => {
+										if (meteorToastTimers.current[toast.id]) {
+											clearTimeout(
+												meteorToastTimers.current[
+													toast.id
+												],
+											);
+											delete meteorToastTimers.current[
+												toast.id
+											];
+										}
+										setMeteorToasts((prev) =>
+											prev.filter((t) => t.id !== toast.id),
+										);
 									}}
-								>
-									Landed at ({meteorAlert.x}, {meteorAlert.y}
-									)! Use{' '}
-									<code
-										style={{
-											background:
-												'rgba(255,255,255,0.15)',
-											padding: '1px 4px',
-											borderRadius: '3px',
-										}}
-									>
-										use_upgraded_pickaxe()
-									</code>{' '}
-									to clear it.
-								</div>
-							</div>
+								/>
+							))}
 						</div>
 					)}
 
