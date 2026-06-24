@@ -45,10 +45,39 @@ export class Executor {
       Sk.configure({
         output: (text) => { outputLines.push(text); },
         read: (x) => {
-          if (Sk.builtinFiles === undefined || Sk.builtinFiles.files[x] === undefined) {
-            throw new Error(`File not found: ${x}`);
+          if (Sk.builtinFiles !== undefined && Sk.builtinFiles.files[x] !== undefined) {
+            return Sk.builtinFiles.files[x];
           }
-          return Sk.builtinFiles.files[x];
+          if (Sk.builtinFiles !== undefined) {
+            const fallbacks = [
+              'src/lib/' + x,
+              'src/lib/' + x + '.js',
+              'src/lib/' + x + '/__init__.js',
+              'src/lib/' + x + '.py',
+              'src/lib/' + x + '/__init__.py',
+              'src/builtin/' + x + '.js',
+              x + '.js',
+              x + '.py',
+            ];
+            for (let f of fallbacks) {
+              if (Sk.builtinFiles.files[f] !== undefined) {
+                return Sk.builtinFiles.files[f];
+              }
+            }
+          }
+          // Fallback for core modules in Sk.sysmodules (like sys, math)
+          const cleanName = x.replace(/^src\/lib\//, '').replace(/\.(js|py)$/, '').replace(/\/__init__$/, '');
+          if (Sk.sysmodules && typeof Sk.sysmodules.mp$lookup === 'function') {
+            try {
+              const lookupName = new Sk.builtin.str(cleanName);
+              if (Sk.sysmodules.mp$lookup(lookupName) !== undefined) {
+                return `var $builtinmodule = function (name) { return Sk.sysmodules.mp$lookup(new Sk.builtin.str("${cleanName}")); };`;
+              }
+            } catch (e) {
+              // Ignore and let standard error flow
+            }
+          }
+          throw "File not found: '" + x + "'";
         },
         execLimit: 20000,
         __future__: Sk.python3,

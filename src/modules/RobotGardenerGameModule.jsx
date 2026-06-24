@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header.jsx';
 import GameCanvasSprite from '../components/GameCanvasSprite.jsx';
 import GameCodeEditor from '../components/GameCodeEditor.jsx';
@@ -30,10 +30,20 @@ function pickCoinValue() {
 	return COIN_VALUES[0];
 }
 
-function loadScript(src) {
+function loadScript(src, checkGlobal) {
 	return new Promise((resolve, reject) => {
-		if (document.querySelector(`script[src="${src}"]`)) {
+		if (checkGlobal && checkGlobal()) {
 			resolve();
+			return;
+		}
+		const existing = document.querySelector(`script[src="${src}"]`);
+		if (existing) {
+			if (!checkGlobal) {
+				resolve();
+				return;
+			}
+			existing.addEventListener('load', resolve);
+			existing.addEventListener('error', reject);
 			return;
 		}
 		const s = document.createElement('script');
@@ -458,7 +468,9 @@ export default function RobotGardenerGameModule() {
 				if (parsed.hasUpgradedPickaxe === undefined)
 					parsed.hasUpgradedPickaxe = false;
 				return parsed;
-			} catch (e) {}
+			} catch (err) {
+				console.warn('Failed to parse local storage progress:', err);
+			}
 		}
 		return {
 			money: INITIAL_MONEY,
@@ -487,10 +499,12 @@ export default function RobotGardenerGameModule() {
 	useEffect(() => {
 		(async () => {
 			try {
-				await loadScript(SKULPT_CDN);
-				await loadScript(SKULPT_STDLIB);
+				await loadScript(SKULPT_CDN, () => window.Sk);
+				await loadScript(SKULPT_STDLIB, () => window.Sk && window.Sk.builtinFiles);
 				setSkulptReady(true);
-			} catch (e) {}
+			} catch (err) {
+				console.error('Failed to load Skulpt CDN/stdlib:', err);
+			}
 		})();
 	}, []);
 

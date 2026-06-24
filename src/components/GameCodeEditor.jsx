@@ -13,22 +13,29 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
   const viewRef = useRef(null);
   const { isDark } = useTheme();
 
+  // Keep refs to the latest callbacks so the editor's update listener
+  // never holds a stale closure — critical for correct per-level saves.
+  const onChangeRef = useRef(onChange);
+  const onRunRef = useRef(onRun);
+  const disabledRef = useRef(disabled);
+  useEffect(() => { onChangeRef.current = onChange; }, [onChange]);
+  useEffect(() => { onRunRef.current = onRun; }, [onRun]);
+  useEffect(() => { disabledRef.current = disabled; }, [disabled]);
+
+  // Suppress onChange during programmatic content swaps (level switches).
+  // Set to true before dispatching, false immediately after.
+  const suppressNextChange = useRef(false);
+
   const handleRun = useCallback(() => {
-    if (!disabled && onRun) onRun();
-  }, [disabled, onRun]);
+    if (!disabledRef.current && onRunRef.current) onRunRef.current();
+  }, []);
 
   useEffect(() => {
     if (!editorRef.current) return;
 
     const runKeymap = keymap.of([
-      {
-        key: 'Ctrl-Enter',
-        run: () => { handleRun(); return true; },
-      },
-      {
-        key: 'Mod-Enter',
-        run: () => { handleRun(); return true; },
-      },
+      { key: 'Ctrl-Enter', run: () => { handleRun(); return true; } },
+      { key: 'Mod-Enter',  run: () => { handleRun(); return true; } },
     ]);
 
     const state = EditorState.create({
@@ -38,12 +45,11 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
         history(),
         python(),
         themeCompartment.of(isDark ? oneDark : []),
-
         keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
         runKeymap,
         EditorView.updateListener.of((update) => {
-          if (update.docChanged && onChange) {
-            onChange(update.state.doc.toString());
+          if (update.docChanged && !suppressNextChange.current && onChangeRef.current) {
+            onChangeRef.current(update.state.doc.toString());
           }
         }),
         EditorView.theme({
@@ -76,15 +82,19 @@ export default function GameCodeEditor({ code, onChange, onRun, disabled }) {
     }
   }, [isDark]);
 
-  // Update content when code prop changes externally (level switch)
+  // Update content when code prop changes externally (level switch).
+  // Suppress onChange so the programmatic dispatch doesn't trigger a save
+  // with the now-outdated level setter.
   const prevCodeRef = useRef(code);
   useEffect(() => {
     if (!viewRef.current) return;
     const currentContent = viewRef.current.state.doc.toString();
     if (code !== currentContent && code !== prevCodeRef.current) {
+      suppressNextChange.current = true;
       viewRef.current.dispatch({
         changes: { from: 0, to: currentContent.length, insert: code || '' },
       });
+      suppressNextChange.current = false;
     }
     prevCodeRef.current = code;
   }, [code]);

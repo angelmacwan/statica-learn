@@ -90,6 +90,29 @@ const RobotIcon = () => (
   </svg>
 );
 
+// Maze grid icon for Maze Solver
+const MazeIcon = () => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <rect x="2" y="2" width="28" height="28" rx="2" />
+    <path d="M2 10h8M18 10h12" />
+    <path d="M10 10v8M10 22v8" />
+    <path d="M2 22h16M22 22h8" />
+    <path d="M22 10v12" />
+    <circle cx="6" cy="6" r="1.5" fill="currentColor" stroke="none" />
+    <circle cx="26" cy="26" r="1.5" fill="currentColor" stroke="none" />
+  </svg>
+);
+
 // Trailing Arrow for Buttons
 const ArrowRightIcon = () => (
   <svg 
@@ -152,6 +175,19 @@ const MODULES = [
     totalChallenges: 0,
     progressType: 'none',
     Icon: RobotIcon,
+  },
+  {
+    id: 'maze-solver',
+    title: 'Maze Solver',
+    category: 'Algorithm Game',
+    tag: 'Game',
+    desc: 'Write Python algorithms to guide a robot through randomly generated mazes of different sizes. Optimize your script to solve them with the lowest average score.',
+    path: '/maze-solver',
+    accentColor: '#22d3ee', // Cyan
+    progressKey: 'statica-maze-solver-v2-scores',
+    totalChallenges: 8,
+    progressType: 'mazeScores',
+    Icon: MazeIcon,
   }
 ];
 
@@ -163,6 +199,8 @@ function loadModuleProgress(module) {
     const parsed = JSON.parse(raw);
     const solved = module.progressType === 'robotLevels'
       ? Object.values(parsed || {}).filter(item => item?.solved).length
+      : module.progressType === 'mazeScores'
+      ? Object.keys(parsed || {}).length
       : Object.values(parsed?.challengeData || {}).filter(item => item?.status === 'solved').length;
     const percent = module.totalChallenges > 0
       ? Math.round((solved / module.totalChallenges) * 100)
