@@ -16,7 +16,7 @@ const MAZE_SIZES = [
   { id: '16x16',   size: 16,  fogOfWar: true,  label: '16 × 16',   tag: 'Fog' },
   { id: '24x24',   size: 24,  fogOfWar: true,  label: '24 × 24',   tag: 'Fog' },
   { id: '32x32',   size: 32,  fogOfWar: true,  label: '32 × 32',   tag: 'Fog' },
-  { id: '512x512', size: 512, fogOfWar: true,  label: '512 × 512', tag: 'Fog' },
+  { id: '128x128', size: 128, fogOfWar: true,  label: '128 × 128', tag: 'Fog' },
 ];
 
 const DEFAULT_CODE =
