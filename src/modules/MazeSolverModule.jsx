@@ -361,7 +361,7 @@ export default function MazeSolverModule() {
   }
 
   // Submit flow
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     if (!skulptReady || animating) return;
     if (animTimerRef.current) clearTimeout(animTimerRef.current);
     setAnimating(true);
@@ -371,8 +371,7 @@ export default function MazeSolverModule() {
 
     addLog('[SYSTEM] Initiating submission evaluation (5 randomized test runs)...', 'system');
     startTest(0, editorCode);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skulptReady, animating, editorCode, addLog]);
+  };
 
   const handleStop = useCallback(() => {
     if (animTimerRef.current) clearTimeout(animTimerRef.current);
