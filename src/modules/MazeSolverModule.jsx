@@ -9,14 +9,14 @@ import { MazeExecutor } from '../game/MazeExecutor.js';
 
 // ── Maze sizes ─────────────────────────────────────────────────────────────
 const MAZE_SIZES = [
-  { id: '3x3',   size: 3,  fogOfWar: false, label: '3 × 3',   tag: 'Visible' },
-  { id: '5x5',   size: 5,  fogOfWar: false, label: '5 × 5',   tag: 'Visible' },
-  { id: '8x8',   size: 8,  fogOfWar: true,  label: '8 × 8',   tag: 'Fog' },
-  { id: '12x12', size: 12, fogOfWar: true,  label: '12 × 12', tag: 'Fog' },
-  { id: '16x16', size: 16, fogOfWar: true,  label: '16 × 16', tag: 'Fog' },
-  { id: '20x20', size: 20, fogOfWar: true,  label: '20 × 20', tag: 'Fog' },
-  { id: '24x24', size: 24, fogOfWar: true,  label: '24 × 24', tag: 'Fog' },
-  { id: '32x32', size: 32, fogOfWar: true,  label: '32 × 32', tag: 'Fog' },
+  { id: '3x3',     size: 3,   fogOfWar: false, label: '3 × 3',     tag: 'Visible' },
+  { id: '5x5',     size: 5,   fogOfWar: false, label: '5 × 5',     tag: 'Visible' },
+  { id: '8x8',     size: 8,   fogOfWar: true,  label: '8 × 8',     tag: 'Fog' },
+  { id: '12x12',   size: 12,  fogOfWar: true,  label: '12 × 12',   tag: 'Fog' },
+  { id: '16x16',   size: 16,  fogOfWar: true,  label: '16 × 16',   tag: 'Fog' },
+  { id: '24x24',   size: 24,  fogOfWar: true,  label: '24 × 24',   tag: 'Fog' },
+  { id: '32x32',   size: 32,  fogOfWar: true,  label: '32 × 32',   tag: 'Fog' },
+  { id: '512x512', size: 512, fogOfWar: true,  label: '512 × 512', tag: 'Fog' },
 ];
 
 const DEFAULT_CODE =
@@ -97,11 +97,13 @@ const getAnimSpeed = (mazeSize, isSubmit) => {
     if (mazeSize <= 5) return 80;
     if (mazeSize <= 8) return 40;
     if (mazeSize <= 16) return 20;
+    if (mazeSize > 100) return 2; // hyper-speed for huge mazes
     return 10; // extremely fast for large mazes during submission
   } else {
     if (mazeSize <= 5) return 120;
     if (mazeSize <= 8) return 80;
     if (mazeSize <= 16) return 50;
+    if (mazeSize > 100) return 5; // hyper-speed for huge mazes
     return 30;
   }
 };

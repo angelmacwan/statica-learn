@@ -88,7 +88,7 @@ export default function MazeCanvas({ cols, rows, walls, robotState, goalX, goalY
         ctx.fillRect(px, py, cellSize, cellSize);
 
         // Grid line subtle texture
-        if (!isHidden || levelVisible) {
+        if (cellSize > 4 && (!isHidden || levelVisible)) {
           ctx.strokeStyle = COLORS.gridLine;
           ctx.lineWidth = 0.5;
           ctx.strokeRect(px, py, cellSize, cellSize);
@@ -96,37 +96,47 @@ export default function MazeCanvas({ cols, rows, walls, robotState, goalX, goalY
 
         // Goal marker
         if (x === goalX && y === goalY && (isVisited || levelVisible || !fogOfWar)) {
-          // Glow behind
-          const grad = ctx.createRadialGradient(
-            px + cellSize / 2, py + cellSize / 2, 0,
-            px + cellSize / 2, py + cellSize / 2, cellSize * 0.65
-          );
-          grad.addColorStop(0, 'rgba(34,197,94,0.35)');
-          grad.addColorStop(1, 'rgba(34,197,94,0)');
-          ctx.fillStyle = grad;
-          ctx.fillRect(px, py, cellSize, cellSize);
+          if (cellSize > 8) {
+            // Glow behind
+            const grad = ctx.createRadialGradient(
+              px + cellSize / 2, py + cellSize / 2, 0,
+              px + cellSize / 2, py + cellSize / 2, cellSize * 0.65
+            );
+            grad.addColorStop(0, 'rgba(34,197,94,0.35)');
+            grad.addColorStop(1, 'rgba(34,197,94,0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(px, py, cellSize, cellSize);
 
-          // Flag emoji/text
-          const fontSize = Math.max(10, Math.floor(cellSize * 0.45));
-          ctx.font = `${fontSize}px sans-serif`;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('🏁', px + cellSize / 2, py + cellSize / 2);
+            // Flag emoji/text
+            const fontSize = Math.max(10, Math.floor(cellSize * 0.45));
+            ctx.font = `${fontSize}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🏁', px + cellSize / 2, py + cellSize / 2);
+          } else {
+            ctx.fillStyle = COLORS.goal;
+            ctx.fillRect(px, py, cellSize, cellSize);
+          }
         }
 
         // Start marker (only on level 1 style or when visited)
         if (x === 0 && y === 0 && (isVisited || levelVisible || !fogOfWar)) {
-          const fontSize = Math.max(8, Math.floor(cellSize * 0.38));
-          ctx.font = `${fontSize}px sans-serif`;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('🚀', px + cellSize / 2, py + cellSize / 2 - cellSize * 0.05);
+          if (cellSize > 8) {
+            const fontSize = Math.max(8, Math.floor(cellSize * 0.38));
+            ctx.font = `${fontSize}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🚀', px + cellSize / 2, py + cellSize / 2 - cellSize * 0.05);
+          } else {
+            ctx.fillStyle = COLORS.startCell;
+            ctx.fillRect(px, py, cellSize, cellSize);
+          }
         }
       }
     }
 
     // ── Draw walls ───────────────────────────────────────────────────────────
-    const wallThick = Math.max(2, Math.floor(cellSize * 0.12));
+    const wallThick = Math.max(1, Math.floor(cellSize * 0.12));
 
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
@@ -137,8 +147,8 @@ export default function MazeCanvas({ cols, rows, walls, robotState, goalX, goalY
         const shouldDraw = levelVisible || !fogOfWar ||
           cellFog !== CellState.UNKNOWN ||
           // also draw walls of discovered neighbors
-          (fog?.[y - 1]?.[x] != null && fog[y - 1][x] !== CellState.UNKNOWN) ||
-          (fog?.[y]?.[x - 1] != null && fog[y][x - 1] !== CellState.UNKNOWN);
+          (fog?.[y - 1]?.[x] > 0) ||
+          (fog?.[y]?.[x - 1] > 0);
 
         if (!shouldDraw) continue;
 
@@ -183,56 +193,53 @@ export default function MazeCanvas({ cols, rows, walls, robotState, goalX, goalY
       const py = oy + ry * cellSize;
       const cx = px + cellSize / 2;
       const cy = py + cellSize / 2;
-      const r = cellSize * 0.32;
 
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(DIR_ANGLE[dir]);
+      if (cellSize > 6) {
+        const r = cellSize * 0.32;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(DIR_ANGLE[dir]);
 
-      // Glow
-      const glow = ctx.createRadialGradient(0, 0, r * 0.3, 0, 0, r * 1.5);
-      glow.addColorStop(0, 'rgba(96,165,250,0.3)');
-      glow.addColorStop(1, 'rgba(96,165,250,0)');
-      ctx.fillStyle = glow;
-      ctx.beginPath();
-      ctx.arc(0, 0, r * 1.5, 0, Math.PI * 2);
-      ctx.fill();
+        // Body circle
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.fillStyle = COLORS.robotBody;
+        ctx.fill();
+        ctx.strokeStyle = COLORS.robotBorder;
+        ctx.lineWidth = Math.max(1, cellSize * 0.04);
+        ctx.stroke();
 
-      // Body circle
-      ctx.beginPath();
-      ctx.arc(0, 0, r, 0, Math.PI * 2);
-      ctx.fillStyle = COLORS.robotBody;
-      ctx.fill();
-      ctx.strokeStyle = COLORS.robotBorder;
-      ctx.lineWidth = Math.max(1, cellSize * 0.04);
-      ctx.stroke();
+        // Direction arrow
+        ctx.beginPath();
+        ctx.moveTo(r * 0.15, 0);
+        ctx.lineTo(r * 0.75, 0);
+        ctx.strokeStyle = COLORS.robotAccent;
+        ctx.lineWidth = Math.max(1.5, cellSize * 0.06);
+        ctx.lineCap = 'round';
+        ctx.stroke();
 
-      // Direction arrow
-      ctx.beginPath();
-      ctx.moveTo(r * 0.15, 0);
-      ctx.lineTo(r * 0.75, 0);
-      ctx.strokeStyle = COLORS.robotAccent;
-      ctx.lineWidth = Math.max(1.5, cellSize * 0.06);
-      ctx.lineCap = 'round';
-      ctx.stroke();
+        // Arrowhead
+        ctx.beginPath();
+        ctx.moveTo(r * 0.75, 0);
+        ctx.lineTo(r * 0.5, -r * 0.22);
+        ctx.lineTo(r * 0.5, r * 0.22);
+        ctx.closePath();
+        ctx.fillStyle = COLORS.robotAccent;
+        ctx.fill();
 
-      // Arrowhead
-      ctx.beginPath();
-      ctx.moveTo(r * 0.75, 0);
-      ctx.lineTo(r * 0.5, -r * 0.22);
-      ctx.lineTo(r * 0.5, r * 0.22);
-      ctx.closePath();
-      ctx.fillStyle = COLORS.robotAccent;
-      ctx.fill();
+        // Eyes
+        ctx.beginPath();
+        ctx.arc(-r * 0.22, -r * 0.3, r * 0.12, 0, Math.PI * 2);
+        ctx.arc(-r * 0.22, r * 0.3, r * 0.12, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
 
-      // Eyes
-      ctx.beginPath();
-      ctx.arc(-r * 0.22, -r * 0.3, r * 0.12, 0, Math.PI * 2);
-      ctx.arc(-r * 0.22, r * 0.3, r * 0.12, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
-
-      ctx.restore();
+        ctx.restore();
+      } else {
+        // Draw a simple cyan dot for high-density grids
+        ctx.fillStyle = '#06b6d4';
+        ctx.fillRect(px, py, cellSize, cellSize);
+      }
     }
    
   }, [robotState, walls, cols, rows, goalX, goalY, fogOfWar, levelVisible, mazeKey]);
@@ -240,8 +247,8 @@ export default function MazeCanvas({ cols, rows, walls, robotState, goalX, goalY
   return (
     <canvas
       ref={canvasRef}
-      width={700}
-      height={700}
+      width={cols > 100 ? 1536 : 700}
+      height={cols > 100 ? 1536 : 700}
       style={{
         width: '100%',
         height: '100%',
