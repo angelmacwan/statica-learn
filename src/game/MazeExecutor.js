@@ -70,7 +70,7 @@ export class MazeExecutor {
               if (Sk.sysmodules.mp$lookup(lookupName) !== undefined) {
                 return `var $builtinmodule = function (name) { return Sk.sysmodules.mp$lookup(new Sk.builtin.str("${cleanName}")); };`;
               }
-            } catch (e) {
+            } catch {
               // Ignore and let standard error flow
             }
           }
@@ -176,6 +176,14 @@ export class MazeExecutor {
         at_goal: () => {
           checkLimit(false);
           return maze.atGoal();
+        },
+        get_goal_position: () => {
+          checkLimit(false);
+          return maze.getGoalPosition();
+        },
+        get_size: () => {
+          checkLimit(false);
+          return maze.getSize();
         },
       };
 

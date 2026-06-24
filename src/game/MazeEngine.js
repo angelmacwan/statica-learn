@@ -197,6 +197,14 @@ export class VirtualMaze {
     return this.x === this.goalX && this.y === this.goalY;
   }
 
+  getGoalPosition() {
+    return [this.goalX, this.goalY];
+  }
+
+  getSize() {
+    return [this.cols, this.rows];
+  }
+
   // Score: moves + 0.25 per turn
   getScore() {
     return this.moves + this.turns * 0.25;

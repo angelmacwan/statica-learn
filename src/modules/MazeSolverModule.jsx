@@ -30,6 +30,8 @@ const DEFAULT_CODE =
 #   position()       – returns (x, y)
 #   direction()      – returns "NORTH" / "EAST" / "SOUTH" / "WEST"
 #   at_goal()        – True when you've reached the 🏁
+#   get_goal_position() – returns (x, y) coordinates of the goal
+#   get_size()       – returns (width, height) size of the maze
 #
 # Score = moves + turns × 0.25  (lower is better)
 
@@ -483,7 +485,7 @@ export default function MazeSolverModule() {
             {/* API quick-ref */}
             <div style={{ padding: '0.6rem 0.75rem', borderTop: '1px solid var(--border-subtle)', fontSize: '11px', color: 'var(--text-secondary)' }}>
               <div style={{ fontWeight: 700, marginBottom: '0.35rem', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Robot API</div>
-              {[['move_forward()','move 1 tile'],['turn_left()','rotate CCW'],['turn_right()','rotate CW'],['wall_front()','→ bool'],['wall_left()','→ bool'],['wall_right()','→ bool'],['position()','→ (x,y)'],['direction()','→ str'],['at_goal()','→ bool']].map(([fn, desc]) => (
+              {[['move_forward()','move 1 tile'],['turn_left()','rotate CCW'],['turn_right()','rotate CW'],['wall_front()','→ bool'],['wall_left()','→ bool'],['wall_right()','→ bool'],['position()','→ (x,y)'],['direction()','→ str'],['at_goal()','→ bool'],['get_goal_position()','→ (x,y)'],['get_size()','→ (w,h)']].map(([fn, desc]) => (
                 <div key={fn} style={{ display: 'flex', justifyContent: 'space-between', gap: '4px', marginBottom: '1px' }}>
                   <code style={{ fontSize: '10px', color: '#60a5fa' }}>{fn}</code>
                   <span style={{ fontSize: '10px', color: 'var(--text-placeholder)' }}>{desc}</span>
