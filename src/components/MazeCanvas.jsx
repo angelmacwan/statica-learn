@@ -31,6 +31,13 @@ export default function MazeCanvas({ cols, rows, walls, robotState, goalX, goalY
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !walls) return;
+    
+    // Defensive check: Ensure walls is a valid 2D array matching cols and rows
+    if (walls.length < rows) return;
+    for (let y = 0; y < rows; y++) {
+      if (!walls[y] || walls[y].length < cols) return;
+    }
+
     const ctx = canvas.getContext('2d');
 
     const W = canvas.width;
@@ -135,7 +142,8 @@ export default function MazeCanvas({ cols, rows, walls, robotState, goalX, goalY
 
         if (!shouldDraw) continue;
 
-        const w = walls[y][x];
+        const w = walls[y]?.[x];
+        if (w === undefined) continue;
         ctx.fillStyle = COLORS.wall;
 
         // North wall
