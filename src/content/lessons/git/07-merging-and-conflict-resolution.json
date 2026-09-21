@@ -1,0 +1,53 @@
+{
+  "id": "git-merging-and-conflict-resolution",
+  "slug": "merging-and-conflict-resolution",
+  "title": "Merging Strategies & Conflict Resolution",
+  "description": "Combine lines of development with fast-forward and three-way merges, decipher conflict markers, and resolve collisions cleanly.",
+  "pathId": "git",
+  "moduleId": "git-branching-merging",
+  "difficulty": "medium",
+  "estimatedMinutes": 10,
+  "concepts": ["git-merge", "fast-forward", "three-way-merge", "merge-conflicts", "conflict-resolution"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Integrating Branches with `git merge`\n\nWhen work on a branch is finished, you integrate it into the target branch (usually `main`) using `git merge`:\n\n```bash\n# 1. Switch to the receiving branch\ngit switch main\n\n# 2. Merge the incoming feature branch\ngit merge feature-login\n```\n\nGit analyzes the commit history to determine which merge strategy to apply."
+    },
+    {
+      "type": "text",
+      "content": "## Fast-Forward vs Three-Way Merges\n\n### 1. Fast-Forward Merge\n\nIf the target branch has not received any new commits since the feature branch diverged, Git simply moves the pointer forward. No new merge commit is created.\n\n```mermaid\nflowchart LR\n    subgraph Before [Before Merge]\n        A[\"C1\"] --> B[\"C2 (main)\"]\n        B --> C[\"C3\"]\n        C --> D[\"C4 (feature)\"]\n    end\n    subgraph After [After Fast-Forward Merge]\n        A2[\"C1\"] --> B2[\"C2\"]\n        B2 --> C2[\"C3\"]\n        C2 --> D2[\"C4 (main, feature)\"]\n    end\n```\n\n### 2. Three-Way Merge (True Merge)\n\nIf both branches have progressed with independent commits, a fast-forward is impossible. Git identifies the Common Ancestor commit, creates a synthetic 3-way diff, and creates a **Merge Commit** with two parent pointers.\n\n```mermaid\nflowchart LR\n    C1[\"C1\"] --> C2[\"C2 (Base)\"]\n    C2 --> C3[\"C3 (main)\"]\n    C2 --> C4[\"C4 (feature)\"]\n    C3 --> M[\"M (Merge Commit)\"]\n    C4 --> M\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Anatomy of a Merge Conflict\n\nA merge conflict occurs when both branches modify the exact same lines of a file differently, or when one branch deletes a file that another modified. Git halts the merge and inserts conflict markers:\n\n```text\n<<<<<<< HEAD (Current branch: main)\nconst API_BASE_URL = \"https://api.production.internal\";\n=======\nconst API_BASE_URL = \"https://api.staging.internal\";\n>>>>>>> feature-login (Incoming branch)\n```\n\n- `<<<<<<< HEAD`: Marks the start of changes from your current branch.\n- `=======`: The divider separating the two competing versions.\n- `>>>>>>> <branch-name>`: Marks the end of incoming changes from the merged branch."
+    },
+    {
+      "type": "text",
+      "content": "## Step-by-Step Conflict Resolution\n\n1. Run `git status` to see all files marked `both modified`.\n2. Open the conflicting files in your editor. Choose which lines to keep, combine, or rewrite.\n3. Delete the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).\n4. Stage the resolved files with `git add <file>`.\n5. Finalize the merge commit:\n\n```bash\ngit commit -m \"merge: resolve API base URL conflict between main and feature-login\"\n```\n\nIf something goes wrong and you want to cancel the merge entirely:\n\n```bash\ngit merge --abort\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "When does Git perform a fast-forward merge instead of creating a three-way merge commit?",
+      "options": [
+        "When the incoming branch has zero commits",
+        "When no new commits have occurred on the target branch since divergence",
+        "When files contain merge conflicts",
+        "When merging via remote pull requests only"
+      ],
+      "correctIndex": 1,
+      "explanation": "If the destination branch history has not progressed since the feature branched off, Git simply slides the pointer forward to the tip of the incoming branch."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which command cancels an in-progress merge and restores your files to the state prior to calling git merge?",
+      "options": [
+        "git merge --abort",
+        "git merge --undo",
+        "git reset --hard origin",
+        "git revert HEAD"
+      ],
+      "correctIndex": 0,
+      "explanation": "'git merge --abort' cleanly terminates an incomplete merge process and returns the working tree and index to their pre-merge condition."
+    }
+  ]
+}

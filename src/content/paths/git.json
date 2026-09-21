@@ -1,0 +1,16 @@
+{
+  "id": "git",
+  "slug": "git",
+  "title": "Git & Version Control Mastery",
+  "description": "Master version control from core concepts to professional team workflows: snapshots, staging, branching, merging, stashing, recovery, and collaboration.",
+  "category": "software-engineering",
+  "difficulty": "intro",
+  "moduleIds": [
+    "git-foundations",
+    "git-basics",
+    "git-branching-merging",
+    "git-advanced-tools",
+    "git-collaboration-workflows"
+  ],
+  "published": true
+}

@@ -1,0 +1,53 @@
+{
+  "id": "git-stashing-and-tagging",
+  "slug": "stashing-and-tagging",
+  "title": "Stashing Work & Release Tagging",
+  "description": "Shelve unfinished changes temporarily with git stash and mark milestone releases with lightweight and annotated tags.",
+  "pathId": "git",
+  "moduleId": "git-advanced-tools",
+  "difficulty": "medium",
+  "estimatedMinutes": 8,
+  "concepts": ["git-stash", "git-tag", "semantic-versioning", "shelving", "releases"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Shelving In-Progress Work with `git stash`\n\nFrequently, an urgent bug fix demands switching branches while your current feature is half-written and not ready to commit. `git stash` takes your uncommitted modifications (both staged and unstaged) and saves them onto a dirty working directory stack, reverting your working tree to clean HEAD state.\n\n```mermaid\nflowchart TD\n    WT[\"Working Directory (Half-finished edits)\"] -->|\"git stash save\"| Stack[(\"Git Stash Stack\\nstash@{0}\\nstash@{1}\")]\n    Stack -->|\"git stash pop\"| Restored[\"Working Directory (Cleaned then Restored)\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Common Stash Commands\n\n```bash\n# Stash modified tracked files with a descriptive label\ngit stash push -m \"wip: shopping cart checkout flow\"\n\n# Stash including untracked new files\ngit stash -u\n\n# List all saved stashes on the stack\ngit stash list\n# Output: stash@{0}: On feature-cart: wip: shopping cart checkout flow\n\n# Apply most recent stash AND remove it from the stack\ngit stash pop\n\n# Apply stash but keep it on the stack for re-use\ngit stash apply stash@{0}\n\n# Delete a specific stash from the stack\ngit stash drop stash@{0}\n\n# Clear all stashes permanently\ngit stash clear\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Marking Milestones with `git tag`\n\nTags mark specific release points in repository history (e.g. `v1.0.0`, `v2.4.1`). While branches move forward as new commits arrive, tags remain fixed to a single commit forever.\n\n```mermaid\nflowchart LR\n    C1[\"C1\"] --> C2[\"C2 (v1.0.0)\"] --> C3[\"C3\"] --> C4[\"C4 (v1.1.0, main)\"]\n```\n\n### Lightweight vs Annotated Tags\n\n| Tag Type | Command | Stored Data |\n| :--- | :--- | :--- |\n| **Lightweight** | `git tag v1.0.0` | Simple pointer file containing only a commit SHA. |\n| **Annotated** | `git tag -a v1.0.0 -m \"Release 1.0.0 stable\"` | Full Git object with tagger name, email, date, message, and optional GPG signature. |\n\n> Best Practice: Always use annotated tags (`-a`) for public software releases."
+    },
+    {
+      "type": "text",
+      "content": "## Sharing Tags with Remotes\n\nBy default, `git push` does not transfer tags to remote servers. You must push tags explicitly:\n\n```bash\n# Push a specific tag\ngit push origin v1.0.0\n\n# Push all local tags at once\ngit push origin --tags\n\n# Delete a remote tag\ngit push origin --delete v1.0.0\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the key functional difference between a Git branch and a Git tag?",
+      "options": [
+        "Branches can only be viewed in the terminal, while tags exist only on GitHub",
+        "Branches automatically advance when new commits are added, while tags remain fixed to a specific commit",
+        "Tags can be committed to, but branches cannot",
+        "Tags require a paid server license to create"
+      ],
+      "correctIndex": 1,
+      "explanation": "Branches are moving pointers that advance as new commits arrive. Tags are permanent, static milestone markers pinned to one commit."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which command restores stashed changes into your working directory and removes them from the stash list?",
+      "options": [
+        "git stash drop",
+        "git stash pop",
+        "git stash restore",
+        "git stash apply"
+      ],
+      "correctIndex": 1,
+      "explanation": "'git stash pop' applies the top-most stash (stash@{0}) back onto the working tree and immediately removes it from the stash stack. 'git stash apply' applies without removing."
+    }
+  ]
+}

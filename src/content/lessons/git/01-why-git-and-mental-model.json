@@ -1,0 +1,53 @@
+{
+  "id": "git-why-git-and-mental-model",
+  "slug": "why-git-and-mental-model",
+  "title": "Why Git? Mental Model & Architecture",
+  "description": "Understand the problems version control solves, how Git tracks snapshots instead of diffs, and the Three Trees architecture.",
+  "pathId": "git",
+  "moduleId": "git-foundations",
+  "difficulty": "intro",
+  "estimatedMinutes": 8,
+  "concepts": ["git", "version-control", "architecture", "three-trees", "snapshots"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## The Problem Version Control Solves\n\nBefore version control systems (VCS), tracking revisions meant saving files with chaotic names:\n- `project_v1.py`\n- `project_v2_final.py`\n- `project_v2_final_REALLY_FINAL.py`\n- `project_v2_final_REALLY_FINAL_sam_edits.zip`\n\nThis approach breaks instantly:\n1. **No Concurrency**: Two developers modifying the same file overwrite each other's changes.\n2. **No Accountability**: No record of who changed what, when, or why.\n3. **No Safe Rollback**: Reverting to a known good state requires manually untangling changes.\n4. **No Experimentation**: Trying a new feature risks breaking working production code."
+    },
+    {
+      "type": "text",
+      "content": "## What is Git?\n\nGit is a **Distributed Version Control System (DVCS)** created in 2005 by Linus Torvalds to manage the Linux kernel. Unlike centralized systems (like SVN or CVS) where history lives only on a single remote server, every developer cloning a Git repository receives a complete copy of the entire project history.\n\n```mermaid\ngraph TD\n    subgraph Centralized [Centralized VCS: SVN / CVS]\n        ServerCentral[\"Central Server (History Lives Here)\"]\n        ClientA[\"Developer A (Working Copy Only)\"]\n        ClientB[\"Developer B (Working Copy Only)\"]\n        ServerCentral <--> ClientA\n        ServerCentral <--> ClientB\n    end\n\n    subgraph Distributed [Distributed VCS: Git]\n        RemoteRepo[(\"Remote Repo / GitHub\")]\n        Dev1[(\"Local Repo 1 (Full History)\")]\n        Dev2[(\"Local Repo 2 (Full History)\")]\n        RemoteRepo <--> Dev1\n        RemoteRepo <--> Dev2\n        Dev1 <-.-> Dev2\n    end\n```\n\nIf the server crashes or goes offline, any developer's local repository can restore the entire project history."
+    },
+    {
+      "type": "text",
+      "content": "## Core Concept: Snapshots, Not Differences\n\nTraditional VCS tools store information as a list of file-based changes (deltas):\n\n```mermaid\ngraph LR\n    subgraph DeltaVCS [Delta-Based VCS]\n        D1[\"Version 1: File A, File B, File C\"]\n        D2[\"Version 2: Diff A1, Diff C1\"]\n        D3[\"Version 3: Diff C2\"]\n        D1 --> D2 --> D3\n    end\n```\n\nGit does not store diffs. Git thinks of its data as a **stream of snapshots**. Every time you commit, Git takes a picture of what all your files look like at that exact moment, and stores a reference to that snapshot. If a file has not changed, Git does not store the file again; it simply links to the previous identical copy.\n\n```mermaid\ngraph LR\n    subgraph SnapshotVCS [Git Snapshot Model]\n        S1[\"Commit 1\\nFile A1 | File B1 | File C1\"]\n        S2[\"Commit 2\\nFile A2 | File B1 (link) | File C2\"]\n        S3[\"Commit 3\\nFile A2 (link) | File B1 (link) | File C3\"]\n        S1 --> S2 --> S3\n    end\n```"
+    },
+    {
+      "type": "text",
+      "content": "## The Three Trees of Git\n\nGit manages your files across three separate areas:\n\n1. **Working Directory (Working Tree)**: The actual files on your filesystem that you open, edit, and run in your editor.\n2. **Staging Area (Index)**: A staging preview of the exact files and modifications that will go into your next commit.\n3. **Git Directory (Repository / HEAD)**: The permanent database (`.git` folder) where Git stores compressed snapshots and commit history.\n\n```mermaid\nflowchart LR\n    A[\"Working Directory\\n(Sandbox / Editing)\"] -->|\"git add\"| B[\"Staging Area / Index\\n(Prepared Snapshot)\"]\n    B -->|\"git commit\"| C[\"Git Repository\\n(Permanent History / HEAD)\"]\n    C -->|\"git checkout / restore\"| A\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "How does Git store file history compared to older delta-based version control systems?",
+      "options": [
+        "Git stores line-by-line differences (deltas) between consecutive versions",
+        "Git stores a complete snapshot of the project state, reusing links for unchanged files",
+        "Git only saves files that contain syntax errors",
+        "Git uploads raw file copies to a single central server on every file save"
+      ],
+      "correctIndex": 1,
+      "explanation": "Git treats data as a sequence of full project snapshots. Unchanged files are referenced via SHA pointers to existing stored objects rather than re-saving duplicate contents."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which area in Git holds the staged changes that are lined up for the next commit?",
+      "options": [
+        "The Remote Origin",
+        "The Working Directory",
+        "The Staging Area (Index)",
+        "The Reflog"
+      ],
+      "correctIndex": 2,
+      "explanation": "The Staging Area (or Index) holds the exact set of changes you have prepared via 'git add' to be committed in the next 'git commit' snapshot."
+    }
+  ]
+}

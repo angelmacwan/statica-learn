@@ -13,9 +13,19 @@ separately. Every file this spec produces must conform to the `Path` and
 These rules override generic "course writing" instincts. Apply all of
 them to every lesson.
 
+There are two primary layers to think about when designing curriculum:
+- **Container structure**: how content nests hierarchically (`Path -> Module -> Lesson -> Blocks`).
+- **Flow structure**: the order and sequencing in which ideas hit the learner.
+
+Structure alone does not make material engaging—**sequencing** does. The two core drivers that make content **interesting** rather than merely **organized** are:
+1. **Concrete before abstract, always.** Never open with a term or syntax. A learner who sees "why" before "what" stays engaged; one who sees "what" first tunes out. Show the problem first, then name the tool that solves it.
+2. **Every wrong answer teaches something.** A distractor that is just a random wrong number is wasted space. A distractor that represents an actual misconception (off-by-one, wrong data type) turns even a wrong guess into a lesson.
+
+### Core pedagogical rules
+
 1. **Concrete before abstract.** Never define a concept before the
    learner has seen a situation where it matters. Show the problem, then
-   name the tool that solves it.
+   name the tool that solves it. Never open with a definition or a technical term.
 2. **No assumed knowledge.** Every technical term used for the first time
    in a path gets a one-sentence plain-language definition inline, the
    moment it appears, not a glossary link.
@@ -36,16 +46,26 @@ them to every lesson.
 
 ---
 
-## 2. Path structure standards
+## 2. Container structure (path & module standards)
 
-A path is a sequence of modules, each a sequence of lessons.
+The container structure defines how content nests:
+
+```text
+Path (e.g. "Python")
+  └─ Module (e.g. "Working with Lists")
+       └─ Lesson (e.g. "Finding Things by Position")
+            └─ Blocks (text, question, code, challenge)
+```
 
 - **Path length**: aim for 15-25 lessons per path for v1 (matches the
   tech spec's Phase 3 scope of one path built end to end).
+- **Module size & scope**: **3-6 lessons per module**. Built around **one skill**,
+  not one syntax feature.
+  - *"Working with Lists"* is a module.
+  - *"The .append() method"* is not—that is a block inside a lesson.
+  - If you find yourself needing a module with 10 lessons, **it is actually two modules**. Split it.
 - **Lesson length**: 5-12 minutes estimated (`estimatedMinutes`). If a
   topic needs more, split it into two lessons rather than lengthening one.
-- **Module size**: 3-6 lessons per module. A module should represent one
-  coherent skill (e.g. "Working with Lists"), not one syntax feature.
 - **Progression**: each lesson should depend only on concepts introduced
   earlier in the same path. Do not forward-reference.
 - **Difficulty labeling**: use `intro` for the first module of a path,
@@ -66,25 +86,31 @@ exercise. This is the "prove you can actually do this" moment.
 
 ---
 
-## 3. Lesson-level structure
+## 3. Flow structure (lesson-level sequencing)
 
-Every lesson follows this shape, expressed as an ordered `blocks` array:
+This is the part that actually makes lessons easy to understand and
+interesting. Structure alone doesn't do that—**sequencing** does: the
+precise order in which ideas hit the learner.
 
-1. **Hook** (`text`): a real scenario or question, 2-4 sentences. No
-   jargon. Ends by implicitly posing the problem the lesson solves.
-2. **Concept introduction** (`text`, optionally with a diagram - see
-   Section 4): introduce the one new idea. Keep to a short paragraph.
-3. **Check understanding** (`multipleChoice`): a low-stakes question
-   that confirms the learner registered the idea, not a trick question.
-4. **Guided practice** (`code`): a small, mostly-correct starter snippet
-   the learner predicts the output of, or completes one missing piece.
-5. **Independent challenge** (`challenge`): learner writes something
+Every lesson follows this flow structure, expressed as an ordered `blocks` array:
+
+1. **Hook** (`text`): A real, concrete scenario (2-4 sentences). No definitions yet.
+   *"You're building a leaderboard and need 3rd place"* beats *"Lists are ordered collections."*
+   Ends by implicitly posing the problem the lesson solves.
+2. **One concept** (`text`, optionally with a diagram - see Section 4):
+   Introduce **exactly one new idea. Never two.** If it feels like two,
+   it's two lessons. Keep to a short paragraph.
+3. **Quick check** (`multipleChoice`): A low-stakes multiple choice question
+   to confirm the idea landed, not to trick anyone.
+4. **Guided practice** (`code`): A small, mostly-working starter snippet
+   where the learner predicts the output or fills in one missing gap.
+5. **Independent challenge** (`challenge`): Learner writes something real
    from a prompt, validated by `tests`.
-6. **Debug or extend** (`challenge`, optional but preferred): give code
-   that almost works, ask the learner to fix or improve it. This is
-   consistently the highest-value block type for retention - prioritize
-   including one per lesson once the learner has basic fluency with the
-   concept.
+6. **Debug or extend** (`challenge`, optional but preferred): Code that almost
+   works, and the learner fixes or improves it. This one is underrated but it is
+   the **strongest retention driver**, since real engineering work is mostly
+   debugging, not writing from scratch. Prioritize including one per lesson
+   once the learner has basic fluency with the concept.
 
 Do not include a block type just to hit variety. Every block must serve
 the specific concept of that lesson.
@@ -151,8 +177,12 @@ diagram and cheaper to write:
 ### Multiple choice
 
 - 3-4 options, one correct.
-- Every distractor must represent a real, specific misconception (off-by-
-  one, wrong data type, common syntax confusion), never a random value.
+- Every distractor must represent an actual misconception (off-by-one,
+  wrong data type, common syntax confusion), never an arbitrary wrong
+  number or random choice.
+  - A distractor that's just a random wrong number is wasted space.
+  - A distractor representing a real misconception turns even an incorrect
+    guess into a lesson.
 - Write a one-sentence `explanation` for the correct answer that reasons
   from the scenario, not just restates the rule.
 
@@ -163,7 +193,7 @@ is, before running anything. This is one of the highest-value question
 types in the whole platform - use it often, especially early in a
 concept's introduction.
 
-### Challenges
+### Challenges (independent practice & debugging)
 
 - The `prompt` should describe a small, concrete task, not an abstract
   requirement ("write a function that finds duplicates in a guest list"
@@ -173,6 +203,10 @@ concept's introduction.
 - `description` fields on tests should say what the test is checking in
   plain language, since failed-test feedback is a core part of the
   learning loop (see tech spec's execution contract).
+- **Debug or extend tasks**: Present code that almost works and ask the
+  learner to fix it. Real programming work is mostly debugging rather than
+  writing from scratch; this pattern is the single strongest retention driver
+  for practical mastery.
 
 ---
 
@@ -268,12 +302,14 @@ concept's introduction.
 
 ## 9. Quality checklist (apply to every lesson before finalizing)
 
-- [ ] Opens with a concrete scenario, not a definition
-- [ ] Introduces exactly one new concept
+- [ ] Module is tightly scoped (3-6 lessons, one cohesive skill, not a single syntax feature)
+- [ ] Opens with a concrete scenario ("why" before "what"), not a definition or syntax
+- [ ] Introduces exactly one new concept (if two, split into two lessons)
 - [ ] Every technical term is defined inline on first use
 - [ ] Includes at least one interactive block beyond plain text
-- [ ] Multiple choice distractors reflect real misconceptions
-- [ ] Diagram or state-trace included if the concept involves structure,
-      sequence, or change over time
+- [ ] Quick check confirms understanding without trickery
+- [ ] Multiple choice distractors reflect real misconceptions (never arbitrary wrong numbers)
+- [ ] Diagram or state-trace included if the concept involves structure, sequence, or change over time
 - [ ] Challenge tests include a typical case and an edge case
+- [ ] Debug or extend exercise included where appropriate to reinforce retention
 - [ ] No block could be deleted without losing something necessary
