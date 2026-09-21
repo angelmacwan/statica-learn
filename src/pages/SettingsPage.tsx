@@ -2,7 +2,7 @@ export default function SettingsPage() {
   return (
     <div className="max-w-2xl mx-auto px-6 py-10 space-y-4">
       <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-      <p className="text-gray-500">App settings — coming soon.</p>
+      <p className="text-gray-500">App settings - coming soon.</p>
     </div>
   );
 }

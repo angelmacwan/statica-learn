@@ -3,7 +3,7 @@ import type { ExecutionRequest, ExecutionResult, CodeTest } from '@/types';
 /**
  * JavaScript Web Worker runner.
  * Receives ExecutionRequest, returns ExecutionResult.
- * Runs code in a sandboxed Function scope — no eval on main thread.
+ * Runs code in a sandboxed Function scope - no eval on main thread.
  */
 
 self.onmessage = async (e: MessageEvent<ExecutionRequest>) => {

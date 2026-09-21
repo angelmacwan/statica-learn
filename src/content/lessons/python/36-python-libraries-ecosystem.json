@@ -1,0 +1,65 @@
+{
+  "id": "python-libraries-ecosystem",
+  "slug": "libraries-and-ecosystem",
+  "title": "Libraries, Packages, and GUI/DSA Ecosystem",
+  "description": "Explore third-party libraries, pip package management, GUI toolkits, and DSA ecosystems.",
+  "pathId": "python",
+  "moduleId": "python-packages-libraries",
+  "difficulty": "medium",
+  "estimatedMinutes": 12,
+  "concepts": ["pip", "pypi", "gui-libraries", "tkinter", "dsa-libraries", "ecosystem"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "One of Python's greatest strengths is its massive ecosystem of over 500,000 open-source packages available on the **Python Package Index (PyPI)**.\n\nUsing the package manager **`pip`**, you can install specialized toolkits in seconds for everything from graphical desktop apps to high-performance graph theory and data science."
+    },
+    {
+      "type": "text",
+      "content": "## Essential Library Ecosystems\n\n### 1. GUI (Graphical User Interface) Libraries\n- **`tkinter`**: Python's built-in, lightweight GUI toolkit for rapid desktop dialogs and windows.\n- **`PyQt` / `PySide`**: Industrial-grade, full-featured desktop UI framework with cross-platform native look.\n- **`CustomTkinter`**: Modern dark-mode UI elements built on top of Tkinter.\n\n### 2. DSA (Data Structures & Algorithms) & Scientific Libraries\n- **`networkx`**: Graph theory, network topologies, Dijkstra's shortest path, and tree analysis.\n- **`scipy`**: Advanced scientific algorithms, matrix computations, and optimization routines.\n- **`numpy`**: Fast C-level multi-dimensional array operations.\n\n```mermaid\ngraph TD\n    A[\"PyPI / pip\"] --> B[\"GUI Libraries: tkinter, PyQt, Kivy\"]\n    A --> C[\"DSA & Science: networkx, scipy, numpy\"]\n    A --> D[\"Web: FastAPI, Django, Flask\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Managing Dependencies with `pip` and `requirements.txt`\n\n```bash\n# Installing a library\npip install requests\n\n# Freezing project dependencies\npip freeze > requirements.txt\n\n# Installing from a requirements file\npip install -r requirements.txt\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which GUI library is included directly within Python's standard library without requiring pip installation?",
+      "options": [
+        "PyQt6",
+        "Tkinter",
+        "Electron",
+        "React Native"
+      ],
+      "correctIndex": 1,
+      "explanation": "`tkinter` is Python's standard built-in interface to the Tk GUI toolkit."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Simulating a graph node structure (like networkx)\nclass Graph:\n    def __init__(self):\n        self.adj_list = {}\n\n    def add_edge(self, u, v):\n        self.adj_list.setdefault(u, []).append(v)\n        self.adj_list.setdefault(v, []).append(u)\n\n    def neighbors(self, node):\n        return self.adj_list.get(node, [])\n\ng = Graph()\ng.add_edge(\"ServerA\", \"ServerB\")\ng.add_edge(\"ServerB\", \"Database\")\nprint(\"ServerB connections:\", g.neighbors(\"ServerB\"))\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `format_requirements_list(packages)` that takes a dictionary mapping package names to version strings (e.g. `{\"requests\": \"2.31.0\", \"flask\": \"3.0.0\"}`) and returns a sorted list of requirement strings formatted as `package==version`.",
+      "starterCode": "def format_requirements_list(packages):\n    # your code here\n    pass\n",
+      "tests": [
+        {
+          "input": [{"requests": "2.31.0", "flask": "3.0.0", "numpy": "1.26.0"}],
+          "expectedOutput": ["flask==3.0.0", "numpy==1.26.0", "requests==2.31.0"],
+          "description": "returns sorted list of formatted requirement strings"
+        },
+        {
+          "input": [{ "pytest": "7.4.0" }],
+          "expectedOutput": ["pytest==7.4.0"],
+          "description": "handles single package"
+        },
+        {
+          "input": [{}],
+          "expectedOutput": [],
+          "description": "handles empty dictionary"
+        }
+      ]
+    }
+  ]
+}

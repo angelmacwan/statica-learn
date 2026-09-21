@@ -1,0 +1,73 @@
+{
+  "id": "python-getting-started",
+  "slug": "getting-started",
+  "title": "Your First Python Program",
+  "description": "Write and run your very first Python code - and understand what's actually happening.",
+  "pathId": "python",
+  "moduleId": "python-getting-started",
+  "difficulty": "intro",
+  "estimatedMinutes": 8,
+  "concepts": ["print", "syntax", "comments", "running code"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Computers only do exactly what you tell them\n\nImagine hiring an assistant who follows your instructions **literally** - no guessing, no improvising. You say \"send me the file,\" and they wait because you didn't say *which* file.\n\nThat's a computer. Powerful, but completely dependent on precise instructions.\n\n**Python** is a language for writing those instructions in a way that's readable by both humans and machines. Instead of cryptic machine code, you write things like:\n\n```python\nprint(\"Hello, world!\")\n```\n\nAnd the computer does exactly that - it prints `Hello, world!`.\n\nThis lesson gets you writing and running real Python code from the very first minute."
+    },
+    {
+      "type": "text",
+      "content": "## How Python runs your code\n\nPython is an **interpreted** language. That means there's no separate \"compile\" step - you write code, and Python reads and executes it line by line, immediately.\n\nThe component that does this is called the **Python Interpreter**:\n\n```mermaid\ngraph LR\n  A[\" Your Source Code\"] --> B[\"️ Python Interpreter\"]\n  B --> C[\"️ Output\"]\n```\n\nYou can also use Python interactively in a **REPL** (Read-Eval-Print Loop) - type one line, press Enter, see the result instantly. It's like a conversation with the interpreter.\n\nOn this platform, every code block works the same way: write Python, press **Run**, see the output."
+    },
+    {
+      "type": "text",
+      "content": "## `print()` - your first Python function\n\n`print()` tells Python to display something on the screen. It's the most fundamental way to see what your code is doing.\n\n```python\nprint(\"Hello, world!\")   # prints text\nprint(42)                # prints a number\nprint(2 + 3)             # prints the result of math → 5\nprint(\"Pi is\", 3.14159)  # prints multiple things\n```\n\nA few things to notice:\n- **Text** (called a *string*) goes inside quotes - either `\"double\"` or `'single'`\n- **Numbers** go in bare, no quotes needed\n- **Math expressions** are evaluated first, then printed\n- You can print **multiple values** separated by commas - Python adds a space between them"
+    },
+    {
+      "type": "text",
+      "content": "## Comments - notes for humans, ignored by Python\n\nAnything after a `#` on a line is a **comment**. Python completely ignores it.\n\n```python\n# This whole line is a comment\nprint(\"Hello!\")  # This part is a comment; the print() still runs\n\n# Comments explain WHY, not just WHAT:\n# We greet the user here because the docs require it\nprint(\"Welcome!\")\n```\n\nGood comments explain *why* code exists, not just what it does. You'll write plenty of them as your programs grow."
+    },
+    {
+      "type": "text",
+      "content": "## Syntax errors - when Python can't understand you\n\nPython reads your code before running it. If something is grammatically wrong - a missing quote, a mismatched parenthesis - it stops and reports a **SyntaxError**.\n\n```python\n# [FAIL] Missing closing quote\nprint(\"Hello)\n\n# [FAIL] Missing closing parenthesis\nprint(\"Hello\"\n\n# [PASS] Correct\nprint(\"Hello\")\n```\n\nA `SyntaxError` always tells you the **line number** where Python got confused. Read the message, find the line, and look for what's off - usually a missing or extra character.\n\n> **Tip:** Syntax errors are the most common errors for beginners. They're not scary - they just mean Python needs you to be more precise."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is printed when you run this code?\n\nprint(2 + 3)",
+      "options": [
+        "2 + 3",
+        "5",
+        "\"2 + 3\"",
+        "A syntax error is raised"
+      ],
+      "correctIndex": 1,
+      "explanation": "Python evaluates the expression `2 + 3` first, getting `5`, then passes that result to `print()`. Quotes would be needed to print the literal string `\"2 + 3\"` - without quotes, Python treats it as math."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Try running this code - then modify it!\nprint(\"Hello!\")\nprint(5 * 7)\n\n# Add your own print() below:\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `greet(name)` that prints a greeting in the format `Hello, <name>!`\n\nFor example, `greet(\"Alice\")` should print `Hello, Alice!`",
+      "starterCode": "def greet(name):\n    # your code here\n    pass",
+      "tests": [
+        {
+          "input": ["Alice"],
+          "expectedOutput": "Hello, Alice!",
+          "description": "greet(\"Alice\") prints \"Hello, Alice!\""
+        },
+        {
+          "input": ["World"],
+          "expectedOutput": "Hello, World!",
+          "description": "greet(\"World\") prints \"Hello, World!\""
+        },
+        {
+          "input": ["Python"],
+          "expectedOutput": "Hello, Python!",
+          "description": "greet(\"Python\") prints \"Hello, Python!\""
+        }
+      ]
+    }
+  ]
+}

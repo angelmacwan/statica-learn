@@ -1,4 +1,4 @@
-# Statica Learn — Content Generation Spec
+# Statica Learn - Content Generation Spec
 
 This document defines how to write learning paths and lessons for Statica
 Learn. It is scoped to content and pedagogy only. Tech stack and data
@@ -72,7 +72,7 @@ Every lesson follows this shape, expressed as an ordered `blocks` array:
 
 1. **Hook** (`text`): a real scenario or question, 2-4 sentences. No
    jargon. Ends by implicitly posing the problem the lesson solves.
-2. **Concept introduction** (`text`, optionally with a diagram — see
+2. **Concept introduction** (`text`, optionally with a diagram - see
    Section 4): introduce the one new idea. Keep to a short paragraph.
 3. **Check understanding** (`multipleChoice`): a low-stakes question
    that confirms the learner registered the idea, not a trick question.
@@ -82,7 +82,7 @@ Every lesson follows this shape, expressed as an ordered `blocks` array:
    from a prompt, validated by `tests`.
 6. **Debug or extend** (`challenge`, optional but preferred): give code
    that almost works, ask the learner to fix or improve it. This is
-   consistently the highest-value block type for retention — prioritize
+   consistently the highest-value block type for retention - prioritize
    including one per lesson once the learner has basic fluency with the
    concept.
 
@@ -95,7 +95,7 @@ the specific concept of that lesson.
 
 The current lesson schema has no dedicated diagram block type (see tech
 spec, Section 3). Achieve visualization within `text` blocks using
-**Mermaid syntax in a fenced code block** — Statica Learn's markdown
+**Mermaid syntax in a fenced code block** - Statica Learn's markdown
 renderer should support this (flag to the coding agent building the
 renderer: Mermaid support is a dependency of this content spec).
 
@@ -160,7 +160,7 @@ diagram and cheaper to write:
 
 Show real code or a real data transformation, then ask what the result
 is, before running anything. This is one of the highest-value question
-types in the whole platform — use it often, especially early in a
+types in the whole platform - use it often, especially early in a
 concept's introduction.
 
 ### Challenges
@@ -257,7 +257,7 @@ concept's introduction.
   interfaces in the tech spec. Do not add fields not defined there
   without flagging it.
 - Every `concepts` array entry should be a lowercase, hyphenated slug
-  (`"variables"`, `"for-loops"`) — these will back the future skill
+  (`"variables"`, `"for-loops"`) - these will back the future skill
   tracking system, so keep them consistent across lessons even though
   nothing consumes them yet.
 - Generate one path at a time. Do not generate a full multi-path

@@ -11,7 +11,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "You're building a shopping cart. The user adds 3 items. Later in the program, you need to show a total. How does the program remember that number?\n\nYou store it in a **variable** — a named box that holds a value."
+      "content": "You're building a shopping cart. The user adds 3 items. Later in the program, you need to show a total. How does the program remember that number?\n\nYou store it in a **variable** - a named box that holds a value."
     },
     {
       "type": "text",

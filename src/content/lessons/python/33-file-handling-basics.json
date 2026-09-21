@@ -1,0 +1,65 @@
+{
+  "id": "python-file-handling-basics",
+  "slug": "file-handling-basics",
+  "title": "File Handling: Reading and Writing",
+  "description": "Read, write, and safely manage files using Python's with context manager.",
+  "pathId": "python",
+  "moduleId": "python-file-handling",
+  "difficulty": "easy",
+  "estimatedMinutes": 10,
+  "concepts": ["files", "open", "read", "write", "append", "context-manager", "with-statement"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "All persistent applications need to store information across restarts - configuration files, user data, CSV exports, or logs.\n\nPython provides built-in file handling capabilities to read, write, and append data safely."
+    },
+    {
+      "type": "text",
+      "content": "## Opening Files with `with open(...)`\n\nAlways use the `with` statement (a **context manager**) when working with files. It guarantees that the file handle is closed immediately when the block exits, even if an unhandled error occurs.\n\n```python\n# Writing to a file ('w' mode overwrites, 'a' mode appends)\nwith open(\"greeting.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"Hello from Python!\\n\")\n    f.write(\"Second line.\\n\")\n\n# Reading from a file ('r' mode, default)\nwith open(\"greeting.txt\", \"r\", encoding=\"utf-8\") as f:\n    content = f.read()        # entire file as string\n    # or for line in f: ...   # iterate line by line (memory efficient!)\n```\n\n```mermaid\nsequenceDiagram\n    participant Code as Python Code\n    participant CM as Context Manager (with)\n    participant OS as File System\n    Code->>CM: with open(\"data.txt\", \"r\")\n    CM->>OS: open file handle\n    Code->>OS: read / write\n    Code-->>CM: block exits\n    CM->>OS: file.close() (guaranteed!)\n```"
+    },
+    {
+      "type": "text",
+      "content": "## File Modes Reference\n\n| Mode | Name | Description |\n| :--- | :--- | :--- |\n| `'r'` | Read | Opens file for reading (raises `FileNotFoundError` if missing) |\n| `'w'` | Write | Creates new file or **truncates/overwrites** existing file |\n| `'a'` | Append | Writes data to the end without truncating |\n| `'r+'`| Read/Write | Opens for both reading and writing |"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What happens if you open an existing non-empty file in `'w'` mode?",
+      "options": [
+        "Python appends new text to the end of the existing file",
+        "Python raises a FileExistsError",
+        "The file is immediately overwritten and existing contents are erased",
+        "Python creates a duplicate backup file automatically"
+      ],
+      "correctIndex": 2,
+      "explanation": "Opening in `'w'` mode truncates (wipes) the file to 0 bytes before writing. Use `'a'` mode to append without erasing."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "import io\n\n# Using StringIO to simulate file streams in memory\nvirtual_file = io.StringIO()\n\n# Writing lines\nvirtual_file.write(\"User: Alice\\nScore: 95\\nStatus: Active\\n\")\n\n# Reset cursor to start of file to read\nvirtual_file.seek(0)\nfor line_num, line in enumerate(virtual_file, 1):\n    print(f\"Line {line_num}: {line.strip()}\")\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `parse_key_value_lines(lines_text)` that takes a multi-line string where each non-empty line has the format `'key=value'`, and returns a dictionary of all key-value pairs.\n\nExample:\n`parse_key_value_lines(\"host=localhost\\nport=8080\")` -> `{\"host\": \"localhost\", \"port\": \"8080\"}`",
+      "starterCode": "def parse_key_value_lines(lines_text):\n    # your code here\n    pass\n",
+      "tests": [
+        {
+          "input": ["host=localhost\nport=8080\nenv=production"],
+          "expectedOutput": {"host": "localhost", "port": "8080", "env": "production"},
+          "description": "parses standard key=value lines into dictionary"
+        },
+        {
+          "input": [""],
+          "expectedOutput": {},
+          "description": "empty input returns empty dictionary"
+        },
+        {
+          "input": ["name=Statica\n\nversion=1.0\n"],
+          "expectedOutput": {"name": "Statica", "version": "1.0"},
+          "description": "handles empty lines cleanly"
+        }
+      ]
+    }
+  ]
+}

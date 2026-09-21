@@ -1,0 +1,65 @@
+{
+  "id": "python-lists-and-tuples",
+  "slug": "lists-and-tuples",
+  "title": "Lists and Tuples",
+  "description": "Understand ordered collections, mutability versus immutability, and sequence operations.",
+  "pathId": "python",
+  "moduleId": "python-data-structures",
+  "difficulty": "easy",
+  "estimatedMinutes": 10,
+  "concepts": ["lists", "tuples", "mutability", "immutability", "unpacking", "sequence-methods"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Both **Lists** and **Tuples** store ordered collections of items. However, they serve fundamentally different purposes in Python:\n\n- **List (`[1, 2, 3]`)**: **Mutable** (can grow, shrink, and change in place). Best for collections of items that may change over time (e.g. todo items, shopping cart).\n- **Tuple (`(1, 2, 3)`)**: **Immutable** (cannot be modified after creation). Best for fixed data structures, coordinates, database records, and dictionary keys."
+    },
+    {
+      "type": "text",
+      "content": "## Common List Methods\n\n- `list.append(x)`: Adds `x` to the end.\n- `list.extend(iterable)`: Appends all items from another collection.\n- `list.insert(i, x)`: Inserts `x` at index `i`.\n- `list.pop([i])`: Removes and returns item at index `i` (default last item).\n- `list.sort()`: Sorts the list in place (modifies original).\n- `sorted(list)`: Returns a new sorted list without modifying original."
+    },
+    {
+      "type": "text",
+      "content": "## Tuple Packing and Unpacking\n\nTuples allow concise data exchange without temporary variables:\n\n```python\n# Unpacking\npoint = (10, 20, 30)\nx, y, z = point\n\n# Swapping variables\na, b = 1, 2\na, b = b, a  # a is now 2, b is now 1\n\n# Star unpacking\nfirst, *middle, last = [10, 20, 30, 40, 50]\n# first = 10, middle = [20, 30, 40], last = 50\n```\n\n```mermaid\ngraph TD\n    A[\"Lists: Mutable [1, 2, 3]\"] --> B[\"append / pop / sort / item assignment\"] \n    C[\"Tuples: Immutable (1, 2, 3)\"] --> D[\"Hashable / Memory efficient / Safe from mutation\"]\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which of the following will raise a `TypeError` in Python?",
+      "options": [
+        "my_list = [1, 2, 3]; my_list[0] = 99",
+        "my_tuple = (1, 2, 3); my_tuple[0] = 99",
+        "my_list = [1, 2, 3]; my_list.append(4)",
+        "my_tuple = (1, 2, 3); print(my_tuple[0])"
+      ],
+      "correctIndex": 1,
+      "explanation": "Tuples are immutable; you cannot reassign items at an index (`my_tuple[0] = 99` raises `TypeError: 'tuple' object does not support item assignment`)."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Working with lists & tuples\ntasks = [\"Design mockups\", \"Write tests\", \"Deploy to staging\"]\ntasks.append(\"Monitor metrics\")\nfinished = tasks.pop(0)\nprint(f\"Completed: {finished}\")\nprint(f\"Remaining: {tasks}\")\n\n# Coordinates tuple\ncoordinates = (37.7749, -122.4194)\nlat, lon = coordinates\nprint(f\"Latitude: {lat}, Longitude: {lon}\")\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `extract_extremes(numbers)` that takes a list of numbers, and returns a tuple `(min_val, max_val, average)`. If the list is empty, return `(None, None, 0.0)`.\n\nExample:\n`extract_extremes([10, 20, 30])` -> `(10, 30, 20.0)`",
+      "starterCode": "def extract_extremes(numbers):\n    # your code here\n    pass\n",
+      "tests": [
+        {
+          "input": [[10, 20, 30, 40]],
+          "expectedOutput": [10, 40, 25.0],
+          "description": "extract_extremes([10, 20, 30, 40]) returns (10, 40, 25.0)"
+        },
+        {
+          "input": [[5]],
+          "expectedOutput": [5, 5, 5.0],
+          "description": "extract_extremes([5]) returns (5, 5, 5.0)"
+        },
+        {
+          "input": [[]],
+          "expectedOutput": [null, null, 0.0],
+          "description": "extract_extremes([]) returns (None, None, 0.0)"
+        }
+      ]
+    }
+  ]
+}

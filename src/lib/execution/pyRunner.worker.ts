@@ -2,7 +2,7 @@ import type { ExecutionRequest, ExecutionResult, CodeTest } from '@/types';
 
 /**
  * Python Web Worker using Pyodide (WebAssembly Python).
- * Pyodide is lazy-loaded via ESM dynamic import — compatible with Vite's
+ * Pyodide is lazy-loaded via ESM dynamic import - compatible with Vite's
  * ES module worker format (importScripts is NOT available in module workers).
  */
 
@@ -11,9 +11,10 @@ let pyodide: any = null;
 
 async function loadPyodideIfNeeded() {
   if (pyodide) return;
-  // Dynamic import of Pyodide's ESM build — works in module workers
+  // Dynamic import of Pyodide's ESM build - works in module workers
   const { loadPyodide } = await import(
     /* @vite-ignore */
+    // @ts-expect-error dynamic CDN import in worker
     'https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.mjs'
   );
   pyodide = await loadPyodide();

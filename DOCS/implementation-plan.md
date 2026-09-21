@@ -1,4 +1,4 @@
-# Statica Learn — Technical Implementation Spec
+# Statica Learn - Technical Implementation Spec
 
 This document defines the technical architecture, stack, data model, and build
 phases for the Statica Learn rebuild. It is scoped to backend/architecture
@@ -16,7 +16,7 @@ Target: rebuild in place, same repo, same hosting model (static).
 - **Routing**: React Router
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Backend-as-a-service**: Firebase (Auth + Firestore + Storage)
-- **Hosting**: Cloudflare Pages (static build, no server) — Firebase
+- **Hosting**: Cloudflare Pages (static build, no server) - Firebase
   Hosting is also a fine choice here; either works with a static Vite build
 - **Code editor**: CodeMirror 6
 - **JS execution**: Web Worker (isolated from main thread)
@@ -165,11 +165,11 @@ time (e.g. with Zod) and fails the build on schema mismatch.
 
 ## 4. Database Schema (Firestore)
 
-v1 scope — three top-level collections. Do not implement `concepts`,
+v1 scope - three top-level collections. Do not implement `concepts`,
 `userConcepts`, `achievements`, or `userAchievements` until Phase 6, when
 there is real usage data to justify them.
 
-Firestore is document-based, not relational — model this as one profile
+Firestore is document-based, not relational - model this as one profile
 document per user, with progress as a subcollection under it (so security
 rules can scope access with a single `request.auth.uid == userId` check
 and you never need a cross-collection join).
@@ -218,7 +218,7 @@ service cloud.firestore {
 ### Indexes
 
 Add a composite index on `progress` (`pathId` + `status`) once you need
-"% complete per path" queries across many lessons — not required for v1
+"% complete per path" queries across many lessons - not required for v1
 if you just read the whole subcollection client-side.
 
 ### Deferred schema (Phase 6+)
@@ -244,7 +244,7 @@ users/{userId}/achievements/{achievementId}
 - Firebase Auth.
 - v1 providers: Email/password + Google.
 - Support anonymous/guest usage: Firebase Auth's anonymous sign-in works
-  well here — start the user as an anonymous auth user on first visit, so
+  well here - start the user as an anonymous auth user on first visit, so
   progress can be written to Firestore right away, then link the anonymous
   account to Google/email if they choose to sign up (`linkWithCredential`)
   rather than migrating data after the fact.
@@ -264,7 +264,7 @@ users/{userId}/achievements/{achievementId}
 
 - Pyodide loaded inside a Web Worker.
 - Lazy-load Pyodide only when a Python code block is first rendered (it's
-  several MB — do not include it in the main bundle).
+  several MB - do not include it in the main bundle).
 - Same worker message contract as JS: `{ output, passed, error }`.
 
 ### Execution contract (shared)
@@ -296,7 +296,7 @@ explicitly deferred to Phase 6+.
 - Every meaningful action writes a document to the `activities`
   subcollection: `lesson_started`, `lesson_completed`, `question_answered`,
   `code_run`, `path_started`.
-- The `progress` subcollection is updated on lesson start/completion —
+- The `progress` subcollection is updated on lesson start/completion  - 
   this is what the UI reads for "% complete" displays.
 - No skill/mastery calculation in v1. That requires the `conceptMastery`
   subcollection (Phase 6).
@@ -379,26 +379,26 @@ lesson JSON file fails the build rather than breaking the live site.
 
 ## 11. Build Phases (implementation order)
 
-**Phase 1 — Foundation**
+**Phase 1 - Foundation**
 React + TS + Vite scaffold, Firebase project, auth (email + Google +
 anonymous), routing skeleton, `users` collection, security rules.
 
-**Phase 2 — Learning engine**
+**Phase 2 - Learning engine**
 Content loader + schema validation for Path/Lesson, lesson block renderer
 for the 4 v1 block types, `progress` subcollection read/write.
 
-**Phase 3 — Content**
+**Phase 3 - Content**
 Author lessons for one path only (Python) end-to-end: ~15-20 lessons.
 
-**Phase 4 — Browser code execution**
+**Phase 4 - Browser code execution**
 JS Web Worker runner, Pyodide Python worker runner, CodeMirror integration,
 challenge/test evaluation UI.
 
-**Phase 5 — Projects**
+**Phase 5 - Projects**
 Project content type (instructions + starter code + hints), project pages,
 no automated grading yet.
 
-**Phase 6 — Expansion (post-validation only)**
+**Phase 6 - Expansion (post-validation only)**
 Concept/skill tracking tables, achievements, search, additional paths,
 AI tutor integration, sandboxed execution for real projects.
 

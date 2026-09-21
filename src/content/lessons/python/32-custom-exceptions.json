@@ -1,0 +1,65 @@
+{
+  "id": "python-custom-exceptions",
+  "slug": "custom-exceptions",
+  "title": "Raising and Custom Exceptions",
+  "description": "Trigger exceptions with raise and create domain-specific custom exception classes.",
+  "pathId": "python",
+  "moduleId": "python-exceptions",
+  "difficulty": "medium",
+  "estimatedMinutes": 10,
+  "concepts": ["raise", "custom-exceptions", "user-defined-exceptions", "exception-hierarchy"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Built-in exceptions like `ValueError` describe generic programming errors. But in domain logic (such as an e-commerce checkout or an authentication gateway), you want errors that clearly communicate business rules: `InsufficientFundsError`, `UserAlreadyExistsError`, or `InvalidCouponError`.\n\nPython lets you define **Custom Exceptions** by subclassing `Exception`."
+    },
+    {
+      "type": "text",
+      "content": "## Raising Exceptions with `raise`\n\nYou can manually trigger any exception with the `raise` keyword:\n\n```python\ndef set_percentage(value):\n    if not 0 <= value <= 100:\n        raise ValueError(f\"Percentage must be between 0 and 100, got {value}\")\n    return value\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Defining Custom Exception Classes\n\nTo create a custom exception, simply inherit from `Exception`:\n\n```python\nclass InsufficientFundsError(Exception):\n    \"\"\"Raised when an account withdrawal exceeds the available balance.\"\"\"\n    def __init__(self, requested, balance):\n        self.requested = requested\n        self.balance = balance\n        super().__init__(f\"Cannot withdraw ${requested}; current balance is ${balance}\")\n\ndef withdraw(balance, amount):\n    if amount > balance:\n        raise InsufficientFundsError(amount, balance)\n    return balance - amount\n```\n\n```mermaid\nclassDiagram\n    BaseException <|-- Exception\n    Exception <|-- ValueError\n    Exception <|-- InsufficientFundsError\n    class InsufficientFundsError {\n      +requested\n      +balance\n    }\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the recommended base class when creating user-defined exceptions in Python?",
+      "options": [
+        "Exception",
+        "BaseException",
+        "object",
+        "RuntimeWarning"
+      ],
+      "correctIndex": 0,
+      "explanation": "Custom exceptions should almost always inherit from `Exception` (not `BaseException`, which is reserved for system-exiting exceptions like `KeyboardInterrupt` and `SystemExit`)."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "class InvalidPasswordError(Exception):\n    pass\n\ndef validate_password(password):\n    if len(password) < 8:\n        raise InvalidPasswordError(\"Password must be at least 8 characters long\")\n    return True\n\ntry:\n    validate_password(\"short\")\nexcept InvalidPasswordError as err:\n    print(f\"Validation failed: {err}\")\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `process_transaction(balance, amount)` that checks if `amount > balance`. If it is, raise a custom exception `NegativeBalanceError` with the message `'Insufficient funds'`. Catch it within the function and return `'Declined'`. If `amount <= balance`, return `'Approved'`.",
+      "starterCode": "class NegativeBalanceError(Exception):\n    pass\n\ndef process_transaction(balance, amount):\n    # your code here\n    pass\n",
+      "tests": [
+        {
+          "input": [100, 50],
+          "expectedOutput": "Approved",
+          "description": "returns 'Approved' when funds are sufficient"
+        },
+        {
+          "input": [50, 100],
+          "expectedOutput": "Declined",
+          "description": "returns 'Declined' when amount > balance triggers custom exception"
+        },
+        {
+          "input": [200, 200],
+          "expectedOutput": "Approved",
+          "description": "returns 'Approved' when exact balance is withdrawn"
+        }
+      ]
+    }
+  ]
+}

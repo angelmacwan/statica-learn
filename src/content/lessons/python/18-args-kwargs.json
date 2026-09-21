@@ -1,0 +1,65 @@
+{
+  "id": "python-args-kwargs",
+  "slug": "args-kwargs",
+  "title": "Flexible Arguments with *args and **kwargs",
+  "description": "Accept any number of positional or keyword arguments in your functions.",
+  "pathId": "python",
+  "moduleId": "python-advanced-functions",
+  "difficulty": "medium",
+  "estimatedMinutes": 10,
+  "concepts": ["args", "kwargs", "unpacking", "variable-arguments", "keyword-arguments"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Imagine you're building a calculator tool for a restaurant bill. Sometimes 2 people split the bill, other times 8 people split it, each ordering different items. If you defined `def split_bill(person1, person2, person3...)`, you would be trapped with a fixed number of parameters.\n\nPython gives you two powerful symbols to handle variable numbers of arguments: `*` for positional arguments (`*args`) and `**` for keyword arguments (`**kwargs`)."
+    },
+    {
+      "type": "text",
+      "content": "## Positional Flexibility: `*args`\n\nThe `*` operator packs any number of extra positional arguments into a **tuple**.\n\n```python\ndef calculate_total(*prices):\n    total = 0\n    for price in prices:\n        total += price\n    return total\n\nprint(calculate_total(10, 25))          # 35\nprint(calculate_total(5, 15, 30, 50))   # 100\n```\n\n```mermaid\ngraph LR\n    A[\"calculate_total(10, 25, 50)\"] -->|*packs into tuple| B[\"prices = (10, 25, 50)\"]\n    B --> C[\"Sum = 85\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Keyword Flexibility: `**kwargs`\n\nThe `**` operator collects arbitrary keyword arguments into a **dictionary** where keys are parameter names as strings.\n\n```python\ndef build_profile(username, **details):\n    print(f\"User: {username}\")\n    for key, value in details.items():\n        print(f\"- {key}: {value}\")\n\nbuild_profile(\"alice_dev\", role=\"Admin\", location=\"Berlin\", active=True)\n# User: alice_dev\n# - role: Admin\n# - location: Berlin\n# - active: True\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the data type of `args` inside a function defined as `def func(*args):` when called with `func(1, 2, 3)`?",
+      "options": [
+        "list",
+        "tuple",
+        "dict",
+        "set"
+      ],
+      "correctIndex": 1,
+      "explanation": "`*args` packs positional arguments into an immutable `tuple`. `**kwargs` packs keyword arguments into a `dict`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Unpacking with * and **\ndef introduce(name, age, city):\n    return f\"{name} is {age} years old and lives in {city}.\"\n\n# Unpack a list/tuple with *\nperson_info = [\"Carlos\", 29, \"Madrid\"]\nprint(introduce(*person_info))\n\n# Unpack a dictionary with **\nperson_dict = {\"name\": \"Elena\", \"age\": 34, \"city\": \"Athens\"}\nprint(introduce(**person_dict))\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `multiply_all(*numbers, factor=1)` that takes any number of numeric arguments, multiplies each by `factor`, and returns their sum. If no numbers are passed, return 0.",
+      "starterCode": "def multiply_all(*numbers, factor=1):\n    # your code here\n    pass\n",
+      "tests": [
+        {
+          "input": [1, 2, 3],
+          "expectedOutput": 6,
+          "description": "multiply_all(1, 2, 3) with default factor=1 gives 1+2+3 = 6"
+        },
+        {
+          "input": [2, 4, 6, 2],
+          "expectedOutput": 28,
+          "description": "multiply_all(2, 4, 6, factor=2) -> (2*2) + (4*2) + (6*2) = 28"
+        },
+        {
+          "input": [],
+          "expectedOutput": 0,
+          "description": "multiply_all() with no arguments returns 0"
+        }
+      ]
+    }
+  ]
+}

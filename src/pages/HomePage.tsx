@@ -41,7 +41,7 @@ export default function HomePage() {
           {user ? `Welcome back${user.displayName ? `, ${user.displayName.split(' ')[0]}` : ''}` : 'Learn by doing.'}
         </h1>
         <p className="text-lg text-gray-500 max-w-xl">
-          Hands-on coding paths and exercises. No fluff — just concrete skills built one lesson at a time.
+          Hands-on coding paths and exercises. No fluff - just concrete skills built one lesson at a time.
         </p>
         {!user && (
           <div className="flex gap-3 pt-2">

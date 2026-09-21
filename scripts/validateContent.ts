@@ -1,5 +1,5 @@
 /**
- * Content validation script — run with: npm run validate-content
+ * Content validation script - run with: npm run validate-content
  * Fails with non-zero exit code if any content file fails schema validation.
  */
 import { readdirSync, readFileSync } from 'fs';
@@ -20,14 +20,14 @@ function validateDir(dir: string, schema: any) {
       const raw = JSON.parse(readFileSync(fullPath, 'utf8'));
       const result = schema.safeParse(raw);
       if (!result.success) {
-        console.error(`❌ ${fullPath}`);
+        console.error(`[FAIL] ${fullPath}`);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         result.error.issues.forEach((issue: any) =>
           console.error(`   ${issue.path.join('.')}: ${issue.message}`)
         );
         errors++;
       } else {
-        console.log(`✅ ${fullPath}`);
+        console.log(`[PASS] ${fullPath}`);
       }
     }
   }

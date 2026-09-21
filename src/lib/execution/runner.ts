@@ -1,6 +1,6 @@
 import type { ExecutionRequest, ExecutionResult } from '@/types';
 
-// Worker instances — reused across calls
+// Worker instances - reused across calls
 let jsWorker: Worker | null = null;
 let pyWorker: Worker | null = null;
 

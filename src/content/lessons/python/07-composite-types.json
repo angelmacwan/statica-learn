@@ -1,0 +1,103 @@
+{
+  "id": "python-composite-types",
+  "slug": "composite-types",
+  "title": "Collections: list, tuple, set, dict",
+  "description": "Store multiple values together using Python's built-in collection types.",
+  "pathId": "python",
+  "moduleId": "python-variables",
+  "difficulty": "easy",
+  "estimatedMinutes": 15,
+  "concepts": ["list", "tuple", "set", "dict", "indexing", "key-value"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## You're Building a Music App\n\nImagine you're writing the backend for a music streaming app. Right away, you hit four very different storage problems:\n\n| What you need to store | Requirements |\n|---|---|\n| A **playlist** of songs | Ordered, can add/remove songs, duplicates allowed |\n| A **coordinate** on a map (lat, lng) | Fixed pair - it should never change |\n| **Tags** on a song (\"pop\", \"chill\", \"workout\") | No duplicates, order doesn't matter |\n| **Song metadata** (title, artist, duration) | Look up info by name, not by position |\n\nPython ships with exactly four built-in collection types that map perfectly to these four problems: **list**, **tuple**, **set**, and **dict**.\n\nLet's meet all four."
+    },
+    {
+      "type": "text",
+      "content": "## The Four Collection Types at a Glance\n\n```mermaid\ngraph TD\n    C[\"Python Collections\"]\n    C --> L[\"list\\n[ \\\"a\\\", \\\"b\\\", \\\"c\\\" ]\"]\n    C --> T[\"tuple\\n( \\\"x\\\", \\\"y\\\" )\"]\n    C --> S[\"set\\n{ 1, 2, 3 }\"]\n    C --> D[\"dict\\n{ \\\"key\\\": value }\"]\n\n    L --> L1[\"[PASS] Ordered\"]\n    L --> L2[\"[PASS] Changeable\"]\n    L --> L3[\"[PASS] Duplicates OK\"]\n\n    T --> T1[\"[PASS] Ordered\"]\n    T --> T2[\"[FAIL] Fixed (immutable)\"]\n    T --> T3[\"[PASS] Duplicates OK\"]\n\n    S --> S1[\"[FAIL] Unordered\"]\n    S --> S2[\"[PASS] Changeable\"]\n    S --> S3[\"[FAIL] Unique only\"]\n\n    D --> D1[\"[PASS] Key-value pairs\"]\n    D --> D2[\"[PASS] Changeable\"]\n    D --> D3[\"[FAIL] Keys must be unique\"]\n```\n\nThe square brackets, parentheses, and curly braces are not arbitrary - Python uses them as visual shorthand for each type."
+    },
+    {
+      "type": "text",
+      "content": "## list - Ordered and Changeable\n\nA **list** is the most versatile collection. Think of it like a numbered queue of items.\n\n```python\nplaylist = [\"Blinding Lights\", \"Levitating\", \"Stay\", \"Levitating\"]\n```\n\n### Indexing\nEach item has a position (index) starting at **0**. Negative indices count from the end:\n\n```python\nplaylist[0]    # \"Blinding Lights\"  - first item\nplaylist[-1]   # \"Levitating\"       - last item\n```\n\n### Slicing\nGrab a sub-list with `[start:stop]` (stop is **exclusive**):\n\n```python\nplaylist[1:3]  # [\"Levitating\", \"Stay\"]  - indices 1 and 2\n```\n\n### Modifying a List\n\n```python\nplaylist.append(\"Peaches\")       # add to end\nplaylist.remove(\"Stay\")          # remove first occurrence\nlen(playlist)                    # number of items → 4\n```\n\n> **Duplicates are allowed.** Notice `\"Levitating\"` appears twice - `len()` still counts both.\n\n```mermaid\ngraph LR\n    I0[\"Index 0\\nBlinding Lights\"]\n    I1[\"Index 1\\nLevitating\"]\n    I2[\"Index 2\\nStay\"]\n    I3[\"Index 3\\nLevitating\"]\n    I0 --- I1 --- I2 --- I3\n```"
+    },
+    {
+      "type": "text",
+      "content": "## tuple - Ordered but Fixed\n\nA **tuple** looks like a list but uses parentheses and **cannot be changed** after creation. Use it when the data is a fixed group that shouldn't mutate.\n\n```python\nlocation = (37.7749, -122.4194)   # latitude, longitude\nrgb_red  = (255, 0, 0)            # an RGB color\nconfig   = (\"localhost\", 8080)    # server host + port\n```\n\n### Accessing items\nIndexing works exactly like a list:\n\n```python\nlocation[0]   # 37.7749\nlocation[-1]  # -122.4194\n```\n\n### Trying to change a tuple raises an error\n\n```python\nlocation[0] = 99.0\n# TypeError: 'tuple' object does not support item assignment\n```\n\nThis is a **feature**, not a bug. Tuples act as a promise: *\"these values will never change.\"* Python and other developers can rely on that guarantee.\n\n> **Rule of thumb:** If your group of values is a fixed structure (coordinates, a date, an RGB tripple), use a tuple. If you'll add or remove items, use a list."
+    },
+    {
+      "type": "text",
+      "content": "## set - Unique Values Only\n\nA **set** stores items with **no duplicates** and **no guaranteed order**. It's perfect for tags, permissions, or any collection where only membership matters.\n\n```python\ntags = {\"pop\", \"chill\", \"workout\", \"pop\"}   # duplicate \"pop\" is silently dropped\nprint(tags)  # {\"chill\", \"pop\", \"workout\"}  - order may vary\n```\n\n### Modifying a set\n\n```python\ntags.add(\"edm\")       # add a new tag\ntags.remove(\"chill\")  # remove a tag (raises KeyError if missing)\ntags.discard(\"jazz\")  # remove if present, no error if not\n```\n\n### Set operations - the real superpower\n\nSets support mathematical set operations that are incredibly useful for comparing data:\n\n```python\nmy_tags    = {\"pop\", \"chill\", \"workout\"}\nfriend_tags = {\"pop\", \"workout\", \"rock\"}\n\nmy_tags | friend_tags   # Union  → {\"pop\", \"chill\", \"workout\", \"rock\"}\nmy_tags & friend_tags   # Intersection → {\"pop\", \"workout\"}  (shared tags)\nmy_tags - friend_tags   # Difference → {\"chill\"}  (only in mine)\n```\n\n```mermaid\ngraph LR\n    A[\"my_tags\\nchill | pop | workout\"]\n    B[\"friend_tags\\npop | rock | workout\"]\n    A -->|\"& intersection\"| C[\"pop, workout\"]\n    A -->|\"| union\"| D[\"chill, pop, rock, workout\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "## dict - Key-Value Pairs\n\nA **dict** (dictionary) maps **keys** to **values**. Instead of accessing items by position, you look them up by a descriptive key - like a real dictionary where you look up words.\n\n```python\nsong = {\n    \"title\":    \"Blinding Lights\",\n    \"artist\":   \"The Weeknd\",\n    \"duration\": 200\n}\n```\n\n### Accessing values\n\n```python\nsong[\"title\"]     # \"Blinding Lights\"\nsong[\"duration\"]  # 200\n```\n\n### Adding and updating entries\n\n```python\nsong[\"genre\"] = \"synth-pop\"    # add a new key\nsong[\"duration\"] = 202         # update existing key\n```\n\n### Looping over a dict\n\n```python\nsong.keys()    # dict_keys([\"title\", \"artist\", \"duration\", \"genre\"])\nsong.values()  # dict_values([\"Blinding Lights\", \"The Weeknd\", 202, \"synth-pop\"])\n\nfor key, value in song.items():\n    print(f\"{key}: {value}\")\n```\n\n### Safe access with `.get()`\n\n```python\nsong[\"label\"]         # KeyError - key doesn't exist!\nsong.get(\"label\")     # None - safe, no crash\nsong.get(\"label\", \"Unknown\")  # \"Unknown\" - fallback default\n```"
+    },
+    {
+      "type": "text",
+      "content": "## When to Use Which Type?\n\n| | **list** | **tuple** | **set** | **dict** |\n|---|---|---|---|---|\n| **Syntax** | `[1, 2, 3]` | `(1, 2, 3)` | `{1, 2, 3}` | `{\"k\": v}` |\n| **Ordered?** | [PASS] Yes | [PASS] Yes | [FAIL] No | [PASS] (insertion order, Python 3.7+) |\n| **Mutable?** | [PASS] Yes | [FAIL] No | [PASS] Yes | [PASS] Yes |\n| **Duplicates?** | [PASS] Yes | [PASS] Yes | [FAIL] No | Keys: [FAIL] / Values: [PASS] |\n| **Access by** | Index | Index | Membership | Key |\n| **Best for** | Sequences that change | Fixed groups | Unique membership | Named attributes |\n| **Music app use** | Playlist | GPS coordinate | Song tags | Song metadata |"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does the following code print?\n\nfruits = [\"apple\", \"banana\", \"apple\"]\nprint(len(fruits))",
+      "options": [
+        "2",
+        "3",
+        "Error - duplicates are not allowed",
+        "Depends on Python version"
+      ],
+      "correctIndex": 1,
+      "explanation": "Lists allow duplicate values. `[\"apple\", \"banana\", \"apple\"]` has three elements - the fact that \"apple\" appears twice doesn't matter. `len()` counts all items, including duplicates, so the answer is 3. If you wanted only unique items, you'd use a set: `len(set(fruits))` would return 2."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Given the following dict, how do you correctly retrieve the value `\"Alice\"`?\n\nperson = {\"name\": \"Alice\", \"age\": 30}",
+      "options": [
+        "person[0]",
+        "person[\"name\"]",
+        "person.name",
+        "person.get[\"name\"]"
+      ],
+      "correctIndex": 1,
+      "explanation": "Dicts are accessed by **key**, not by position - so `person[0]` raises a KeyError (there is no key `0`). `person.name` is attribute access syntax used for objects, not dicts. `person.get[\"name\"]` is wrong syntax (`.get()` is a method call, not subscript). The correct answer is `person[\"name\"]`, which looks up the value stored under the key `\"name\"`. You could also use `person.get(\"name\")` for a safer, crash-proof version."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Contact Book using a dict\n# Each contact is a dict with name, phone, and email\n\ncontacts = {}\n\n# Add contacts\ncontacts[\"Alice\"] = {\"phone\": \"555-1234\", \"email\": \"alice@example.com\"}\ncontacts[\"Bob\"]   = {\"phone\": \"555-5678\", \"email\": \"bob@example.com\"}\n\n# Access a contact's phone number\nprint(\"Alice's phone:\", contacts[\"Alice\"][\"phone\"])\n\n# Update Bob's email\ncontacts[\"Bob\"][\"email\"] = \"bob@newdomain.com\"\nprint(\"Bob's updated email:\", contacts[\"Bob\"][\"email\"])\n\n# List all contact names\nprint(\"\\nAll contacts:\")\nfor name in contacts.keys():\n    print(\" -\", name)\n\n# Safe lookup - won't crash if contact doesn't exist\nunknown = contacts.get(\"Carol\", \"Contact not found\")\nprint(\"\\nCarol:\", unknown)\n\n# Try it yourself:\n# 1. Add a contact for yourself\n# 2. Print your phone number\n# 3. Add a \"city\" field to Alice's contact\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `count_unique(items)` that takes a list and returns the **number of unique items** in it.\n\nFor example:\n- `count_unique([1, 2, 3])` → `3` (all unique)\n- `count_unique([1, 1, 1])` → `1` (only one unique value)\n- `count_unique([\"a\", \"b\", \"a\", \"c\"])` → `3` (\"a\", \"b\", \"c\" are unique)\n\n**Hint:** Converting a list to a `set` removes all duplicates.",
+      "starterCode": "def count_unique(items):\n    # your code here\n    pass",
+      "tests": [
+        {
+          "input": [[1, 2, 3]],
+          "expectedOutput": 3,
+          "description": "All items are unique - should return 3"
+        },
+        {
+          "input": [[1, 1, 1]],
+          "expectedOutput": 1,
+          "description": "All items are the same - should return 1"
+        },
+        {
+          "input": [["a", "b", "a", "c"]],
+          "expectedOutput": 3,
+          "description": "Mixed strings with one duplicate - should return 3"
+        },
+        {
+          "input": [[]],
+          "expectedOutput": 0,
+          "description": "Empty list - should return 0"
+        },
+        {
+          "input": [[7, 3, 7, 3, 7]],
+          "expectedOutput": 2,
+          "description": "Two distinct values repeated - should return 2"
+        }
+      ]
+    }
+  ]
+}

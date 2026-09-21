@@ -1,8 +1,8 @@
 {
   "id": "python",
   "slug": "python",
-  "title": "Python Fundamentals",
-  "description": "Learn to write Python from zero — variables, logic, loops, functions, and data structures. By the end you'll be able to write programs that actually do things.",
+  "title": "Python Fundamentals & Advanced Programming",
+  "description": "Master Python from the ground up: syntax, logic, loops, advanced functions, data structures, collections & DSA, OOP, error handling, file management, and package ecosystems.",
   "category": "programming",
   "difficulty": "intro",
   "moduleIds": [
@@ -11,7 +11,14 @@
     "python-conditions",
     "python-loops",
     "python-functions",
-    "python-lists"
+    "python-lists",
+    "python-advanced-functions",
+    "python-data-structures",
+    "python-collections-dsa",
+    "python-oop",
+    "python-exceptions",
+    "python-file-handling",
+    "python-packages-libraries"
   ],
   "published": true
 }

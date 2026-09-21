@@ -1,0 +1,73 @@
+{
+  "id": "python-math",
+  "slug": "math",
+  "title": "Math with Python",
+  "description": "Use Python's built-in math capabilities and the math module for real calculations.",
+  "pathId": "python",
+  "moduleId": "python-variables",
+  "difficulty": "easy",
+  "estimatedMinutes": 10,
+  "concepts": ["math module", "abs", "round", "min", "max", "pow", "math.sqrt", "math.floor", "math.ceil"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Python Does Serious Math\n\nPython isn't just for printing \"Hello, World!\" - it powers real-world calculations:\n\n-  **GPS distance** between two coordinates using the Haversine formula\n-  **Mortgage payments** using compound interest formulas\n-  **Statistical analysis** over thousands of data points\n-  **Physics simulations** for game engines\n\nYou already know the basic operators (`+`, `-`, `*`, `/`, `**`). This lesson covers the **built-in math functions** and the **`math` module** that unlock more powerful calculations."
+    },
+    {
+      "type": "text",
+      "content": "## Built-In Math Functions\n\nThese functions are available everywhere - no import needed.\n\n```python\n# abs() - absolute value (removes the negative sign)\nprint(abs(-42))      # 42\nprint(abs(3.7))      # 3.7\n\n# round() - round to N decimal places\nprint(round(3.14159, 2))   # 3.14\nprint(round(2.675, 2))     # 2.67  (see rounding note below!)\nprint(round(7))            # 7     (nearest integer)\n\n# min() / max() - smallest / largest value\nprint(min(3, 1, 4, 1, 5, 9))   # 1\nprint(max(3, 1, 4, 1, 5, 9))   # 9\nprint(min([10, 20, 5, 30]))     # 5  (works with lists too)\n\n# pow() - exponentiation (same as **)\nprint(pow(2, 10))   # 1024\nprint(2 ** 10)      # 1024  (equivalent)\n\n# sum() - add up an iterable\nscores = [88, 92, 75, 100, 60]\nprint(sum(scores))          # 415\nprint(sum(scores) / len(scores))  # 83.0  (average)\n```\n\n```mermaid\ngraph LR\n    A[\"Built-in Math\"] --> B[\"abs(x)\"]\n    A --> C[\"round(x, n)\"]\n    A --> D[\"min(...) / max(...)\"]\n    A --> E[\"pow(x, y)\"]\n    A --> F[\"sum(iterable)\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "## The `math` Module\n\nFor more advanced math, Python includes the **`math` module** in its standard library. Import it once at the top of your file:\n\n```python\nimport math\n```\n\n### Common functions\n\n```python\nimport math\n\n# Square root\nprint(math.sqrt(144))     # 12.0\nprint(math.sqrt(2))       # 1.4142135623730951\n\n# Floor and ceiling\nprint(math.floor(3.9))    # 3  (round DOWN to nearest int)\nprint(math.floor(-3.1))   # -4\nprint(math.ceil(3.1))     # 4  (round UP to nearest int)\nprint(math.ceil(-3.9))    # -3\n\n# Logarithms\nprint(math.log(100, 10))  # 2.0  (log base 10 of 100)\nprint(math.log(math.e))   # 1.0  (natural log)\n\n# Trigonometry (angles in radians)\nprint(math.sin(math.pi / 2))  # 1.0\nprint(math.cos(0))             # 1.0\n\n# Constants\nprint(math.pi)   # 3.141592653589793\nprint(math.e)    # 2.718281828459045\nprint(math.tau)  # 6.283185307179586  (2 * pi)\n```\n\n### Real example: Pythagorean theorem\n\n```python\nimport math\n\ndef hypotenuse(a, b):\n    \"\"\"Calculate the hypotenuse of a right triangle.\"\"\"\n    return math.sqrt(a**2 + b**2)\n\nprint(hypotenuse(3, 4))   # 5.0  (classic 3-4-5 triangle)\nprint(hypotenuse(5, 12))  # 13.0\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Integer Division `//` and Modulo `%`\n\nThese operators are incredibly useful for converting units and checking divisibility.\n\n**`//` (floor division)** - divide and drop the remainder:\n```python\nprint(17 // 5)   # 3  (how many whole times 5 goes into 17)\nprint(7 // 2)    # 3\n```\n\n**`%` (modulo)** - the remainder after division:\n```python\nprint(17 % 5)    # 2  (17 = 3*5 + 2, so remainder is 2)\nprint(10 % 3)    # 1\nprint(10 % 2)    # 0  (evenly divisible - great for even/odd checks!)\n```\n\n### Real-world example: converting minutes to hours and minutes\n\n```python\ntotal_minutes = 137\n\nhours = total_minutes // 60    # 2\nminutes = total_minutes % 60   # 17\n\nprint(f\"{total_minutes} minutes = {hours}h {minutes}m\")\n# Output: 137 minutes = 2h 17m\n```\n\n```mermaid\ngraph LR\n    A[\"137 minutes\"] --> B[\"137 // 60 = 2 hours\"]\n    A --> C[\"137 % 60 = 17 minutes\"]\n    B --> D[\"Result: 2h 17m\"]\n    C --> D\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Rounding Quirks: Banker's Rounding\n\nPython's `round()` uses **\"round half to even\"** (also called banker's rounding), not the \"round half up\" rule you learned in school.\n\n```python\nprint(round(0.5))   # 0  ← rounds to nearest EVEN number (0)\nprint(round(1.5))   # 2  ← rounds to nearest EVEN number (2)\nprint(round(2.5))   # 2  ← rounds to nearest EVEN number (2)\nprint(round(3.5))   # 4  ← rounds to nearest EVEN number (4)\n```\n\n**Why?** Banker's rounding reduces accumulated rounding bias in financial calculations. If you always round 0.5 up, large datasets skew upward; rounding to even distributes the bias evenly.\n\nIf you need the traditional \"round half up\" behavior:\n```python\nimport math\nprint(math.floor(2.5 + 0.5))  # 3  (traditional rounding)\n```\n\n## Order of Operations (PEMDAS)\n\nPython follows standard math order of operations:\n\n```\nP - Parentheses   ( )\nE - Exponents     **\nM - Multiplication *\nD - Division      / and //\nA - Addition      +\nS - Subtraction   -\n```\n\n```python\nprint(2 + 3 * 4)        # 14, not 20  (multiplication first)\nprint((2 + 3) * 4)      # 20          (parentheses first)\nprint(2 ** 3 ** 2)      # 512         (**  is right-associative: 3**2=9, 2**9=512)\nprint((2 ** 3) ** 2)    # 64\n```\n\n**Tip:** When in doubt, use parentheses. They make intent explicit and prevent bugs."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `math.floor(3.9)` return?",
+      "options": [
+        "3",
+        "4",
+        "3.9",
+        "An error"
+      ],
+      "correctIndex": 0,
+      "explanation": "math.floor() always rounds DOWN to the nearest integer, regardless of how close the decimal is to the next whole number. So math.floor(3.9) returns 3, not 4. Use math.ceil() if you want to round up."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "import math\n\n# === Pythagorean theorem ===\n# c = sqrt(a^2 + b^2)\n\ndef hypotenuse(a, b):\n    \"\"\"Return the hypotenuse of a right triangle with legs a and b.\"\"\"\n    return math.sqrt(a**2 + b**2)\n\nprint(\"Pythagorean theorem examples:\")\nprint(f\"  3-4-?: {hypotenuse(3, 4)}\")    # 5.0\nprint(f\"  5-12-?: {hypotenuse(5, 12)}\")  # 13.0\nprint(f\"  8-15-?: {hypotenuse(8, 15)}\")  # 17.0\n\nprint()\n\n# === Built-in math functions ===\nnumbers = [15, -3, 42, 7, -18, 100]\n\nprint(f\"Numbers: {numbers}\")\nprint(f\"  min: {min(numbers)}\")\nprint(f\"  max: {max(numbers)}\")\nprint(f\"  sum: {sum(numbers)}\")\nprint(f\"  average: {sum(numbers) / len(numbers):.2f}\")\nprint(f\"  all positive (abs): {[abs(n) for n in numbers]}\")\n\nprint()\n\n# === Practical: time conversion ===\ntotal_seconds = 9875\nhours = total_seconds // 3600\nremaining = total_seconds % 3600\nminutes = remaining // 60\nseconds = remaining % 60\nprint(f\"{total_seconds} seconds = {hours}h {minutes}m {seconds}s\")\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `circle_area(radius)` that calculates the area of a circle using the formula:\n\n**area = π × radius²**\n\nReturn the result **rounded to 2 decimal places**. Use `math.pi` for the value of π.\n\nFor example:\n- `circle_area(1)` → `3.14`\n- `circle_area(5)` → `78.54`",
+      "starterCode": "import math\n\ndef circle_area(radius):\n    # Calculate and return the area of a circle, rounded to 2 decimal places\n    pass\n",
+      "tests": [
+        {
+          "input": [1],
+          "expectedOutput": 3.14,
+          "description": "circle_area(1) should return 3.14"
+        },
+        {
+          "input": [5],
+          "expectedOutput": 78.54,
+          "description": "circle_area(5) should return 78.54"
+        },
+        {
+          "input": [0],
+          "expectedOutput": 0.0,
+          "description": "circle_area(0) should return 0.0"
+        }
+      ]
+    }
+  ]
+}

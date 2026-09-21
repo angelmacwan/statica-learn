@@ -19,7 +19,7 @@ export function MultipleChoiceBlock({ block, onAnswer }: Props) {
 
   return (
     <div className="card p-6 space-y-4">
-      {/* Question — may contain code snippet */}
+      {/* Question - may contain code snippet */}
       <pre className="whitespace-pre-wrap text-sm font-sans leading-relaxed text-gray-800">
         {block.question}
       </pre>

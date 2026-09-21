@@ -1,0 +1,83 @@
+{
+  "id": "python-loops",
+  "slug": "loops",
+  "title": "Loops: for and while",
+  "description": "Repeat actions without copy-pasting - the power of iteration.",
+  "pathId": "python",
+  "moduleId": "python-loops",
+  "difficulty": "easy",
+  "estimatedMinutes": 14,
+  "concepts": ["for", "while", "range", "break", "continue", "enumerate"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## The Problem: 1000 Welcome Emails\n\nImagine you just launched an app and 1000 users signed up overnight. You need to send each one a welcome email. Would you write this?\n\n```python\nprint(\"Welcome, user 1!\")\nprint(\"Welcome, user 2!\")\nprint(\"Welcome, user 3!\")\n# ... 997 more lines\n```\n\nAbsolutely not. This is exactly what **loops** solve - they let you repeat an action for every item in a collection, or until a condition changes, without duplicating code.\n\n```python\nusers = [\"Alice\", \"Bob\", \"Carol\"]  # imagine 1000 names here\n\nfor user in users:\n    print(f\"Welcome, {user}!\")\n```\n\nOutput:\n```\nWelcome, Alice!\nWelcome, Bob!\nWelcome, Carol!\n```\n\nThree lines instead of three thousand. That's the power of iteration."
+    },
+    {
+      "type": "text",
+      "content": "## The `for` Loop\n\nA `for` loop steps through every item in a sequence (a list, string, range, etc.) one at a time.\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\n\nfor fruit in fruits:\n    print(fruit)\n```\n\n- `fruit` is the **loop variable** - Python automatically assigns it the next item each iteration\n- The indented block is the **loop body** - it runs once per item\n- When the list runs out, the loop ends\n\nHere's exactly what Python does under the hood:\n\n```mermaid\ngraph TD\n    A[\"Start: get list\"] --> B[\"Any items left?\"];\n    B -- \"Yes\" --> C[\"loop variable = next item\"];\n    C --> D[\"Run loop body\"];\n    D --> B;\n    B -- \"No\" --> E[\"Exit loop\"];\n```\n\nYou can loop over a **string** the same way - each character becomes the loop variable:\n\n```python\nfor letter in \"hello\":\n    print(letter)\n# h\n# e\n# l\n# l\n# o\n```"
+    },
+    {
+      "type": "text",
+      "content": "## `range()` - Count-Based Loops\n\nWhen you want to repeat something a specific number of times (rather than iterating over an existing list), use `range()`.\n\n| Expression | Produces |\n|---|---|\n| `range(5)` | 0, 1, 2, 3, 4 |\n| `range(1, 6)` | 1, 2, 3, 4, 5 |\n| `range(0, 10, 2)` | 0, 2, 4, 6, 8 |\n\n**`range(stop)`** - starts at 0, stops *before* stop\n**`range(start, stop)`** - starts at start, stops *before* stop\n**`range(start, stop, step)`** - jumps by step each time\n\n```python\n# Print 1 through 5\nfor i in range(1, 6):\n    print(i)\n\n# Count down from 10\nfor i in range(10, 0, -1):\n    print(i)\nprint(\"Blastoff!\")\n\n# Only even numbers 0-8\nfor i in range(0, 10, 2):\n    print(i)  # 0 2 4 6 8\n```\n\n> **Tip:** `range` is memory-efficient - it doesn't build the whole list in memory. It generates each number on demand."
+    },
+    {
+      "type": "text",
+      "content": "## The `while` Loop\n\nA `while` loop keeps running **as long as a condition is `True`**. Use it when you don't know in advance how many iterations you'll need.\n\n```python\n# Password retry example\npassword = \"\"\nattempts = 0\n\nwhile password != \"secret123\":\n    password = input(\"Enter password: \")\n    attempts += 1\n\nprint(f\"Access granted after {attempts} attempt(s)!\")\n```\n\nYou can't use a `for` loop here because you have no idea how many times the user will get it wrong. The loop just keeps running until the condition becomes `False`.\n\n```mermaid\ngraph TD\n    A[\"Start\"] --> B{\"Condition true?\"};\n    B -- \"Yes\" --> C[\"Run loop body\"];\n    C --> B;\n    B -- \"No\" --> D[\"Exit loop\"];\n```\n\n[Warning] **Infinite loops:** If the condition never becomes `False`, your program hangs forever. Always make sure something inside the loop eventually makes the condition `False`.\n\n```python\n# BAD - infinite loop!\ncount = 0\nwhile count < 5:\n    print(count)\n    # forgot: count += 1\n```"
+    },
+    {
+      "type": "text",
+      "content": "## `break` and `continue`\n\nThese two keywords give you fine-grained control over loop flow.\n\n### `break` - Exit the Loop Early\n\nStops the loop immediately, even if there are items remaining or the condition is still `True`.\n\n```python\n# Find the first negative number\nnumbers = [4, 7, 2, -3, 8, -1]\n\nfor num in numbers:\n    if num < 0:\n        print(f\"Found negative: {num}\")\n        break  # stop - no need to keep searching\n# Found negative: -3\n```\n\n### `continue` - Skip to the Next Iteration\n\nSkips the rest of the loop body for the *current* iteration and jumps straight to the next one.\n\n```python\n# Print only odd numbers\nfor i in range(1, 8):\n    if i % 2 == 0:\n        continue  # skip even numbers\n    print(i)\n# 1 3 5 7\n```\n\n```mermaid\ngraph LR\n    A[\"Loop starts\"] --> B{\"continue?\"};\n    B -- \"Yes\" --> A;\n    B -- \"No\" --> C{\"break?\"};\n    C -- \"Yes\" --> D[\"Exit loop\"];\n    C -- \"No\" --> E[\"Rest of body\"];\n    E --> A;\n```"
+    },
+    {
+      "type": "text",
+      "content": "## `enumerate()` - Index + Value Together\n\nA common need: loop over a list but also know the *position* of each item. Many beginners do this:\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\ni = 0\nfor fruit in fruits:\n    print(i, fruit)\n    i += 1\n```\n\nThat works, but Python has a cleaner built-in: **`enumerate()`**.\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\n\nfor index, fruit in enumerate(fruits):\n    print(f\"{index}: {fruit}\")\n```\n\nOutput:\n```\n0: apple\n1: banana\n2: cherry\n```\n\n`enumerate()` returns pairs of `(index, value)` - you unpack them with two loop variables.\n\nYou can also start counting from a different number:\n\n```python\nfor index, fruit in enumerate(fruits, start=1):\n    print(f\"{index}. {fruit}\")\n# 1. apple\n# 2. banana\n# 3. cherry\n```\n\nThis is perfect for numbered lists, leaderboards, or any time position matters."
+    },
+    {
+      "type": "text",
+      "content": "## Nested Loops\n\nYou can put a loop inside another loop. The inner loop **runs completely** for every single iteration of the outer loop.\n\nClassic example - generating a multiplication table:\n\n```python\nfor row in range(1, 4):       # rows 1, 2, 3\n    for col in range(1, 4):   # columns 1, 2, 3\n        print(row * col, end=\"\\t\")\n    print()  # newline after each row\n```\n\nOutput:\n```\n1   2   3\n2   4   6\n3   6   9\n```\n\nHow many total times does the inner body run? `3 × 3 = 9` times.\n\n```mermaid\ngraph TD\n    A[\"Outer loop: row = 1\"] --> B[\"Inner loop: col = 1, 2, 3\"];\n    B --> C[\"Outer loop: row = 2\"];\n    C --> D[\"Inner loop: col = 1, 2, 3\"];\n    D --> E[\"Outer loop: row = 3\"];\n    E --> F[\"Inner loop: col = 1, 2, 3\"];\n    F --> G[\"Done\"];\n```\n\n> **Watch out:** Deeply nesting loops (3+ levels) can get slow and hard to read. If you find yourself going 3 levels deep, consider refactoring into a function."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\nfor i in range(3):\n    print(i)\n```",
+      "options": [
+        "1\n2\n3",
+        "0\n1\n2",
+        "0\n1\n2\n3",
+        "1\n2"
+      ],
+      "correctIndex": 1,
+      "explanation": "`range(3)` generates the sequence 0, 1, 2 - it starts at 0 and stops *before* 3. The number you pass in is the count, not the last value. So `print(i)` runs three times, printing 0, then 1, then 2."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "You're writing a program that keeps asking the user for input until they type a valid answer. You don't know how many tries they'll need. Which loop should you use?",
+      "options": [
+        "`for` loop - it's simpler",
+        "`while` loop - it runs until a condition changes",
+        "Both are exactly the same for this case",
+        "Neither - Python has no way to do this"
+      ],
+      "correctIndex": 1,
+      "explanation": "Use `while` when you don't know the number of iterations ahead of time. A `for` loop is ideal when iterating over a fixed sequence or a known count. Since the user could answer correctly on attempt 1 or attempt 100, `while` is the right tool - it keeps running until the condition (invalid input) is no longer true."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# FizzBuzz: A classic programming challenge!\n# For numbers 1 through 20:\n#   - Print \"FizzBuzz\" if divisible by both 3 and 5\n#   - Print \"Fizz\" if divisible by 3 only\n#   - Print \"Buzz\" if divisible by 5 only\n#   - Print the number itself otherwise\n\nfor i in range(1, 21):\n    if i % 3 == 0 and i % 5 == 0:\n        print(\"FizzBuzz\")\n    elif i % 3 == 0:\n        print(\"Fizz\")\n    elif i % 5 == 0:\n        print(\"Buzz\")\n    else:\n        print(i)\n\n# Try it! Then experiment:\n# - Change the range to 1-100\n# - Add a \"Bazz\" rule for multiples of 7\n# - Count how many Fizzes appeared using a counter variable"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `sum_evens(n)` that returns the sum of all even numbers from 0 up to and including `n`.\n\nFor example:\n- `sum_evens(10)` → `30`  (0 + 2 + 4 + 6 + 8 + 10)\n- `sum_evens(6)` → `12`   (0 + 2 + 4 + 6)\n- `sum_evens(0)` → `0`\n\n**Hint:** Use `range()` with a step of 2, or loop through all numbers and check `if num % 2 == 0`.",
+      "starterCode": "def sum_evens(n):\n    # your code here\n    pass",
+      "tests": [
+        { "input": [10], "expectedOutput": 30, "description": "sum_evens(10) should return 30 (0+2+4+6+8+10)" },
+        { "input": [0], "expectedOutput": 0, "description": "sum_evens(0) should return 0 (only 0 itself, which is even)" },
+        { "input": [6], "expectedOutput": 12, "description": "sum_evens(6) should return 12 (0+2+4+6)" },
+        { "input": [1], "expectedOutput": 0, "description": "sum_evens(1) should return 0 (only even number in range is 0)" },
+        { "input": [20], "expectedOutput": 110, "description": "sum_evens(20) should return 110 (0+2+4+...+20)" }
+      ]
+    }
+  ]
+}

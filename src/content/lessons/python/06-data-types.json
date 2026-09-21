@@ -1,0 +1,107 @@
+{
+  "id": "python-data-types",
+  "slug": "data-types",
+  "title": "Data Types",
+  "description": "Python's built-in types: integers, floats, strings, booleans, and how Python knows what type something is.",
+  "pathId": "python",
+  "moduleId": "python-variables",
+  "difficulty": "intro",
+  "estimatedMinutes": 12,
+  "concepts": ["int", "float", "str", "bool", "type", "None"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Why Data Types Matter\n\nImagine you're building a recipe app. Every ingredient needs several pieces of information:\n\n| Field | Example | Kind of data |\n|---|---|---|\n| Name | `\"Flour\"` | Text |\n| Quantity | `3` | Whole number |\n| Price per kg | `1.49` | Decimal number |\n| In stock | `True` | Yes / No |\n| Notes | `None` | Nothing yet |\n\nPython needs to know **what kind** of data each value is so it can store it correctly and know what operations make sense. You can't multiply two ingredient names together - but you *can* multiply two quantities.\n\nThese different kinds of data are called **types**, and Python has five primitive (built-in) ones you'll use constantly."
+    },
+    {
+      "type": "text",
+      "content": "## The 5 Primitive Types at a Glance\n\n```mermaid\ngraph LR\n  root[\"Python Primitive Types\"]\n\n  root --- A[\"int\\n─────\\nWhole numbers\\n42, -7, 0\"]\n  root --- B[\"float\\n─────\\nDecimals\\n3.14, -0.5, 1.0\"]\n  root --- C[\"str\\n─────\\nText\\n\\\"hello\\\", 'world'\"]\n  root --- D[\"bool\\n─────\\nTrue / False\\nTrue, False\"]\n  root --- E[\"NoneType\\n─────\\nAbsence of value\\nNone\"]\n```\n\nEvery value in Python belongs to exactly one type. Python figures out the type automatically based on how you write the value - this is called **type inference**."
+    },
+    {
+      "type": "text",
+      "content": "## `int` - Whole Numbers\n\nAn **integer** (`int`) is any whole number - positive, negative, or zero. No decimal point allowed.\n\n```python\napples = 12\ntemperature = -3\nyear = 2024\n```\n\nIntegers support all the arithmetic operators you'd expect:\n\n| Operator | Meaning | Example | Result |\n|---|---|---|---|\n| `+` | Addition | `7 + 3` | `10` |\n| `-` | Subtraction | `7 - 3` | `4` |\n| `*` | Multiplication | `7 * 3` | `21` |\n| `**` | Exponentiation | `2 ** 8` | `256` |\n| `//` | Floor division | `7 // 2` | `3` |\n| `%` | Remainder (modulo) | `7 % 2` | `1` |\n\n> **Tip:** `//` and `%` are a pair. `7 // 2` tells you how many *times* 2 fits into 7 (3), and `7 % 2` tells you what's *left over* (1). Together: `3 × 2 + 1 = 7`.\n\n```python\nprint(10 // 3)   # 3  (floor division)\nprint(10 % 3)    # 1  (remainder)\nprint(2 ** 10)   # 1024\n```"
+    },
+    {
+      "type": "text",
+      "content": "## `float` - Decimal Numbers\n\nA **float** is a number with a decimal point. The name comes from \"floating-point\", the way computers represent decimals internally.\n\n```python\nprice = 1.99\npi = 3.14159\nabsolute_zero = -273.15\n```\n\n### Regular division always returns a float\n\n```python\nprint(7 / 2)    # 3.5   ← float\nprint(6 / 2)    # 3.0   ← still a float, even though it's a whole number!\nprint(7 // 2)   # 3     ← int (floor division)\n```\n\n### [Warning] The Floating-Point Quirk\n\nFloats are stored in binary (base-2), and some decimals can't be represented *exactly* - just like `1/3` has no exact decimal form.\n\n```python\nprint(0.1 + 0.2)   # 0.30000000000000004  \n```\n\nThis is normal and happens in virtually every programming language. For money calculations, Python has a `decimal` module that handles this precisely - but for everyday use, floats are fine."
+    },
+    {
+      "type": "text",
+      "content": "## `str` - Text (Strings)\n\nA **string** (`str`) is a sequence of characters wrapped in quotes. You can use single `'` or double `\"` quotes - they're equivalent.\n\n```python\nname = \"Flour\"\nunit = 'cups'\nempty = \"\"\n```\n\n### Escape Characters\n\nSome characters need a backslash `\\` to include them inside a string:\n\n| Sequence | Meaning |\n|---|---|\n| `\\n` | Newline (line break) |\n| `\\t` | Tab |\n| `\\\\` | Literal backslash |\n| `\\'` | Literal single quote inside `'...'` |\n| `\\\"` | Literal double quote inside `\"...\"` |\n\n```python\nprint(\"Line 1\\nLine 2\")   # prints on two lines\nprint(\"col1\\tcol2\")       # tab-separated\nprint(\"She said \\\"hi\\\"\")  # She said \"hi\"\n```\n\n### f-strings - The Modern Way to Format Strings\n\nPut an `f` before the opening quote and use `{}` to embed any expression:\n\n```python\nitem = \"Flour\"\nqty = 3\nprint(f\"You need {qty} bags of {item}.\")\n# → You need 3 bags of Flour.\n\nprint(f\"2 to the 10th is {2 ** 10}\")\n# → 2 to the 10th is 1024\n```\n\nf-strings evaluate whatever is inside `{}` and convert it to text automatically."
+    },
+    {
+      "type": "text",
+      "content": "## `bool` - True or False\n\nA **boolean** (`bool`) has exactly two possible values: `True` and `False`. Note the capital letter - Python is case-sensitive, so `true` or `TRUE` will cause an error.\n\n```python\nin_stock = True\nexpired = False\n```\n\n### Booleans Come from Comparisons\n\nMost of the time you won't type `True`/`False` directly - they'll be produced by comparison operators:\n\n```python\nprint(5 > 3)     # True\nprint(5 == 3)    # False\nprint(10 != 10)  # False\nprint(7 >= 7)    # True\n```\n\n### Truthy and Falsy Values\n\nEvery Python value has a boolean meaning. These values are considered **falsy** (act like `False`):\n\n```mermaid\ngraph LR\n  F[\"Falsy Values\"]\n  F --- a[\"0\"]\n  F --- b[\"0.0\"]\n  F --- c['\"\" (empty string)']\n  F --- d[\"None\"]\n  F --- e[\"False\"]\n```\n\nEverything else is **truthy**. This matters when you use values in `if` statements (coming in a later lesson)."
+    },
+    {
+      "type": "text",
+      "content": "## `None` - The Absence of a Value\n\n`None` is Python's way of saying \"there is no value here\". It's its own type, called `NoneType`.\n\n```python\nnotes = None          # no notes yet\nresult = None         # hasn't been computed yet\n```\n\nYou'll see `None` in a few common situations:\n\n```mermaid\ngraph TD\n  N[\"When does None appear?\"]\n  N --> A[\"A variable hasn't been\\nassigned a value yet\"]\n  N --> B[\"A function doesn't\\nexplicitly return anything\"]\n  N --> C[\"An optional field that\\nhasn't been filled in\"]\n```\n\n```python\ndef greet():\n    print(\"Hello!\")   # no return statement\n\nresult = greet()      # prints \"Hello!\"\nprint(result)         # None  ← because greet() returned nothing\n```\n\n`None` is not the same as `0`, `False`, or `\"\"` - it means *absent*, not *empty*."
+    },
+    {
+      "type": "text",
+      "content": "## `type()` - Asking Python What Type Something Is\n\nYou can always ask Python \"what type is this?\" using the built-in `type()` function:\n\n```python\nprint(type(42))        # <class 'int'>\nprint(type(3.14))      # <class 'float'>\nprint(type(\"hello\"))   # <class 'str'>\nprint(type(True))      # <class 'bool'>\nprint(type(None))      # <class 'NoneType'>\n```\n\nThe output format `<class 'int'>` just means: *this value is an instance of the `int` class*. For now, read it as simply \"the type is `int`\".\n\nYou can also use `type()` to **compare** types:\n\n```python\nvalue = 42\nprint(type(value) == int)    # True\nprint(type(value) == float)  # False\n```\n\n> **Tip:** For type-checking in real code, `isinstance()` is usually preferred over `type() ==`, but `type()` is the perfect learning tool."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What type does Python assign to the value `3.0`?\n\n```python\nprint(type(3.0))\n```",
+      "options": [
+        "<class 'int'>",
+        "<class 'float'>",
+        "<class 'str'>",
+        "<class 'bool'>"
+      ],
+      "correctIndex": 1,
+      "explanation": "`3.0` is a float because it has a decimal point - even though its value happens to be a whole number. Python uses the presence of `.` to determine the type at the time you write the literal. If you want an integer 3, write `3` (no dot)."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `type(True)` return?\n\n```python\nprint(type(True))\n```",
+      "options": [
+        "<class 'bool'>",
+        "True",
+        "1",
+        "<class 'int'>"
+      ],
+      "correctIndex": 0,
+      "explanation": "`True` is a boolean, so `type(True)` returns `<class 'bool'>`. Interestingly, `bool` is actually a subclass of `int` in Python (so `True == 1` is `True`), but the *type* of `True` is specifically `bool`, not `int`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Experiment with type() on different values!\n# Try changing the values and see what types Python reports.\n\nrecipe_name = \"Banana Bread\"\nservings = 8\nprice_per_serving = 0.75\nis_vegetarian = True\nallergen_notes = None\n\nprint(type(recipe_name))\nprint(type(servings))\nprint(type(price_per_serving))\nprint(type(is_vegetarian))\nprint(type(allergen_notes))\n\n# Try these - what type do you expect?\nprint(type(7 / 2))    # division always gives a float!\nprint(type(7 // 2))   # floor division gives an int\nprint(type(0.1 + 0.2))# float quirk - check the value too!\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `describe_type(value)` that takes any value and returns a string describing its type:\n- Return `\"int\"` if the value is an integer\n- Return `\"float\"` if the value is a float\n- Return `\"str\"` if the value is a string\n- Return `\"bool\"` if the value is a boolean\n- Return `\"other\"` for anything else (including `None`)\n\n**Hint:** Check for `bool` *before* `int` - because in Python, `bool` is a subclass of `int`, so `isinstance(True, int)` is also `True`!",
+      "starterCode": "def describe_type(value):\n    # your code here\n    pass",
+      "tests": [
+        {
+          "input": [42],
+          "expectedOutput": "int",
+          "description": "describe_type(42) should return \"int\""
+        },
+        {
+          "input": [3.14],
+          "expectedOutput": "float",
+          "description": "describe_type(3.14) should return \"float\""
+        },
+        {
+          "input": ["hello"],
+          "expectedOutput": "str",
+          "description": "describe_type(\"hello\") should return \"str\""
+        },
+        {
+          "input": [true],
+          "expectedOutput": "bool",
+          "description": "describe_type(True) should return \"bool\""
+        },
+        {
+          "input": [null],
+          "expectedOutput": "other",
+          "description": "describe_type(None) should return \"other\""
+        }
+      ]
+    }
+  ]
+}

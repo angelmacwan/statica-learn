@@ -1,0 +1,73 @@
+{
+  "id": "python-variables-and-constants",
+  "slug": "variables-and-constants",
+  "title": "Variables and Constants",
+  "description": "Store, update, and name values in Python - and learn why constants matter.",
+  "pathId": "python",
+  "moduleId": "python-variables",
+  "difficulty": "intro",
+  "estimatedMinutes": 10,
+  "concepts": ["variables", "assignment", "naming", "constants", "ALL_CAPS"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## You need somewhere to keep score\n\nImagine you're building a simple game. The player starts with 0 points, gains 10 after round 1, gains 25 after round 2, and loses 5 after round 3.\n\nHow do you track the score? You can't just write `print(10)` - the value *changes* over time.\n\nYou need a **variable**: a named container that holds a value, which you can read and update whenever you need it.\n\n```python\nscore = 0\nscore = score + 10   # after round 1 → 10\nscore = score + 25   # after round 2 → 35\nscore = score - 5    # after round 3 → 30\nprint(score)         # 30\n```\n\nVariables are the foundation of every program. Without them, you can't remember anything between steps."
+    },
+    {
+      "type": "text",
+      "content": "## Assignment: giving a variable its value\n\nYou create (and update) a variable with `=`, called the **assignment operator**.\n\n```python\nplayer_name = \"Ada\"\nhigh_score = 9001\nis_game_over = False\n```\n\nThink of it as: *\"the name on the left points to the value on the right.\"*\n\n```mermaid\ngraph LR\n  A[\"player_name\"] --> B[\" &nbsp;\\\"Ada\\\"\"]\n  C[\"high_score\"] --> D[\" &nbsp;9001\"]\n  E[\"is_game_over\"] --> F[\" &nbsp;False\"]\n```\n\nEach variable is a label attached to a box in memory. You can swap what's in the box at any time - just assign again:\n\n```python\nhigh_score = 9001\nhigh_score = 9500   # the box now holds 9500\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Naming rules - what makes a valid variable name?\n\nPython has a few strict rules, plus one strong convention:\n\n**Rules (enforced by Python):**\n- Only letters, digits, and underscores - no spaces or dashes\n- Cannot start with a digit\n- Case-sensitive: `Score` and `score` are different variables\n\n**Convention (used by everyone):**\n- Use `snake_case` - all lowercase, words separated by underscores\n\n```python\n# [PASS] Valid names\nplayer_score = 100\nround_number = 3\nmax_lives = 5\n\n# [FAIL] Invalid names\n1st_place = \"gold\"    # starts with a digit\nmy-score = 50         # hyphens not allowed\nhello world = \"hi\"    # spaces not allowed\n```\n\nDescriptive names matter. `s` tells you nothing; `player_score` tells you everything."
+    },
+    {
+      "type": "text",
+      "content": "## Updating variables - and shorthand operators\n\nThe pattern `score = score + 10` is so common that Python has a shorthand:\n\n```python\nscore = 0\n\nscore += 10   # same as: score = score + 10  → 10\nscore += 25   # same as: score = score + 25  → 35\nscore -= 5    # same as: score = score - 5   → 30\nscore *= 2    # same as: score = score * 2   → 60\n```\n\nAll four arithmetic operators have a shorthand: `+=`, `-=`, `*=`, `/=`.\n\nThese don't do anything new - they're just a cleaner way to write \"update this variable.\""
+    },
+    {
+      "type": "text",
+      "content": "## Constants - values that should never change\n\nSome values in your program are fixed forever: the number of lives in a game, the value of pi, a tax rate.\n\nPython has no built-in way to *enforce* that a value doesn't change - but it has a strong **convention**: write the name in `ALL_CAPS`.\n\n```python\nMAX_LIVES = 3\nPI = 3.14159\nTAX_RATE = 0.08\nAPP_VERSION = \"2.1.0\"\n```\n\n`ALL_CAPS` is a signal to every developer (including future-you): **\"don't reassign this.\"** It's not a lock - it's a promise.\n\n```mermaid\ngraph LR\n  A[\"MAX_LIVES\"] --> B[\" 3 \"]\n  C[\"PI\"] --> D[\" 3.14159 \"]\n```\n\nWhen you see `ALL_CAPS` in someone's code, you know that value is meant to stay fixed throughout the program."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which of the following is a valid Python variable name?",
+      "options": [
+        "player_score",
+        "1st_place",
+        "my-var",
+        "hello world"
+      ],
+      "correctIndex": 0,
+      "explanation": "`player_score` is valid - it uses only letters and underscores and follows snake_case convention. `1st_place` is invalid because it starts with a digit. `my-var` is invalid because hyphens aren't allowed (Python reads `-` as subtraction). `hello world` is invalid because spaces aren't allowed in variable names."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Score tracking across rounds\nscore = 0\nprint(\"Start:\", score)\n\nscore += 10\nprint(\"After round 1:\", score)\n\nscore += 25\nprint(\"After round 2:\", score)\n\nscore -= 5\nprint(\"After round 3:\", score)\n\n# Try adding more rounds below!\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `calculate_total(price, quantity, tax_rate)` that returns the total cost after tax.\n\nThe formula is: `price * quantity * (1 + tax_rate)`\n\nFor example, `calculate_total(10.0, 3, 0.1)` should return `33.0` (10 × 3 = 30, plus 10% tax = 33).",
+      "starterCode": "def calculate_total(price, quantity, tax_rate):\n    # your code here\n    pass",
+      "tests": [
+        {
+          "input": [10.0, 3, 0.1],
+          "expectedOutput": 33.0,
+          "description": "10.0 × 3 with 10% tax → 33.0"
+        },
+        {
+          "input": [5.0, 2, 0.0],
+          "expectedOutput": 10.0,
+          "description": "5.0 × 2 with no tax → 10.0"
+        },
+        {
+          "input": [100.0, 1, 0.2],
+          "expectedOutput": 120.0,
+          "description": "100.0 × 1 with 20% tax → 120.0"
+        }
+      ]
+    }
+  ]
+}

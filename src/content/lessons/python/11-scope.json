@@ -1,0 +1,78 @@
+{
+  "id": "python-scope",
+  "slug": "scope",
+  "title": "Scope: Where Variables Live",
+  "description": "Understand why some variables can't be seen inside functions - and what to do about it.",
+  "pathId": "python",
+  "moduleId": "python-functions",
+  "difficulty": "easy",
+  "estimatedMinutes": 10,
+  "concepts": ["local scope", "global scope", "LEGB", "global keyword"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## The Invisible Variable Problem\n\nHere's a puzzle. Can you spot what will go wrong?\n\n```python\ndef calculate():\n    result = 42\n\ncalculate()\nprint(result)  # ???\n```\n\nRunning this gives:\n\n```\nNameError: name 'result' is not defined\n```\n\nBut you *did* define `result`! The issue is **where** you defined it. Variables created inside a function exist only *inside* that function - they disappear the moment the function returns. This is **scope**."
+    },
+    {
+      "type": "text",
+      "content": "## Local vs Global Scope\n\nPython organizes variables into **scopes** - regions of code where a name is visible and usable.\n\n- **Global scope** - the top level of your script. Variables here are visible everywhere below them.\n- **Local scope** - inside a function. Variables here are only visible within that function.\n\n```python\nmessage = \"I'm global\"      # global scope\n\ndef show():\n    note = \"I'm local\"      # local scope\n    print(message)          # [PASS] functions CAN see global variables\n    print(note)             # [PASS] local variable, no problem\n\nshow()\nprint(message)              # [PASS] still visible\nprint(note)                 # [FAIL] NameError - 'note' doesn't exist here\n```\n\n```mermaid\ngraph TD\n  G[\" Global Scope\\nmessage = 'I\\'m global'\"]\n  F[\" Function Scope (show)\\nnote = 'I\\'m local'\"]\n  G -->|\"can be read inside\"| F\n  F -. \"cannot escape\" .-> G\n```\n\nThink of global scope as a shared office, and function scope as a private meeting room. People in the meeting room can see the office whiteboard, but notes written on the meeting room's private board don't exist once you leave the room."
+    },
+    {
+      "type": "text",
+      "content": "## The LEGB Rule\n\nWhen Python encounters a variable name, it searches for it in this exact order:\n\n```mermaid\ngraph LR\n  L[\"L - Local\\n(inside current function)\"] --> E[\"E - Enclosing\\n(outer function, if nested)\"]\n  E --> G[\"G - Global\\n(module top level)\"]\n  G --> B[\"B - Built-in\\n(len, print, range…)\"]\n```\n\nPython stops at the **first scope where it finds the name**. If it's not found anywhere, you get a `NameError`.\n\n```python\nx = \"global\"\n\ndef outer():\n    x = \"enclosing\"\n\n    def inner():\n        print(x)   # finds 'x' in Enclosing scope → \"enclosing\"\n\n    inner()\n\nouter()\n```\n\nYou rarely need to think about Enclosing (it applies to nested functions) or Built-in (Python handles those automatically). **Local and Global are the important ones day-to-day.**"
+    },
+    {
+      "type": "text",
+      "content": "## The `global` Keyword\n\nWhat if you genuinely need to *modify* a global variable from inside a function? Use the `global` keyword:\n\n```python\ncount = 0\n\ndef increment():\n    global count       # tell Python: 'count' refers to the global one\n    count += 1\n\nincrement()\nincrement()\nprint(count)  # 2\n```\n\nWithout `global count`, the line `count += 1` would create a *new local* variable named `count`, which is almost never what you want.\n\n### [Warning] Why to avoid `global`\n\nFunctions that modify global state are harder to test, harder to reason about, and create hidden dependencies. Prefer **returning values** and letting the caller update state:\n\n```python\n# [FAIL] Using global - hidden side effect\ncount = 0\ndef increment():\n    global count\n    count += 1\n\n# [PASS] Returning a new value - explicit and testable\ndef increment(count):\n    return count + 1\n\ncount = increment(count)\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Scope Pitfall: Variable Shadowing\n\n**Shadowing** happens when a local variable has the same name as a global one. The local version *hides* (shadows) the global inside that function:\n\n```python\nname = \"Alice\"   # global\n\ndef show_name():\n    name = \"Bob\"       # local - shadows the global 'name'\n    print(name)        # Bob - sees the local one\n\nshow_name()\nprint(name)            # Alice - global is untouched\n```\n\nShadowing is legal but can cause **confusing bugs** when you intended to use the global variable. A clear sign something's off:\n\n```python\nvalues = [1, 2, 3]\n\ndef broken():\n    values = values + [4]   # [FAIL] UnboundLocalError!\n    # Python sees 'values =' and marks it as local,\n    # then tries to read it before it's been assigned.\n\n```\n\nThe fix: pass the global as a parameter instead of relying on it implicitly."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What happens when you try to access a variable that was defined inside a function, from outside that function?\n\ndef setup():\n    x = 10\n\nsetup()\nprint(x)",
+      "options": [
+        "It prints 10 - the variable persists after the function runs",
+        "It raises a NameError - the variable doesn't exist outside the function",
+        "It works only if you use the `global` keyword inside the function",
+        "It depends on the value of x"
+      ],
+      "correctIndex": 1,
+      "explanation": "Variables defined inside a function live in **local scope** and are destroyed when the function returns. Trying to access `x` outside raises `NameError: name 'x' is not defined`. To make a value available outside, the function should `return` it. The `global` keyword would allow *modifying* a pre-existing global variable, but `x` was never declared globally in the first place."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Exploring scope - run this and observe the output.\n# Then try commenting out the 'global' line and see what changes.\n\nvisits = 0\n\ndef record_visit():\n    global visits          # remove this line and see what happens\n    visits += 1\n    local_note = \"visited!\"   # only exists inside this function\n    print(f\"Inside function: visits = {visits}\")\n\nrecord_visit()\nrecord_visit()\nrecord_visit()\n\nprint(f\"Outside function: visits = {visits}\")\n\n# Uncommenting the line below would cause a NameError:\n# print(local_note)\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `add_prefix(words, prefix)` that takes a list of strings and a prefix string, and returns a **new list** where every string has the prefix prepended to it.\n\nDo not modify the original list. Use only local variables - no global state needed.\n\nExamples:\n- `add_prefix([\"cat\", \"dog\"], \"my_\")` → `[\"my_cat\", \"my_dog\"]`\n- `add_prefix([], \"x\")` → `[]`\n- `add_prefix([\"one\"], \"pre-\")` → `[\"pre-one\"]`",
+      "starterCode": "def add_prefix(words, prefix):\n    # your code here\n    pass\n",
+      "tests": [
+        {
+          "input": [["cat", "dog"], "my_"],
+          "expectedOutput": ["my_cat", "my_dog"],
+          "description": "add_prefix([\"cat\", \"dog\"], \"my_\") should return [\"my_cat\", \"my_dog\"]"
+        },
+        {
+          "input": [[], "x"],
+          "expectedOutput": [],
+          "description": "add_prefix([], \"x\") with an empty list should return an empty list"
+        },
+        {
+          "input": [["one"], "pre-"],
+          "expectedOutput": ["pre-one"],
+          "description": "add_prefix([\"one\"], \"pre-\") should return [\"pre-one\"]"
+        },
+        {
+          "input": [["a", "b", "c"], "item_"],
+          "expectedOutput": ["item_a", "item_b", "item_c"],
+          "description": "add_prefix([\"a\", \"b\", \"c\"], \"item_\") should prepend to all three strings"
+        }
+      ]
+    }
+  ]
+}

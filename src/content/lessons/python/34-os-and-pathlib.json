@@ -1,0 +1,65 @@
+{
+  "id": "python-os-and-pathlib",
+  "slug": "os-and-pathlib",
+  "title": "OS and Pathlib: Directory Management",
+  "description": "Navigate the operating system, manipulate file paths cross-platform, and manage directories.",
+  "pathId": "python",
+  "moduleId": "python-file-handling",
+  "difficulty": "medium",
+  "estimatedMinutes": 11,
+  "concepts": ["os-module", "pathlib", "path", "directory-management", "cross-platform", "filesystem"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Building real software means interacting with the underlying filesystem: finding where files are stored, creating output directories, reading environment variables, and joining paths across Windows (`\\`) and Unix/macOS (`/`).\n\nPython provides both the traditional **`os` module** and the modern object-oriented **`pathlib` module**."
+    },
+    {
+      "type": "text",
+      "content": "## Modern Path Manipulation with `pathlib.Path`\n\n`pathlib` treats filesystem paths as first-class objects with overloaded `/` slash operators:\n\n```python\nfrom pathlib import Path\n\n# Current working directory\ncwd = Path.cwd()\n\n# Cross-platform path composition using /\ndata_file = cwd / \"data\" / \"reports\" / \"summary.csv\"\n\nprint(data_file.name)      # 'summary.csv'\nprint(data_file.suffix)    # '.csv'\nprint(data_file.parent)    # '.../data/reports'\nprint(data_file.exists())  # True or False\n```\n\n```mermaid\ngraph LR\n    A[\"Path.cwd()\"] -->|/ 'data'| B[\"data/\"]\n    B -->|/ 'reports'| C[\"data/reports/\"]\n    C -->|/ 'summary.csv'| D[\"summary.csv\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Directory Operations with `os` and `Path`\n\n- **Create folder**: `Path(\"logs/2026\").mkdir(parents=True, exist_ok=True)`\n- **Check environment variable**: `import os; secret = os.getenv(\"API_KEY\", \"default_val\")`\n- **List directory**: `[p for p in Path(\".\").glob(\"*.py\")]` (finds all Python files)"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the benefit of `Path(\"folder\").mkdir(parents=True, exist_ok=True)`?",
+      "options": [
+        "It automatically deletes existing folders first",
+        "It creates all missing intermediate parent folders and does not error if the folder already exists",
+        "It locks the directory with administrator permissions",
+        "It compresses all files inside the directory into a zip file"
+      ],
+      "correctIndex": 1,
+      "explanation": "`parents=True` creates nested folders like `mkdir -p`, and `exist_ok=True` prevents raising a `FileExistsError` if the directory already exists."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "from pathlib import Path\nimport os\n\n# Inspecting path properties\nsample_path = Path(\"/var/log/statica/app.prod.log\")\n\nprint(f\"File name: {sample_path.name}\")\nprint(f\"Stem: {sample_path.stem}\")\nprint(f\"Suffix: {sample_path.suffix}\")\nprint(f\"Parent directory: {sample_path.parent}\")\n\n# Environment variable\nuser_env = os.getenv(\"USER\", os.getenv(\"USERNAME\", \"developer\"))\nprint(f\"Current environment user: {user_env}\")\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `filter_file_extensions(file_names, allowed_extensions)` that takes a list of file path strings and a list of target extension strings (e.g. `['.py', '.json']`), and returns only the file names that end with one of the allowed extensions (case-insensitive).",
+      "starterCode": "from pathlib import Path\n\ndef filter_file_extensions(file_names, allowed_extensions):\n    # your code here\n    pass\n",
+      "tests": [
+        {
+          "input": [["app.py", "data.JSON", "script.sh", "readme.MD"], [".py", ".json"]],
+          "expectedOutput": ["app.py", "data.JSON"],
+          "description": "filters .py and .json case-insensitively"
+        },
+        {
+          "input": [["index.html", "style.css"], [".png"]],
+          "expectedOutput": [],
+          "description": "returns empty list when no matches"
+        },
+        {
+          "input": [["main.py"], [".PY"]],
+          "expectedOutput": ["main.py"],
+          "description": "handles uppercase allowed extension"
+        }
+      ]
+    }
+  ]
+}

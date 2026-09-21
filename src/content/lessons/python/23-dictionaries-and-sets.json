@@ -1,0 +1,65 @@
+{
+  "id": "python-dictionaries-and-sets",
+  "slug": "dictionaries-and-sets",
+  "title": "Dictionaries and Sets",
+  "description": "Store key-value pairs with O(1) lookups and perform fast mathematical set operations.",
+  "pathId": "python",
+  "moduleId": "python-data-structures",
+  "difficulty": "medium",
+  "estimatedMinutes": 12,
+  "concepts": ["dict", "set", "hash-table", "set-operations", "key-value", "membership-testing"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Searching a list of 1,000,000 items line by line takes O(n) time - if the item is at the end, Python checks every single element.\n\nPython's **Dictionaries (`dict`)** and **Sets (`set`)** are backed by **hash tables**, allowing near-instantaneous $O(1)$ constant time lookups regardless of how large the dataset is."
+    },
+    {
+      "type": "text",
+      "content": "## Dictionaries (`dict`)\n\nStores associative key-value pairs. Keys must be **hashable/immutable** (strings, numbers, tuples):\n\n```python\nuser = {\"name\": \"Jordan\", \"role\": \"engineer\", \"level\": 3}\n\n# Safe access with .get(key, default)\nemail = user.get(\"email\", \"no-email@statica.com\")\n\n# Iterating\nfor key, value in user.items():\n    print(f\"{key}: {value}\")\n```"
+    },
+    {
+      "type": "text",
+      "content": "## Sets (`set`)\n\nAn unordered collection of **unique** elements with mathematical set operations:\n\n```python\nfrontend_devs = {\"Alice\", \"Bob\", \"Charlie\"}\nbackend_devs = {\"Bob\", \"Diana\", \"Charlie\"}\n\n# Union (all unique developers)\nall_devs = frontend_devs | backend_devs  # {'Alice', 'Bob', 'Charlie', 'Diana'}\n\n# Intersection (full-stack devs working on both)\nfull_stack = frontend_devs & backend_devs  # {'Bob', 'Charlie'}\n\n# Difference (only frontend)\nfrontend_only = frontend_devs - backend_devs  # {'Alice'}\n```\n\n```mermaid\ngraph TD\n    A[\"Frontend: Alice, Bob, Charlie\"] --- B[\"Intersection (&): Bob, Charlie\"]\n    C[\"Backend: Bob, Diana, Charlie\"] --- B\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What happens when you execute `my_set = {1, 2, 2, 3, 3, 3}`?",
+      "options": [
+        "A SyntaxError is raised due to duplicate keys",
+        "my_set becomes {1, 2, 3}",
+        "my_set preserves all duplicates as [1, 2, 2, 3, 3, 3]",
+        "my_set converts numbers to string keys"
+      ],
+      "correctIndex": 1,
+      "explanation": "Sets automatically deduplicate their elements upon creation, leaving only `{1, 2, 3}`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "inventory = {\"apples\": 10, \"oranges\": 5, \"bananas\": 12}\n\n# Update quantity safely\ninventory[\"apples\"] = inventory.get(\"apples\", 0) + 5\n\n# Unique fruit categories\ncategories = set(inventory.keys())\nprint(\"Current stock:\", inventory)\nprint(\"Unique categories:\", categories)\n"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Write a function `find_common_tags(post1_tags, post2_tags)` that takes two lists of tag strings, and returns a sorted list of unique tags that appear in BOTH posts.",
+      "starterCode": "def find_common_tags(post1_tags, post2_tags):\n    # your code here\n    pass\n",
+      "tests": [
+        {
+          "input": [["python", "web", "ai"], ["ai", "cloud", "python"]],
+          "expectedOutput": ["ai", "python"],
+          "description": "returns sorted intersection of common tags"
+        },
+        {
+          "input": [["react", "ts"], ["vue", "js"]],
+          "expectedOutput": [],
+          "description": "returns empty list when no common tags exist"
+        },
+        {
+          "input": [["news", "news", "tech"], ["tech", "world"]],
+          "expectedOutput": ["tech"],
+          "description": "deduplicates and returns common tags"
+        }
+      ]
+    }
+  ]
+}

@@ -63,7 +63,7 @@ export function ChallengeBlock({ block, onComplete }: Props) {
             className={`btn-primary text-xs py-1.5 px-4 ${allPassed ? 'bg-mint-400 hover:bg-mint-300' : ''}`}
           >
             <Play size={12} />
-            {running ? 'Testing…' : allPassed ? '✓ All Passed' : 'Run Tests'}
+            {running ? 'Testing…' : allPassed ? ' All Passed' : 'Run Tests'}
           </button>
         </div>
       </div>
