@@ -1,0 +1,89 @@
+{
+  "id": "git-rebasing-safely",
+  "slug": "rebasing-safely",
+  "title": "Rebasing Safely",
+  "description": "Practice rebasing safely through a concrete team scenario.",
+  "pathId": "git",
+  "moduleId": "git-collaboration-and-release",
+  "difficulty": "medium",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "rebase",
+    "shared-history"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Your branch is behind the current main branch. You need to replay or combine your work without losing the story of either change. What is the smallest Git action that keeps the work safe?"
+    },
+    {
+      "type": "text",
+      "content": "Rebase replays commits onto a new base. It can make a private branch linear, but do not rebase commits teammates may already be using.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "When is rebasing risky?",
+      "options": [
+        "When the commits are already shared with teammates",
+        "When the branch has one commit",
+        "When you have staged a file",
+        "When you use a tag"
+      ],
+      "correctIndex": 0,
+      "explanation": "Rebasing changes commit ancestry, so shared commits can confuse collaborators."
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"rebase.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `rebaseFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.rebaseFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
+    }
+  ]
+}

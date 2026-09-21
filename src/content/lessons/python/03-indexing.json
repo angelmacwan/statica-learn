@@ -4,14 +4,17 @@
   "title": "Finding Things by Position",
   "description": "How to get a specific item out of a list using its index.",
   "pathId": "python",
-  "moduleId": "python-lists",
-  "difficulty": "easy",
+  "moduleId": "python-starting-out",
+  "difficulty": "intro",
   "estimatedMinutes": 7,
-  "concepts": ["lists", "indexing"],
+  "concepts": [
+    "lists",
+    "indexing"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "You're building a leaderboard for a game. You have the top 5 scores stored in order, and you need to show the player in 3rd place. How do you get just that one score out of the list?"
+      "content": "A race finishes and you need the winner from a list of names. You need a reliable way to point at one position. What could you ask Python to do here?"
     },
     {
       "type": "text",
@@ -20,7 +23,12 @@
     {
       "type": "multipleChoice",
       "question": "scores = [512, 488, 470, 455]\n\nWhich index gets the 3rd place score (470)?",
-      "options": ["3", "2", "1", "470"],
+      "options": [
+        "3",
+        "2",
+        "1",
+        "470"
+      ],
       "correctIndex": 1,
       "explanation": "3rd place is the 3rd item, but indexing starts at 0, so it's at index 2, not 3."
     },
@@ -36,14 +44,34 @@
       "starterCode": "def get_winner(runners):\n    # your code here\n    pass",
       "tests": [
         {
-          "input": [["Amy", "Beth", "Cara"]],
+          "input": [
+            [
+              "Amy",
+              "Beth",
+              "Cara"
+            ]
+          ],
           "expectedOutput": "Amy",
           "description": "returns the first name in the list"
         },
         {
-          "input": [["Only Runner"]],
+          "input": [
+            [
+              "Only Runner"
+            ]
+          ],
           "expectedOutput": "Only Runner",
           "description": "works when there's only one runner"
+        },
+        {
+          "input": [
+            [
+              "Zoe",
+              "Ana"
+            ]
+          ],
+          "expectedOutput": "Zoe",
+          "description": "returns the first runner in a different finish order"
         }
       ]
     }

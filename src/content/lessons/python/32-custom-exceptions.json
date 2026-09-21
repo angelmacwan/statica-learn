@@ -4,22 +4,23 @@
   "title": "Raising and Custom Exceptions",
   "description": "Trigger exceptions with raise and create domain-specific custom exception classes.",
   "pathId": "python",
-  "moduleId": "python-exceptions",
+  "moduleId": "python-reliable-programs",
   "difficulty": "medium",
   "estimatedMinutes": 10,
-  "concepts": ["raise", "custom-exceptions", "user-defined-exceptions", "exception-hierarchy"],
+  "concepts": [
+    "raise",
+    "custom-exceptions",
+    "user-defined-exceptions",
+    "exception-hierarchy"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "Built-in exceptions like `ValueError` describe generic programming errors. But in domain logic (such as an e-commerce checkout or an authentication gateway), you want errors that clearly communicate business rules: `InsufficientFundsError`, `UserAlreadyExistsError`, or `InvalidCouponError`.\n\nPython lets you define **Custom Exceptions** by subclassing `Exception`."
+      "content": "A missing configuration value needs a clear signal that callers can handle. You can create an error that names the problem. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## Raising Exceptions with `raise`\n\nYou can manually trigger any exception with the `raise` keyword:\n\n```python\ndef set_percentage(value):\n    if not 0 <= value <= 100:\n        raise ValueError(f\"Percentage must be between 0 and 100, got {value}\")\n    return value\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Defining Custom Exception Classes\n\nTo create a custom exception, simply inherit from `Exception`:\n\n```python\nclass InsufficientFundsError(Exception):\n    \"\"\"Raised when an account withdrawal exceeds the available balance.\"\"\"\n    def __init__(self, requested, balance):\n        self.requested = requested\n        self.balance = balance\n        super().__init__(f\"Cannot withdraw ${requested}; current balance is ${balance}\")\n\ndef withdraw(balance, amount):\n    if amount > balance:\n        raise InsufficientFundsError(amount, balance)\n    return balance - amount\n```\n\n```mermaid\nclassDiagram\n    BaseException <|-- Exception\n    Exception <|-- ValueError\n    Exception <|-- InsufficientFundsError\n    class InsufficientFundsError {\n      +requested\n      +balance\n    }\n```"
     },
     {
       "type": "multipleChoice",
@@ -45,17 +46,26 @@
       "starterCode": "class NegativeBalanceError(Exception):\n    pass\n\ndef process_transaction(balance, amount):\n    # your code here\n    pass\n",
       "tests": [
         {
-          "input": [100, 50],
+          "input": [
+            100,
+            50
+          ],
           "expectedOutput": "Approved",
           "description": "returns 'Approved' when funds are sufficient"
         },
         {
-          "input": [50, 100],
+          "input": [
+            50,
+            100
+          ],
           "expectedOutput": "Declined",
           "description": "returns 'Declined' when amount > balance triggers custom exception"
         },
         {
-          "input": [200, 200],
+          "input": [
+            200,
+            200
+          ],
           "expectedOutput": "Approved",
           "description": "returns 'Approved' when exact balance is withdrawn"
         }

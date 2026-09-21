@@ -1,0 +1,94 @@
+{
+  "id": "git-release-workflow-capstone",
+  "slug": "release-workflow-capstone",
+  "title": "Capstone: Ship a Small Release",
+  "description": "Plan and model a focused release using branches, commits, integration, and tags.",
+  "pathId": "git",
+  "moduleId": "git-collaboration-and-release",
+  "difficulty": "hard",
+  "estimatedMinutes": 12,
+  "concepts": [
+    "branches",
+    "commits",
+    "merging",
+    "tags",
+    "capstone-project"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "A release is due. You need to make a clean branch, commit a focused change, merge it, and leave a traceable tag. What is the smallest Git action that keeps the work safe?"
+    },
+    {
+      "type": "text",
+      "content": "A release workflow combines the habits you practiced: make a branch, stage intentional changes, commit clearly, merge after review, and tag the release.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which release step makes a named, permanent marker?",
+      "options": [
+        "Create a tag",
+        "Stash changes",
+        "Run git status",
+        "Edit .gitignore"
+      ],
+      "correctIndex": 0,
+      "explanation": "A tag names a specific commit, which makes a release easy to find later."
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const release = { branch: \"release-notes\", commits: 1, tag: \"v1.0.0\" };\nconsole.log(release);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Build `releasePlan(branch, commits, tag)`. Export it and return an object with those three values plus `ready`, which is true only when the branch has at least one commit and the tag starts with `v`.",
+      "starterCode": "exports.releasePlan = (branch, commits, tag) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            "release-notes",
+            1,
+            "v1.0.0"
+          ],
+          "expectedOutput": {
+            "branch": "release-notes",
+            "commits": 1,
+            "tag": "v1.0.0",
+            "ready": true
+          },
+          "description": "marks a tagged branch with a commit as ready"
+        },
+        {
+          "input": [
+            "release-notes",
+            0,
+            "v1.0.0"
+          ],
+          "expectedOutput": {
+            "branch": "release-notes",
+            "commits": 0,
+            "tag": "v1.0.0",
+            "ready": false
+          },
+          "description": "does not release an empty branch"
+        },
+        {
+          "input": [
+            "release-notes",
+            2,
+            "1.0.0"
+          ],
+          "expectedOutput": {
+            "branch": "release-notes",
+            "commits": 2,
+            "tag": "1.0.0",
+            "ready": false
+          },
+          "description": "requires the expected version-tag shape"
+        }
+      ]
+    }
+  ]
+}

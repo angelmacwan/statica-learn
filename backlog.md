@@ -7,3 +7,6 @@
 # still drafting / needs review
 
 [ ] python module needs update....
+
+- from now on lets make a detailed plan for each module manually
+- NO AI for content , AI will only be used to format and code the content, fact check a lil, and bring everything together in a nice structured package.

@@ -4,14 +4,18 @@
   "title": "Storing Information",
   "description": "How Python remembers values so you can use them later.",
   "pathId": "python",
-  "moduleId": "python-variables",
+  "moduleId": "python-starting-out",
   "difficulty": "intro",
   "estimatedMinutes": 7,
-  "concepts": ["variables", "assignment", "data-types"],
+  "concepts": [
+    "variables",
+    "assignment",
+    "data-types"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "You're building a shopping cart. The user adds 3 items. Later in the program, you need to show a total. How does the program remember that number?\n\nYou store it in a **variable** - a named box that holds a value."
+      "content": "You are tracking orders for a small shop. You need to give a value a clear name so you can use it again later. What could you ask Python to do here?"
     },
     {
       "type": "text",
@@ -20,7 +24,12 @@
     {
       "type": "multipleChoice",
       "question": "x = 5\nx = x + 1\n\nWhat is the value of x after these two lines?",
-      "options": ["5", "6", "x + 1", "This causes an error"],
+      "options": [
+        "5",
+        "6",
+        "x + 1",
+        "This causes an error"
+      ],
       "correctIndex": 1,
       "explanation": "Line 1 stores 5 in x. Line 2 reads x (which is 5), adds 1 to get 6, then stores 6 back into x. Variables can be updated."
     },
@@ -36,17 +45,23 @@
       "starterCode": "def double(n):\n    # your code here\n    pass",
       "tests": [
         {
-          "input": [4],
+          "input": [
+            4
+          ],
           "expectedOutput": 8,
           "description": "double(4) returns 8"
         },
         {
-          "input": [0],
+          "input": [
+            0
+          ],
           "expectedOutput": 0,
           "description": "double(0) returns 0"
         },
         {
-          "input": [-3],
+          "input": [
+            -3
+          ],
           "expectedOutput": -6,
           "description": "double works with negative numbers"
         }

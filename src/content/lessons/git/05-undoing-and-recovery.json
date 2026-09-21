@@ -4,46 +4,89 @@
   "title": "Undoing Changes: Restore, Reset & Revert",
   "description": "Safely discard working tree edits, unstage files, adjust branch pointers with reset, and reverse public commits with revert.",
   "pathId": "git",
-  "moduleId": "git-basics",
-  "difficulty": "easy",
-  "estimatedMinutes": 9,
-  "concepts": ["git-restore", "git-reset", "git-revert", "undoing", "recovery"],
+  "moduleId": "git-foundations",
+  "difficulty": "intro",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "git-restore",
+    "git-reset",
+    "git-revert",
+    "undoing",
+    "recovery"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## Undoing Local Edits with `git restore`\n\nGit 2.23 introduced `git restore` as a dedicated, safe command to undo uncommitted changes without touching commit history:\n\n```bash\n# Discard changes in a working directory file (reverts to last staged or committed state)\ngit restore app.py\n\n# Unstage a file while preserving your edits in the working directory\ngit restore --staged app.py\n\n# Discard all unstaged changes across the entire repository\ngit restore .\n```\n\n```mermaid\nflowchart LR\n    SA[\"Staging Area (Index)\"] -->|\"git restore --staged <file>\"| WT[\"Working Directory (Modified)\"]\n    HEAD[\"HEAD (Last Commit)\"] -->|\"git restore <file>\"| WT\n```"
+      "content": "You changed the wrong file before a demo. You need to choose a recovery action that does not erase more work than intended. What is the smallest Git action that keeps the work safe?"
     },
     {
       "type": "text",
-      "content": "## Moving Branch Pointers with `git reset`\n\n`git reset` moves the current branch pointer backward to an earlier commit. It has three primary modes:\n\n```mermaid\nflowchart TD\n    subgraph ResetModes [Git Reset Modes]\n        Soft[\"--soft: Moves HEAD only. Staging and Working Tree stay intact.\"]\n        Mixed[\"--mixed (default): Moves HEAD and updates Staging. Working Tree intact.\"]\n        Hard[\"--hard: Moves HEAD, updates Staging, and overwrites Working Tree. Destructive!\"]\n    end\n```\n\n| Command | Updates HEAD? | Updates Staging Index? | Updates Working Tree? |\n| :--- | :---: | :---: | :---: |\n| `git reset --soft HEAD~1` | Yes | No | No |\n| `git reset --mixed HEAD~1` | Yes | Yes | No |\n| `git reset --hard HEAD~1` | Yes | Yes | Yes (Data Loss Possible) |\n\n> Warning: Never use `git reset --hard` if you have uncommitted working work you want to keep. It discards uncommitted changes permanently."
-    },
-    {
-      "type": "text",
-      "content": "## Undoing Shared Commits with `git revert`\n\nIf you have already pushed a commit to a shared remote repository, rewriting history with `git reset` will break your teammates' branches. Instead, use `git revert`:\n\n```bash\ngit revert 8f2c3d\n```\n\n`git revert` does not erase the bad commit. It creates a brand-new commit that applies the exact inverse diff:\n\n```mermaid\nflowchart LR\n    C1[\"Commit 1: Add API\"] --> C2[\"Commit 2: Buggy auth logic\"] --> C3[\"Commit 3: Revert 'Buggy auth logic'\"]\n```\n\nBecause `git revert` only appends new history, it is completely safe for public, collaborative branches."
+      "content": "Choose the smallest recovery tool that fits. `git restore file` discards an unstaged file change, while `git revert` makes a new commit that reverses a published commit.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "Which command removes a file from the staging area while leaving edits intact in your working directory?",
+      "question": "A shared commit is wrong. Which action preserves history?",
       "options": [
-        "git restore --staged <file>",
-        "git rm -f <file>",
-        "git commit --amend",
-        "git revert <file>"
+        "Create a revert commit",
+        "Rewrite it with reset",
+        "Delete the repository",
+        "Rename the branch"
       ],
       "correctIndex": 0,
-      "explanation": "'git restore --staged <file>' copies the version from HEAD back into the staging area, unstaging the file without discarding your local file edits."
+      "explanation": "A revert adds a visible correction without rewriting shared history."
     },
     {
-      "type": "multipleChoice",
-      "question": "Why is 'git revert' preferred over 'git reset' for commits that have already been pushed to a shared remote branch?",
-      "options": [
-        "git revert runs faster than git reset",
-        "git revert avoids rewriting history by appending an inverse commit, preventing conflicts for collaborators",
-        "git revert automatically resolves syntax errors in the compiler",
-        "git reset cannot be executed in Git terminals"
-      ],
-      "correctIndex": 1,
-      "explanation": "Resetting changes past history, causing branch divergence and sync conflicts for teammates. Revert preserves history by adding a new commit that undoes the unwanted change."
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"restore.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `restoreFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.restoreFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
     }
   ]
 }

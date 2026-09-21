@@ -4,34 +4,24 @@
   "title": "Type Casting",
   "description": "Convert between types: turn text into numbers, numbers into strings, and avoid common conversion errors.",
   "pathId": "python",
-  "moduleId": "python-variables",
+  "moduleId": "python-repetition-and-functions",
   "difficulty": "easy",
   "estimatedMinutes": 8,
-  "concepts": ["int()", "float()", "str()", "bool()", "implicit vs explicit conversion"],
+  "concepts": [
+    "int()",
+    "float()",
+    "str()",
+    "bool()",
+    "implicit vs explicit conversion"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## The Age Form Problem\n\nImagine you're building a sign-up form. A user types `25` into the age field. Your program receives that value - but it arrives as the **string** `\"25\"`, not the **number** `25`.\n\n```python\nage_input = \"25\"   # what you get from a form\nage_input + 1      #  TypeError: can only concatenate str (not \"int\") to str\n```\n\nYou can't do math on it until you **convert** it to the right type. That's what **type casting** is - deliberately changing a value from one data type to another."
+      "content": "A form gives you text, but your calculation needs a number. You need to change the value into a usable form. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## Explicit Casting Functions\n\nPython gives you four built-in functions for casting:\n\n| Function | Converts to | Example |\n|---|---|---|\n| `int()` | Integer | `int(\"25\")` → `25` |\n| `float()` | Float | `float(\"3.14\")` → `3.14` |\n| `str()` | String | `str(100)` → `\"100\"` |\n| `bool()` | Boolean | `bool(0)` → `False` |\n\n```python\n# int() - string to integer\nage = int(\"25\")\nprint(age + 1)       # 26\n\n# float() - string to float\nprice = float(\"9.99\")\nprint(price * 2)     # 19.98\n\n# str() - number to string\nscore = 42\nlabel = \"Score: \" + str(score)\nprint(label)         # Score: 42\n\n# bool() - anything to True or False\nprint(bool(1))       # True\nprint(bool(\"\"))      # False\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Conversion Pathways\n\nNot every conversion is valid. Here's a map of what works and what blows up:\n\n```mermaid\ngraph LR\n  S[\"str\"]\n  I[\"int\"]\n  F[\"float\"]\n  B[\"bool\"]\n\n  S -- \"int('42') [PASS]\" --> I\n  S -- \"float('3.14') [PASS]\" --> F\n  S -- \"int('hello') \" --> ERR1[\"ValueError\"]\n  S -- \"int('3.14') \" --> ERR2[\"ValueError\"]\n  I -- \"float(7) [PASS]\" --> F\n  I -- \"str(7) [PASS]\" --> S\n  I -- \"bool(0) → False\" --> B\n  F -- \"int(float) [PASS] truncates\" --> I\n  F -- \"str(3.14) [PASS]\" --> S\n  F -- \"bool(0.0) → False\" --> B\n  B -- \"int(True) → 1\" --> I\n  B -- \"str(True) → 'True'\" --> S\n```\n\n> **Key rule:** If you want to convert a decimal string like `\"3.14\"` to an integer, you must go through `float` first:\n> ```python\n> int(float(\"3.14\"))  # → 3  [PASS]\n> int(\"3.14\")         #  ValueError\n> ```"
-    },
-    {
-      "type": "text",
-      "content": "## Common Casting Errors\n\nThese mistakes trip up beginners all the time:\n\n```python\n# [FAIL] Can't cast non-numeric strings to int or float\nint(\"hello\")     # ValueError: invalid literal for int() with base 10: 'hello'\nfloat(\"abc\")     # ValueError: could not convert string to float: 'abc'\n\n# [FAIL] Can't skip float when casting a decimal string to int\nint(\"3.14\")      # ValueError - Python doesn't chain conversions for you\n\n# [PASS] The correct two-step approach\nint(float(\"3.14\"))   # → 3  (decimal is truncated, NOT rounded)\nint(float(\"3.99\"))   # → 3  (still 3, not 4!)\n```\n\n> **Truncation, not rounding.** `int()` always chops off the decimal part - it never rounds up."
-    },
-    {
-      "type": "text",
-      "content": "## Implicit Conversion\n\nSometimes Python converts types **automatically**, without you asking. This is called **implicit conversion** (or coercion).\n\n```python\n# int + float → Python promotes to float automatically\nresult = 3 + 1.5\nprint(result)        # 4.5\nprint(type(result))  # <class 'float'>\n\n# bool is a subtype of int - True == 1, False == 0\nprint(True + 5)      # 6\nprint(False + 10)    # 10\n```\n\nPython only does implicit conversion when it's **safe** (no data loss). It will never silently turn a string into a number - that always requires an explicit cast."
-    },
-    {
-      "type": "text",
-      "content": "## bool() - Truthy and Falsy Values\n\nEvery Python value has a boolean interpretation. Values that become `False` are called **falsy**; everything else is **truthy**.\n\n```mermaid\ngraph LR\n  subgraph FALSY [\" Falsy - bool() returns False\"]\n    A[\"0\"]\n    B[\"0.0\"]\n    C[\"\\\"\\\"  empty string\"]\n    D[\"[]  empty list\"]\n    E[\"{}  empty dict\"]\n    F[\"None\"]\n  end\n\n  subgraph TRUTHY [\" Truthy - bool() returns True\"]\n    G[\"Any non-zero number\"]\n    H[\"Any non-empty string\"]\n    I[\"Any non-empty list\"]\n    J[\"Any non-empty dict\"]\n  end\n```\n\n```python\n# Practical use: check if a value is \"empty\"\nusername = \"\"\nif not username:\n    print(\"Username cannot be empty!\")   # this prints\n\nitems = [1, 2, 3]\nif items:\n    print(\"Cart has items\")               # this prints\n```\n\nThis pattern - using a value directly in an `if` statement - is very common in real Python code."
     },
     {
       "type": "multipleChoice",
@@ -56,11 +46,41 @@
       "prompt": "Write a function `safe_to_int(value)` that tries to convert `value` to an integer.\n- If the conversion succeeds, return the integer.\n- If it fails for any reason (e.g. the value is `\"abc\"`), return `None`.\n\nUse a `try/except` block to handle errors gracefully.\n\n**Examples:**\n- `safe_to_int(\"42\")` → `42`\n- `safe_to_int(\"abc\")` → `None`\n- `safe_to_int(3.9)` → `3`",
       "starterCode": "def safe_to_int(value):\n    # your code here\n    pass",
       "tests": [
-        { "input": ["42"], "expectedOutput": 42, "description": "Converts a numeric string to int" },
-        { "input": ["abc"], "expectedOutput": null, "description": "Returns None for a non-numeric string" },
-        { "input": [3.9], "expectedOutput": 3, "description": "Converts a float to int (truncates decimal)" },
-        { "input": ["0"], "expectedOutput": 0, "description": "Converts \"0\" to integer 0" },
-        { "input": ["3.14"], "expectedOutput": null, "description": "Returns None for a decimal string (int() can't parse it directly)" }
+        {
+          "input": [
+            "42"
+          ],
+          "expectedOutput": 42,
+          "description": "Converts a numeric string to int"
+        },
+        {
+          "input": [
+            "abc"
+          ],
+          "expectedOutput": null,
+          "description": "Returns None for a non-numeric string"
+        },
+        {
+          "input": [
+            3.9
+          ],
+          "expectedOutput": 3,
+          "description": "Converts a float to int (truncates decimal)"
+        },
+        {
+          "input": [
+            "0"
+          ],
+          "expectedOutput": 0,
+          "description": "Converts \"0\" to integer 0"
+        },
+        {
+          "input": [
+            "3.14"
+          ],
+          "expectedOutput": null,
+          "description": "Returns None for a decimal string (int() can't parse it directly)"
+        }
       ]
     }
   ]

@@ -1,63 +1,98 @@
 {
   "id": "python-libraries-ecosystem",
   "slug": "libraries-and-ecosystem",
-  "title": "Libraries, Packages, and GUI/DSA Ecosystem",
-  "description": "Explore third-party libraries, pip package management, GUI toolkits, and DSA ecosystems.",
+  "title": "Capstone: Build a Tiny Inventory Report",
+  "description": "Combine functions, collections, error handling, and file-shaped data in one practical task.",
   "pathId": "python",
-  "moduleId": "python-packages-libraries",
-  "difficulty": "medium",
+  "moduleId": "python-reliable-programs",
+  "difficulty": "hard",
   "estimatedMinutes": 12,
-  "concepts": ["pip", "pypi", "gui-libraries", "tkinter", "dsa-libraries", "ecosystem"],
+  "concepts": [
+    "functions",
+    "dictionaries",
+    "exceptions",
+    "file-data",
+    "capstone-project"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "One of Python's greatest strengths is its massive ecosystem of over 500,000 open-source packages available on the **Python Package Index (PyPI)**.\n\nUsing the package manager **`pip`**, you can install specialized toolkits in seconds for everything from graphical desktop apps to high-performance graph theory and data science."
+      "content": "You need a small command-line report that reads data, cleans it, and summarizes it. This project combines the skills you have built. What could you ask Python to do here?"
     },
     {
       "type": "text",
-      "content": "## Essential Library Ecosystems\n\n### 1. GUI (Graphical User Interface) Libraries\n- **`tkinter`**: Python's built-in, lightweight GUI toolkit for rapid desktop dialogs and windows.\n- **`PyQt` / `PySide`**: Industrial-grade, full-featured desktop UI framework with cross-platform native look.\n- **`CustomTkinter`**: Modern dark-mode UI elements built on top of Tkinter.\n\n### 2. DSA (Data Structures & Algorithms) & Scientific Libraries\n- **`networkx`**: Graph theory, network topologies, Dijkstra's shortest path, and tree analysis.\n- **`scipy`**: Advanced scientific algorithms, matrix computations, and optimization routines.\n- **`numpy`**: Fast C-level multi-dimensional array operations.\n\n```mermaid\ngraph TD\n    A[\"PyPI / pip\"] --> B[\"GUI Libraries: tkinter, PyQt, Kivy\"]\n    A --> C[\"DSA & Science: networkx, scipy, numpy\"]\n    A --> D[\"Web: FastAPI, Django, Flask\"]\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Managing Dependencies with `pip` and `requirements.txt`\n\n```bash\n# Installing a library\npip install requests\n\n# Freezing project dependencies\npip freeze > requirements.txt\n\n# Installing from a requirements file\npip install -r requirements.txt\n```"
+      "content": "A capstone is a project that combines skills you have already practiced. Keep the work small: turn a list of inventory records into a useful summary, and handle missing data without crashing."
     },
     {
       "type": "multipleChoice",
-      "question": "Which GUI library is included directly within Python's standard library without requiring pip installation?",
+      "question": "Before writing a report, what should you decide first?",
       "options": [
-        "PyQt6",
-        "Tkinter",
-        "Electron",
-        "React Native"
+        "What result the report should return",
+        "Which advanced library to install",
+        "How many comments to add",
+        "Whether to rename Python"
       ],
-      "correctIndex": 1,
-      "explanation": "`tkinter` is Python's standard built-in interface to the Tk GUI toolkit."
+      "correctIndex": 0,
+      "explanation": "A clear output gives the rest of the program a concrete target."
     },
     {
       "type": "code",
       "language": "python",
-      "starterCode": "# Simulating a graph node structure (like networkx)\nclass Graph:\n    def __init__(self):\n        self.adj_list = {}\n\n    def add_edge(self, u, v):\n        self.adj_list.setdefault(u, []).append(v)\n        self.adj_list.setdefault(v, []).append(u)\n\n    def neighbors(self, node):\n        return self.adj_list.get(node, [])\n\ng = Graph()\ng.add_edge(\"ServerA\", \"ServerB\")\ng.add_edge(\"ServerB\", \"Database\")\nprint(\"ServerB connections:\", g.neighbors(\"ServerB\"))\n"
+      "starterCode": "items = [{\"name\": \"Pen\", \"quantity\": 4}, {\"name\": \"Book\", \"quantity\": 2}]\ntotal = sum(item[\"quantity\"] for item in items)\nprint(total)"
     },
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `format_requirements_list(packages)` that takes a dictionary mapping package names to version strings (e.g. `{\"requests\": \"2.31.0\", \"flask\": \"3.0.0\"}`) and returns a sorted list of requirement strings formatted as `package==version`.",
-      "starterCode": "def format_requirements_list(packages):\n    # your code here\n    pass\n",
+      "prompt": "Build `inventory_summary(items)`. Each item is a dictionary with `name` and `quantity`. Return a dictionary with `total_items` and `low_stock`, a list of names whose quantity is less than 3. Treat an empty list as a valid report.",
+      "starterCode": "def inventory_summary(items):\n    # your code here\n    pass",
       "tests": [
         {
-          "input": [{"requests": "2.31.0", "flask": "3.0.0", "numpy": "1.26.0"}],
-          "expectedOutput": ["flask==3.0.0", "numpy==1.26.0", "requests==2.31.0"],
-          "description": "returns sorted list of formatted requirement strings"
+          "input": [
+            [
+              {
+                "name": "Pen",
+                "quantity": 4
+              },
+              {
+                "name": "Book",
+                "quantity": 2
+              }
+            ]
+          ],
+          "expectedOutput": {
+            "total_items": 6,
+            "low_stock": [
+              "Book"
+            ]
+          },
+          "description": "totals quantities and identifies a low-stock item"
         },
         {
-          "input": [{ "pytest": "7.4.0" }],
-          "expectedOutput": ["pytest==7.4.0"],
-          "description": "handles single package"
+          "input": [
+            []
+          ],
+          "expectedOutput": {
+            "total_items": 0,
+            "low_stock": []
+          },
+          "description": "creates a useful empty report"
         },
         {
-          "input": [{}],
-          "expectedOutput": [],
-          "description": "handles empty dictionary"
+          "input": [
+            [
+              {
+                "name": "Cable",
+                "quantity": 0
+              }
+            ]
+          ],
+          "expectedOutput": {
+            "total_items": 0,
+            "low_stock": [
+              "Cable"
+            ]
+          },
+          "description": "does not miss an out-of-stock item"
         }
       ]
     }

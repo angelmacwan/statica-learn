@@ -4,54 +4,89 @@
   "title": "Creating Repositories, Staging & .gitignore",
   "description": "Initialize new Git repositories, master file tracking lifecycles with git status and git add, and exclude unwanted files with .gitignore.",
   "pathId": "git",
-  "moduleId": "git-basics",
+  "moduleId": "git-foundations",
   "difficulty": "intro",
   "estimatedMinutes": 7,
-  "concepts": ["git-init", "git-status", "git-add", "gitignore", "file-lifecycle"],
+  "concepts": [
+    "git-init",
+    "git-status",
+    "git-add",
+    "gitignore",
+    "file-lifecycle"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## Initializing a Repository (`git init`)\n\nTo transform an ordinary folder into a Git version-controlled project, run `git init` inside the project folder:\n\n```bash\nmkdir my-project\ncd my-project\ngit init\n# Initialized empty Git repository in /path/to/my-project/.git/\n```\n\nThis command creates a hidden `.git` directory containing object databases, reference pointers, configuration, and index state. Never delete this folder unless you want to discard the entire repository history."
+      "content": "You have edited two files, but only one is ready to save as history. You need to choose the exact change you are recording. What is the smallest Git action that keeps the work safe?"
     },
     {
       "type": "text",
-      "content": "## The File Lifecycle\n\nFiles in your working directory move through four distinct states:\n\n1. **Untracked**: New files that Git has never seen and is not tracking.\n2. **Unmodified**: Tracked files whose content matches the last commit.\n3. **Modified**: Tracked files that have changed since the last commit.\n4. **Staged**: Files marked and prepared to be included in the next commit.\n\n```mermaid\nstateDiagram-v2\n    [*] --> Untracked: Create new file\n    Untracked --> Staged: git add\n    Unmodified --> Modified: Edit file\n    Modified --> Staged: git add\n    Staged --> Unmodified: git commit\n    Unmodified --> [*]: Remove file\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Checking State (`git status`)\n\n`git status` is the most frequently run command in Git. It reports current branch name, untracked files, modified files, and staged changes:\n\n```bash\ngit status\n```\n\nFor compact output, use the `-s` (short) flag:\n\n```bash\ngit status -s\n# Output symbols:\n# ?? = untracked\n#  M = modified in working tree (not staged)\n# M  = staged for commit\n# A  = newly added and staged\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Staging Changes with `git add`\n\nThe staging area lets you craft deliberate, atomic commits rather than dumping every modified file at once:\n\n```bash\n# Stage a specific file\ngit add app.py\n\n# Stage all changes in the current directory and subdirectories\ngit add .\n\n# Stage interactively by reviewing chunks/hunks\ngit add -p\n```\n\n`git add -p` opens interactive patch mode, prompting you line-by-line whether to stage individual edits (`y`), skip them (`n`), or split them into smaller pieces (`s`)."
-    },
-    {
-      "type": "text",
-      "content": "## Excluding Files with `.gitignore`\n\nCertain files should never enter version control (passwords, API keys, build artifacts, OS junk, logs, large data dumps). Place a file named `.gitignore` in the project root:\n\n```gitignore\n# Ignore environment variables and credentials\n.env\n*.pem\n\n# Ignore dependencies\nnode_modules/\n__pycache__/\n*.pyc\n\n# Ignore OS metadata\n.DS_Store\nThumbs.db\n\n# Ignore build outputs\ndist/\nbuild/\n*.log\n```\n\n> Note: `.gitignore` only prevents *untracked* files from being tracked. If a file is already committed, adding it to `.gitignore` will not remove it from history until you run `git rm --cached <file>`."
+      "content": "Your working directory contains current files. The staging area is the deliberate preview for the next commit. Use `git add file-name` to stage only the change you intend to save.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "What is the primary purpose of the staging area in Git?",
+      "question": "You changed two files but want to commit one. What do you use?",
       "options": [
-        "To compress files onto a remote cloud server",
-        "To selectively assemble and review exactly which changes will be included in the next commit",
-        "To compile executable binaries before running tests",
-        "To permanently lock files against editing"
+        "The staging area",
+        "The reflog",
+        "A tag",
+        "The remote"
       ],
-      "correctIndex": 1,
-      "explanation": "The staging area (index) lets developers curate distinct, logical commits rather than committing all modified working files at once."
+      "correctIndex": 0,
+      "explanation": "Staging lets you select the exact changes for the next commit."
     },
     {
-      "type": "multipleChoice",
-      "question": "Which file specifies pattern rules for files that Git should automatically avoid tracking?",
-      "options": [
-        ".gitattributes",
-        ".gitconfig",
-        ".gitignore",
-        ".gitmodules"
-      ],
-      "correctIndex": 2,
-      "explanation": "A '.gitignore' text file tells Git which untracked file patterns (logs, credentials, build outputs) to exclude from tracking and status reports."
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"stage.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `stageFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.stageFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
     }
   ]
 }

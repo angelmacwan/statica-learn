@@ -4,34 +4,26 @@
   "title": "Functions",
   "description": "Package reusable logic, pass data in, get results back.",
   "pathId": "python",
-  "moduleId": "python-functions",
+  "moduleId": "python-repetition-and-functions",
   "difficulty": "easy",
-  "estimatedMinutes": 14,
-  "concepts": ["def", "parameters", "return", "default args", "*args", "**kwargs", "docstrings"],
+  "estimatedMinutes": 12,
+  "concepts": [
+    "def",
+    "parameters",
+    "return",
+    "default args",
+    "*args",
+    "**kwargs",
+    "docstrings"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## The Copy-Paste Problem\n\nImagine you're building a shopping app and you need to calculate a discounted price in five different places:\n\n```python\nprice1 = 100 * (1 - 0.2)\nprice2 = 250 * (1 - 0.2)\nprice3 = 75  * (1 - 0.2)\n# ... and so on\n```\n\nNow the discount rate changes to 15%. You have to hunt down every single line and change it. This is fragile and error-prone.\n\n**Functions** solve this with the **DRY principle** - *Don't Repeat Yourself*. Write the logic once, use it everywhere:\n\n```python\ndef apply_discount(price):\n    return price * (1 - 0.2)\n\nprice1 = apply_discount(100)\nprice2 = apply_discount(250)\nprice3 = apply_discount(75)\n```\n\nNow there's exactly one place to update. That's the power of functions."
+      "content": "You keep calculating delivery fees in several places. One named piece of code can do that work whenever you need it. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## Defining a Function\n\nThe anatomy of a Python function:\n\n```python\ndef greet(name):          # 'name' is a parameter\n    message = \"Hello, \" + name + \"!\"\n    return message        # sends the result back to the caller\n\nresult = greet(\"Alice\")   # 'Alice' is the argument\nprint(result)             # Hello, Alice!\n```\n\n**Key terms:**\n- **Parameter** - the variable name in the `def` line (a placeholder)\n- **Argument** - the actual value you pass when *calling* the function\n- **`return`** - exits the function and sends a value back\n\n> If a function has no `return` statement, it implicitly returns `None`.\n\n```mermaid\ngraph LR\n  A[\"Argument\\n'Alice'\"] -->|passed in| B[\"Function Body\\nname = 'Alice'\\nmessage = 'Hello, Alice!'\"]\n  B -->|return| C[\"Return Value\\n'Hello, Alice!'\"]\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Default Parameter Values\n\nYou can give parameters a **default value** so callers can omit them:\n\n```python\ndef greet(name, greeting=\"Hello\"):\n    return f\"{greeting}, {name}!\"\n\nprint(greet(\"Bob\"))              # Hello, Bob!\nprint(greet(\"Bob\", \"Howdy\"))    # Howdy, Bob!\n```\n\nParameters with defaults must come **after** parameters without defaults:\n\n```python\n# [PASS] Valid\ndef connect(host, port=8080, secure=True):\n    ...\n\n# [FAIL] SyntaxError - default before non-default\ndef connect(port=8080, host):\n    ...\n```"
-    },
-    {
-      "type": "text",
-      "content": "## `*args` and `**kwargs`\n\nSometimes you don't know how many arguments a caller will pass. Python has two special syntaxes for this.\n\n### `*args` - variable positional arguments\n\n```python\ndef add_all(*args):\n    total = 0\n    for n in args:\n        total += n\n    return total\n\nprint(add_all(1, 2, 3))       # 6\nprint(add_all(10, 20))        # 30\nprint(add_all(5))             # 5\n```\n\nInside the function, `args` is a **tuple** of all the positional arguments passed.\n\n### `**kwargs` - variable keyword arguments\n\n```python\ndef display_info(**kwargs):\n    for key, value in kwargs.items():\n        print(f\"{key}: {value}\")\n\ndisplay_info(name=\"Alice\", age=30, city=\"NYC\")\n# name: Alice\n# age: 30\n# city: NYC\n```\n\nInside the function, `kwargs` is a **dict** of all keyword arguments passed.\n\n> The names `args` and `kwargs` are just conventions - `*data` and `**options` work equally well. The `*` and `**` are what matter."
-    },
-    {
-      "type": "text",
-      "content": "## Docstrings\n\nA **docstring** is a string literal placed immediately after the `def` line. It documents what the function does and is accessible at runtime via `help()`.\n\n```python\ndef apply_discount(price, rate=0.2):\n    \"\"\"\n    Apply a percentage discount to a price.\n\n    Args:\n        price (float): The original price.\n        rate (float): Discount rate as a decimal (default 0.2 = 20%).\n\n    Returns:\n        float: The discounted price.\n    \"\"\"\n    return price * (1 - rate)\n\nhelp(apply_discount)  # prints the docstring\n```\n\nAlways write docstrings for functions others (or future you) will use."
-    },
-    {
-      "type": "text",
-      "content": "## Functions as Values\n\nIn Python, functions are **first-class objects** - you can store them in variables, put them in lists, and pass them as arguments to other functions.\n\n```python\ndef shout(text):\n    return text.upper()\n\ndef whisper(text):\n    return text.lower()\n\ndef process(text, transform):   # 'transform' expects a function\n    return transform(text)\n\nprint(process(\"Hello\", shout))    # HELLO\nprint(process(\"Hello\", whisper))  # hello\n```\n\nA function that takes another function as an argument is called a **higher-order function**. You'll see this pattern constantly with built-ins like `sorted()`, `map()`, and `filter()`.\n\n```python\nnames = [\"Charlie\", \"alice\", \"Bob\"]\nsorted_names = sorted(names, key=str.lower)  # passes str.lower as the key function\nprint(sorted_names)  # ['alice', 'Bob', 'Charlie']\n```"
     },
     {
       "type": "multipleChoice",
@@ -57,22 +49,33 @@
       "starterCode": "def repeat(text, times=2):\n    # your code here\n    pass\n",
       "tests": [
         {
-          "input": ["ha"],
+          "input": [
+            "ha"
+          ],
           "expectedOutput": "ha ha",
           "description": "repeat(\"ha\") should return \"ha ha\" using the default times=2"
         },
         {
-          "input": ["go", 3],
+          "input": [
+            "go",
+            3
+          ],
           "expectedOutput": "go go go",
           "description": "repeat(\"go\", 3) should return \"go go go\""
         },
         {
-          "input": ["yes", 1],
+          "input": [
+            "yes",
+            1
+          ],
           "expectedOutput": "yes",
           "description": "repeat(\"yes\", 1) should return just \"yes\" with no extra spaces"
         },
         {
-          "input": ["hi", 4],
+          "input": [
+            "hi",
+            4
+          ],
           "expectedOutput": "hi hi hi hi",
           "description": "repeat(\"hi\", 4) should return four repetitions separated by spaces"
         }

@@ -1,0 +1,89 @@
+{
+  "id": "git-pull-requests-and-code-review",
+  "slug": "pull-requests-and-code-review",
+  "title": "Pull Requests and Code Review",
+  "description": "Practice pull requests and code review through a concrete team scenario.",
+  "pathId": "git",
+  "moduleId": "git-collaboration-and-release",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "pull-requests",
+    "code-review"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "You have finished a feature and want feedback before it reaches the main branch. A pull request gives the team a review point. What is the smallest Git action that keeps the work safe?"
+    },
+    {
+      "type": "text",
+      "content": "A pull request is a request to compare and merge a branch. It gives reviewers a focused place to discuss changes before they reach the shared branch.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the purpose of a pull request?",
+      "options": [
+        "Review a proposed branch change before merge",
+        "Replace local commits",
+        "Remove a remote",
+        "Hide a conflict"
+      ],
+      "correctIndex": 0,
+      "explanation": "A pull request creates a shared review point for a focused change."
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"review.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `reviewFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.reviewFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
+    }
+  ]
+}

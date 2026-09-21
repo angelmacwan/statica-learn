@@ -1,24 +1,17 @@
 {
   "id": "python",
   "slug": "python",
-  "title": "Python Fundamentals & Advanced Programming",
-  "description": "Master Python from the ground up: syntax, logic, loops, advanced functions, data structures, collections & DSA, OOP, error handling, file management, and package ecosystems.",
+  "title": "Python: From First Program to Practical Projects",
+  "description": "Learn Python through small, useful programs: work with values and data, make decisions, build reusable functions, handle files safely, and finish a practical report project.",
   "category": "programming",
   "difficulty": "intro",
   "moduleIds": [
-    "python-getting-started",
-    "python-variables",
-    "python-conditions",
-    "python-loops",
-    "python-functions",
-    "python-lists",
-    "python-advanced-functions",
-    "python-data-structures",
-    "python-collections-dsa",
-    "python-oop",
-    "python-exceptions",
-    "python-file-handling",
-    "python-packages-libraries"
+    "python-starting-out",
+    "python-values-and-choices",
+    "python-repetition-and-functions",
+    "python-everyday-tools",
+    "python-working-with-data",
+    "python-reliable-programs"
   ],
   "published": true
 }

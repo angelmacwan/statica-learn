@@ -4,38 +4,25 @@
   "title": "Making Decisions: if, elif, else",
   "description": "Control what your program does based on conditions - the backbone of all logic.",
   "pathId": "python",
-  "moduleId": "python-conditions",
+  "moduleId": "python-values-and-choices",
   "difficulty": "easy",
   "estimatedMinutes": 12,
-  "concepts": ["if", "elif", "else", "comparison operators", "boolean logic", "match"],
+  "concepts": [
+    "if",
+    "elif",
+    "else",
+    "comparison operators",
+    "boolean logic",
+    "match"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## Your Code Needs to Think\n\nImagine you're building a weather app. Depending on the temperature outside, you want to show a different message to the user:\n\n-  Above 35°C → *\"It's scorching! Stay hydrated.\"*\n- ️ Above 20°C → *\"Nice weather for a walk!\"*\n-  Above 10°C → *\"Grab a jacket.\"*\n- ️ Otherwise → *\"Stay inside - it's freezing!\"*\n\nThis is **decision-making in code**. Your program looks at a value, evaluates a condition, and takes a different path depending on whether that condition is `True` or `False`.\n\nIn Python, you do this with `if`, `elif`, and `else`."
+      "content": "A delivery app needs different messages for late, on-time, and early orders. Your program has to choose a path. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## Basic `if` / `else` Syntax\n\nThe simplest form - a fork in the road:\n\n```python\ntemperature = 38\n\nif temperature > 35:\n    print(\"It's scorching! Stay hydrated.\")\nelse:\n    print(\"Temperature seems fine.\")\n```\n\n**Key rules:**\n- The condition after `if` must evaluate to `True` or `False`\n- The colon `:` is **required** at the end of the `if` and `else` lines\n- The indented block (4 spaces) is the code that runs for that branch\n- `else` is optional - use it to handle everything that didn't match\n\nHere's what Python is doing under the hood:\n\n```mermaid\ngraph TD\n    A[\"Evaluate condition\\ntemperature > 35\"] --> B{\"True or False?\"}\n    B -->|\"True\"| C[\"Run the if block\\nprint scorching message\"]\n    B -->|\"False\"| D[\"Run the else block\\nprint fine message\"]\n    C --> E[\"Continue program\"]\n    D --> E\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Comparison Operators\n\nConditions are built using **comparison operators** that compare two values and return `True` or `False`:\n\n| Operator | Meaning | Example | Result |\n|----------|---------|---------|--------|\n| `==` | Equal to | `5 == 5` | `True` |\n| `!=` | Not equal to | `5 != 3` | `True` |\n| `<` | Less than | `3 < 5` | `True` |\n| `>` | Greater than | `7 > 10` | `False` |\n| `<=` | Less than or equal | `5 <= 5` | `True` |\n| `>=` | Greater than or equal | `4 >= 6` | `False` |\n\n```python\nage = 20\n\nprint(age == 20)   # True\nprint(age != 18)   # True\nprint(age >= 21)   # False\nprint(age < 25)    # True\n```\n\n> [Warning] **Common pitfall:** `==` checks equality. `=` is assignment. Writing `if x = 5` is a **syntax error** in Python - always use `==` inside conditions."
-    },
-    {
-      "type": "text",
-      "content": "## `elif` - Handling Multiple Branches\n\nWhen you have more than two possibilities, chain conditions with `elif` (short for *else if*):\n\n```python\ntemperature = 22\n\nif temperature > 35:\n    print(\"Wear shorts and sunscreen!\")\nelif temperature > 20:\n    print(\"Jeans are fine today.\")\nelif temperature > 10:\n    print(\"You'll want a jacket.\")\nelse:\n    print(\"Stay inside - it's freezing!\")\n```\n\nPython checks each condition **from top to bottom** and runs the **first one that is `True`**, then skips the rest.\n\n```mermaid\ngraph TD\n    A[\"temperature = 22\"] --> B{\"temp > 35?\"}\n    B -->|\"True\"| C[\"\\\"Wear shorts!\\\"\"] --> Z[\"Done\"]\n    B -->|\"False\"| D{\"temp > 20?\"}\n    D -->|\"True\"| E[\"\\\"Jeans are fine.\\\"\"] --> Z\n    D -->|\"False\"| F{\"temp > 10?\"}\n    F -->|\"True\"| G[\"\\\"Wear a jacket.\\\"\"] --> Z\n    F -->|\"False\"| H[\"\\\"Stay inside!\\\"\"] --> Z\n```\n\nSince `temperature` is `22`, the first condition (`> 35`) is `False`, but the second (`> 20`) is `True`, so Python prints **\"Jeans are fine today.\"** and skips everything below."
-    },
-    {
-      "type": "text",
-      "content": "## Logical Operators: `and`, `or`, `not`\n\nYou can combine multiple conditions in a single `if` using **logical operators**:\n\n```python\ntemperature = 22\nis_raining = False\n\nif temperature > 20 and not is_raining:\n    print(\"Perfect day for a walk!\")\n\nif temperature > 30 or is_raining:\n    print(\"Maybe skip the walk today.\")\n```\n\n### Truth Table\n\n| `A` | `B` | `A and B` | `A or B` | `not A` |\n|-----|-----|-----------|----------|---------|\n| `True` | `True` | `True` | `True` | `False` |\n| `True` | `False` | `False` | `True` | `False` |\n| `False` | `True` | `False` | `True` | `True` |\n| `False` | `False` | `False` | `False` | `True` |\n\n- **`and`** → both sides must be `True`\n- **`or`** → at least one side must be `True`\n- **`not`** → flips `True` to `False` and vice versa"
-    },
-    {
-      "type": "text",
-      "content": "## Nested `if` - Decisions Inside Decisions\n\nYou can place an `if` block **inside** another `if` block. This is called **nesting** and is useful when a second check only makes sense after the first passes.\n\n```python\ndef get_ticket_price(age, is_member):\n    if age >= 18:\n        # Adult - now check membership\n        if is_member:\n            price = 8.00\n        else:\n            price = 15.00\n    else:\n        # Child pricing - no membership needed\n        price = 5.00\n    return price\n\nprint(get_ticket_price(25, True))   # 8.0\nprint(get_ticket_price(25, False))  # 15.0\nprint(get_ticket_price(12, False))  # 5.0\n```\n\n>  **Tip:** Deeply nested `if` statements can become hard to read. If you find yourself nesting 3+ levels deep, consider restructuring with `and`/`or` or breaking logic into helper functions."
-    },
-    {
-      "type": "text",
-      "content": "## Python 3.10+: The `match` Statement\n\nPython 3.10 introduced **structural pattern matching** via the `match` statement - similar to `switch` in JavaScript, Java, or C.\n\nInstead of chaining many `elif x == ...` checks on a single value, `match` makes it cleaner:\n\n```python\ncolor = \"red\"\n\nmatch color:\n    case \"red\":\n        print(\"Stop!\")\n    case \"yellow\":\n        print(\"Slow down.\")\n    case \"green\":\n        print(\"Go!\")\n    case _:\n        print(\"Unknown color.\")\n```\n\nThe `case _:` is the **wildcard** - it matches anything that didn't match above (equivalent to `else`).\n\n**`match` vs. `if/elif` - when to use which:**\n\n| Situation | Use |\n|-----------|-----|\n| Checking one value against many fixed options | `match` |\n| Comparing ranges or complex expressions | `if / elif` |\n| Combining multiple conditions with `and`/`or` | `if / elif` |\n| Python version < 3.10 | `if / elif` |\n\n>  `match` can do much more - it supports matching lists, tuples, and even object attributes - but this simple form is the most common."
     },
     {
       "type": "multipleChoice",
@@ -50,18 +37,6 @@
       "explanation": "Both conditions are True: x (10) is greater than 5, AND x (10) is less than 15. Since both sides of `and` are True, the overall condition is True and Python prints \"yes\"."
     },
     {
-      "type": "multipleChoice",
-      "question": "What is the key difference between `=` and `==` in Python?",
-      "options": [
-        "`=` assigns a value to a variable; `==` checks whether two values are equal",
-        "`==` assigns a value to a variable; `=` checks whether two values are equal",
-        "They are interchangeable - both test equality inside `if` statements",
-        "`=` is used for numbers; `==` is used for strings"
-      ],
-      "correctIndex": 0,
-      "explanation": "`=` is the assignment operator - it stores a value in a variable (e.g., `x = 5`). `==` is the equality operator - it compares two values and returns True or False (e.g., `x == 5`). Using `=` inside an `if` condition is a SyntaxError in Python."
-    },
-    {
       "type": "code",
       "language": "python",
       "starterCode": "# Temperature Checker\n# Try changing the temperature and see which message appears!\n\ntemperature = 22  # Change this value\n\nif temperature > 35:\n    message = \"It's scorching! Stay hydrated.\"\nelif temperature > 20:\n    message = \"Nice weather for a walk!\"\nelif temperature > 10:\n    message = \"Grab a jacket.\"\nelse:\n    message = \"Stay inside - it's freezing!\"\n\nprint(f\"Temperature: {temperature}°C\")\nprint(f\"Advice: {message}\")"
@@ -72,11 +47,41 @@
       "prompt": "Write a function `grade(score)` that takes a numeric score (0-100) and returns the corresponding letter grade as a string:\n\n- `\"A\"` for scores **90 and above**\n- `\"B\"` for scores **80 and above** (but below 90)\n- `\"C\"` for scores **70 and above** (but below 80)\n- `\"D\"` for scores **60 and above** (but below 70)\n- `\"F\"` for anything **below 60**\n\nUse `if`, `elif`, and `else` to implement the logic.",
       "starterCode": "def grade(score):\n    # Your code here\n    pass",
       "tests": [
-        { "input": [95], "expectedOutput": "A", "description": "Score of 95 should return 'A'" },
-        { "input": [85], "expectedOutput": "B", "description": "Score of 85 should return 'B'" },
-        { "input": [72], "expectedOutput": "C", "description": "Score of 72 should return 'C'" },
-        { "input": [60], "expectedOutput": "D", "description": "Score of 60 (exactly) should return 'D'" },
-        { "input": [45], "expectedOutput": "F", "description": "Score of 45 should return 'F'" }
+        {
+          "input": [
+            95
+          ],
+          "expectedOutput": "A",
+          "description": "Score of 95 should return 'A'"
+        },
+        {
+          "input": [
+            85
+          ],
+          "expectedOutput": "B",
+          "description": "Score of 85 should return 'B'"
+        },
+        {
+          "input": [
+            72
+          ],
+          "expectedOutput": "C",
+          "description": "Score of 72 should return 'C'"
+        },
+        {
+          "input": [
+            60
+          ],
+          "expectedOutput": "D",
+          "description": "Score of 60 (exactly) should return 'D'"
+        },
+        {
+          "input": [
+            45
+          ],
+          "expectedOutput": "F",
+          "description": "Score of 45 should return 'F'"
+        }
       ]
     }
   ]

@@ -1,0 +1,89 @@
+{
+  "id": "git-cloning-and-remote-tracking",
+  "slug": "cloning-and-remote-tracking",
+  "title": "Cloning and Tracking a Shared Repository",
+  "description": "Practice cloning and tracking a shared repository through a concrete team scenario.",
+  "pathId": "git",
+  "moduleId": "git-collaboration-and-release",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "git-clone",
+    "remote-tracking"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "You are joining an existing project. You need a local copy connected to the team repository before you can contribute. What is the smallest Git action that keeps the work safe?"
+    },
+    {
+      "type": "text",
+      "content": "Cloning copies a repository and sets up its default remote. `git clone URL` gives you a working directory plus its history.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `git clone` create?",
+      "options": [
+        "A local repository with project history",
+        "Only an empty folder",
+        "A new programming language",
+        "A merged pull request"
+      ],
+      "correctIndex": 0,
+      "explanation": "Cloning gives you files plus the repository history needed to work locally."
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"clone.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `cloneFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.cloneFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
+    }
+  ]
+}

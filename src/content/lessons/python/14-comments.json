@@ -4,30 +4,23 @@
   "title": "Comments",
   "description": "Write code that explains itself - using comments and docstrings effectively.",
   "pathId": "python",
-  "moduleId": "python-getting-started",
-  "difficulty": "intro",
+  "moduleId": "python-everyday-tools",
+  "difficulty": "easy",
   "estimatedMinutes": 6,
-  "concepts": ["#", "docstrings", "triple quotes", "good commenting"],
+  "concepts": [
+    "#",
+    "docstrings",
+    "triple quotes",
+    "good commenting"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## Imagine Opening Old Code\n\nYou wrote a script six months ago to automate something at work. Today you open it and stare at lines like:\n\n```python\nx = d * 0.0174533\nr = math.atan2(math.sin(x) * math.cos(y), ...)\n```\n\n*What does this do?* Without comments, even your own code becomes a mystery.\n\n**Comments** are notes you write inside your code - Python ignores them completely, but they're invaluable for humans (including future-you)."
+      "content": "You return to a program next week and cannot remember why a strange rule exists. A short note can preserve the reason. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## Single-Line Comments with `#`\n\nAnything after a `#` on a line is a comment. Python skips it entirely.\n\n```python\n# This entire line is a comment\nprint(\"Hello\")  # This is an inline comment\n\n# You can describe steps in your logic:\n# Step 1: Get the user's age\nage = 25\n# Step 2: Check if they're an adult\nif age >= 18:\n    print(\"Adult\")\n```\n\n**Standalone comments** (their own line) explain what a section of code does.\n**Inline comments** add a quick note beside a single line - keep them short."
-    },
-    {
-      "type": "text",
-      "content": "## Multi-Line Comments\n\nPython doesn't have a dedicated multi-line comment syntax like `/* ... */` in other languages. Instead, you have two options:\n\n**Option 1 - Stack multiple `#` lines (preferred):**\n```python\n# This function converts degrees to radians.\n# Formula: radians = degrees * (pi / 180)\n# Used for trigonometric calculations.\n```\n\n**Option 2 - Triple-quoted strings:**\n```python\n'''\nThis is technically a string literal,\nnot assigned to anything, so Python\njust evaluates and discards it.\n'''\n```\n\nTriple-quoted strings are commonly used as **docstrings** (see next section) but can serve as block comments in a pinch."
-    },
-    {
-      "type": "text",
-      "content": "## Docstrings - Documentation Built Into Functions\n\nA **docstring** is a triple-quoted string placed as the very first statement inside a function, class, or module. It's the official way to document what something does.\n\n```python\ndef calculate_area(radius):\n    \"\"\"\n    Calculate the area of a circle.\n\n    Args:\n        radius (float): The radius of the circle.\n\n    Returns:\n        float: The area, computed as pi * radius^2.\n    \"\"\"\n    import math\n    return math.pi * radius ** 2\n```\n\nDocstrings are special - they're stored on the function and accessible at runtime:\n\n```python\n# Access it programmatically:\nprint(calculate_area.__doc__)\n\n# Or use the built-in help system:\nhelp(calculate_area)\n```\n\nThis is how tools like IDEs and documentation generators read your documentation automatically.\n\n```mermaid\ngraph LR\n    A[\"def my_func()\"] --> B[\"Docstring (first statement)\"]\n    B --> C[\"Stored as my_func.__doc__\"]\n    C --> D[\"help(my_func)\"]\n    C --> E[\"IDE tooltips\"]\n    C --> F[\"Docs generators\"]\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Good Comments vs. Bad Comments\n\nNot all comments are helpful. The golden rule:\n\n> **Comment *why*, not *what*.** The code already shows *what* it does.\n\n```mermaid\ngraph TD\n    A[\"Comment\"] --> B{\"Does it explain WHY?\"}\n    B -->|\"Yes\"| C[\"[PASS] Good comment\"]\n    B -->|\"No - restates the code\"| D[\"[FAIL] Bad comment\"]\n```\n\n**Bad comments** (just restate the obvious):\n```python\n# Add 1 to count\ncount = count + 1\n\n# Set name to Alice\nname = \"Alice\"\n```\n\n**Good comments** (explain intent, edge cases, or non-obvious choices):\n```python\n# Offset by 1 because the API uses 0-based indexing but users see 1-based\ncount = count + 1\n\n# Use a sentinel value instead of None so we can distinguish \"not set\" from \"explicitly empty\"\nname = \"__UNSET__\"\n```\n\nAlso worth commenting:\n- **Why** a particular algorithm was chosen\n- **Known limitations** or edge cases\n- **References** to external docs, tickets, or formulas"
     },
     {
       "type": "multipleChoice",
@@ -47,16 +40,48 @@
       "starterCode": "# ============================================================\n# GOOD vs. BAD commenting examples\n# ============================================================\n\n# --- BAD: Restates the code, adds no value ---\n\ndef bad_example(price, tax_rate):\n    # Multiply price by tax rate\n    tax = price * tax_rate  # calculate tax\n    # Add tax to price\n    total = price + tax\n    return total  # return total\n\n\n# --- GOOD: Explains intent, context, and non-obvious choices ---\n\ndef good_example(price, tax_rate):\n    \"\"\"\n    Calculate the total price including tax.\n\n    Args:\n        price (float): Pre-tax price in USD.\n        tax_rate (float): Tax as a decimal, e.g. 0.08 for 8%.\n\n    Returns:\n        float: Total price after tax.\n    \"\"\"\n    tax = price * tax_rate\n    total = price + tax\n    # Round to 2 decimal places to avoid floating-point noise\n    # e.g., 1.9999999 should display as 2.00\n    return round(total, 2)\n\n\nprint(bad_example(100, 0.08))\nprint(good_example(100, 0.08))\n\n# Check the docstring:\nprint(good_example.__doc__)\n"
     },
     {
-      "type": "multipleChoice",
-      "question": "What are docstrings primarily used for?",
-      "options": [
-        "To slow down code execution",
-        "To document functions and classes",
-        "To print output to the console",
-        "To disable lines of code"
-      ],
-      "correctIndex": 1,
-      "explanation": "Docstrings are triple-quoted strings placed at the top of a function or class to describe its purpose, parameters, and return values. They're accessible via __doc__ and help(), and are used by IDEs and documentation tools."
+      "type": "challenge",
+      "language": "python",
+      "prompt": "A teammate needs a safe way to add a note to a list. Write `add_note(notes, note)` that returns a new list containing the note. Do not change the original list.",
+      "starterCode": "def add_note(notes, note):\n    # your code here\n    pass",
+      "tests": [
+        {
+          "input": [
+            [
+              "call client"
+            ],
+            "send receipt"
+          ],
+          "expectedOutput": [
+            "call client",
+            "send receipt"
+          ],
+          "description": "adds a note to an existing list"
+        },
+        {
+          "input": [
+            [],
+            "first task"
+          ],
+          "expectedOutput": [
+            "first task"
+          ],
+          "description": "works with an empty list"
+        },
+        {
+          "input": [
+            [
+              "keep"
+            ],
+            ""
+          ],
+          "expectedOutput": [
+            "keep",
+            ""
+          ],
+          "description": "keeps an empty note instead of treating it as missing"
+        }
+      ]
     }
   ]
 }

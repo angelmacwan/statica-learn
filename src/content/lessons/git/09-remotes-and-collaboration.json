@@ -4,50 +4,89 @@
   "title": "Remotes, Fetch, Pull & Push Collaboration",
   "description": "Connect local repositories to remote hosts like GitHub, understand remote-tracking branches, and synchronize changes with fetch, pull, and push.",
   "pathId": "git",
-  "moduleId": "git-collaboration-workflows",
-  "difficulty": "medium",
-  "estimatedMinutes": 9,
-  "concepts": ["git-remote", "git-fetch", "git-pull", "git-push", "remote-tracking"],
+  "moduleId": "git-branches-and-integration",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "git-remote",
+    "git-fetch",
+    "git-pull",
+    "git-push",
+    "remote-tracking"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## What is a Remote?\n\nA remote repository is a version of your project hosted on a network or the Internet (such as GitHub, GitLab, or Bitbucket). A remote is simply a bookmark or alias pointing to a repository URL.\n\n```mermaid\nflowchart LR\n    DevA[(\"Local Repo A\")] <-->|\"push / pull\"| Origin[(\"Remote: origin\\n(e.g., GitHub)\")]\n    Origin <-->|\"push / pull\"| DevB[(\"Local Repo B\")]\n```\n\nWhen you clone a repository, Git automatically names that remote repository `origin`."
+      "content": "Your teammate has new commits on the shared project. You need to bring that history into your local copy deliberately. What is the smallest Git action that keeps the work safe?"
     },
     {
       "type": "text",
-      "content": "## Managing Remote Connections\n\n```bash\n# List configured remotes with URLs\ngit remote -v\n# Output:\n# origin  https://github.com/user/repo.git (fetch)\n# origin  https://github.com/user/repo.git (push)\n\n# Add a new remote alias\ngit remote add origin https://github.com/user/repo.git\n\n# Rename an existing remote\ngit remote rename origin upstream\n\n# Remove a remote\ngit remote remove upstream\n```"
-    },
-    {
-      "type": "text",
-      "content": "## `git fetch` vs `git pull`\n\nThe difference between fetching and pulling is one of the most important concepts in collaborative Git:\n\n```mermaid\nflowchart TD\n    Remote[(\"Remote Repository (origin/main)\")] -->|\"git fetch\"| Tracking[(\"Remote Tracking Branch (origin/main in local .git)\")]\n    Tracking -->|\"git merge / rebase\"| Local[(\"Local Branch (main)\")]\n    Remote -->|\"git pull (fetch + merge)\"| Local\n```\n\n1. **`git fetch`**: Safely downloads all commits, files, and refs from the remote without modifying your working files or moving your local branch pointers. It only updates `origin/<branch>`.\n2. **`git pull`**: Runs `git fetch` and immediately attempts to merge (or rebase) the downloaded commits into your currently checked-out branch."
-    },
-    {
-      "type": "text",
-      "content": "## Pushing Changes to Remotes\n\nTo share your local commits with teammates:\n\n```bash\n# Push the current branch and set up upstream tracking (-u)\ngit push -u origin feature-auth\n\n# Subsequent pushes on this branch require only:\ngit push\n\n# Delete a remote branch\ngit push origin --delete feature-auth\n```\n\nThe `-u` (or `--set-upstream`) flag links your local branch directly to `origin/feature-auth`, enabling short-hand `git push` and `git pull` without specifying remote and branch names every time."
+      "content": "A remote is another copy of a repository, often shared by a team. `git fetch` downloads new history without changing your files; `git pull` fetches and integrates it.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "What is the primary difference between 'git fetch' and 'git pull'?",
+      "question": "What is the difference between fetch and pull?",
       "options": [
-        "git fetch only downloads data to remote-tracking branches without altering your working tree; git pull fetches and merges into your active branch",
-        "git pull is for cloning repositories; git fetch is for creating new commits",
-        "git fetch requires root permissions, while git pull does not",
-        "git pull only checks network connectivity without downloading commits"
+        "Fetch downloads history; pull also integrates it",
+        "Fetch deletes history; pull creates it",
+        "They only work offline",
+        "Pull only stages files"
       ],
       "correctIndex": 0,
-      "explanation": "'git fetch' downloads remote changes safely without touching your working tree or current branch. 'git pull' fetches and then automatically merges changes into your current branch."
+      "explanation": "Fetch lets you inspect new remote history before changing your working branch."
     },
     {
-      "type": "multipleChoice",
-      "question": "What does the '-u' flag in 'git push -u origin main' accomplish?",
-      "options": [
-        "It forces an overwrite of the remote branch even if history diverges",
-        "It establishes an upstream tracking link between the local branch and origin/main",
-        "It uninstalls untracked files from the remote server",
-        "It encrypts the payload before sending"
-      ],
-      "correctIndex": 1,
-      "explanation": "The '-u' (--set-upstream) flag creates a tracking relationship so future 'git push' and 'git pull' commands default to that remote branch."
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"fetch.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `fetchFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.fetchFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
     }
   ]
 }

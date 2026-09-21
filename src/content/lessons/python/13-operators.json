@@ -4,42 +4,26 @@
   "title": "Operators",
   "description": "All of Python's operators: arithmetic, comparison, logical, assignment, membership, and identity.",
   "pathId": "python",
-  "moduleId": "python-variables",
+  "moduleId": "python-everyday-tools",
   "difficulty": "easy",
   "estimatedMinutes": 10,
-  "concepts": ["arithmetic", "comparison", "logical", "assignment", "membership", "identity", "operator precedence"],
+  "concepts": [
+    "arithmetic",
+    "comparison",
+    "logical",
+    "assignment",
+    "membership",
+    "identity",
+    "operator precedence"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## What Are Operators?\n\nOperators are symbols (and keywords) that tell Python to **perform an operation** on one or more values. You already know `+` and `-` - but Python has six full categories of them.\n\n```mermaid\ngraph LR\n  OP[\"Operators\"]\n  OP --> A[\"Arithmetic\\n+ - * / // % **\"]\n  OP --> B[\"Comparison\\n== != < > <= >=\"]\n  OP --> C[\"Logical\\nand  or  not\"]\n  OP --> D[\"Assignment\\n= += -= *= ...\"]\n  OP --> E[\"Membership\\nin  not in\"]\n  OP --> F[\"Identity\\nis  is not\"]\n```\n\nLet's walk through each one."
+      "content": "A store total needs addition, a discount needs comparison, and a checkout rule needs a true-or-false result. Operators express those actions. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## Arithmetic Operators\n\nUsed for math. Most are familiar - but `//`, `%`, and `**` are worth a close look.\n\n```python\nprint(10 + 3)    # 13   - addition\nprint(10 - 3)    # 7    - subtraction\nprint(10 * 3)    # 30   - multiplication\nprint(10 / 3)    # 3.333...  - true division (always float)\nprint(10 // 3)   # 3    - floor division (integer, rounds DOWN)\nprint(10 % 3)    # 1    - modulo (remainder after division)\nprint(2 ** 8)    # 256  - exponentiation (2 to the power of 8)\n```\n\n**Floor division `//`** - divides and drops the decimal:\n```python\nprint(7 // 2)    # 3  (not 3.5)\nprint(-7 // 2)   # -4  (rounds toward negative infinity!)\n```\n\n**Modulo `%`** - gives you the remainder. Great for checking divisibility:\n```python\nprint(15 % 5)    # 0  → 15 is divisible by 5\nprint(17 % 5)    # 2  → remainder is 2\n```\n\n**Exponentiation `**`** - raise to a power:\n```python\nprint(3 ** 3)    # 27\nprint(16 ** 0.5) # 4.0  - square root!\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Comparison Operators\n\nComparison operators **compare two values** and always return a `bool` (`True` or `False`).\n\n```python\nprint(5 == 5)    # True   - equal to\nprint(5 != 3)    # True   - not equal to\nprint(10 > 7)    # True   - greater than\nprint(10 < 7)    # False  - less than\nprint(5 >= 5)    # True   - greater than or equal to\nprint(4 <= 3)    # False  - less than or equal to\n```\n\n> [Warning] Don't confuse `=` (assignment) with `==` (comparison). `x = 5` sets x to 5. `x == 5` asks \"is x equal to 5?\"\n\nComparisons are the backbone of `if` statements and `while` loops:\n```python\ntemperature = 38\nif temperature > 37.5:\n    print(\"Fever detected\")\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Logical Operators\n\nLogical operators combine boolean expressions. Python uses plain English words - `and`, `or`, `not`.\n\n| `a` | `b` | `a and b` | `a or b` | `not a` |\n|---|---|---|---|---|\n| `True` | `True` | `True` | `True` | `False` |\n| `True` | `False` | `False` | `True` | `False` |\n| `False` | `True` | `False` | `True` | `True` |\n| `False` | `False` | `False` | `False` | `True` |\n\n```python\nage = 20\nhas_id = True\n\n# and - both must be True\nif age >= 18 and has_id:\n    print(\"Entry allowed\")\n\n# or - at least one must be True\nis_weekend = False\nis_holiday = True\nif is_weekend or is_holiday:\n    print(\"Day off!\")\n\n# not - flips the boolean\nis_raining = False\nif not is_raining:\n    print(\"Good day for a walk\")\n```\n\n**Short-circuit evaluation:** Python stops evaluating `and` as soon as it sees `False`, and stops evaluating `or` as soon as it sees `True`."
-    },
-    {
-      "type": "text",
-      "content": "## Assignment Operators\n\nAssignment operators are **shortcuts** for updating a variable based on its current value.\n\n```python\nscore = 100\n\nscore += 10    # same as: score = score + 10  → 110\nscore -= 5     # same as: score = score - 5   → 105\nscore *= 2     # same as: score = score * 2   → 210\nscore /= 3     # same as: score = score / 3   → 70.0\nscore //= 4    # same as: score = score // 4  → 17.0\nscore **= 2    # same as: score = score ** 2  → 289.0\n\nprint(score)   # 289.0\n```\n\nThese come up constantly in loops:\n```python\ntotal = 0\nfor price in [9.99, 4.49, 12.00]:\n    total += price\nprint(f\"Total: ${total:.2f}\")  # Total: $26.48\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Membership Operators: `in` and `not in`\n\nMembership operators check whether a value **exists inside a collection** - a string, list, or dictionary.\n\n```python\n# Strings\nprint(\"py\" in \"python\")          # True\nprint(\"java\" not in \"python\")    # True\n\n# Lists\nfruits = [\"apple\", \"banana\", \"cherry\"]\nprint(\"banana\" in fruits)        # True\nprint(\"mango\" not in fruits)     # True\n\n# Dicts - checks keys by default\nuser = {\"name\": \"Alex\", \"age\": 28}\nprint(\"name\" in user)            # True\nprint(\"email\" in user)           # False\n```\n\nThis is cleaner than writing `fruits.index(\"banana\") != -1` or looping through everything manually."
-    },
-    {
-      "type": "text",
-      "content": "## Identity Operators: `is` and `is not`\n\n`is` checks whether two variables point to the **exact same object in memory** - not just equal values.\n\n```python\na = [1, 2, 3]\nb = [1, 2, 3]\nc = a\n\nprint(a == b)    # True  - same values\nprint(a is b)    # False - different objects in memory\nprint(a is c)    # True  - c points to the SAME list as a\n```\n\n```mermaid\ngraph LR\n  A[\"a\"] --> OBJ1[\"[1, 2, 3]  @ 0x1a2\"]\n  C[\"c\"] --> OBJ1\n  B[\"b\"] --> OBJ2[\"[1, 2, 3]  @ 0x3f7\"]\n```\n\n**The most important use case:** checking for `None`.\n```python\n# [PASS] Correct - use 'is' for None checks\nresult = None\nif result is None:\n    print(\"No result yet\")\n\n# [PASS] Also valid\nif result is not None:\n    print(f\"Got: {result}\")\n```\n\n> Always use `is` / `is not` when comparing to `None`, `True`, or `False` - never `==`."
-    },
-    {
-      "type": "text",
-      "content": "## Operator Precedence\n\nWhen an expression has multiple operators, Python follows a **strict order of operations** - similar to PEMDAS in math.\n\n| Priority | Operators |\n|---|---|\n| 1 (highest) | `**` |\n| 2 | `+x`, `-x` (unary) |\n| 3 | `*`, `/`, `//`, `%` |\n| 4 | `+`, `-` |\n| 5 | `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `is` |\n| 6 | `not` |\n| 7 | `and` |\n| 8 (lowest) | `or` |\n\n**Tricky example:**\n```python\nresult = 2 + 3 * 4 ** 2 - 1\n#             4**2  = 16\n#          3 * 16   = 48\n#       2 + 48      = 50\n#       50 - 1      = 49\nprint(result)   # 49\n```\n\nWhen in doubt - **use parentheses** to make your intent explicit:\n```python\nresult = (2 + 3) * (4 ** 2) - 1   # 79 - totally different!\n```"
     },
     {
       "type": "multipleChoice",
@@ -64,13 +48,55 @@
       "prompt": "Write a function `is_even(n)` that returns `True` if `n` is an even number, and `False` if it is odd.\n\n**Hint:** Use the modulo operator `%`. A number is even if the remainder when divided by 2 is 0.\n\n**Examples:**\n- `is_even(4)` → `True`\n- `is_even(7)` → `False`\n- `is_even(0)` → `True`",
       "starterCode": "def is_even(n):\n    # your code here\n    pass",
       "tests": [
-        { "input": [4], "expectedOutput": true, "description": "4 is even" },
-        { "input": [7], "expectedOutput": false, "description": "7 is odd" },
-        { "input": [0], "expectedOutput": true, "description": "0 is even" },
-        { "input": [1], "expectedOutput": false, "description": "1 is odd" },
-        { "input": [100], "expectedOutput": true, "description": "100 is even" },
-        { "input": [-3], "expectedOutput": false, "description": "Negative odd number" },
-        { "input": [-8], "expectedOutput": true, "description": "Negative even number" }
+        {
+          "input": [
+            4
+          ],
+          "expectedOutput": true,
+          "description": "4 is even"
+        },
+        {
+          "input": [
+            7
+          ],
+          "expectedOutput": false,
+          "description": "7 is odd"
+        },
+        {
+          "input": [
+            0
+          ],
+          "expectedOutput": true,
+          "description": "0 is even"
+        },
+        {
+          "input": [
+            1
+          ],
+          "expectedOutput": false,
+          "description": "1 is odd"
+        },
+        {
+          "input": [
+            100
+          ],
+          "expectedOutput": true,
+          "description": "100 is even"
+        },
+        {
+          "input": [
+            -3
+          ],
+          "expectedOutput": false,
+          "description": "Negative odd number"
+        },
+        {
+          "input": [
+            -8
+          ],
+          "expectedOutput": true,
+          "description": "Negative even number"
+        }
       ]
     }
   ]

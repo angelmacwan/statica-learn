@@ -4,26 +4,25 @@
   "title": "Input and Output",
   "description": "Read user input from the console and display results - the basics of interactive programs.",
   "pathId": "python",
-  "moduleId": "python-getting-started",
-  "difficulty": "intro",
+  "moduleId": "python-everyday-tools",
+  "difficulty": "easy",
   "estimatedMinutes": 8,
-  "concepts": ["print()", "input()", "f-strings", "sep", "end", "format"],
+  "concepts": [
+    "print()",
+    "input()",
+    "f-strings",
+    "sep",
+    "end",
+    "format"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## Every Useful Program Talks to a User\n\nImagine a simple calculator:\n\n```\nEnter first number: 12\nEnter second number: 8\nResult: 12 + 8 = 20\n```\n\nTo build this, you need two fundamental tools:\n- **`print()`** - send output to the screen\n- **`input()`** - read text the user types\n\nThese two functions are the foundation of every interactive Python program."
+      "content": "Your program needs a customer to choose a quantity, then needs to show the total. That is a conversation between a person and code. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## `print()` In Depth\n\nYou've seen `print(\"Hello\")`, but `print()` is more powerful than it looks.\n\n### Multiple arguments\n```python\nprint(\"Name:\", \"Alice\", \"Age:\", 25)\n# Output: Name: Alice Age: 25\n```\nBy default, multiple arguments are joined with a **space**.\n\n### The `sep` parameter - change the separator\n```python\nprint(\"2026\", \"09\", \"21\", sep=\"-\")\n# Output: 2026-09-21\n\nprint(\"one\", \"two\", \"three\", sep=\" | \")\n# Output: one | two | three\n```\n\n### The `end` parameter - change what prints at the end\n```python\n# Default end is \"\\n\" (newline). Change it to keep output on one line:\nprint(\"Loading\", end=\"\")\nprint(\"...\")\n# Output: Loading...\n\nprint(\"A\", end=\" -> \")\nprint(\"B\", end=\" -> \")\nprint(\"C\")\n# Output: A -> B -> C\n```\n\n```mermaid\ngraph LR\n    A[\"print(arg1, arg2, ...)\"] --> B[\"Join with sep (default: space)\"]\n    B --> C[\"Append end (default: newline)\"]\n    C --> D[\"Output to console\"]\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Formatting Output: f-strings (Modern, Recommended)\n\n**f-strings** (formatted string literals) let you embed expressions directly inside strings. Prefix the string with `f` and put variables or expressions inside `{}`.\n\n```python\nname = \"Alice\"\nage = 25\nscore = 98.5678\n\n# Basic substitution\nprint(f\"Hello, {name}! You are {age} years old.\")\n# Output: Hello, Alice! You are 25 years old.\n\n# Expressions work too\nprint(f\"In 10 years, {name} will be {age + 10}.\")\n# Output: In 10 years, Alice will be 35.\n\n# Format numbers: .2f = 2 decimal places\nprint(f\"Your score is {score:.2f}\")\n# Output: Your score is 98.57\n\n# Padding and alignment\nprint(f\"{'Item':<10} {'Price':>8}\")\nprint(f\"{'Apple':<10} {1.99:>8.2f}\")\nprint(f\"{'Watermelon':<10} {4.49:>8.2f}\")\n```\n\n### Other formatting methods (for reference)\n\n```python\n# .format() method - older but still common\nprint(\"Hello, {}! You are {} years old.\".format(name, age))\nprint(\"Pi is approximately {:.4f}\".format(3.14159))\n\n# % formatting - legacy, you'll see this in older code\nprint(\"Hello, %s! You are %d years old.\" % (name, age))\n```\n\n**f-strings are the recommended approach** for all new code - they're readable, fast, and expressive."
-    },
-    {
-      "type": "text",
-      "content": "## `input()` - Reading User Input\n\n`input()` pauses your program, waits for the user to type something and press Enter, then returns it as a **string**.\n\n```python\nname = input(\"What is your name? \")\nprint(f\"Hello, {name}!\")\n```\n\n### [Warning] `input()` ALWAYS returns a string\n\nThis is the most common beginner mistake:\n\n```python\nage = input(\"Enter your age: \")  # User types 25\nprint(age + 1)  # [FAIL] TypeError: can only concatenate str to str\n```\n\nYou must **cast** the result if you want to do math:\n\n```python\nage = int(input(\"Enter your age: \"))    # convert to int\nprice = float(input(\"Enter price: \"))   # convert to float\n\nprint(f\"In 10 years you'll be {age + 10}.\")\n```\n\n```mermaid\ngraph LR\n    A[\"input() call\"] --> B[\"User types text\"]\n    B --> C[\"Returns str - always!\"]\n    C --> D{\"Need a number?\"}\n    D -->|\"Yes\"| E[\"int() or float()\"]\n    D -->|\"No\"| F[\"Use directly\"]\n```\n\n###  Note for this platform\n\nThis course runs Python in your **browser**, so `input()` doesn't work interactively in challenges. In challenges and exercises, you'll use **function parameters** instead of `input()` - this is actually better practice for writing reusable code anyway!"
     },
     {
       "type": "multipleChoice",
@@ -49,17 +48,26 @@
       "starterCode": "def format_greeting(name, age):\n    # Return the formatted greeting string\n    pass\n",
       "tests": [
         {
-          "input": ["Alice", 25],
+          "input": [
+            "Alice",
+            25
+          ],
           "expectedOutput": "Hi, Alice! You are 25 years old.",
           "description": "format_greeting(\"Alice\", 25) should return the correct greeting"
         },
         {
-          "input": ["Bob", 30],
+          "input": [
+            "Bob",
+            30
+          ],
           "expectedOutput": "Hi, Bob! You are 30 years old.",
           "description": "format_greeting(\"Bob\", 30) should return the correct greeting"
         },
         {
-          "input": ["Maria", 17],
+          "input": [
+            "Maria",
+            17
+          ],
           "expectedOutput": "Hi, Maria! You are 17 years old.",
           "description": "format_greeting(\"Maria\", 17) should work for any name and age"
         }

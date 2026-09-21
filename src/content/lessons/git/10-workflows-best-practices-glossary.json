@@ -1,53 +1,92 @@
 {
   "id": "git-workflows-best-practices-glossary",
   "slug": "workflows-best-practices-glossary",
-  "title": "Workflows, Best Practices & Git Glossary",
+  "title": "A Team Workflow for Focused Changes",
   "description": "Explore standard industry branching workflows, master built-in help commands, apply core best practices, and review essential Git vocabulary.",
   "pathId": "git",
-  "moduleId": "git-collaboration-workflows",
-  "difficulty": "medium",
-  "estimatedMinutes": 10,
-  "concepts": ["git-workflows", "trunk-based", "git-help", "best-practices", "git-glossary"],
+  "moduleId": "git-branches-and-integration",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "git-workflows",
+    "trunk-based",
+    "git-help",
+    "best-practices",
+    "git-glossary"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## Industry Branching Workflows\n\nSoftware engineering teams organize collaborative work using established branching strategies:\n\n### 1. Trunk-Based Development (Modern Standard for CI/CD)\n\nDevelopers work on short-lived feature branches (lasting hours to 1-2 days) and merge frequently into a single shared `main` trunk branch via automated tests and code reviews.\n\n```mermaid\nflowchart LR\n    Main1[\"main\"] --> Main2[\"main\"]\n    Main1 --> FeatureA[\"feature/login (1-2 days)\"] --> Main2\n    Main2 --> Main3[\"main (Deploy to Prod)\"]\n    Main2 --> FeatureB[\"feature/search (short-lived)\"] --> Main3\n```\n\n### 2. Git Flow (Scheduled Release Cycles)\n\nUses long-lived `develop` and `main` branches alongside dedicated `feature/`, `release/`, and `hotfix/` branches. Ideal for packaged software with rigid version release milestones."
+      "content": "A team needs predictable changes that reviewers can understand. A shared workflow turns individual commits into collaboration. What is the smallest Git action that keeps the work safe?"
     },
     {
       "type": "text",
-      "content": "## Built-In Help Commands\n\nGit ships with full manual documentation accessible offline directly in your terminal:\n\n```bash\n# Open the manual page for a command in your terminal pager\ngit help commit\n# or\ngit commit --help\n\n# Open HTML documentation in your web browser\ngit help -w commit\n\n# Quick synopsis and common flags\ngit commit -h\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Core Git Best Practices\n\n1. **Atomic Commits**: Each commit should do exactly one logical task (one feature, one bug fix, or one refactor). Never combine unrelated changes into a monolithic commit.\n2. **Clean Imperative Commit Messages**: Write messages like `fix: validate phone number input`, not `fixed stuff`.\n3. **Pull Before Starting Work**: Run `git pull` before creating a new feature branch to minimize merge conflicts.\n4. **Never Commit Secrets**: Use `.gitignore` and tools like `git-secrets` or pre-commit hooks to block API keys, private tokens, and passwords.\n5. **Protect Shared Branches**: Never run `git push --force` or rewrite history on shared branches like `main`."
-    },
-    {
-      "type": "text",
-      "content": "## Git Glossary\n\n| Term | Definition |\n| :--- | :--- |\n| **Working Tree** | The directory of files currently on your disk that you see and edit. |\n| **Staging Area (Index)** | The holding area where changes are prepared before creating a commit. |\n| **HEAD** | A pointer pointing to the current branch or commit checked out in your working tree. |\n| **Commit** | An immutable snapshot of the repository at a specific point in time, with author and parent metadata. |\n| **Branch** | A lightweight, movable pointer to a specific commit. |\n| **Fast-Forward** | A merge where the destination branch pointer simply moves forward without needing a merge commit. |\n| **Merge Commit** | A commit with two or more parents, created when joining divergent histories. |\n| **Detached HEAD** | A state where HEAD points directly to a commit instead of a named branch. |\n| **Remote** | A named reference URL to a repository hosted on a network or service like GitHub. |\n| **Upstream** | The default remote branch associated with a local branch for push and pull operations. |"
+      "content": "A workflow is the team agreement for how changes move from idea to release. Small focused commits make review, recovery, and collaboration easier.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "Which workflow emphasizes short-lived feature branches merged frequently into a single main branch with automated testing?",
+      "question": "Why prefer focused commits?",
       "options": [
-        "Git Flow",
-        "Trunk-Based Development",
-        "Centralized SVN Workflow",
-        "Forking-only Release Workflow"
+        "They are easier to review and recover",
+        "They make branches unnecessary",
+        "They prevent all bugs",
+        "They remove the need for tests"
       ],
-      "correctIndex": 1,
-      "explanation": "Trunk-Based Development minimizes long-running drift and merge conflicts by having developers merge small, verified batches into main daily."
+      "correctIndex": 0,
+      "explanation": "A small commit tells one clear story, which makes later work safer."
     },
     {
-      "type": "multipleChoice",
-      "question": "What is an atomic commit?",
-      "options": [
-        "A commit that touches all files in the entire project at once",
-        "A commit that contains only one self-contained, logical unit of work that can be safely reviewed or reverted",
-        "A commit that requires cryptographic quantum validation",
-        "A commit made directly to the remote server without staging"
-      ],
-      "correctIndex": 1,
-      "explanation": "An atomic commit represents a single logical change. It keeps history legible and allows easy, isolated cherry-picking or reverting if an issue arises."
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"commit.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `commitFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.commitFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
     }
   ]
 }

@@ -4,23 +4,21 @@
   "title": "Why Python?",
   "description": "A concrete look at what Python is actually used for, and why it's worth learning.",
   "pathId": "python",
-  "moduleId": "python-getting-started",
+  "moduleId": "python-starting-out",
   "difficulty": "intro",
   "estimatedMinutes": 5,
-  "concepts": ["programming", "python"],
+  "concepts": [
+    "programming",
+    "python"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "You have a spreadsheet with 50,000 rows of sales data. Your boss asks you to find every row where the revenue is above $10,000 and export it to a new file. Doing it by hand would take hours. A Python program can do it in under a second.\n\nThat's the point. Python lets you automate repetitive work, analyze data, build websites, and control machines - all with the same language."
+      "content": "A weekly report arrives with thousands of rows. You want the computer to handle the repetitive part so you can inspect the useful result. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "Python is popular because it reads almost like English. Here's a real Python program:\n\n```python\nprint(\"Hello, world!\")\n```\n\n`print()` is a built-in command that displays text. The text goes inside quotes, inside the parentheses. Run it below and see what happens."
-    },
-    {
-      "type": "code",
-      "language": "python",
-      "starterCode": "print(\"Hello, world!\")"
     },
     {
       "type": "multipleChoice",
@@ -35,20 +33,36 @@
       "explanation": "print() displays whatever is inside the parentheses. Quotes tell Python it's text, not a command."
     },
     {
+      "type": "code",
+      "language": "python",
+      "starterCode": "print(\"Hello, world!\")"
+    },
+    {
       "type": "challenge",
       "language": "python",
       "prompt": "Use `print()` to display your name. For example: `print(\"Sam\")`\n\nThe function `show_name()` should print any name passed to it.",
       "starterCode": "def show_name(name):\n    print(name)",
       "tests": [
         {
-          "input": ["Alice"],
+          "input": [
+            "Alice"
+          ],
           "expectedOutput": "Alice",
           "description": "prints the name Alice"
         },
         {
-          "input": ["Sam"],
+          "input": [
+            "Sam"
+          ],
           "expectedOutput": "Sam",
           "description": "prints a different name"
+        },
+        {
+          "input": [
+            "Lee"
+          ],
+          "expectedOutput": "Lee",
+          "description": "prints another name without relying on the example name"
         }
       ]
     }

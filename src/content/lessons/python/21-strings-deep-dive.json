@@ -4,22 +4,24 @@
   "title": "Strings: Slicing, Methods, and Formatting",
   "description": "Master string manipulation in Python, from advanced slicing to core methods and f-strings.",
   "pathId": "python",
-  "moduleId": "python-data-structures",
-  "difficulty": "easy",
+  "moduleId": "python-working-with-data",
+  "difficulty": "medium",
   "estimatedMinutes": 10,
-  "concepts": ["strings", "slicing", "string-methods", "f-strings", "immutability"],
+  "concepts": [
+    "strings",
+    "slicing",
+    "string-methods",
+    "f-strings",
+    "immutability"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "Text data is everywhere in software - user inputs, API payloads, URLs, and file paths. In Python, strings are **immutable sequences of Unicode characters**.\n\nBecause strings are immutable, any operation that modifies a string actually creates and returns a *new* string."
+      "content": "A title typed by an editor has extra spaces and mixed capitals. You need to reshape text before it becomes a URL. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## Advanced Slicing: `[start:stop:step]`\n\nYou can extract sub-strings with slice notation:\n\n```python\ntext = \"PythonProgramming\"\nprint(text[0:6])     # 'Python' (from index 0 up to, but not including, 6)\nprint(text[6:])      # 'Programming' (from index 6 to end)\nprint(text[::2])     # 'PtoPormig' (every second character)\nprint(text[::-1])    # 'gnimmargorPnohtyP' (reversed!)\n```\n\n```mermaid\ngraph LR\n    P[\"0: P\"] --- Y[\"1: y\"] --- T[\"2: t\"] --- H[\"3: h\"] --- O[\"4: o\"] --- N[\"5: n\"]\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Essential String Methods\n\n- **`.strip()`**: Removes leading/trailing whitespace\n- **`.split(sep)`**: Splits a string into a list of strings\n- **`.join(iterable)`**: Glues a list of strings together\n- **`.replace(old, new)`**: Replaces occurrences of a substring\n- **`.startswith()` / `.endswith()`**: Checks prefix/suffix, returning `True` or `False`\n\n```python\ncsv_row = \"  apple , banana , cherry  \"\nitems = [item.strip() for item in csv_row.split(\",\")]\nprint(items)  # ['apple', 'banana', 'cherry']\n\nclean_csv = \" - \".join(items)\nprint(clean_csv)  # 'apple - banana - cherry'\n```"
     },
     {
       "type": "multipleChoice",
@@ -45,17 +47,23 @@
       "starterCode": "def clean_and_slugify(title):\n    # your code here\n    pass\n",
       "tests": [
         {
-          "input": ["  Learn Python Fast  "],
+          "input": [
+            "  Learn Python Fast  "
+          ],
           "expectedOutput": "learn-python-fast",
           "description": "strips whitespace, converts to lowercase, replaces spaces with hyphens"
         },
         {
-          "input": ["Hello World"],
+          "input": [
+            "Hello World"
+          ],
           "expectedOutput": "hello-world",
           "description": "converts 'Hello World' to 'hello-world'"
         },
         {
-          "input": ["Statica"],
+          "input": [
+            "Statica"
+          ],
           "expectedOutput": "statica",
           "description": "single word lowercase conversion"
         }

@@ -6,48 +6,86 @@
   "pathId": "git",
   "moduleId": "git-foundations",
   "difficulty": "intro",
-  "estimatedMinutes": 6,
-  "concepts": ["git-config", "installation", "environment", "setup"],
+  "estimatedMinutes": 7,
+  "concepts": [
+    "git-config",
+    "installation",
+    "environment",
+    "setup"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## Verifying and Installing Git\n\nCheck if Git is already installed on your system by opening a terminal:\n\n```bash\ngit --version\n# Example output: git version 2.44.0\n```\n\nIf Git is not installed:\n- **macOS**: Run `xcode-select --install` or `brew install git`.\n- **Linux (Ubuntu/Debian)**: Run `sudo apt update && sudo apt install git`.\n- **Windows**: Download and install Git from [git-scm.com](https://git-scm.com) or run `winget install --id Git.Git -e --source winget`."
+      "content": "You are about to share a project. Future collaborators need to see who made each saved change. What is the smallest Git action that keeps the work safe?"
     },
     {
       "type": "text",
-      "content": "## Configuration Scopes\n\nGit stores configuration options at three distinct levels:\n\n1. **`--system`**: Applies to every user and all repositories on the machine (`/etc/gitconfig`).\n2. **`--global`**: Applies to the current operating system user (`~/.gitconfig` or `~/.config/git/config`).\n3. **`--local`**: Applies specifically to the current repository (`.git/config`). Local overrides global, which overrides system.\n\n```mermaid\ngraph TD\n    A[\"1. Local Repo (.git/config)\\nHighest Priority\"] --> B[\"2. Global User (~/.gitconfig)\\nStandard Setting\"]\n    B --> C[\"3. System (/etc/gitconfig)\\nFallback Default\"]\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Essential First-Time Settings\n\nSet your name and email address immediately. These credentials are baked permanently into every commit you create:\n\n```bash\n# Set your public author name\ngit config --global user.name \"Alice Chen\"\n\n# Set your email (match your GitHub/GitLab account email)\ngit config --global user.email \"alice@example.com\"\n```\n\n### Recommended Best-Practice Settings\n\n```bash\n# Set default branch name for new repositories to main\ngit config --global init.defaultBranch main\n\n# Set default text editor (e.g. VS Code, nano, vim)\ngit config --global core.editor \"code --wait\"\n\n# Ensure pull rebase behavior (cleaner linear history)\ngit config --global pull.rebase true\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Inspecting Your Configuration\n\nTo view all active settings and see exactly which configuration file set each value, use `--show-origin`:\n\n```bash\ngit config --list --show-origin\n```\n\nTo check the value of a specific single key:\n\n```bash\ngit config user.name\n# Output: Alice Chen\n```"
+      "content": "Git records the name and email attached to new commits. Configure them once with `git config --global user.name \"Your Name\"` and `git config --global user.email \"you@example.com\"`.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "Which command sets your author email for all repositories on your user account?",
+      "question": "Why set your Git name and email?",
       "options": [
-        "git config --system user.email \"user@example.com\"",
-        "git config --global user.email \"user@example.com\"",
-        "git set email \"user@example.com\"",
-        "git init --email \"user@example.com\""
+        "So commits identify their author",
+        "So Git can encrypt every file",
+        "So branches merge automatically",
+        "So a remote is created"
       ],
-      "correctIndex": 1,
-      "explanation": "The '--global' flag writes configuration to your user profile (~/.gitconfig), making it the default for all repositories you work with."
+      "correctIndex": 0,
+      "explanation": "Git records this identity with commits so collaborators can see who made a change."
     },
     {
-      "type": "multipleChoice",
-      "question": "If a setting is defined in both ~/.gitconfig (--global) and .git/config (--local), which value takes precedence?",
-      "options": [
-        "The --global setting wins",
-        "The --local setting in .git/config wins",
-        "Git reports a collision error",
-        "The older setting always wins"
-      ],
-      "correctIndex": 1,
-      "explanation": "Git uses a cascading hierarchy: local repository settings override global user settings, which override system-wide defaults."
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"configure.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `configureFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.configureFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
     }
   ]
 }

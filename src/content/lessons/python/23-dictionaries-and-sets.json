@@ -4,22 +4,25 @@
   "title": "Dictionaries and Sets",
   "description": "Store key-value pairs with O(1) lookups and perform fast mathematical set operations.",
   "pathId": "python",
-  "moduleId": "python-data-structures",
+  "moduleId": "python-working-with-data",
   "difficulty": "medium",
   "estimatedMinutes": 12,
-  "concepts": ["dict", "set", "hash-table", "set-operations", "key-value", "membership-testing"],
+  "concepts": [
+    "dict",
+    "set",
+    "hash-table",
+    "set-operations",
+    "key-value",
+    "membership-testing"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "Searching a list of 1,000,000 items line by line takes O(n) time - if the item is at the end, Python checks every single element.\n\nPython's **Dictionaries (`dict`)** and **Sets (`set`)** are backed by **hash tables**, allowing near-instantaneous $O(1)$ constant time lookups regardless of how large the dataset is."
+      "content": "You need a phone book that finds a number by name, and a tag list with no duplicates. Different lookup problems need different containers. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## Dictionaries (`dict`)\n\nStores associative key-value pairs. Keys must be **hashable/immutable** (strings, numbers, tuples):\n\n```python\nuser = {\"name\": \"Jordan\", \"role\": \"engineer\", \"level\": 3}\n\n# Safe access with .get(key, default)\nemail = user.get(\"email\", \"no-email@statica.com\")\n\n# Iterating\nfor key, value in user.items():\n    print(f\"{key}: {value}\")\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Sets (`set`)\n\nAn unordered collection of **unique** elements with mathematical set operations:\n\n```python\nfrontend_devs = {\"Alice\", \"Bob\", \"Charlie\"}\nbackend_devs = {\"Bob\", \"Diana\", \"Charlie\"}\n\n# Union (all unique developers)\nall_devs = frontend_devs | backend_devs  # {'Alice', 'Bob', 'Charlie', 'Diana'}\n\n# Intersection (full-stack devs working on both)\nfull_stack = frontend_devs & backend_devs  # {'Bob', 'Charlie'}\n\n# Difference (only frontend)\nfrontend_only = frontend_devs - backend_devs  # {'Alice'}\n```\n\n```mermaid\ngraph TD\n    A[\"Frontend: Alice, Bob, Charlie\"] --- B[\"Intersection (&): Bob, Charlie\"]\n    C[\"Backend: Bob, Diana, Charlie\"] --- B\n```"
     },
     {
       "type": "multipleChoice",
@@ -45,18 +48,53 @@
       "starterCode": "def find_common_tags(post1_tags, post2_tags):\n    # your code here\n    pass\n",
       "tests": [
         {
-          "input": [["python", "web", "ai"], ["ai", "cloud", "python"]],
-          "expectedOutput": ["ai", "python"],
+          "input": [
+            [
+              "python",
+              "web",
+              "ai"
+            ],
+            [
+              "ai",
+              "cloud",
+              "python"
+            ]
+          ],
+          "expectedOutput": [
+            "ai",
+            "python"
+          ],
           "description": "returns sorted intersection of common tags"
         },
         {
-          "input": [["react", "ts"], ["vue", "js"]],
+          "input": [
+            [
+              "react",
+              "ts"
+            ],
+            [
+              "vue",
+              "js"
+            ]
+          ],
           "expectedOutput": [],
           "description": "returns empty list when no common tags exist"
         },
         {
-          "input": [["news", "news", "tech"], ["tech", "world"]],
-          "expectedOutput": ["tech"],
+          "input": [
+            [
+              "news",
+              "news",
+              "tech"
+            ],
+            [
+              "tech",
+              "world"
+            ]
+          ],
+          "expectedOutput": [
+            "tech"
+          ],
           "description": "deduplicates and returns common tags"
         }
       ]

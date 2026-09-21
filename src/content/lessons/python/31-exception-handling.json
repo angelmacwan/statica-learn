@@ -4,22 +4,24 @@
   "title": "Exception Handling and Built-in Errors",
   "description": "Handle runtime errors gracefully using try, except, else, and finally blocks.",
   "pathId": "python",
-  "moduleId": "python-exceptions",
-  "difficulty": "easy",
+  "moduleId": "python-reliable-programs",
+  "difficulty": "medium",
   "estimatedMinutes": 10,
-  "concepts": ["exceptions", "try-except", "built-in-exceptions", "finally", "error-handling"],
+  "concepts": [
+    "exceptions",
+    "try-except",
+    "built-in-exceptions",
+    "finally",
+    "error-handling"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "In real-world applications, unexpected things happen all the time: a user enters \"abc\" when asked for an age, a network request drops, or a dictionary key doesn't exist.\n\nWithout error handling, unhandled runtime errors crash your entire program. **Exception Handling** lets you detect errors, recover gracefully, and keep running."
+      "content": "A user may enter invalid data. Your program should respond safely instead of stopping halfway through a task. What could you ask Python to do here?"
     },
     {
       "type": "text",
       "content": "## The `try...except...else...finally` Structure\n\n```python\ntry:\n    # Code that might raise an exception\n    number = int(\"not_a_number\")\nexcept ValueError as e:\n    # Runs ONLY if ValueError occurs\n    print(f\"Caught error: {e}\")\nelse:\n    # Runs ONLY if no exceptions were raised in try\n    print(\"Everything succeeded!\")\nfinally:\n    # ALWAYS runs, regardless of whether an error occurred\n    print(\"Cleanup completed.\")\n```\n\n```mermaid\nflowchart TD\n    A[\"try block\"] --> B{\"Error occurred?\"}\n    B -- Yes --> C[\"except block\"]\n    B -- No --> D[\"else block\"]\n    C --> E[\"finally block\"]\n    D --> E\n```"
-    },
-    {
-      "type": "text",
-      "content": "## Common Built-in Exceptions\n\n- `ValueError`: Right type, invalid value (e.g. `int(\"abc\")`).\n- `TypeError`: Incompatible type operation (e.g. `'hello' + 5`).\n- `KeyError`: Missing dictionary key (`dict['missing']`).\n- `IndexError`: Accessing a list index out of bounds (`list[999]`).\n- `ZeroDivisionError`: Dividing any number by zero (`10 / 0`)."
     },
     {
       "type": "multipleChoice",
@@ -45,17 +47,26 @@
       "starterCode": "def safe_divide(numerator, denominator):\n    # your code here\n    pass\n",
       "tests": [
         {
-          "input": [10, 2],
-          "expectedOutput": 5.0,
+          "input": [
+            10,
+            2
+          ],
+          "expectedOutput": 5,
           "description": "safe_divide(10, 2) returns 5.0"
         },
         {
-          "input": [10, 0],
+          "input": [
+            10,
+            0
+          ],
           "expectedOutput": null,
           "description": "division by zero caught and returns None"
         },
         {
-          "input": [10, "two"],
+          "input": [
+            10,
+            "two"
+          ],
           "expectedOutput": null,
           "description": "TypeError caught and returns None"
         }

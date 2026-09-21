@@ -4,50 +4,89 @@
   "title": "Commits, Diff & History Inspection",
   "description": "Record immutable snapshots with git commit, compare changes with git diff, and navigate history using git log and git show.",
   "pathId": "git",
-  "moduleId": "git-basics",
+  "moduleId": "git-foundations",
   "difficulty": "intro",
-  "estimatedMinutes": 8,
-  "concepts": ["git-commit", "git-log", "git-diff", "git-show", "commit-history"],
+  "estimatedMinutes": 7,
+  "concepts": [
+    "git-commit",
+    "git-log",
+    "git-diff",
+    "git-show",
+    "commit-history"
+  ],
   "blocks": [
     {
       "type": "text",
-      "content": "## Recording Snapshots with `git commit`\n\nOnce changes are staged, `git commit` captures the state of the index into an immutable commit object:\n\n```bash\ngit commit -m \"feat: add user authentication endpoint\"\n```\n\nEvery commit records:\n1. A cryptographic SHA-1/SHA-256 hash identifying the snapshot.\n2. A pointer to the root tree object (the project state).\n3. Pointers to zero, one, or more parent commits.\n4. Author and committer metadata (name, email, timestamp).\n5. The commit log message.\n\n```mermaid\nflowchart LR\n    C1[\"Commit: 9b2d1a\\nInitial commit\"] <-- C2[\"Commit: f408e2\\nfeat: add login\"] <-- C3[\"Commit: 3a91c8 (HEAD -> main)\\nfix: validate email\"]\n```"
+      "content": "A feature works today. You need a named checkpoint you can inspect and return to later. What is the smallest Git action that keeps the work safe?"
     },
     {
       "type": "text",
-      "content": "## Writing Effective Commit Messages\n\nA good commit message explains *why* a change was made, not just *what* changed.\n\nStructure of a conventional commit message:\n\n```\n<type>(<scope>): <short summary in imperative mood>\n\n<optional detailed body explaining context and rationale>\n\n<optional footer, e.g. Closes #142>\n```\n\nCommon commit types:\n- `feat`: A new feature for the user.\n- `fix`: A bug fix.\n- `docs`: Documentation changes only.\n- `refactor`: Code change that neither fixes a bug nor adds a feature.\n- `test`: Adding or correcting tests.\n- `chore`: Build tasks, package manager configs, etc."
-    },
-    {
-      "type": "text",
-      "content": "## Inspecting Uncommitted Changes with `git diff`\n\n`git diff` reveals line-level modifications:\n\n```mermaid\nflowchart TD\n    WT[\"Working Tree\"] -->|\"git diff\"| SA[\"Staging Area (Index)\"]\n    SA -->|\"git diff --staged / --cached\"| HEAD[\"Last Commit (HEAD)\"]\n    WT -->|\"git diff HEAD\"| HEAD\n```\n\n- `git diff`: Compares working tree against the staging area (shows unstaged changes).\n- `git diff --staged` (or `--cached`): Compares staging area against the last commit (shows what will be committed).\n- `git diff HEAD`: Compares working tree directly against the last commit."
-    },
-    {
-      "type": "text",
-      "content": "## Navigating History with `git log` and `git show`\n\nView the chronological list of commits leading up to the current HEAD:\n\n```bash\n# Standard history view\ngit log\n\n# Compact one-line view with commit hashes\ngit log --oneline\n\n# Graph view showing branches and merges\ngit log --oneline --graph --decorate --all\n\n# Limit history to the last 3 commits\ngit log -n 3\n```\n\nTo view details and patch diff of a specific commit:\n\n```bash\ngit show 3a91c8\n```"
+      "content": "A commit is a saved checkpoint with a message. `git commit -m \"describe the change\"` saves the staged changes; `git log` shows those checkpoints.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "Which command displays the exact changes currently staged for the next commit?",
+      "question": "What does a commit save?",
       "options": [
-        "git diff",
-        "git diff --staged",
-        "git status --diff",
-        "git log -p"
+        "The staged project state",
+        "Every file ever deleted",
+        "Only a message",
+        "An automatic backup to GitHub"
       ],
-      "correctIndex": 1,
-      "explanation": "'git diff --staged' (or 'git diff --cached') compares changes in the staging index against the HEAD commit."
+      "correctIndex": 0,
+      "explanation": "A commit records the state you staged along with its message."
     },
     {
-      "type": "multipleChoice",
-      "question": "In Git's commit chain, what does each non-initial commit reference?",
-      "options": [
-        "Only the master branch tip",
-        "Its parent commit(s) and a root tree snapshot",
-        "A zip archive stored on GitHub",
-        "The subsequent child commit in the future"
-      ],
-      "correctIndex": 1,
-      "explanation": "Commits in Git form a directed acyclic graph (DAG). Each commit points backward to its parent commit(s) and references a root tree object."
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"commit.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `commitFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.commitFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
     }
   ]
 }

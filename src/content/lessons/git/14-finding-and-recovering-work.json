@@ -1,0 +1,89 @@
+{
+  "id": "git-finding-and-recovering-work",
+  "slug": "finding-and-recovering-work",
+  "title": "Finding and Recovering Work",
+  "description": "Practice finding and recovering work through a concrete team scenario.",
+  "pathId": "git",
+  "moduleId": "git-collaboration-and-release",
+  "difficulty": "medium",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "reflog",
+    "recovery"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "A commit from yesterday introduced a bug. You need to find the safe recovery tool for published history. What is the smallest Git action that keeps the work safe?"
+    },
+    {
+      "type": "text",
+      "content": "The reflog records where your local references recently pointed. It can help find a lost local commit; use `git revert` instead when undoing a shared commit.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What can help find a lost local commit?",
+      "options": [
+        "The reflog",
+        "The staging area",
+        "A .gitignore file",
+        "A merge conflict"
+      ],
+      "correctIndex": 0,
+      "explanation": "The reflog keeps a local record of recent reference positions."
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "starterCode": "const working = [\"recover.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
+    },
+    {
+      "type": "challenge",
+      "language": "javascript",
+      "prompt": "Model the Git idea in a tiny simulator. Export a function named `recoverFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
+      "starterCode": "exports.recoverFile = (working, staged, file) => {\n  // your code here\n};",
+      "tests": [
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "app.js"
+          ],
+          "description": "stages one changed file"
+        },
+        {
+          "input": [
+            [],
+            [],
+            "README.md"
+          ],
+          "expectedOutput": [
+            "README.md"
+          ],
+          "description": "works when no working files are listed yet"
+        },
+        {
+          "input": [
+            [
+              "app.js"
+            ],
+            [
+              "README.md"
+            ],
+            "app.js"
+          ],
+          "expectedOutput": [
+            "README.md",
+            "app.js"
+          ],
+          "description": "keeps an already staged file while adding another"
+        }
+      ]
+    }
+  ]
+}
