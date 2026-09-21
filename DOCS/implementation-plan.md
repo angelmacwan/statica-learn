@@ -15,17 +15,17 @@ Target: rebuild in place, same repo, same hosting model (static).
 - **Frontend**: React + TypeScript + Vite
 - **Routing**: React Router
 - **Styling**: Tailwind CSS + shadcn/ui
-- **Backend-as-a-service**: Supabase (Auth + Postgres + Storage)
-- **Hosting**: Cloudflare Pages (static build, no server)
-- **Code editor**: CodeMirror 6 (lighter than Monaco; switch to Monaco only
-  if a specific feature requires it)
+- **Backend-as-a-service**: Firebase (Auth + Firestore + Storage)
+- **Hosting**: Cloudflare Pages (static build, no server) — Firebase
+  Hosting is also a fine choice here; either works with a static Vite build
+- **Code editor**: CodeMirror 6
 - **JS execution**: Web Worker (isolated from main thread)
 - **Python execution**: Pyodide (WebAssembly Python) inside a Web Worker
 - **Content storage**: Git (JSON/YAML files in-repo), not the database
-- **Analytics**: lightweight event table in Supabase, or PostHog if preferred
+- **Analytics**: lightweight event table in firebase
 
 No custom backend server for v1. Everything server-side is handled by
-Supabase. A sandboxed execution service (for projects requiring real
+Firebase. A sandboxed execution service (for projects requiring real
 backends) is explicitly out of scope until Phase 6+.
 
 ---
@@ -39,16 +39,16 @@ Cloudflare Pages (static)
         |
    ------------------
    |                |
-Static content   Supabase
+Static content   Firebase
 (Git, bundled)      |
               --------------------
               |        |         |
-             Auth      DB     Storage
+             Auth   Firestore  Storage
 ```
 
 - The app is a static SPA. All lesson/path content ships as part of the
   build (JSON/YAML → bundled or fetched as static assets).
-- Supabase is the only backend dependency: auth, user data, progress,
+- Firebase is the only backend dependency: auth, user data, progress,
   activity events.
 - No server-rendered pages, no API routes, no SSR.
 
@@ -57,7 +57,7 @@ Static content   Supabase
 ## 3. Content Model (Git-based CMS)
 
 Content lives in the repo under `content/`, authored as JSON or Markdown
-with frontmatter. Content is NOT stored in Postgres. Postgres stores only
+with frontmatter. Content is NOT stored in Firestore. Firestore stores only
 user-generated data (progress, attempts, activity).
 
 ```
@@ -163,67 +163,92 @@ time (e.g. with Zod) and fails the build on schema mismatch.
 
 ---
 
-## 4. Database Schema (Supabase / Postgres)
+## 4. Database Schema (Firestore)
 
-v1 scope — four tables only. Do not implement `concepts`, `user_concepts`,
-`achievements`, or `user_achievements` until Phase 6, when there is real
-usage data to justify them.
+v1 scope — three top-level collections. Do not implement `concepts`,
+`userConcepts`, `achievements`, or `userAchievements` until Phase 6, when
+there is real usage data to justify them.
 
-```sql
--- users: managed by Supabase Auth (auth.users). Add a profile table for
--- app-specific fields.
-create table profiles (
-  id uuid primary key references auth.users(id),
-  display_name text,
-  avatar_url text,
-  created_at timestamptz default now()
-);
+Firestore is document-based, not relational — model this as one profile
+document per user, with progress as a subcollection under it (so security
+rules can scope access with a single `request.auth.uid == userId` check
+and you never need a cross-collection join).
 
-create table user_progress (
-  user_id uuid references profiles(id),
-  lesson_id text not null,       -- matches Lesson.id from content files
-  path_id text not null,
-  status text check (status in ('not_started','started','completed')) default 'not_started',
-  score numeric,
-  attempts int default 0,
-  started_at timestamptz,
-  completed_at timestamptz,
-  last_accessed_at timestamptz default now(),
-  primary key (user_id, lesson_id)
-);
+```
+users/{userId}
+  displayName: string
+  avatarUrl: string
+  createdAt: timestamp
 
-create table activities (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references profiles(id),
-  type text not null,   -- e.g. lesson_started, lesson_completed, question_answered, code_run
-  metadata jsonb,
-  created_at timestamptz default now()
-);
+users/{userId}/progress/{lessonId}
+  pathId: string
+  status: "not_started" | "started" | "completed"
+  score: number | null
+  attempts: number
+  startedAt: timestamp | null
+  completedAt: timestamp | null
+  lastAccessedAt: timestamp
+
+users/{userId}/activities/{activityId}
+  type: string    // lesson_started, lesson_completed, question_answered, code_run
+  metadata: map
+  createdAt: timestamp
 ```
 
-Row-level security: enable RLS on `profiles`, `user_progress`, and
-`activities`. Users may only read/write their own rows.
+### Security rules (v1)
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      match /progress/{lessonId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /activities/{activityId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}
+```
+
+### Indexes
+
+Add a composite index on `progress` (`pathId` + `status`) once you need
+"% complete per path" queries across many lessons — not required for v1
+if you just read the whole subcollection client-side.
 
 ### Deferred schema (Phase 6+)
 
-```sql
-concepts (id, slug, name, description)
-lesson_concepts (lesson_id, concept_id)
-user_concepts (user_id, concept_id, mastery)
-achievements (id, name, description, icon)
-user_achievements (user_id, achievement_id, earned_at)
+```
+concepts/{conceptId}
+  slug, name, description
+
+users/{userId}/conceptMastery/{conceptId}
+  mastery: number
+
+achievements/{achievementId}
+  name, description, icon
+
+users/{userId}/achievements/{achievementId}
+  earnedAt: timestamp
 ```
 
 ---
 
 ## 5. Authentication
 
-- Supabase Auth.
+- Firebase Auth.
 - v1 providers: Email/password + Google.
-- Support anonymous/guest usage: a user can go through lessons without an
-  account. Progress is held in local component state / localStorage until
-  they choose to sign up, at which point it's written to `user_progress`.
-- No custom auth server, no JWT handling outside what Supabase provides.
+- Support anonymous/guest usage: Firebase Auth's anonymous sign-in works
+  well here — start the user as an anonymous auth user on first visit, so
+  progress can be written to Firestore right away, then link the anonymous
+  account to Google/email if they choose to sign up (`linkWithCredential`)
+  rather than migrating data after the fact.
+- No custom auth server, no JWT handling outside what Firebase provides.
 
 ---
 
@@ -268,12 +293,13 @@ explicitly deferred to Phase 6+.
 
 ## 7. Progress Tracking
 
-- Every meaningful action fires an `activities` insert: `lesson_started`,
-  `lesson_completed`, `question_answered`, `code_run`, `path_started`.
-- `user_progress` is updated on lesson start/completion — this is the
-  table the UI reads for "% complete" displays.
-- No skill/mastery calculation in v1. That requires the `concepts` tables
-  (Phase 6).
+- Every meaningful action writes a document to the `activities`
+  subcollection: `lesson_started`, `lesson_completed`, `question_answered`,
+  `code_run`, `path_started`.
+- The `progress` subcollection is updated on lesson start/completion —
+  this is what the UI reads for "% complete" displays.
+- No skill/mastery calculation in v1. That requires the `conceptMastery`
+  subcollection (Phase 6).
 
 ---
 
@@ -318,7 +344,7 @@ src/
 │   └── progress/
 ├── pages/
 ├── lib/
-│   ├── supabase.ts
+│   ├── firebase.ts
 │   ├── analytics.ts
 │   ├── contentLoader.ts
 │   └── execution/
@@ -354,12 +380,12 @@ lesson JSON file fails the build rather than breaking the live site.
 ## 11. Build Phases (implementation order)
 
 **Phase 1 — Foundation**
-React + TS + Vite scaffold, Supabase project, auth (email + Google),
-routing skeleton, `profiles` table, RLS policies.
+React + TS + Vite scaffold, Firebase project, auth (email + Google +
+anonymous), routing skeleton, `users` collection, security rules.
 
 **Phase 2 — Learning engine**
 Content loader + schema validation for Path/Lesson, lesson block renderer
-for the 4 v1 block types, `user_progress` read/write.
+for the 4 v1 block types, `progress` subcollection read/write.
 
 **Phase 3 — Content**
 Author lessons for one path only (Python) end-to-end: ~15-20 lessons.
