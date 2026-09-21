@@ -1,0 +1,17 @@
+{
+  "id": "python",
+  "slug": "python",
+  "title": "Python Fundamentals",
+  "description": "Learn to write Python from zero — variables, logic, loops, functions, and data structures. By the end you'll be able to write programs that actually do things.",
+  "category": "programming",
+  "difficulty": "intro",
+  "moduleIds": [
+    "python-getting-started",
+    "python-variables",
+    "python-conditions",
+    "python-loops",
+    "python-functions",
+    "python-lists"
+  ],
+  "published": true
+}

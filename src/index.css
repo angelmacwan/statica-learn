@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: theme('colors.cream.50');
+    --color-surface: #ffffff;
+    --color-text: #1a1a1a;
+    --color-text-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-accent: theme('colors.mint.300');
+  }
+
+  * {
+    @apply border-gray-200;
+  }
+
+  body {
+    @apply bg-cream-50 text-gray-900 font-sans antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  code:not([class]) {
+    @apply font-mono text-sm bg-gray-100 px-1.5 py-0.5 rounded text-gray-800;
+  }
+
+  pre {
+    @apply font-mono;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl shadow-soft border border-gray-100;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+           bg-gray-900 text-white font-medium text-sm transition-all
+           hover:bg-gray-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+           bg-white text-gray-800 font-medium text-sm border border-gray-200 transition-all
+           hover:bg-gray-50 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
+           text-gray-600 font-medium text-sm transition-all
+           hover:bg-gray-100 active:scale-95;
+  }
+
+  .pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .pill-mint {
+    @apply pill bg-mint-100 text-mint-400;
+  }
+
+  .pill-blush {
+    @apply pill bg-blush-100 text-blush-300;
+  }
+
+  .pill-coral {
+    @apply pill bg-coral-100 text-coral-300;
+  }
+
+  .pill-lavender {
+    @apply pill bg-lavender-100 text-gray-600;
+  }
+}
+
+/* Mermaid diagram styling */
+.mermaid {
+  @apply my-4 flex justify-center;
+}
+
+/* CodeMirror overrides */
+.cm-editor {
+  @apply rounded-xl overflow-hidden text-sm;
+}
+
+.cm-scroller {
+  @apply font-mono;
+}

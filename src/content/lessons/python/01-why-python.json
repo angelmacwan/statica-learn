@@ -1,0 +1,56 @@
+{
+  "id": "python-why-python",
+  "slug": "why-python",
+  "title": "Why Python?",
+  "description": "A concrete look at what Python is actually used for, and why it's worth learning.",
+  "pathId": "python",
+  "moduleId": "python-getting-started",
+  "difficulty": "intro",
+  "estimatedMinutes": 5,
+  "concepts": ["programming", "python"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "You have a spreadsheet with 50,000 rows of sales data. Your boss asks you to find every row where the revenue is above $10,000 and export it to a new file. Doing it by hand would take hours. A Python program can do it in under a second.\n\nThat's the point. Python lets you automate repetitive work, analyze data, build websites, and control machines — all with the same language."
+    },
+    {
+      "type": "text",
+      "content": "Python is popular because it reads almost like English. Here's a real Python program:\n\n```python\nprint(\"Hello, world!\")\n```\n\n`print()` is a built-in command that displays text. The text goes inside quotes, inside the parentheses. Run it below and see what happens."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "print(\"Hello, world!\")"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does print(\"Python\") do?",
+      "options": [
+        "Saves the word Python to a file",
+        "Displays the word Python on screen",
+        "Creates a variable called Python",
+        "Causes an error"
+      ],
+      "correctIndex": 1,
+      "explanation": "print() displays whatever is inside the parentheses. Quotes tell Python it's text, not a command."
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "Use `print()` to display your name. For example: `print(\"Sam\")`\n\nThe function `show_name()` should print any name passed to it.",
+      "starterCode": "def show_name(name):\n    print(name)",
+      "tests": [
+        {
+          "input": ["Alice"],
+          "expectedOutput": "Alice",
+          "description": "prints the name Alice"
+        },
+        {
+          "input": ["Sam"],
+          "expectedOutput": "Sam",
+          "description": "prints a different name"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "python-lists-indexing",
+  "slug": "indexing",
+  "title": "Finding Things by Position",
+  "description": "How to get a specific item out of a list using its index.",
+  "pathId": "python",
+  "moduleId": "python-lists",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": ["lists", "indexing"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "You're building a leaderboard for a game. You have the top 5 scores stored in order, and you need to show the player in 3rd place. How do you get just that one score out of the list?"
+    },
+    {
+      "type": "text",
+      "content": "Every item in a list has a position, called an **index**. Python starts counting positions at 0, not 1. So the first item is at index 0, the second at index 1, and so on.\n\n```mermaid\ngraph LR\n    A[\"index 0: 512\"] --- B[\"index 1: 488\"] --- C[\"index 2: 470\"] --- D[\"index 3: 455\"]\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "scores = [512, 488, 470, 455]\n\nWhich index gets the 3rd place score (470)?",
+      "options": ["3", "2", "1", "470"],
+      "correctIndex": 1,
+      "explanation": "3rd place is the 3rd item, but indexing starts at 0, so it's at index 2, not 3."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "scores = [512, 488, 470, 455]\nthird_place = scores[2]\nprint(third_place)"
+    },
+    {
+      "type": "challenge",
+      "language": "python",
+      "prompt": "You have a list of runners in finish order. Write a function `get_winner(runners)` that returns the name of whoever finished first.",
+      "starterCode": "def get_winner(runners):\n    # your code here\n    pass",
+      "tests": [
+        {
+          "input": [["Amy", "Beth", "Cara"]],
+          "expectedOutput": "Amy",
+          "description": "returns the first name in the list"
+        },
+        {
+          "input": [["Only Runner"]],
+          "expectedOutput": "Only Runner",
+          "description": "works when there's only one runner"
+        }
+      ]
+    }
+  ]
+}
