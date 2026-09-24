@@ -38,42 +38,9 @@
       "starterCode": "scores = [512, 488, 470, 455]\nthird_place = scores[2]\nprint(third_place)"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "You have a list of runners in finish order. Write a function `get_winner(runners)` that returns the name of whoever finished first.",
-      "starterCode": "def get_winner(runners):\n    # your code here\n    pass",
-      "tests": [
-        {
-          "input": [
-            [
-              "Amy",
-              "Beth",
-              "Cara"
-            ]
-          ],
-          "expectedOutput": "Amy",
-          "description": "returns the first name in the list"
-        },
-        {
-          "input": [
-            [
-              "Only Runner"
-            ]
-          ],
-          "expectedOutput": "Only Runner",
-          "description": "works when there's only one runner"
-        },
-        {
-          "input": [
-            [
-              "Zoe",
-              "Ana"
-            ]
-          ],
-          "expectedOutput": "Zoe",
-          "description": "returns the first runner in a different finish order"
-        }
-      ]
+      "starterCode": "# Who won the race? Use index 0 to get the first item.\nrunners = [\"Amy\", \"Beth\", \"Cara\"]\n\nwinner = runners[0]\nprint(\"Winner:\", winner)\n\n# Try changing the list and printing different positions\nprint(\"2nd place:\", runners[1])\nprint(\"Last place:\", runners[-1])\n"
     }
   ]
 }

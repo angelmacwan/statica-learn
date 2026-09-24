@@ -2,6 +2,7 @@ import { TextBlock } from './TextBlock';
 import { MultipleChoiceBlock } from './MultipleChoiceBlock';
 import { CodeBlock } from './CodeBlock';
 import { ChallengeBlock } from './ChallengeBlock';
+import { TerminalBlock } from './TerminalBlock';
 import type { LessonBlock } from '@/types';
 
 interface Props {
@@ -26,7 +27,10 @@ export function LessonBlockRenderer({
       return <CodeBlock block={block} onRun={onCodeRun} />;
     case 'challenge':
       return <ChallengeBlock block={block} onComplete={onChallengeComplete} />;
+    case 'terminal':
+      return <TerminalBlock block={block} onComplete={onChallengeComplete} />;
     default:
       return null;
   }
 }
+

@@ -17,76 +17,32 @@
   "blocks": [
     {
       "type": "text",
-      "content": "You want to try a new checkout screen while the current version stays safe. You need a separate line of work. What is the smallest Git action that keeps the work safe?"
+      "content": "A branch is an independent line of development. When you create a branch, you get your own workspace where you can make changes without affecting the main code. This is how teams work on multiple features at the same time without stepping on each other."
     },
     {
       "type": "text",
-      "content": "A branch is a movable label for a line of commits. `git switch -c feature-name` creates and enters a new branch without changing the main branch.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Creating and Switching Branches\n\nCreate a new branch and switch to it:\n```\ngit switch -c feature/login\n```\n(The `-c` means \"create\". Older Git versions use `git checkout -b feature/login`.)\n\nSwitch to an existing branch:\n```\ngit switch main\n```\n\nList all branches (the `*` marks the current one):\n```\ngit branch\n```\n\n## How Branches Work\n\nA branch is just a pointer to a commit. When you commit on a branch, that pointer moves forward. The other branches stay exactly where they were.\n\n```mermaid\nflowchart LR\n    A[\"commit 1\"] --> B[\"commit 2\"] --> C[\"commit 3\"]\n    C --> D[\"commit 4 - main\"]\n    C --> E[\"commit 4 - feature/login\"]\n    E --> F[\"commit 5 - feature/login\"]\n```\n\nIn the diagram above, `main` and `feature/login` both started from commit 3 but now have different histories.\n\n## The HEAD Pointer\n\n`HEAD` is a special pointer that always means \"where I am right now\". When you switch branches, HEAD moves to point at that branch. When you commit, HEAD and the current branch both move forward."
     },
     {
       "type": "multipleChoice",
-      "question": "Why create a branch?",
+      "question": "You create a branch called `feature/search` from `main` and make 3 commits on it. What happens to `main`?",
       "options": [
-        "To try work without changing the main line",
-        "To copy every file permanently",
-        "To skip commits",
-        "To remove the staging area"
+        "main automatically picks up the new commits",
+        "main stays exactly where it was - the new commits are only on feature/search",
+        "main is deleted when you create the new branch",
+        "main and feature/search share commits until you merge"
       ],
-      "correctIndex": 0,
-      "explanation": "A branch gives experimental work its own line of commits."
+      "correctIndex": 1,
+      "explanation": "Creating a branch and committing to it does not affect any other branch. `main` stays at the same commit it was at when you branched off. Your new commits only exist on `feature/search` until you explicitly merge or cherry-pick them."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"branch.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `branchFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.branchFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Create a new branch called feature/login and switch to it in one command.",
+      "acceptedAnswers": [
+        "git switch -c feature/login",
+        "git checkout -b feature/login"
+      ],
+      "hint": "git switch -c feature/login"
     }
   ]
 }

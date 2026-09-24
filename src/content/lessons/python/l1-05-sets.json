@@ -1,0 +1,57 @@
+{
+  "id": "python-l1-sets",
+  "slug": "sets",
+  "title": "Sets",
+  "description": "Use sets to store unique values and perform fast membership checks.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "set",
+    "unique",
+    "add",
+    "remove",
+    "union",
+    "intersection"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## What is a Set?\n\nA set is a collection of **unique** values with no particular order. You write it with curly braces:\n\n```python\ncolors = {\"red\", \"green\", \"blue\"}\nprint(colors)   # {'blue', 'red', 'green'}  (order may vary)\n```\n\nTwo things to remember:\n1. **No duplicates** - adding the same value twice has no effect\n2. **No guaranteed order** - you can't rely on items being in a specific position\n\n```python\nnumbers = {1, 2, 2, 3, 3, 3}\nprint(numbers)   # {1, 2, 3}  (duplicates removed automatically)\n```\n\nSets are great when you care about **whether something is present**, not about position or order."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\ntags = {\"python\", \"code\", \"python\", \"fun\"}\nprint(len(tags))\n```",
+      "options": [
+        "4",
+        "3",
+        "2",
+        "An error"
+      ],
+      "correctIndex": 1,
+      "explanation": "Sets automatically remove duplicates. `\"python\"` appears twice, but a set keeps only one copy. The set ends up with three unique items: `\"python\"`, `\"code\"`, and `\"fun\"`, so `len()` returns 3."
+    },
+    {
+      "type": "text",
+      "content": "## Common Set Operations\n\n```python\nfavorites = {\"python\", \"music\", \"travel\"}\n\n# Add an item\nfavorites.add(\"cooking\")\nprint(favorites)   # {'python', 'music', 'travel', 'cooking'}\n\n# Remove an item\nfavorites.remove(\"music\")\nprint(favorites)   # {'python', 'travel', 'cooking'}\n\n# Membership check (very fast even for large sets)\nprint(\"travel\" in favorites)   # True\nprint(\"music\" in favorites)    # False\n\n# Set math\na = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\n\nprint(a | b)   # union:        {1, 2, 3, 4, 5, 6}\nprint(a & b)   # intersection: {3, 4}\nprint(a - b)   # difference:   {1, 2}\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which of these best describes when to use a set instead of a list?",
+      "options": [
+        "When the order of items matters",
+        "When you need to access items by index",
+        "When you only care about unique values and fast membership checks",
+        "When you need to store duplicate values"
+      ],
+      "correctIndex": 2,
+      "explanation": "Sets are ideal when you need to track unique values and quickly check membership (`x in my_set`). For ordered access or duplicates, use a list. For key-value pairs, use a dict."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Sets in action.\n# Notice how duplicates are automatically removed.\n\nvoted = [\"Alice\", \"Bob\", \"Alice\", \"Carol\", \"Bob\", \"Alice\"]\nunique_voters = set(voted)\n\nprint(\"All votes:\", voted)\nprint(\"Unique voters:\", unique_voters)\nprint(\"Total unique votes:\", len(unique_voters))\n\n# Set operations\npython_fans = {\"Alice\", \"Bob\", \"Dave\"}\njs_fans     = {\"Bob\", \"Carol\", \"Dave\"}\n\nprint(\"\\nBoth Python and JS:\", python_fans & js_fans)\nprint(\"Either Python or JS:\", python_fans | js_fans)\nprint(\"Only Python:\", python_fans - js_fans)\n"
+    }
+  ]
+}

@@ -42,47 +42,9 @@
       "starterCode": "# Experiment with type() on different values!\n# Try changing the values and see what types Python reports.\n\nrecipe_name = \"Banana Bread\"\nservings = 8\nprice_per_serving = 0.75\nis_vegetarian = True\nallergen_notes = None\n\nprint(type(recipe_name))\nprint(type(servings))\nprint(type(price_per_serving))\nprint(type(is_vegetarian))\nprint(type(allergen_notes))\n\n# Try these - what type do you expect?\nprint(type(7 / 2))    # division always gives a float!\nprint(type(7 // 2))   # floor division gives an int\nprint(type(0.1 + 0.2))# float quirk - check the value too!\n"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "Write a function `describe_type(value)` that takes any value and returns a string describing its type:\n- Return `\"int\"` if the value is an integer\n- Return `\"float\"` if the value is a float\n- Return `\"str\"` if the value is a string\n- Return `\"bool\"` if the value is a boolean\n- Return `\"other\"` for anything else (including `None`)\n\n**Hint:** Check for `bool` *before* `int` - because in Python, `bool` is a subclass of `int`, so `isinstance(True, int)` is also `True`!",
-      "starterCode": "def describe_type(value):\n    # your code here\n    pass",
-      "tests": [
-        {
-          "input": [
-            42
-          ],
-          "expectedOutput": "int",
-          "description": "describe_type(42) should return \"int\""
-        },
-        {
-          "input": [
-            3.14
-          ],
-          "expectedOutput": "float",
-          "description": "describe_type(3.14) should return \"float\""
-        },
-        {
-          "input": [
-            "hello"
-          ],
-          "expectedOutput": "str",
-          "description": "describe_type(\"hello\") should return \"str\""
-        },
-        {
-          "input": [
-            true
-          ],
-          "expectedOutput": "bool",
-          "description": "describe_type(True) should return \"bool\""
-        },
-        {
-          "input": [
-            null
-          ],
-          "expectedOutput": "other",
-          "description": "describe_type(None) should return \"other\""
-        }
-      ]
+      "starterCode": "# Check what type Python gives to different values.\n# Try adding your own values!\n\nprint(type(42))\nprint(type(3.14))\nprint(type(\"hello\"))\nprint(type(True))\nprint(type(None))\n\n# Can you predict these before running?\nprint(type(7 / 2))\nprint(type(7 // 2))\n"
     }
   ]
 }

@@ -6,6 +6,7 @@
   "category": "programming",
   "difficulty": "intro",
   "moduleIds": [
+    "python-l1",
     "python-starting-out",
     "python-values-and-choices",
     "python-repetition-and-functions",

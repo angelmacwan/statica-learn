@@ -1,0 +1,57 @@
+{
+  "id": "python-l1-dicts",
+  "slug": "dicts",
+  "title": "Dictionaries",
+  "description": "Map keys to values using Python's dict type - perfect for named data.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "dict",
+    "key-value",
+    "get",
+    "keys",
+    "values",
+    "items"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## What is a Dictionary?\n\nA dictionary stores data as **key-value pairs**. You look up a value by its key - like looking up a word in a real dictionary.\n\n```python\nperson = {\n    \"name\": \"Alice\",\n    \"age\": 30,\n    \"city\": \"London\"\n}\n```\n\nAccess a value with square brackets and the key:\n\n```python\nprint(person[\"name\"])   # Alice\nprint(person[\"age\"])    # 30\n```\n\nKeys are usually strings, but they can be any immutable type (like numbers or tuples). Values can be anything - including lists or other dicts."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\ncar = {\"make\": \"Toyota\", \"year\": 2020}\nprint(car[\"year\"])\n```",
+      "options": [
+        "\"year\"",
+        "2020",
+        "Toyota",
+        "An error"
+      ],
+      "correctIndex": 1,
+      "explanation": "`car[\"year\"]` looks up the value stored under the key `\"year\"`, which is `2020`. Square bracket access retrieves the value, not the key itself."
+    },
+    {
+      "type": "text",
+      "content": "## Common Dictionary Operations\n\n```python\nstudent = {\"name\": \"Bob\", \"grade\": \"B\"}\n\n# Add or update a key\nstudent[\"age\"] = 20\nstudent[\"grade\"] = \"A\"\nprint(student)   # {'name': 'Bob', 'grade': 'A', 'age': 20}\n\n# Safe lookup with .get() - returns None if key is missing\nprint(student.get(\"city\"))          # None\nprint(student.get(\"city\", \"N/A\"))   # N/A  (default value)\n\n# Delete a key\ndel student[\"age\"]\nprint(student)   # {'name': 'Bob', 'grade': 'A'}\n\n# Loop through all key-value pairs\nfor key, value in student.items():\n    print(key, \":\", value)\n\n# Just keys or just values\nprint(list(student.keys()))    # ['name', 'grade']\nprint(list(student.values()))  # ['Bob', 'A']\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the safest way to look up a key that might not exist in a dict?",
+      "options": [
+        "dict[key] - access directly",
+        "dict.get(key) - returns None if missing",
+        "dict.find(key) - returns -1 if missing",
+        "key in dict[key] - checks and accesses in one step"
+      ],
+      "correctIndex": 1,
+      "explanation": "`.get(key)` returns `None` (or a default you specify) if the key doesn't exist - no error. `dict[key]` raises a `KeyError` if the key is missing. `.find()` doesn't exist on dicts."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# A simple contact book using a dict.\n# Run this, then try adding your own contact.\n\ncontacts = {\n    \"Alice\": {\"phone\": \"555-1234\", \"email\": \"alice@example.com\"},\n    \"Bob\":   {\"phone\": \"555-5678\", \"email\": \"bob@example.com\"}\n}\n\n# Look up a contact\nprint(\"Alice's phone:\", contacts[\"Alice\"][\"phone\"])\n\n# Safe lookup for a missing contact\nprint(\"Carol:\", contacts.get(\"Carol\", \"not found\"))\n\n# Add a new contact\ncontacts[\"Carol\"] = {\"phone\": \"555-9012\", \"email\": \"carol@example.com\"}\nprint(\"Carol added:\", contacts[\"Carol\"])\n\n# List all contacts\nprint(\"\\nAll contacts:\")\nfor name, info in contacts.items():\n    print(f\"  {name}: {info['phone']}\")\n"
+    }
+  ]
+}

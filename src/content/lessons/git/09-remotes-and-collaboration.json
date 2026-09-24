@@ -17,76 +17,33 @@
   "blocks": [
     {
       "type": "text",
-      "content": "Your teammate has new commits on the shared project. You need to bring that history into your local copy deliberately. What is the smallest Git action that keeps the work safe?"
+      "content": "So far everything has been local. A **remote** is a copy of your repository stored somewhere else - usually on a server like GitHub, GitLab, or Bitbucket. Remotes are how teams share work and how you back up your code."
     },
     {
       "type": "text",
-      "content": "A remote is another copy of a repository, often shared by a team. `git fetch` downloads new history without changing your files; `git pull` fetches and integrates it.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Working with Remotes\n\nSee which remotes your project is connected to:\n```\ngit remote -v\n```\n\nWhen you clone a repository, Git automatically creates a remote called `origin` pointing to where you cloned from.\n\n## Fetching and Pulling\n\n**Fetch** - download new commits from the remote but don't change your files yet:\n```\ngit fetch origin\n```\n\n**Pull** - fetch AND immediately merge the remote changes into your current branch:\n```\ngit pull\n```\n\nPull is essentially `git fetch` followed by `git merge`. Use fetch when you want to look at what changed before merging it in.\n\n## Pushing\n\nSend your local commits to the remote:\n```\ngit push origin main\n```\n\nIf the remote has new commits you don't have yet, Git will refuse the push. You need to pull first, resolve any conflicts, then push.\n\n```mermaid\nflowchart LR\n    A[\"Local Repository\"] -- \"git push\" --> B[\"Remote (origin)\"]\n    B -- \"git fetch / git pull\" --> A\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "What is the difference between fetch and pull?",
+      "question": "What is the difference between `git fetch` and `git pull`?",
       "options": [
-        "Fetch downloads history; pull also integrates it",
-        "Fetch deletes history; pull creates it",
-        "They only work offline",
-        "Pull only stages files"
+        "Fetch is faster, pull is more accurate",
+        "Fetch downloads remote changes but doesn't change your files; pull downloads and merges them",
+        "Fetch works without a network; pull requires one",
+        "They are the same command with different names"
       ],
-      "correctIndex": 0,
-      "explanation": "Fetch lets you inspect new remote history before changing your working branch."
+      "correctIndex": 1,
+      "explanation": "`git fetch` downloads the latest commits from the remote into your local copy but doesn't touch your working files. `git pull` does the same download and then immediately merges those commits into your current branch. Fetch is safer when you want to inspect changes before integrating them."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"fetch.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `fetchFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.fetchFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Push the current branch to the remote named origin.",
+      "acceptedAnswers": [
+        "git push origin",
+        "git push",
+        "git push origin HEAD"
+      ],
+      "hint": "git push origin"
     }
   ]
 }

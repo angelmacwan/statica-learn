@@ -16,76 +16,32 @@
   "blocks": [
     {
       "type": "text",
-      "content": "You are about to share a project. Future collaborators need to see who made each saved change. What is the smallest Git action that keeps the work safe?"
+      "content": "Before you can start using Git you need to install it and tell it who you are. Every commit you make is stamped with your name and email address - this is how your team knows who made each change."
     },
     {
       "type": "text",
-      "content": "Git records the name and email attached to new commits. Configure them once with `git config --global user.name \"Your Name\"` and `git config --global user.email \"you@example.com\"`.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Installing Git\n\nDownload Git from [git-scm.com](https://git-scm.com) and follow the installer for your operating system. To check it worked, open a terminal and run:\n\n```\ngit --version\n```\n\nYou should see something like `git version 2.45.0`.\n\n## Configuring Your Identity\n\nRun these two commands once after installing. The `--global` flag makes them apply to every project on your machine:\n\n```\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"you@example.com\"\n```\n\nTo check your current settings:\n\n```\ngit config --global --list\n```\n\n## Your Default Editor\n\nGit sometimes opens a text editor (for example, when you write a long commit message). You can set it to something comfortable:\n\n```\ngit config --global core.editor \"code --wait\"   # VS Code\ngit config --global core.editor nano             # nano (simple terminal editor)\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "Why set your Git name and email?",
+      "question": "Why do you set your name and email with `git config`?",
       "options": [
-        "So commits identify their author",
-        "So Git can encrypt every file",
-        "So branches merge automatically",
-        "So a remote is created"
+        "To create a GitHub account",
+        "So every commit records who made the change",
+        "To unlock push access to remote repositories",
+        "Git refuses to work without them"
       ],
-      "correctIndex": 0,
-      "explanation": "Git records this identity with commits so collaborators can see who made a change."
+      "correctIndex": 1,
+      "explanation": "Every commit is stamped with the author's name and email. This makes it easy to see who made each change when you look at the project history. It doesn't create accounts or control access by itself."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"configure.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `configureFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.configureFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Set your global Git username to \"Ada Lovelace\".",
+      "acceptedAnswers": [
+        "git config --global user.name \"Ada Lovelace\"",
+        "git config --global user.name Ada Lovelace"
+      ],
+      "hint": "git config --global user.name \"Ada Lovelace\""
     }
   ]
 }

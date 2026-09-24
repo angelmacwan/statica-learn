@@ -17,76 +17,32 @@
   "blocks": [
     {
       "type": "text",
-      "content": "You changed the wrong file before a demo. You need to choose a recovery action that does not erase more work than intended. What is the smallest Git action that keeps the work safe?"
+      "content": "Everyone makes mistakes. Git gives you several ways to undo things, but the right tool depends on whether the change has been committed yet and whether it has been shared with others."
     },
     {
       "type": "text",
-      "content": "Choose the smallest recovery tool that fits. `git restore file` discards an unstaged file change, while `git revert` makes a new commit that reverses a published commit.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Undoing Uncommitted Changes\n\n**Discard changes to a file** (goes back to how it was at the last commit):\n```\ngit restore filename\n```\n\n**Remove a file from staging** (keeps your changes, just un-stages them):\n```\ngit restore --staged filename\n```\n\n## Undoing Committed Changes\n\n**Amend the very last commit** (only before pushing - fixes the message or adds a forgotten file):\n```\ngit commit --amend -m \"corrected message\"\n```\n\n**Revert a commit** - this is the safe way to undo a commit that's already been shared. It creates a *new* commit that reverses the changes, so the history is preserved:\n```\ngit revert abc1234\n```\n\n**Reset to an earlier commit** (dangerous on shared branches - rewrites history):\n```\ngit reset --hard abc1234\n```\n\n```mermaid\nflowchart TD\n    A[\"Need to undo something?\"] --> B{\"Already committed?\"}\n    B -- No --> C[\"git restore filename\"]\n    B -- Yes --> D{\"Already pushed/shared?\"}\n    D -- No --> E[\"git commit --amend or git reset\"]\n    D -- Yes --> F[\"git revert - creates a new undo commit\"]\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "A shared commit is wrong. Which action preserves history?",
+      "question": "A commit that introduced a bug has already been pushed and your teammates have pulled it. What is the safest way to undo it?",
       "options": [
-        "Create a revert commit",
-        "Rewrite it with reset",
-        "Delete the repository",
-        "Rename the branch"
+        "git reset --hard to remove it from history",
+        "Delete the files manually and commit again",
+        "git revert to create a new commit that undoes the changes",
+        "git restore to go back to an earlier state"
       ],
-      "correctIndex": 0,
-      "explanation": "A revert adds a visible correction without rewriting shared history."
+      "correctIndex": 2,
+      "explanation": "`git revert` creates a new commit that reverses the changes from a specific commit. History is preserved and your teammates' copies stay compatible. `git reset --hard` rewrites history, which causes problems for anyone who already has the commit."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"restore.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `restoreFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.restoreFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Discard the unstaged changes in a file called app.py (bring it back to the last committed state).",
+      "acceptedAnswers": [
+        "git restore app.py",
+        "git checkout -- app.py"
+      ],
+      "hint": "git restore app.py"
     }
   ]
 }

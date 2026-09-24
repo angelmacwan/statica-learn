@@ -42,47 +42,9 @@
       "starterCode": "# FizzBuzz: A classic programming challenge!\n# For numbers 1 through 20:\n#   - Print \"FizzBuzz\" if divisible by both 3 and 5\n#   - Print \"Fizz\" if divisible by 3 only\n#   - Print \"Buzz\" if divisible by 5 only\n#   - Print the number itself otherwise\n\nfor i in range(1, 21):\n    if i % 3 == 0 and i % 5 == 0:\n        print(\"FizzBuzz\")\n    elif i % 3 == 0:\n        print(\"Fizz\")\n    elif i % 5 == 0:\n        print(\"Buzz\")\n    else:\n        print(i)\n\n# Try it! Then experiment:\n# - Change the range to 1-100\n# - Add a \"Bazz\" rule for multiples of 7\n# - Count how many Fizzes appeared using a counter variable"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "Write a function `sum_evens(n)` that returns the sum of all even numbers from 0 up to and including `n`.\n\nFor example:\n- `sum_evens(10)` → `30`  (0 + 2 + 4 + 6 + 8 + 10)\n- `sum_evens(6)` → `12`   (0 + 2 + 4 + 6)\n- `sum_evens(0)` → `0`\n\n**Hint:** Use `range()` with a step of 2, or loop through all numbers and check `if num % 2 == 0`.",
-      "starterCode": "def sum_evens(n):\n    # your code here\n    pass",
-      "tests": [
-        {
-          "input": [
-            10
-          ],
-          "expectedOutput": 30,
-          "description": "sum_evens(10) should return 30 (0+2+4+6+8+10)"
-        },
-        {
-          "input": [
-            0
-          ],
-          "expectedOutput": 0,
-          "description": "sum_evens(0) should return 0 (only 0 itself, which is even)"
-        },
-        {
-          "input": [
-            6
-          ],
-          "expectedOutput": 12,
-          "description": "sum_evens(6) should return 12 (0+2+4+6)"
-        },
-        {
-          "input": [
-            1
-          ],
-          "expectedOutput": 0,
-          "description": "sum_evens(1) should return 0 (only even number in range is 0)"
-        },
-        {
-          "input": [
-            20
-          ],
-          "expectedOutput": 110,
-          "description": "sum_evens(20) should return 110 (0+2+4+...+20)"
-        }
-      ]
+      "starterCode": "# Sum all even numbers from 0 to n and print the result.\n# Try changing n!\n\nn = 10\ntotal = 0\n\nfor i in range(0, n + 1, 2):\n    total += i\n\nprint(\"Sum of evens from 0 to\", n, \":\", total)\n"
     }
   ]
 }

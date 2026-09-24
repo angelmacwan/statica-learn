@@ -17,76 +17,32 @@
   "blocks": [
     {
       "type": "text",
-      "content": "A feature works today. You need a named checkpoint you can inspect and return to later. What is the smallest Git action that keeps the work safe?"
+      "content": "A commit is a permanent snapshot of your project at a specific point in time. Each commit has a unique ID (a long string called a SHA), a message you write to describe what changed, and a timestamp with your name attached."
     },
     {
       "type": "text",
-      "content": "A commit is a saved checkpoint with a message. `git commit -m \"describe the change\"` saves the staged changes; `git log` shows those checkpoints.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Making a Commit\n\nAfter staging your changes, save them with:\n```\ngit commit -m \"your message here\"\n```\n\nA good commit message is short and describes **what changed and why**, not how:\n- `add login button to navbar` - good\n- `fix` - too vague\n- `changed stuff` - useless\n\n## Viewing History\n\nSee all past commits:\n```\ngit log\n```\n\nA compact one-line view:\n```\ngit log --oneline\n```\n\nExample output:\n```\na3f9c12 fix broken image link on homepage\n7b2d441 add contact form\ne1a8009 initial commit\n```\n\nEach line is one commit. The short code on the left is the beginning of the commit's unique ID.\n\n## Looking at a Specific Commit\n\nSee exactly what changed in a commit:\n```\ngit show a3f9c12\n```\n\nCompare the current state to the last commit:\n```\ngit diff\n```"
     },
     {
       "type": "multipleChoice",
       "question": "What does a commit save?",
       "options": [
-        "The staged project state",
-        "Every file ever deleted",
-        "Only a message",
-        "An automatic backup to GitHub"
+        "Only the files you currently have open",
+        "A snapshot of everything in the staging area at that moment",
+        "The entire working directory including unstaged files",
+        "A backup of your local hard drive"
       ],
-      "correctIndex": 0,
-      "explanation": "A commit records the state you staged along with its message."
+      "correctIndex": 1,
+      "explanation": "A commit saves exactly what was in the staging area when you ran `git commit`. Files that were changed but not staged are not included. This is why the staging area is so important - it lets you be precise about what each commit contains."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"commit.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `commitFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.commitFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Commit the staged changes with the message \"initial commit\".",
+      "acceptedAnswers": [
+        "git commit -m \"initial commit\"",
+        "git commit -m 'initial commit'"
+      ],
+      "hint": "git commit -m \"initial commit\""
     }
   ]
 }

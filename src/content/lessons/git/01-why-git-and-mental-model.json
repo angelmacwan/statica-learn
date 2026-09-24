@@ -17,76 +17,31 @@
   "blocks": [
     {
       "type": "text",
-      "content": "You and a teammate both edit the same proposal. You need to know what changed and recover a working version when an edit goes wrong. What is the smallest Git action that keeps the work safe?"
+      "content": "Imagine you're writing a report and you accidentally delete a section that took hours to write. Without version control you have no way to get it back. Git solves this by saving **snapshots** of your project over time, so you can always go back to any earlier state.\n\nGit is also **distributed** - every person working on a project has a complete copy of all the history on their own machine. You don't need a network connection to work, commit, or look at history."
     },
     {
       "type": "text",
-      "content": "Version control keeps a history of saved project states. Git is a distributed version-control system: each local repository, a project folder plus its saved history, has its own copy. A commit is one saved checkpoint.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## How Git Thinks About Your Project\n\nGit sees your project in three areas:\n\n```\nWorking Directory   -->   Staging Area   -->   Repository (History)\n  (your files)         (changes ready          (saved snapshots /\n                         to be saved)              commits)\n```\n\n- **Working Directory** - the folder on your computer where you edit files\n- **Staging Area** - a holding zone where you collect changes before saving them\n- **Repository** - the permanent record of every commit (snapshot) you've made\n\nThe typical flow is:\n1. Edit files in your working directory\n2. Stage the changes you want to save with `git add`\n3. Save a snapshot with `git commit`\n\n> A **commit** is a permanent snapshot. It stores what the project looked like at that exact moment, who made the change, when, and a message describing why."
     },
     {
       "type": "multipleChoice",
-      "question": "A teammate overwrites a working paragraph. What does Git give you?",
+      "question": "What does Git give you when a teammate accidentally overwrites working code?",
       "options": [
-        "A history of saved project states",
-        "A replacement for writing files",
-        "A way to avoid all conflicts",
-        "A single file with every version"
+        "A history of saved snapshots you can restore from",
+        "An automatic backup uploaded to the cloud",
+        "A real-time sync of everyone's files",
+        "A lock that prevents two people editing the same file"
       ],
       "correctIndex": 0,
-      "explanation": "Saved checkpoints let you inspect and recover earlier project states."
+      "explanation": "Git keeps a permanent history of every commit. If something gets broken or overwritten you can look at the history and restore any earlier state. Git doesn't lock files or auto-sync - it tracks intentional snapshots."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"stage.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `stageFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.stageFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Initialise a brand-new Git repository in the current folder.",
+      "acceptedAnswers": [
+        "git init"
+      ],
+      "hint": "git init"
     }
   ]
 }

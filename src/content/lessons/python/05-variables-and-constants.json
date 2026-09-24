@@ -41,39 +41,9 @@
       "starterCode": "# Score tracking across rounds\nscore = 0\nprint(\"Start:\", score)\n\nscore += 10\nprint(\"After round 1:\", score)\n\nscore += 25\nprint(\"After round 2:\", score)\n\nscore -= 5\nprint(\"After round 3:\", score)\n\n# Try adding more rounds below!\n"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "Write a function `calculate_total(price, quantity, tax_rate)` that returns the total cost after tax.\n\nThe formula is: `price * quantity * (1 + tax_rate)`\n\nFor example, `calculate_total(10.0, 3, 0.1)` should return `33.0` (10 × 3 = 30, plus 10% tax = 33).",
-      "starterCode": "def calculate_total(price, quantity, tax_rate):\n    # your code here\n    pass",
-      "tests": [
-        {
-          "input": [
-            10,
-            3,
-            0.1
-          ],
-          "expectedOutput": 33,
-          "description": "10.0 × 3 with 10% tax → 33.0"
-        },
-        {
-          "input": [
-            5,
-            2,
-            0
-          ],
-          "expectedOutput": 10,
-          "description": "5.0 × 2 with no tax → 10.0"
-        },
-        {
-          "input": [
-            100,
-            1,
-            0.2
-          ],
-          "expectedOutput": 120,
-          "description": "100.0 × 1 with 20% tax → 120.0"
-        }
-      ]
+      "starterCode": "# Calculate a total price with tax and print it.\n# Try changing the values!\n\nprice = 10.0\nquantity = 3\ntax_rate = 0.1\n\nsubtotal = price * quantity\ntotal = subtotal * (1 + tax_rate)\nprint(\"Subtotal:\", subtotal)\nprint(\"Total with tax:\", total)\n"
     }
   ]
 }

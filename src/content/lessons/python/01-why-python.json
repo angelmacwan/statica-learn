@@ -38,33 +38,9 @@
       "starterCode": "print(\"Hello, world!\")"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "Use `print()` to display your name. For example: `print(\"Sam\")`\n\nThe function `show_name()` should print any name passed to it.",
-      "starterCode": "def show_name(name):\n    print(name)",
-      "tests": [
-        {
-          "input": [
-            "Alice"
-          ],
-          "expectedOutput": "Alice",
-          "description": "prints the name Alice"
-        },
-        {
-          "input": [
-            "Sam"
-          ],
-          "expectedOutput": "Sam",
-          "description": "prints a different name"
-        },
-        {
-          "input": [
-            "Lee"
-          ],
-          "expectedOutput": "Lee",
-          "description": "prints another name without relying on the example name"
-        }
-      ]
+      "starterCode": "# Use print() to introduce yourself.\n# Change the text inside the quotes to your own name!\nprint(\"Hello, I am Sam\")\n"
     }
   ]
 }

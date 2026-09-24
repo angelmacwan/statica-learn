@@ -14,76 +14,32 @@
   "blocks": [
     {
       "type": "text",
-      "content": "Your branch is behind the current main branch. You need to replay or combine your work without losing the story of either change. What is the smallest Git action that keeps the work safe?"
+      "content": "**Rebasing** is a way to move or combine commits. Instead of merging two branches (which creates a merge commit), rebasing replays your commits one by one on top of another branch. The result is a cleaner, linear history."
     },
     {
       "type": "text",
-      "content": "Rebase replays commits onto a new base. It can make a private branch linear, but do not rebase commits teammates may already be using.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## How Rebase Works\n\nSuppose your `feature` branch is behind `main` because teammates have made new commits:\n\n```\nmain:    A - B - C - D\nfeature: A - B - E - F\n```\n\nAfter `git rebase main` on the feature branch:\n\n```\nmain:    A - B - C - D\nfeature: A - B - C - D - E' - F'\n```\n\nYour commits E and F are replayed on top of D. The history looks like you started from the latest version of main. (The `'` marks mean the commits have new IDs.)\n\n## Running a Rebase\n\n```\ngit switch feature/my-thing\ngit rebase main\n```\n\nIf there are conflicts during rebase, Git stops at each problematic commit. Resolve the conflict, then:\n```\ngit add filename\ngit rebase --continue\n```\n\nTo abandon a rebase in progress:\n```\ngit rebase --abort\n```\n\n## The Golden Rule of Rebasing\n\n> **Never rebase commits that have already been pushed and shared with others.**\n\nRebase rewrites commit IDs. If your teammates already have your old commits, rewriting them causes serious confusion. Only rebase local commits that haven't been pushed yet."
     },
     {
       "type": "multipleChoice",
-      "question": "When is rebasing risky?",
+      "question": "When is it unsafe to rebase a branch?",
       "options": [
-        "When the commits are already shared with teammates",
-        "When the branch has one commit",
-        "When you have staged a file",
-        "When you use a tag"
+        "When the branch has more than 10 commits",
+        "When other people have already pulled or based work on those commits",
+        "When the branch is more than a week old",
+        "When you're not on the main branch"
       ],
-      "correctIndex": 0,
-      "explanation": "Rebasing changes commit ancestry, so shared commits can confuse collaborators."
+      "correctIndex": 1,
+      "explanation": "Rebasing rewrites commit history - the same changes get new commit IDs. If your teammates already have the original commits, the rewritten history will conflict with theirs and cause confusion. Only rebase commits that exist only on your local machine and haven't been shared."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"rebase.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `rebaseFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.rebaseFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Rebase the current branch onto main.",
+      "acceptedAnswers": [
+        "git rebase main",
+        "git rebase origin/main"
+      ],
+      "hint": "git rebase main"
     }
   ]
 }

@@ -17,76 +17,31 @@
   "blocks": [
     {
       "type": "text",
-      "content": "You have edited two files, but only one is ready to save as history. You need to choose the exact change you are recording. What is the smallest Git action that keeps the work safe?"
+      "content": "When you start a new project or want to add Git to an existing folder, the first thing you do is **initialise a repository**. This creates a hidden `.git` folder where Git stores all the history. You never need to touch that folder directly."
     },
     {
       "type": "text",
-      "content": "Your working directory contains current files. The staging area is the deliberate preview for the next commit. Use `git add file-name` to stage only the change you intend to save.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Starting and Checking Status\n\nInitialise Git in a folder:\n```\ngit init\n```\n\nSee the current state of your files:\n```\ngit status\n```\n\n`git status` tells you three things:\n- Which branch you're on\n- Which files have changed but aren't staged yet\n- Which files are staged and ready to commit\n\n## The Staging Area\n\nThe staging area is what makes Git powerful. Instead of saving every file change at once, you choose exactly what goes into the next commit.\n\n```\n# Stage one specific file\ngit add README.md\n\n# Stage all changed files at once\ngit add .\n```\n\nThink of the staging area like a shopping basket. You browse (edit files) and place items in the basket (stage). Only when you check out (commit) does the purchase become permanent.\n\n```mermaid\nflowchart LR\n    A[\"Edit files\"] --> B[\"git add\"]\n    B --> C[\"Staging Area\"]\n    C --> D[\"git commit\"]\n    D --> E[\"Repository History\"]\n```\n\nIf you stage something by mistake, remove it from staging without losing your changes:\n```\ngit restore --staged filename\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "You changed two files but want to commit one. What do you use?",
+      "question": "You changed two files but only want to commit one of them. What do you do?",
       "options": [
-        "The staging area",
-        "The reflog",
-        "A tag",
-        "The remote"
+        "Delete the file you don't want to commit",
+        "Stage only the file you want using `git add filename`",
+        "Commit all files and then undo the one you didn't want",
+        "Git automatically picks the most recently changed file"
       ],
-      "correctIndex": 0,
-      "explanation": "Staging lets you select the exact changes for the next commit."
+      "correctIndex": 1,
+      "explanation": "`git add filename` stages a specific file. Only staged files are included in the next commit. The other file stays in your working directory, unchanged, and you can stage and commit it later."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"stage.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `stageFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.stageFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Stage a file called README.md for the next commit.",
+      "acceptedAnswers": [
+        "git add README.md"
+      ],
+      "hint": "git add README.md"
     }
   ]
 }

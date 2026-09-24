@@ -42,47 +42,9 @@
       "starterCode": "# Temperature Checker\n# Try changing the temperature and see which message appears!\n\ntemperature = 22  # Change this value\n\nif temperature > 35:\n    message = \"It's scorching! Stay hydrated.\"\nelif temperature > 20:\n    message = \"Nice weather for a walk!\"\nelif temperature > 10:\n    message = \"Grab a jacket.\"\nelse:\n    message = \"Stay inside - it's freezing!\"\n\nprint(f\"Temperature: {temperature}°C\")\nprint(f\"Advice: {message}\")"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "Write a function `grade(score)` that takes a numeric score (0-100) and returns the corresponding letter grade as a string:\n\n- `\"A\"` for scores **90 and above**\n- `\"B\"` for scores **80 and above** (but below 90)\n- `\"C\"` for scores **70 and above** (but below 80)\n- `\"D\"` for scores **60 and above** (but below 70)\n- `\"F\"` for anything **below 60**\n\nUse `if`, `elif`, and `else` to implement the logic.",
-      "starterCode": "def grade(score):\n    # Your code here\n    pass",
-      "tests": [
-        {
-          "input": [
-            95
-          ],
-          "expectedOutput": "A",
-          "description": "Score of 95 should return 'A'"
-        },
-        {
-          "input": [
-            85
-          ],
-          "expectedOutput": "B",
-          "description": "Score of 85 should return 'B'"
-        },
-        {
-          "input": [
-            72
-          ],
-          "expectedOutput": "C",
-          "description": "Score of 72 should return 'C'"
-        },
-        {
-          "input": [
-            60
-          ],
-          "expectedOutput": "D",
-          "description": "Score of 60 (exactly) should return 'D'"
-        },
-        {
-          "input": [
-            45
-          ],
-          "expectedOutput": "F",
-          "description": "Score of 45 should return 'F'"
-        }
-      ]
+      "starterCode": "# What letter grade does a score get?\n# Change score and run to see the result.\n\nscore = 75\n\nif score >= 90:\n    grade = \"A\"\nelif score >= 80:\n    grade = \"B\"\nelif score >= 70:\n    grade = \"C\"\nelif score >= 60:\n    grade = \"D\"\nelse:\n    grade = \"F\"\n\nprint(\"Score:\", score, \"-> Grade:\", grade)\n"
     }
   ]
 }

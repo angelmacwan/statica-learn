@@ -1,0 +1,181 @@
+{
+  "id": "python-l1-quiz",
+  "slug": "quiz",
+  "title": "Python L1 Quiz",
+  "description": "Test your knowledge of Python basics: variables, types, collections, operators, control flow, functions, and more.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "easy",
+  "estimatedMinutes": 15,
+  "concepts": [
+    "quiz",
+    "review"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Final Quiz\n\nYou've covered all the core Python basics. This quiz tests everything from the course. Take your time and think through each question."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this print?\n\n```python\nprint(type(42))\n```",
+      "options": [
+        "<class 'float'>",
+        "<class 'int'>",
+        "<class 'str'>",
+        "<class 'number'>"
+      ],
+      "correctIndex": 1,
+      "explanation": "`42` is a whole number with no decimal point, so Python assigns it the type `int`. `type()` returns the class object, displayed as `<class 'int'>`."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\nwords = [\"cat\", \"dog\", \"bird\"]\nprint(words[-2])\n```",
+      "options": [
+        "cat",
+        "dog",
+        "bird",
+        "An error"
+      ],
+      "correctIndex": 1,
+      "explanation": "Negative indexes count from the end. `-1` is the last item (`bird`), `-2` is second-from-last (`dog`). So `words[-2]` returns `\"dog\"`."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "You have a list of user emails and want to remove duplicates. Which collection type should you use?",
+      "options": [
+        "list - keeps everything in order",
+        "tuple - because emails shouldn't change",
+        "set - automatically removes duplicates",
+        "dict - to map each email to itself"
+      ],
+      "correctIndex": 2,
+      "explanation": "A set only stores unique values. Converting a list to a set removes all duplicates instantly: `unique_emails = set(all_emails)`. Order is not preserved, but that's usually fine for deduplication."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `person.get(\"phone\", \"N/A\")` return if `\"phone\"` is not a key in the dict?",
+      "options": [
+        "None",
+        "False",
+        "N/A",
+        "A KeyError"
+      ],
+      "correctIndex": 2,
+      "explanation": "`.get(key, default)` returns the default value when the key is missing - no error. Here the default is `\"N/A\"`, so that's what gets returned."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the output?\n\n```python\nprint(10 % 3)\n```",
+      "options": [
+        "3",
+        "1",
+        "3.33",
+        "0.33"
+      ],
+      "correctIndex": 1,
+      "explanation": "`%` is the modulo operator - it gives the remainder after division. 10 divided by 3 is 3 with a remainder of 1, so `10 % 3` equals `1`."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does the `:.2f` format spec do in an f-string?",
+      "options": [
+        "Rounds to 2 significant figures",
+        "Displays exactly 2 decimal places as a float",
+        "Limits the string to 2 characters",
+        "Formats the number in base 2 (binary)"
+      ],
+      "correctIndex": 1,
+      "explanation": "`.2f` means: display as a float (`f`) with 2 decimal places. `f\"{3.14159:.2f}\"` produces `\"3.14\"`. It also rounds: `f\"{3.999:.2f}\"` produces `\"4.00\"`."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `\"hello world\".split(\" \")` return?",
+      "options": [
+        "\"hello world\"",
+        "[\"hello\", \"world\"]",
+        "(\"hello\", \"world\")",
+        "{\"hello\", \"world\"}"
+      ],
+      "correctIndex": 1,
+      "explanation": "`.split(separator)` splits a string at each occurrence of the separator and returns a **list** of the parts. `\"hello world\".split(\" \")` splits on the space and returns `[\"hello\", \"world\"]`."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What happens when Python evaluates `5 > 3 and 10 < 8`?",
+      "options": [
+        "True",
+        "False",
+        "An error - you can't combine two comparisons",
+        "It depends on the values of the variables"
+      ],
+      "correctIndex": 1,
+      "explanation": "`5 > 3` is `True`, but `10 < 8` is `False`. With `and`, both sides must be `True`. Since one is `False`, the result is `False`."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `range(2, 8, 2)` produce?",
+      "options": [
+        "2, 4, 6, 8",
+        "2, 4, 6",
+        "2, 3, 4, 5, 6, 7",
+        "0, 2, 4, 6"
+      ],
+      "correctIndex": 1,
+      "explanation": "`range(start, stop, step)` generates numbers starting at 2, going up by 2 each time, stopping before 8. That gives 2, 4, 6. The value 8 is excluded because range stops *before* the stop value."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "A function with no `return` statement returns...",
+      "options": [
+        "0",
+        "False",
+        "None",
+        "An error"
+      ],
+      "correctIndex": 2,
+      "explanation": "Every Python function returns something. If you don't write a `return` statement (or just write `return` with no value), the function automatically returns `None`."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is `__init__` in a class?",
+      "options": [
+        "A method that runs when the class is deleted",
+        "A method that runs when a new object is created",
+        "A required method for every class",
+        "A method for importing other classes"
+      ],
+      "correctIndex": 1,
+      "explanation": "`__init__` is the constructor. Python calls it automatically when you create a new object: `my_obj = MyClass()`. It's where you set up the object's initial attributes."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which import gives you access to `sqrt` without writing `math.sqrt`?",
+      "options": [
+        "import math",
+        "import math.sqrt",
+        "from math import sqrt",
+        "use math sqrt"
+      ],
+      "correctIndex": 2,
+      "explanation": "`from math import sqrt` brings just `sqrt` directly into your namespace. After this, you can write `sqrt(16)` instead of `math.sqrt(16)`. `import math` requires you to use the `math.` prefix."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "The user types `42` when prompted by `input()`. What type is the returned value?",
+      "options": [
+        "int",
+        "float",
+        "str",
+        "number"
+      ],
+      "correctIndex": 2,
+      "explanation": "`input()` always returns a string (`str`), regardless of what the user types. To use `42` as a number, you must convert it: `n = int(input())`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Congratulations - you've finished Python L1!\n# Here's a small program that uses almost everything from the course.\n# Read through it, run it, then try modifying it.\n\nimport math\n\nclass Shape:\n    def __init__(self, name):\n        self.name = name\n\n    def area(self):\n        return 0\n\n    def describe(self):\n        a = self.area()\n        return f\"{self.name}: area = {a:.2f}\"\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        super().__init__(\"Circle\")\n        self.radius = radius\n\n    def area(self):\n        return math.pi * self.radius ** 2\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        super().__init__(\"Rectangle\")\n        self.width  = width\n        self.height = height\n\n    def area(self):\n        return self.width * self.height\n\n\nshapes = [Circle(5), Rectangle(4, 6), Circle(3), Rectangle(10, 2)]\n\nprint(\"All shapes:\")\nfor shape in shapes:\n    print(\" \", shape.describe())\n\nareas = [s.area() for s in shapes]\nprint(f\"\\nLargest area: {max(areas):.2f}\")\nprint(f\"Total area:   {sum(areas):.2f}\")\n"
+    }
+  ]
+}

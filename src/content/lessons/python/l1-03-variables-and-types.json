@@ -1,0 +1,70 @@
+{
+  "id": "python-l1-variables-and-types",
+  "slug": "variables-and-types",
+  "title": "Variables and Types",
+  "description": "Store values with variables and learn Python's basic data types: int, float, str, and bool.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "variables",
+    "assignment",
+    "int",
+    "float",
+    "str",
+    "bool",
+    "type()"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Variables\n\nA variable is a name that holds a value. You create one with `=`:\n\n```python\nname = \"Alice\"\nage = 25\nheight = 1.68\nis_student = True\n```\n\nThink of a variable as a labeled box. The name is the label, and `=` puts a value inside the box.\n\nYou can change a variable's value at any time by assigning again:\n\n```python\nscore = 0\nscore = score + 10   # score is now 10\nscore = score + 5    # score is now 15\nprint(score)         # 15\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "After running this code, what is the value of `x`?\n\n```python\nx = 10\nx = x + 5\nx = x * 2\n```",
+      "options": [
+        "10",
+        "15",
+        "30",
+        "20"
+      ],
+      "correctIndex": 2,
+      "explanation": "Step by step: `x` starts as 10. Then `x = 10 + 5` makes it 15. Then `x = 15 * 2` makes it 30. Each assignment replaces the previous value."
+    },
+    {
+      "type": "text",
+      "content": "## Basic Data Types\n\nEvery value in Python has a type. The four most common ones are:\n\n| Type | What it holds | Example |\n|------|---------------|---------|\n| `int` | Whole numbers | `42`, `-7`, `0` |\n| `float` | Decimal numbers | `3.14`, `-0.5`, `1.0` |\n| `str` | Text (string) | `\"hello\"`, `'world'` |\n| `bool` | True or False | `True`, `False` |\n\nPython figures out the type automatically based on how you write the value. You can check any value's type with `type()`:\n\n```python\nprint(type(42))       # <class 'int'>\nprint(type(3.14))     # <class 'float'>\nprint(type(\"hello\"))  # <class 'str'>\nprint(type(True))     # <class 'bool'>\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What type does Python assign to `3.0`?",
+      "options": [
+        "int - because the value is a whole number",
+        "float - because it has a decimal point",
+        "str - because it looks like text",
+        "bool - because it could be True or False"
+      ],
+      "correctIndex": 1,
+      "explanation": "Python uses the decimal point to decide the type. `3.0` has a `.`, so it's a float - even though its value happens to be a whole number. Write `3` (no dot) if you want an integer."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Variables and types in action.\n# Run this, then try changing the values.\n\nname = \"Alice\"\nage = 25\nheight = 1.68\nis_student = True\n\nprint(name, \"is\", age, \"years old\")\nprint(\"Height:\", height, \"m\")\nprint(\"Student:\", is_student)\n\n# Check types\nprint(type(age))     # int\nprint(type(height))  # float\nprint(type(name))    # str\nprint(type(is_student))  # bool\n"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which of these is a valid Python variable name?",
+      "options": [
+        "1st_place",
+        "my-score",
+        "player_name",
+        "hello world"
+      ],
+      "correctIndex": 2,
+      "explanation": "`player_name` is valid. Variable names can contain letters, numbers, and underscores, but must not start with a number. Hyphens (`-`) are not allowed (Python reads them as subtraction). Spaces are not allowed either."
+    }
+  ]
+}

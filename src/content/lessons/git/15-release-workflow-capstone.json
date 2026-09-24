@@ -17,78 +17,31 @@
   "blocks": [
     {
       "type": "text",
-      "content": "A release is due. You need to make a clean branch, commit a focused change, merge it, and leave a traceable tag. What is the smallest Git action that keeps the work safe?"
+      "content": "A release is when you decide the code is ready for users. The Git part of a release is straightforward: you mark the exact commit that shipped with a **tag**, so you can always find it again. Tags are permanent labels that never move, unlike branches."
     },
     {
       "type": "text",
-      "content": "A release workflow combines the habits you practiced: make a branch, stage intentional changes, commit clearly, merge after review, and tag the release.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Putting It All Together\n\nHere's the complete flow from idea to release using everything you've learned:\n\n```\n# 1. Start from an up-to-date main\ngit switch main\ngit pull\n\n# 2. Create a feature branch\ngit switch -c feature/payment-update\n\n# 3. Work and commit\ngit add .\ngit commit -m \"update payment provider to Stripe v3\"\n\n# 4. Push and open a pull request for review\ngit push origin feature/payment-update\n\n# 5. After approval, merge into main (usually done via the platform UI)\ngit switch main\ngit merge feature/payment-update\ngit push\n\n# 6. Tag the release\ngit tag v2.1.0\ngit push origin v2.1.0\n\n# 7. Clean up the feature branch\ngit branch -d feature/payment-update\ngit push origin --delete feature/payment-update\n```\n\n## Tagging Conventions\n\nMost teams use **semantic versioning**: `vMAJOR.MINOR.PATCH`\n\n- `MAJOR` - breaking change (old code might not work)\n- `MINOR` - new feature, backwards compatible\n- `PATCH` - bug fix\n\nSo `v2.1.0` means: major version 2, first new feature added, no patches yet.\n\n## Checking Out a Past Release\n\nNeed to look at or deploy an older version?\n```\ngit checkout v1.0.0\n```\n\nThis puts you in \"detached HEAD\" state - you can look around, but create a new branch before making changes."
     },
     {
       "type": "multipleChoice",
-      "question": "Which release step makes a named, permanent marker?",
+      "question": "What makes a tag different from a branch?",
       "options": [
-        "Create a tag",
-        "Stash changes",
-        "Run git status",
-        "Edit .gitignore"
+        "Tags can only be created by team leads",
+        "Tags are only visible on GitHub, not locally",
+        "Tags are permanent labels that never move; branches move forward with each commit",
+        "Tags can contain commit messages; branches cannot"
       ],
-      "correctIndex": 0,
-      "explanation": "A tag names a specific commit, which makes a release easy to find later."
+      "correctIndex": 2,
+      "explanation": "A branch moves forward every time you make a new commit on it. A tag is fixed forever at the commit it was created on. This makes tags ideal for marking releases - `v1.0.0` will always point to the exact code that shipped."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const release = { branch: \"release-notes\", commits: 1, tag: \"v1.0.0\" };\nconsole.log(release);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Build `releasePlan(branch, commits, tag)`. Export it and return an object with those three values plus `ready`, which is true only when the branch has at least one commit and the tag starts with `v`.",
-      "starterCode": "exports.releasePlan = (branch, commits, tag) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            "release-notes",
-            1,
-            "v1.0.0"
-          ],
-          "expectedOutput": {
-            "branch": "release-notes",
-            "commits": 1,
-            "tag": "v1.0.0",
-            "ready": true
-          },
-          "description": "marks a tagged branch with a commit as ready"
-        },
-        {
-          "input": [
-            "release-notes",
-            0,
-            "v1.0.0"
-          ],
-          "expectedOutput": {
-            "branch": "release-notes",
-            "commits": 0,
-            "tag": "v1.0.0",
-            "ready": false
-          },
-          "description": "does not release an empty branch"
-        },
-        {
-          "input": [
-            "release-notes",
-            2,
-            "1.0.0"
-          ],
-          "expectedOutput": {
-            "branch": "release-notes",
-            "commits": 2,
-            "tag": "1.0.0",
-            "ready": false
-          },
-          "description": "requires the expected version-tag shape"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Tag the current commit as v1.0.0 and push the tag to origin.",
+      "acceptedAnswers": [
+        "git tag v1.0.0\ngit push origin v1.0.0"
+      ],
+      "hint": "git tag v1.0.0  then  git push origin v1.0.0"
     }
   ]
 }

@@ -42,66 +42,9 @@
       "starterCode": "# Contact Book using a dict\n# Each contact is a dict with name, phone, and email\n\ncontacts = {}\n\n# Add contacts\ncontacts[\"Alice\"] = {\"phone\": \"555-1234\", \"email\": \"alice@example.com\"}\ncontacts[\"Bob\"]   = {\"phone\": \"555-5678\", \"email\": \"bob@example.com\"}\n\n# Access a contact's phone number\nprint(\"Alice's phone:\", contacts[\"Alice\"][\"phone\"])\n\n# Update Bob's email\ncontacts[\"Bob\"][\"email\"] = \"bob@newdomain.com\"\nprint(\"Bob's updated email:\", contacts[\"Bob\"][\"email\"])\n\n# List all contact names\nprint(\"\\nAll contacts:\")\nfor name in contacts.keys():\n    print(\" -\", name)\n\n# Safe lookup - won't crash if contact doesn't exist\nunknown = contacts.get(\"Carol\", \"Contact not found\")\nprint(\"\\nCarol:\", unknown)\n\n# Try it yourself:\n# 1. Add a contact for yourself\n# 2. Print your phone number\n# 3. Add a \"city\" field to Alice's contact\n"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "Write a function `count_unique(items)` that takes a list and returns the **number of unique items** in it.\n\nFor example:\n- `count_unique([1, 2, 3])` → `3` (all unique)\n- `count_unique([1, 1, 1])` → `1` (only one unique value)\n- `count_unique([\"a\", \"b\", \"a\", \"c\"])` → `3` (\"a\", \"b\", \"c\" are unique)\n\n**Hint:** Converting a list to a `set` removes all duplicates.",
-      "starterCode": "def count_unique(items):\n    # your code here\n    pass",
-      "tests": [
-        {
-          "input": [
-            [
-              1,
-              2,
-              3
-            ]
-          ],
-          "expectedOutput": 3,
-          "description": "All items are unique - should return 3"
-        },
-        {
-          "input": [
-            [
-              1,
-              1,
-              1
-            ]
-          ],
-          "expectedOutput": 1,
-          "description": "All items are the same - should return 1"
-        },
-        {
-          "input": [
-            [
-              "a",
-              "b",
-              "a",
-              "c"
-            ]
-          ],
-          "expectedOutput": 3,
-          "description": "Mixed strings with one duplicate - should return 3"
-        },
-        {
-          "input": [
-            []
-          ],
-          "expectedOutput": 0,
-          "description": "Empty list - should return 0"
-        },
-        {
-          "input": [
-            [
-              7,
-              3,
-              7,
-              3,
-              7
-            ]
-          ],
-          "expectedOutput": 2,
-          "description": "Two distinct values repeated - should return 2"
-        }
-      ]
+      "starterCode": "# Count unique items using a set.\n# Try your own lists!\n\nitems = [1, 2, 3, 2, 1]\nunique = set(items)\nprint(\"All items:\", items)\nprint(\"Unique items:\", unique)\nprint(\"Unique count:\", len(unique))\n\nwords = [\"a\", \"b\", \"a\", \"c\"]\nprint(\"Unique words:\", len(set(words)))\n"
     }
   ]
 }

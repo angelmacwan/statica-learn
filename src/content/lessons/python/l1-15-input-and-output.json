@@ -1,0 +1,56 @@
+{
+  "id": "python-l1-input-and-output",
+  "slug": "input-and-output",
+  "title": "Input and Output",
+  "description": "Read values from the user with input() and display results with print().",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "print",
+    "input",
+    "type conversion",
+    "sep",
+    "end"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## print() in Depth\n\nYou've used `print()` to display values. Here are its most useful features:\n\n```python\n# Multiple values - joined with a space by default\nprint(\"Name:\", \"Alice\", \"Age:\", 25)\n# Name: Alice Age: 25\n\n# Change the separator with sep\nprint(2026, 9, 24, sep=\"-\")\n# 2026-9-24\n\n# Change the end character (default is newline \\n)\nprint(\"Loading\", end=\"\")\nprint(\"...\")\n# Loading...\n\nprint(\"Step 1\", end=\" -> \")\nprint(\"Step 2\", end=\" -> \")\nprint(\"Done\")\n# Step 1 -> Step 2 -> Done\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\nprint(\"a\", \"b\", \"c\", sep=\"-\")\n```",
+      "options": [
+        "a b c",
+        "a-b-c",
+        "abc",
+        "a, b, c"
+      ],
+      "correctIndex": 1,
+      "explanation": "The `sep` parameter sets the string inserted between each value. Here it's `\"-\"`, so the three values are joined with hyphens: `a-b-c`."
+    },
+    {
+      "type": "text",
+      "content": "## input() - Reading from the User\n\n`input()` pauses your program, waits for the user to type something, and returns what they typed as a **string**:\n\n```python\nname = input(\"What is your name? \")\nprint(f\"Hello, {name}!\")\n```\n\nIMPORTANT: `input()` always returns a string - even if the user types a number. Convert it when you need to do math:\n\n```python\nraw_age = input(\"How old are you? \")\nage = int(raw_age)          # convert string to int\nprint(f\"In 10 years you will be {age + 10}.\")\n```\n\n| What the user types | What `input()` returns | What you need to do |\n|---------------------|------------------------|---------------------|\n| `42` | `\"42\"` (string) | `int(\"42\")` to do math |\n| `3.14` | `\"3.14\"` (string) | `float(\"3.14\")` to do math |\n| `yes` | `\"yes\"` (string) | Use as-is |\n\n> Note: In these lessons, `input()` is simulated in the code blocks below - the value is already assigned to a variable for you to work with."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "The user types `25` and presses Enter. What type does `input()` return?",
+      "options": [
+        "int",
+        "float",
+        "str",
+        "It depends on what the user types"
+      ],
+      "correctIndex": 2,
+      "explanation": "`input()` always returns a string (`str`), no matter what the user types. `25` becomes the string `\"25\"`. You must explicitly convert it with `int()` or `float()` if you need to use it as a number."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Input and output examples.\n# (input() is simulated here - the value is already set.)\n\nname = \"Alice\"   # pretend this came from input()\nage  = 28        # pretend this came from int(input())\n\n# Display using print\nprint(\"Name:\", name)\nprint(f\"In 5 years you will be {age + 5}.\")\nprint()\n\n# Formatted output using sep and end\nprint(\"Year\", \"Month\", \"Day\", sep=\"-\")\nprint(\"Loading\", end=\"\")\nprint(\"...\")\nprint()\n\n# A simple \"calculator\"\na = 15\nb = 4\nprint(f\"{a} + {b} = {a + b}\")\nprint(f\"{a} - {b} = {a - b}\")\nprint(f\"{a} * {b} = {a * b}\")\nprint(f\"{a} / {b} = {a / b:.2f}\")\nprint(f\"{a} % {b} = {a % b}\")\n"
+    }
+  ]
+}

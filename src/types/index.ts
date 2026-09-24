@@ -51,17 +51,26 @@ export const ChallengeBlockSchema = z.object({
   tests: z.array(CodeTestSchema),
 });
 
+export const TerminalBlockSchema = z.object({
+  type: z.literal('terminal'),
+  prompt: z.string(),
+  acceptedAnswers: z.array(z.string()),
+  hint: z.string().optional(),
+});
+
 export const LessonBlockSchema = z.discriminatedUnion('type', [
   TextBlockSchema,
   MultipleChoiceBlockSchema,
   CodeBlockSchema,
   ChallengeBlockSchema,
+  TerminalBlockSchema,
 ]);
 
 export type TextBlock = z.infer<typeof TextBlockSchema>;
 export type MultipleChoiceBlock = z.infer<typeof MultipleChoiceBlockSchema>;
 export type CodeBlock = z.infer<typeof CodeBlockSchema>;
 export type ChallengeBlock = z.infer<typeof ChallengeBlockSchema>;
+export type TerminalBlock = z.infer<typeof TerminalBlockSchema>;
 export type CodeTest = z.infer<typeof CodeTestSchema>;
 export type LessonBlock = z.infer<typeof LessonBlockSchema>;
 

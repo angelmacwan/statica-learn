@@ -1,0 +1,54 @@
+{
+  "id": "python-l1-string-formatting",
+  "slug": "string-formatting",
+  "title": "String Formatting",
+  "description": "Build readable strings by embedding variables and expressions using f-strings.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "f-strings",
+    "format specifiers",
+    "string concatenation"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Combining Strings the Hard Way\n\nYou can join strings with `+`:\n\n```python\nname = \"Alice\"\nage  = 25\nprint(\"Name: \" + name + \", Age: \" + str(age))\n# Name: Alice, Age: 25\n```\n\nThis works but is clunky. You have to convert every number to a string with `str()` or you get an error.\n\n## f-Strings (the Easy Way)\n\nAn **f-string** lets you embed variables directly inside a string. Prefix the string with `f` and put variables inside `{}`:\n\n```python\nname = \"Alice\"\nage  = 25\nprint(f\"Name: {name}, Age: {age}\")\n# Name: Alice, Age: 25\n```\n\nNo `str()` needed. Python handles the conversion automatically. You can even put expressions inside `{}`:\n\n```python\nprice = 9.99\nqty   = 3\nprint(f\"Total: {price * qty}\")\n# Total: 29.97\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\nitem = \"coffee\"\ncost = 3.5\nprint(f\"A {item} costs ${cost}\")\n```",
+      "options": [
+        "A {item} costs ${cost}",
+        "A coffee costs $3.5",
+        "A item costs $cost",
+        "An error"
+      ],
+      "correctIndex": 1,
+      "explanation": "In an f-string, anything inside `{}` is evaluated and inserted into the string. `{item}` becomes `coffee` and `{cost}` becomes `3.5`, producing `A coffee costs $3.5`."
+    },
+    {
+      "type": "text",
+      "content": "## Format Specifiers\n\nInside `{}` you can add a `:` followed by a format code to control how the value is displayed:\n\n```python\nprice = 1234.5678\n\n# Round to 2 decimal places\nprint(f\"Price: {price:.2f}\")\n# Price: 1234.57\n\n# Pad a number with leading zeros\nprint(f\"Order #{42:05d}\")\n# Order #00042\n\n# Align text in columns\nfor item, qty in [(\"Apple\", 10), (\"Banana\", 5), (\"Cherry\", 22)]:\n    print(f\"{item:<10} {qty:>4}\")\n# Apple          10\n# Banana          5\n# Cherry         22\n```\n\nThe most useful format codes:\n- `.2f` - float with 2 decimal places\n- `d` - integer\n- `<10` - left-align in a field of width 10\n- `>10` - right-align in a field of width 10"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `f\"{3.14159:.2f}\"` produce?",
+      "options": [
+        "3.14159",
+        "3.14",
+        "3",
+        "3.1"
+      ],
+      "correctIndex": 1,
+      "explanation": "The format spec `:.2f` means: display as a float with exactly 2 decimal places. `3.14159` rounded to 2 decimal places is `3.14`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# f-strings in action.\n# Run this, then try changing the values.\n\nname     = \"Alice\"\nbalance  = 1234.5\nitems    = 7\n\nprint(f\"Account holder: {name}\")\nprint(f\"Balance: ${balance:.2f}\")\nprint(f\"Items purchased: {items}\")\nprint(f\"Average per item: ${balance / items:.2f}\")\n\nprint()\n\n# Formatted table\nprint(f\"{'Product':<12} {'Price':>8} {'Qty':>5}\")\nprint(\"-\" * 27)\nproducts = [(\"Apple\", 0.99, 10), (\"Banana\", 0.49, 5), (\"Watermelon\", 4.99, 2)]\nfor name, price, qty in products:\n    print(f\"{name:<12} {price:>8.2f} {qty:>5}\")\n"
+    }
+  ]
+}

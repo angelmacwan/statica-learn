@@ -14,76 +14,34 @@
   "blocks": [
     {
       "type": "text",
-      "content": "You have finished a feature and want feedback before it reaches the main branch. A pull request gives the team a review point. What is the smallest Git action that keeps the work safe?"
+      "content": "A **pull request (PR)** is a proposal to merge one branch into another. It's how teams review code before it reaches the main branch. Pull requests aren't a Git feature per se - they're provided by hosting platforms like GitHub, GitLab, and Bitbucket. But they're central to how almost every team works."
     },
     {
       "type": "text",
-      "content": "A pull request is a request to compare and merge a branch. It gives reviewers a focused place to discuss changes before they reach the shared branch.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## The Pull Request Flow\n\n```\n1. Push your feature branch to the remote\n   git push origin feature/my-thing\n\n2. Go to GitHub (or your platform) and open a Pull Request\n   - Select your branch as the source\n   - Select main as the destination\n   - Write a description of what changed and why\n\n3. Teammates review the code\n   - They can leave comments on specific lines\n   - Request changes or approve\n\n4. Address feedback with new commits on the same branch\n   git add .\n   git commit -m \"address review feedback\"\n   git push origin feature/my-thing\n\n5. Once approved, merge via the platform UI (or git merge locally)\n\n6. Delete the branch - it has served its purpose\n```\n\n## What Makes a Good PR\n\n- **Small and focused** - one feature or fix, not everything you've done this week\n- **Clear description** - explain what it does and why, link to any relevant issue\n- **Tests pass** - don't ask people to review broken code\n- **Self-review first** - read through your own diff before requesting review\n\n## Keeping Your Branch Up to Date\n\nWhile your PR is in review, main may have gotten new commits. Update your branch:\n```\ngit switch feature/my-thing\ngit pull origin main\n```\n\nOr with rebase for a cleaner history:\n```\ngit rebase main\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "What is the purpose of a pull request?",
+      "question": "What is the main purpose of a pull request?",
       "options": [
-        "Review a proposed branch change before merge",
-        "Replace local commits",
-        "Remove a remote",
-        "Hide a conflict"
+        "To automatically deploy the code to production",
+        "To give the team a place to review and discuss changes before they merge into main",
+        "To pull the latest changes from the remote",
+        "To request that someone else finishes your work"
       ],
-      "correctIndex": 0,
-      "explanation": "A pull request creates a shared review point for a focused change."
+      "correctIndex": 1,
+      "explanation": "A pull request is a review mechanism. It shows the team exactly what changed, gives everyone a place to comment on specific lines of code, and creates a record of the discussion. The code only merges after the team is satisfied."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"review.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `reviewFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.reviewFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Fetch the latest changes from origin and merge them into the current branch.",
+      "acceptedAnswers": [
+        "git pull",
+        "git pull origin",
+        "git pull origin main",
+        "git pull origin master"
+      ],
+      "hint": "git pull"
     }
   ]
 }

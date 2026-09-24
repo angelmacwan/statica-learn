@@ -1,0 +1,57 @@
+{
+  "id": "python-l1-modules-and-packages",
+  "slug": "modules-and-packages",
+  "title": "Modules and Packages",
+  "description": "Reuse code from Python's standard library and third-party packages using import.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "easy",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "import",
+    "from import",
+    "standard library",
+    "math",
+    "random",
+    "datetime"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## What is a Module?\n\nA **module** is a file of Python code. When you write `import something`, Python loads that file and makes its functions and variables available to you.\n\nPython ships with a large **standard library** - hundreds of modules ready to use:\n\n```python\nimport math\n\nprint(math.pi)            # 3.141592653589793\nprint(math.sqrt(16))      # 4.0\nprint(math.floor(3.9))    # 3\nprint(math.ceil(3.1))     # 4\n```\n\nYou can also import just the parts you need:\n\n```python\nfrom math import sqrt, pi\n\nprint(sqrt(25))   # 5.0\nprint(pi)         # 3.14159...\n```\n\nOr give a module a shorter alias:\n\n```python\nimport math as m\nprint(m.sqrt(9))  # 3.0\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `from math import sqrt` do?",
+      "options": [
+        "Imports the entire math module",
+        "Imports only the sqrt function from math",
+        "Creates a new function called sqrt",
+        "Installs the math package"
+      ],
+      "correctIndex": 1,
+      "explanation": "`from math import sqrt` brings just the `sqrt` function into your namespace. You can then call `sqrt(9)` directly without writing `math.sqrt(9)`. The rest of the math module is not imported."
+    },
+    {
+      "type": "text",
+      "content": "## Useful Standard Library Modules\n\n```python\nimport random\n\n# Random number between 1 and 10\nprint(random.randint(1, 10))\n\n# Pick a random item from a list\ncolors = [\"red\", \"green\", \"blue\"]\nprint(random.choice(colors))\n\n# Shuffle a list in place\nrandom.shuffle(colors)\nprint(colors)\n```\n\n```python\nfrom datetime import date, datetime\n\ntoday = date.today()\nprint(today)             # 2026-09-24\nprint(today.year)        # 2026\nprint(today.strftime(\"%d %B %Y\"))  # 24 September 2026\n```\n\n## Packages\n\nA **package** is a collection of related modules organized in a folder. You install third-party packages with pip:\n\n```\npip install requests\n```\n\nThen use them just like standard library modules:\n\n```python\nimport requests\nresponse = requests.get(\"https://api.example.com/data\")\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which statement imports the `datetime` class from the `datetime` module?",
+      "options": [
+        "import datetime",
+        "from datetime import datetime",
+        "import datetime.datetime",
+        "get datetime from datetime"
+      ],
+      "correctIndex": 1,
+      "explanation": "`from datetime import datetime` imports just the `datetime` class from the `datetime` module. The module and class have the same name, which can be confusing - but this syntax is the standard way to access it directly."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Standard library modules in action.\n# Run this, then try using other math or random functions.\n\nimport math\nimport random\n\n# Math\nprint(\"pi:\", math.pi)\nprint(\"sqrt(144):\", math.sqrt(144))\nprint(\"2^10:\", math.pow(2, 10))\nprint(\"ceil(4.2):\", math.ceil(4.2))\nprint(\"floor(4.9):\", math.floor(4.9))\n\nprint()\n\n# Random\nprint(\"Random 1-100:\", random.randint(1, 100))\n\nnames = [\"Alice\", \"Bob\", \"Carol\", \"Dave\"]\nprint(\"Random pick:\", random.choice(names))\n\nrandom.shuffle(names)\nprint(\"Shuffled:\", names)\n"
+    }
+  ]
+}

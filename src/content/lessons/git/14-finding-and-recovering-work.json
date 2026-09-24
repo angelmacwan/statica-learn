@@ -14,76 +14,33 @@
   "blocks": [
     {
       "type": "text",
-      "content": "A commit from yesterday introduced a bug. You need to find the safe recovery tool for published history. What is the smallest Git action that keeps the work safe?"
+      "content": "Even with Git, it can feel like you've lost work - maybe you reset to the wrong commit, or deleted a branch by mistake. Git has a safety net called the **reflog** that records every position HEAD has been at, even if the commits are no longer on any branch."
     },
     {
       "type": "text",
-      "content": "The reflog records where your local references recently pointed. It can help find a lost local commit; use `git revert` instead when undoing a shared commit.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## The Reflog\n\nView the reflog:\n```\ngit reflog\n```\n\nExample output:\n```\na3f9c12 HEAD@{0}: commit: add search feature\n7b2d441 HEAD@{1}: reset: moving to HEAD~1\ne1a8009 HEAD@{2}: commit: initial commit\n```\n\nEach line shows a position HEAD was at and what action moved it there. Even commits that were \"lost\" by a reset usually appear here.\n\nRecover a lost commit by checking it out or resetting to it:\n```\ngit checkout a3f9c12        # go to that commit directly\ngit reset --hard a3f9c12    # move current branch back to it\n```\n\n## Other Useful Recovery Commands\n\nSearch all commits for a specific string:\n```\ngit log -S \"function broken\"\n```\n\nFind which commit introduced a bug using binary search:\n```\ngit bisect start\ngit bisect bad          # current commit is broken\ngit bisect good e1a8009  # this old commit was fine\n# Git now checks out commits for you to test. Mark each:\ngit bisect good\ngit bisect bad\n# When done:\ngit bisect reset\n```\n\nSee all changes to a specific file across history:\n```\ngit log -p -- path/to/file\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "What can help find a lost local commit?",
+      "question": "You ran `git reset --hard` and lost some commits. Where can you find them?",
       "options": [
-        "The reflog",
-        "The staging area",
-        "A .gitignore file",
-        "A merge conflict"
+        "They are permanently gone - git reset is irreversible",
+        "In the git stash",
+        "In the reflog, which records every position HEAD has been at",
+        "In the staging area"
       ],
-      "correctIndex": 0,
-      "explanation": "The reflog keeps a local record of recent reference positions."
+      "correctIndex": 2,
+      "explanation": "The reflog is Git's safety net. It records every position HEAD has been at, even commits that no longer appear on any branch. After a `git reset --hard`, the lost commits still appear in the reflog for a while (usually 90 days). You can recover them by checking out the commit hash shown in the reflog."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"recover.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `recoverFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.recoverFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Show the reflog to find recent HEAD positions.",
+      "acceptedAnswers": [
+        "git reflog",
+        "git log -g",
+        "git reflog show"
+      ],
+      "hint": "git reflog"
     }
   ]
 }

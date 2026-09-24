@@ -1,0 +1,56 @@
+{
+  "id": "python-l1-functions",
+  "slug": "functions",
+  "title": "Functions",
+  "description": "Package reusable logic into functions - write it once and call it anywhere.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "def",
+    "parameters",
+    "return",
+    "default arguments",
+    "docstrings"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Defining a Function\n\nA function is a named block of code you can call whenever you need it. You define it once with `def`:\n\n```python\ndef greet(name):\n    message = f\"Hello, {name}!\"\n    return message\n\nprint(greet(\"Alice\"))  # Hello, Alice!\nprint(greet(\"Bob\"))    # Hello, Bob!\n```\n\n- `def` starts the definition\n- `name` is a **parameter** - a placeholder for the value you'll pass in\n- `return` sends a value back to the caller\n- `\"Alice\"` and `\"Bob\"` are **arguments** - the actual values passed in\n\nWithout `return`, a function returns `None` automatically."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this function return?\n\n```python\ndef add(a, b):\n    result = a + b\n```",
+      "options": [
+        "The sum of a and b",
+        "0",
+        "None",
+        "An error"
+      ],
+      "correctIndex": 2,
+      "explanation": "There's no `return` statement, so Python returns `None` automatically. To return the sum, you'd write `return a + b` (or `return result`)."
+    },
+    {
+      "type": "text",
+      "content": "## Default Arguments\n\nYou can give parameters a default value. If the caller doesn't provide that argument, the default is used:\n\n```python\ndef greet(name, greeting=\"Hello\"):\n    return f\"{greeting}, {name}!\"\n\nprint(greet(\"Alice\"))            # Hello, Alice!\nprint(greet(\"Bob\", \"Hi\"))        # Hi, Bob!\nprint(greet(\"Carol\", \"Hey\"))     # Hey, Carol!\n```\n\n## Docstrings\n\nA **docstring** is a string right after `def` that describes what the function does. It's optional but good practice:\n\n```python\ndef area(width, height):\n    \"\"\"Return the area of a rectangle.\"\"\"\n    return width * height\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this call return?\n\n```python\ndef power(base, exponent=2):\n    return base ** exponent\n\npower(5)\n```",
+      "options": [
+        "5",
+        "10",
+        "25",
+        "An error - exponent is required"
+      ],
+      "correctIndex": 2,
+      "explanation": "`exponent` has a default value of 2. When you call `power(5)` without a second argument, `exponent` defaults to 2. So it computes `5 ** 2 = 25`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Functions in action.\n# Try calling with different arguments.\n\ndef calculate_price(amount, tax_rate=0.1, currency=\"USD\"):\n    \"\"\"Return a formatted price string including tax.\"\"\"\n    total = amount * (1 + tax_rate)\n    return f\"{currency} {total:.2f}\"\n\nprint(calculate_price(100))\nprint(calculate_price(100, 0.2))\nprint(calculate_price(50, currency=\"EUR\"))\nprint(calculate_price(200, 0.05, \"GBP\"))\n"
+    }
+  ]
+}

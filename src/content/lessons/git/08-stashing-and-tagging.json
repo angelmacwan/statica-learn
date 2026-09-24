@@ -17,76 +17,32 @@
   "blocks": [
     {
       "type": "text",
-      "content": "An urgent fix arrives while your half-finished experiment is still open. You need to set work aside without committing it. What is the smallest Git action that keeps the work safe?"
+      "content": "Sometimes you're in the middle of something and need to switch to a different task urgently. You can't commit half-finished work, but you also don't want to lose it. That's what **stashing** is for. A stash temporarily tucks your changes away so you can come back to them later."
     },
     {
       "type": "text",
-      "content": "A stash stores uncommitted changes temporarily. `git stash push -m \"note\"` sets work aside, and `git stash pop` restores it when you are ready.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Stashing Changes\n\nSave all uncommitted changes to the stash:\n```\ngit stash\n```\n\nGive it a name so you remember what it was:\n```\ngit stash push -m \"half-done login form\"\n```\n\nYour working directory is now clean (back to the last commit). Fix the urgent thing, then bring your stashed work back:\n```\ngit stash pop\n```\n\nSee what's in your stash:\n```\ngit stash list\n```\n\n## Tagging Releases\n\nA **tag** is a permanent, human-readable label on a specific commit. Unlike branches (which move as you commit), tags never move. They're used to mark release versions.\n\nCreate a tag on the current commit:\n```\ngit tag v1.0.0\n```\n\nPush a tag to a remote (tags aren't pushed automatically):\n```\ngit push origin v1.0.0\n```\n\nList all tags:\n```\ngit tag\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "When is a stash useful?",
+      "question": "You're halfway through a feature when your boss asks you to fix a critical bug right now. What should you do with your unfinished work?",
       "options": [
-        "When unfinished work must be set aside temporarily",
-        "When you want to publish a release",
-        "When you need to merge branches",
-        "When you want to delete history"
+        "Delete the changes and start fresh after the fix",
+        "Commit the half-finished code with a note",
+        "Stash the changes, fix the bug, then pop the stash to continue",
+        "Open a second terminal window and work in both"
       ],
-      "correctIndex": 0,
-      "explanation": "A stash keeps uncommitted work recoverable without making it a commit."
+      "correctIndex": 2,
+      "explanation": "`git stash` saves your unfinished changes to a safe temporary area, leaving your working directory clean. You can switch branches, fix the bug, commit it, then `git stash pop` to restore your previous work exactly as you left it."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"stash.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `stashFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.stashFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Stash your current uncommitted changes.",
+      "acceptedAnswers": [
+        "git stash",
+        "git stash push"
+      ],
+      "hint": "git stash"
     }
   ]
 }

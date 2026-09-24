@@ -1,0 +1,55 @@
+{
+  "id": "python-l1-hello-world",
+  "slug": "hello-world",
+  "title": "Hello, World!",
+  "description": "Write your first Python program and learn how print() works.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 6,
+  "concepts": [
+    "print",
+    "strings",
+    "comments",
+    "syntax"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Your First Python Program\n\nThe simplest program you can write just displays a message:\n\n```python\nprint(\"Hello, World!\")\n```\n\nRun it and you get:\n```\nHello, World!\n```\n\n`print()` is a built-in function that displays whatever you put inside the parentheses. The text goes inside quotes - either single `'` or double `\"`, they work the same.\n\nYou can print multiple things by separating them with commas:\n\n```python\nprint(\"Hello\", \"World\")\n# Hello World\n\nprint(\"Score:\", 42)\n# Score: 42\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\nprint(\"2 + 3\")\n```",
+      "options": [
+        "5",
+        "2 + 3",
+        "\"2 + 3\"",
+        "An error"
+      ],
+      "correctIndex": 1,
+      "explanation": "The quotes make `2 + 3` a string (text). Python prints it exactly as written. Without quotes - `print(2 + 3)` - Python would do the math first and print `5`."
+    },
+    {
+      "type": "text",
+      "content": "## Comments\n\nA comment is a note in your code that Python ignores. It's there for you (or other people reading the code) to understand what's going on.\n\nStart a comment with `#`. Everything after `#` on that line is ignored:\n\n```python\n# This line is a comment - Python skips it\nprint(\"Hello!\")  # This part is also a comment\n```\n\nUse comments to:\n- Explain what a piece of code does\n- Leave a note for your future self\n- Temporarily disable a line while testing"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What happens when Python reaches a line that starts with `#`?",
+      "options": [
+        "It causes an error",
+        "It prints the line to the screen",
+        "It skips the line entirely",
+        "It saves the line to a file"
+      ],
+      "correctIndex": 2,
+      "explanation": "Lines starting with `#` are comments. Python skips them completely - they have no effect on how the program runs. Comments only exist to help people reading the code."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Try editing this code and running it.\n# Change the message, add more print() calls, experiment!\n\nprint(\"Hello, World!\")\nprint(\"My name is Python\")\nprint(\"2 + 3 =\", 2 + 3)\nprint(\"10 * 7 =\", 10 * 7)\n"
+    }
+  ]
+}

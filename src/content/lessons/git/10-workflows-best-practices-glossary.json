@@ -17,76 +17,34 @@
   "blocks": [
     {
       "type": "text",
-      "content": "A team needs predictable changes that reviewers can understand. A shared workflow turns individual commits into collaboration. What is the smallest Git action that keeps the work safe?"
+      "content": "A **workflow** is the agreed-upon process your team follows for how changes move from an idea to the main codebase. Without a workflow, people step on each other's work. The most common pattern for teams is the **feature branch workflow**."
     },
     {
       "type": "text",
-      "content": "A workflow is the team agreement for how changes move from idea to release. Small focused commits make review, recovery, and collaboration easier.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## The Feature Branch Workflow\n\nThe idea is simple: all new work goes on its own branch. Main (or master) is always in a working state.\n\n```\n1. git switch main\n2. git pull                        # start from the latest code\n3. git switch -c feature/my-thing  # create your branch\n   ... make changes ...\n4. git add .                       # stage\n5. git commit -m \"add my thing\"    # commit\n6. git push origin feature/my-thing # push branch to remote\n7. Open a pull request for review\n8. After approval, merge into main\n9. git switch main && git pull     # update your local main\n10. git branch -d feature/my-thing # clean up\n```\n\n## Writing Good Commit Messages\n\nA good message explains **what and why**, not how:\n\n```\n# Good\nadd password reset email with 24-hour expiry link\nfix cart total not updating after quantity change\n\n# Bad\nfix\nwip\nchanges\n```\n\n## Key Glossary\n\n| Term | Meaning |\n|------|---------|\n| **repository (repo)** | A project folder tracked by Git, including all its history |\n| **commit** | A saved snapshot of staged changes |\n| **branch** | An independent line of development |\n| **merge** | Combining two branches into one |\n| **remote** | A copy of the repository stored on a server |\n| **origin** | The default name Git gives to the remote you cloned from |\n| **HEAD** | A pointer to your current position in the repository |\n| **staging area** | The collection of changes ready for the next commit |"
     },
     {
       "type": "multipleChoice",
-      "question": "Why prefer focused commits?",
+      "question": "In the feature branch workflow, what is the purpose of keeping `main` always in a working state?",
       "options": [
-        "They are easier to review and recover",
-        "They make branches unnecessary",
-        "They prevent all bugs",
-        "They remove the need for tests"
+        "So Git doesn't run out of storage",
+        "So the team always has a stable version to deploy or branch from",
+        "Because Git prevents commits directly to main",
+        "So pull requests are automatically approved"
       ],
-      "correctIndex": 0,
-      "explanation": "A small commit tells one clear story, which makes later work safer."
+      "correctIndex": 1,
+      "explanation": "The whole point of the feature branch workflow is that `main` is always deployable. New work goes on feature branches, gets reviewed via pull requests, and only merges into `main` when it's ready. This means the team always has a known-good version to work from."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"commit.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `commitFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.commitFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Show a compact one-line log of the last 5 commits.",
+      "acceptedAnswers": [
+        "git log --oneline -5",
+        "git log -5 --oneline",
+        "git log --oneline -n 5",
+        "git log -n 5 --oneline"
+      ],
+      "hint": "git log --oneline -5"
     }
   ]
 }

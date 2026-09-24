@@ -1,0 +1,55 @@
+{
+  "id": "python-l1-what-is-python",
+  "slug": "what-is-python",
+  "title": "What is Python?",
+  "description": "Learn what Python is, where it's used, and how to interact with it through the REPL.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "python",
+    "interpreter",
+    "REPL",
+    "use cases"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## What is Python?\n\nPython is a **programming language** - a way to give instructions to a computer. You write plain text (code), and Python reads it line by line and carries out each instruction.\n\nPython is popular for a few reasons:\n- The code looks close to plain English\n- It works for everything: websites, data analysis, AI, automation, games\n- A huge library of ready-made tools exists that you can import and use\n\nHere's a real Python program - three lines that do actual work:\n\n```python\nprices = [4.99, 12.50, 3.00]\ntotal = sum(prices)\nprint(total)  # 20.49\n```\n\nYou'll understand every part of that by the end of this course."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Python reads and runs your code...",
+      "options": [
+        "All at once after a separate compile step",
+        "Line by line, immediately as it runs",
+        "Only after you save the file to disk",
+        "In reverse order from bottom to top"
+      ],
+      "correctIndex": 1,
+      "explanation": "Python is an interpreted language. There's no separate compile step - the Python interpreter reads and runs each line one at a time, in order from top to bottom."
+    },
+    {
+      "type": "text",
+      "content": "## The Python REPL\n\nREPL stands for **Read, Evaluate, Print, Loop**. It's an interactive shell where you type one line of Python and instantly see the result.\n\n```\n>>> 2 + 3\n5\n>>> name = \"Alice\"\n>>> print(\"Hello,\", name)\nHello, Alice\n```\n\nThe `>>>` prompt means Python is waiting for your input. You type an expression, Python evaluates it and prints the result, then waits again.\n\nThe REPL is great for:\n- Testing a quick idea without writing a full program\n- Exploring how a function behaves\n- Checking what a value looks like\n\nOn this platform every code block works the same way: write Python, press **Run**, see the result."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does REPL stand for?",
+      "options": [
+        "Run, Edit, Print, Loop",
+        "Read, Evaluate, Print, Loop",
+        "Read, Execute, Parse, Launch",
+        "Repeat, Evaluate, Print, Log"
+      ],
+      "correctIndex": 1,
+      "explanation": "REPL = Read (take your input), Evaluate (run it), Print (show the result), Loop (go back to the prompt). It's a tight feedback cycle that makes experimenting fast."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Run this code to see Python in action.\n# Then try changing the numbers or the message.\n\nprint(\"Hello from Python!\")\nprint(2 + 3)\nprint(10 * 4 - 5)\n"
+    }
+  ]
+}

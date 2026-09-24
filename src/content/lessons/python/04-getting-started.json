@@ -40,33 +40,9 @@
       "starterCode": "# Try running this code - then modify it!\nprint(\"Hello!\")\nprint(5 * 7)\n\n# Add your own print() below:\n"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "Write a function `greet(name)` that prints a greeting in the format `Hello, <name>!`\n\nFor example, `greet(\"Alice\")` should print `Hello, Alice!`",
-      "starterCode": "def greet(name):\n    # your code here\n    pass",
-      "tests": [
-        {
-          "input": [
-            "Alice"
-          ],
-          "expectedOutput": "Hello, Alice!",
-          "description": "greet(\"Alice\") prints \"Hello, Alice!\""
-        },
-        {
-          "input": [
-            "World"
-          ],
-          "expectedOutput": "Hello, World!",
-          "description": "greet(\"World\") prints \"Hello, World!\""
-        },
-        {
-          "input": [
-            "Python"
-          ],
-          "expectedOutput": "Hello, Python!",
-          "description": "greet(\"Python\") prints \"Hello, Python!\""
-        }
-      ]
+      "starterCode": "# Print a greeting for different names.\n# Change the name and run the code!\n\nname = \"Alice\"\nprint(\"Hello,\", name + \"!\")\n\nname = \"World\"\nprint(\"Hello,\", name + \"!\")\n"
     }
   ]
 }

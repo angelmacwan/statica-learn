@@ -1,0 +1,56 @@
+{
+  "id": "python-l1-basic-operators",
+  "slug": "basic-operators",
+  "title": "Basic Operators",
+  "description": "Perform arithmetic, compare values, and combine conditions with Python's operators.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "arithmetic",
+    "comparison",
+    "logical",
+    "modulo",
+    "floor division"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Arithmetic Operators\n\nThese do math. Most are familiar, but `//`, `%`, and `**` are worth knowing:\n\n```python\nprint(10 + 3)    # 13  - addition\nprint(10 - 3)    # 7   - subtraction\nprint(10 * 3)    # 30  - multiplication\nprint(10 / 3)    # 3.3333...  - division (always returns a float)\nprint(10 // 3)   # 3   - floor division (drops the decimal)\nprint(10 % 3)    # 1   - modulo (remainder after division)\nprint(2 ** 8)    # 256 - exponentiation (2 to the power of 8)\n```\n\n**Floor division** rounds down to the nearest whole number:\n```python\nprint(7 // 2)    # 3  (not 3.5)\n```\n\n**Modulo** gives the remainder - great for checking if a number is even or odd:\n```python\nprint(10 % 2)    # 0  (even - no remainder)\nprint(11 % 2)    # 1  (odd)\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `17 % 5` return?",
+      "options": [
+        "3",
+        "2",
+        "3.4",
+        "0"
+      ],
+      "correctIndex": 1,
+      "explanation": "The modulo operator `%` gives the remainder after division. 17 divided by 5 is 3 with a remainder of 2, so `17 % 5` returns `2`."
+    },
+    {
+      "type": "text",
+      "content": "## Comparison Operators\n\nThese compare two values and always return `True` or `False`:\n\n```python\nprint(5 > 3)     # True\nprint(5 < 3)     # False\nprint(5 == 5)    # True   (== checks equality, = assigns!)\nprint(5 != 3)    # True   (not equal)\nprint(5 >= 5)    # True   (greater than or equal)\nprint(5 <= 4)    # False  (less than or equal)\n```\n\n## Logical Operators\n\nCombine multiple conditions:\n\n```python\nage = 20\n\nprint(age > 18 and age < 65)   # True  (both must be true)\nprint(age < 18 or age > 65)    # False (at least one must be true)\nprint(not age > 18)            # False (flips the result)\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this expression return?\n\n```python\nx = 10\nprint(x > 5 and x < 8)\n```",
+      "options": [
+        "True",
+        "False",
+        "10",
+        "An error"
+      ],
+      "correctIndex": 1,
+      "explanation": "`x > 5` is `True` (10 is greater than 5), but `x < 8` is `False` (10 is not less than 8). With `and`, both sides must be `True` for the result to be `True`. Since one is `False`, the result is `False`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Operators in action.\n# Try changing the values and predict the results.\n\nprice = 49.99\ndiscount = 0.1\nquantity = 3\n\nsubtotal = price * quantity\nsavings  = subtotal * discount\ntotal    = subtotal - savings\n\nprint(\"Subtotal:\", subtotal)\nprint(\"Discount:\", savings)\nprint(\"Total:\", total)\nprint()\n\n# Comparisons\nprint(\"Over $100?\", total > 100)\nprint(\"Even quantity?\", quantity % 2 == 0)\nprint(\"Between 50 and 200?\", 50 < total < 200)\n"
+    }
+  ]
+}

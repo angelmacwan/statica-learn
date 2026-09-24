@@ -1,0 +1,57 @@
+{
+  "id": "python-l1-classes-and-objects",
+  "slug": "classes-and-objects",
+  "title": "Classes and Objects",
+  "description": "Group data and behaviour together using Python's class system.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "easy",
+  "estimatedMinutes": 12,
+  "concepts": [
+    "class",
+    "object",
+    "__init__",
+    "self",
+    "methods",
+    "attributes"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## What is a Class?\n\nA **class** is a blueprint for creating objects. An **object** is an instance of that blueprint - a concrete thing built from it.\n\nThink of a class like a cookie cutter and objects like the cookies it makes. Every cookie has the same shape, but each can have different decorations (data).\n\n```python\nclass Dog:\n    def __init__(self, name, breed):\n        self.name  = name\n        self.breed = breed\n\n    def bark(self):\n        return f\"{self.name} says: Woof!\"\n\n\nmy_dog    = Dog(\"Rex\", \"Labrador\")\nyour_dog  = Dog(\"Bella\", \"Poodle\")\n\nprint(my_dog.bark())    # Rex says: Woof!\nprint(your_dog.name)    # Bella\n```\n\n- `__init__` is the **constructor** - it runs automatically when you create an object\n- `self` refers to the specific object being created or used\n- `self.name` and `self.breed` are **attributes** - data stored on the object\n- `bark()` is a **method** - a function that belongs to the class"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the purpose of `__init__` in a class?",
+      "options": [
+        "It runs when the class file is imported",
+        "It runs automatically when a new object is created",
+        "It defines what the class returns when printed",
+        "It is required for every method in the class"
+      ],
+      "correctIndex": 1,
+      "explanation": "`__init__` is the constructor. Python calls it automatically every time you create a new object from the class (e.g., `Dog(\"Rex\", \"Labrador\")`). It's where you set up the object's initial data."
+    },
+    {
+      "type": "text",
+      "content": "## Attributes and Methods\n\nAttributes hold the object's data. Methods are functions that belong to the object and can use or modify its data:\n\n```python\nclass BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner   = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n        return f\"Deposited {amount}. New balance: {self.balance}\"\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            return \"Insufficient funds\"\n        self.balance -= amount\n        return f\"Withdrew {amount}. New balance: {self.balance}\"\n\n\naccount = BankAccount(\"Alice\", 100)\nprint(account.deposit(50))    # Deposited 50. New balance: 150\nprint(account.withdraw(30))   # Withdrew 30. New balance: 120\nprint(account.owner)          # Alice\nprint(account.balance)        # 120\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Two objects created from the same class...",
+      "options": [
+        "Share all their data - changing one changes the other",
+        "Are identical and cannot have different values",
+        "Are independent - each has its own copy of the attributes",
+        "Can only call methods if they share the same name"
+      ],
+      "correctIndex": 2,
+      "explanation": "Each object is an independent instance. `dog1 = Dog(\"Rex\")` and `dog2 = Dog(\"Bella\")` each have their own `name` attribute. Changing `dog1.name` does not affect `dog2.name`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# A simple BankAccount class.\n# Create accounts, deposit, withdraw, and check balances.\n\nclass BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner   = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n        return f\"Deposited {amount}. Balance: {self.balance}\"\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            return \"Insufficient funds!\"\n        self.balance -= amount\n        return f\"Withdrew {amount}. Balance: {self.balance}\"\n\n    def __str__(self):\n        return f\"{self.owner}'s account: ${self.balance:.2f}\"\n\n\nalice = BankAccount(\"Alice\", 500)\nbob   = BankAccount(\"Bob\")\n\nprint(alice.deposit(200))\nprint(alice.withdraw(100))\nprint(bob.deposit(50))\nprint(bob.withdraw(100))   # Not enough!\nprint(alice)\nprint(bob)\n"
+    }
+  ]
+}

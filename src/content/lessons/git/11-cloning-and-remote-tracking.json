@@ -14,76 +14,32 @@
   "blocks": [
     {
       "type": "text",
-      "content": "You are joining an existing project. You need a local copy connected to the team repository before you can contribute. What is the smallest Git action that keeps the work safe?"
+      "content": "When you join an existing project, you start by **cloning** the repository. Cloning creates a complete local copy of the project, including its entire history. It also automatically sets up the connection back to the original so you can push and pull."
     },
     {
       "type": "text",
-      "content": "Cloning copies a repository and sets up its default remote. `git clone URL` gives you a working directory plus its history.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Cloning a Repository\n\nClone a repository from a URL:\n```\ngit clone https://github.com/example/my-project.git\n```\n\nThis creates a folder called `my-project` containing the project files and a `.git` folder with all the history. The original repository is automatically set as a remote called `origin`.\n\n## Remote-Tracking Branches\n\nAfter cloning, your local Git knows about the remote's branches. These are called **remote-tracking branches** and they look like `origin/main`. They are read-only snapshots of where the remote's branches were the last time you fetched.\n\nSee all branches including remote-tracking ones:\n```\ngit branch -a\n```\n\nUpdate your remote-tracking branches with the latest from the server:\n```\ngit fetch origin\n```\n\n## Connecting an Existing Repo to a Remote\n\nIf you already have a local repo and want to connect it to a remote:\n```\ngit remote add origin https://github.com/yourname/your-project.git\ngit push -u origin main\n```\n\nThe `-u` flag sets `origin/main` as the default for future `git push` and `git pull` commands."
     },
     {
       "type": "multipleChoice",
-      "question": "What does `git clone` create?",
+      "question": "What does `git clone` create on your machine?",
       "options": [
-        "A local repository with project history",
-        "Only an empty folder",
-        "A new programming language",
-        "A merged pull request"
+        "Only the latest version of the files, with no history",
+        "A complete local copy of the repository including all its history",
+        "A shortcut that reads files directly from the server",
+        "A zip file of the current branch"
       ],
-      "correctIndex": 0,
-      "explanation": "Cloning gives you files plus the repository history needed to work locally."
+      "correctIndex": 1,
+      "explanation": "`git clone` copies the entire repository - all files, all branches, and the complete commit history - onto your machine. You can then work offline and push changes back when you're ready."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"clone.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `cloneFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.cloneFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Clone the repository at https://github.com/example/repo.git into the current folder.",
+      "acceptedAnswers": [
+        "git clone https://github.com/example/repo.git",
+        "git clone https://github.com/example/repo.git ."
+      ],
+      "hint": "git clone https://github.com/example/repo.git"
     }
   ]
 }

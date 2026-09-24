@@ -1,0 +1,57 @@
+{
+  "id": "python-l1-lists",
+  "slug": "lists",
+  "title": "Lists",
+  "description": "Store multiple values in order using Python's list type.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "list",
+    "indexing",
+    "append",
+    "len",
+    "slicing",
+    "iteration"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## What is a List?\n\nA list holds multiple values in a specific order. You write it with square brackets, separating items with commas:\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\nscores = [95, 82, 78, 91]\nmixed  = [\"Alice\", 30, True]\n```\n\nLists can hold any type of value, and they allow duplicates. The order of items is preserved.\n\n## Accessing Items\n\nEach item has an **index** - its position in the list. Indexes start at `0`:\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\nprint(fruits[0])   # apple\nprint(fruits[1])   # banana\nprint(fruits[2])   # cherry\nprint(fruits[-1])  # cherry  (negative indexes count from the end)\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `colors[-1]` return?\n\n```python\ncolors = [\"red\", \"green\", \"blue\"]\n```",
+      "options": [
+        "red",
+        "green",
+        "blue",
+        "An error"
+      ],
+      "correctIndex": 2,
+      "explanation": "Negative indexes count from the end. `-1` is the last item, `-2` is second-to-last, and so on. `colors[-1]` is `\"blue\"`, which is the last element."
+    },
+    {
+      "type": "text",
+      "content": "## Common List Operations\n\n```python\nitems = [\"a\", \"b\", \"c\"]\n\n# Length\nprint(len(items))        # 3\n\n# Add to the end\nitems.append(\"d\")\nprint(items)             # ['a', 'b', 'c', 'd']\n\n# Remove an item\nitems.remove(\"b\")\nprint(items)             # ['a', 'c', 'd']\n\n# Slice - get a portion\nprint(items[0:2])        # ['a', 'c']\n\n# Check if an item exists\nprint(\"a\" in items)      # True\nprint(\"z\" in items)      # False\n\n# Loop through all items\nfor item in items:\n    print(item)\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `len([10, 20, 10, 30])` return?",
+      "options": [
+        "3",
+        "4",
+        "2",
+        "An error because of the duplicate 10"
+      ],
+      "correctIndex": 1,
+      "explanation": "Lists allow duplicate values. `len()` counts every item, including duplicates. The list has four elements, so `len()` returns 4."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Working with lists.\n# Run this, then try adding or removing items.\n\ngroceries = [\"milk\", \"eggs\", \"bread\", \"butter\"]\n\nprint(\"List:\", groceries)\nprint(\"Length:\", len(groceries))\nprint(\"First item:\", groceries[0])\nprint(\"Last item:\", groceries[-1])\n\n# Add a new item\ngroceries.append(\"cheese\")\nprint(\"After append:\", groceries)\n\n# Remove an item\ngroceries.remove(\"eggs\")\nprint(\"After remove:\", groceries)\n\n# Loop through all items\nprint(\"\\nShopping list:\")\nfor item in groceries:\n    print(\"-\", item)\n"
+    }
+  ]
+}

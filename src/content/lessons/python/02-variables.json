@@ -39,33 +39,9 @@
       "starterCode": "# Predict: what does this print?\nname = \"Sam\"\nage = 25\nage = age + 1\nprint(name + \" is \" + str(age) + \" years old\")"
     },
     {
-      "type": "challenge",
+      "type": "code",
       "language": "python",
-      "prompt": "Write a function `double(n)` that takes a number and returns double its value.",
-      "starterCode": "def double(n):\n    # your code here\n    pass",
-      "tests": [
-        {
-          "input": [
-            4
-          ],
-          "expectedOutput": 8,
-          "description": "double(4) returns 8"
-        },
-        {
-          "input": [
-            0
-          ],
-          "expectedOutput": 0,
-          "description": "double(0) returns 0"
-        },
-        {
-          "input": [
-            -3
-          ],
-          "expectedOutput": -6,
-          "description": "double works with negative numbers"
-        }
-      ]
+      "starterCode": "# Try doubling different numbers using a variable.\n# Change the value of n and run the code.\n\nn = 4\ndoubled = n * 2\nprint(doubled)\n\nn = -3\ndoubled = n * 2\nprint(doubled)\n"
     }
   ]
 }

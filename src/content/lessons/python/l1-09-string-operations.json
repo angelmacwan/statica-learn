@@ -1,0 +1,59 @@
+{
+  "id": "python-l1-string-operations",
+  "slug": "string-operations",
+  "title": "Basic String Operations",
+  "description": "Slice, search, and transform strings using Python's built-in string methods.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "indexing",
+    "slicing",
+    "upper",
+    "lower",
+    "strip",
+    "split",
+    "replace",
+    "in"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## Strings are Sequences\n\nA string is a sequence of characters. You can access individual characters by index, just like a list:\n\n```python\nword = \"Python\"\nprint(word[0])    # P\nprint(word[1])    # y\nprint(word[-1])   # n  (last character)\nprint(len(word))  # 6\n```\n\n## Slicing\n\nExtract a portion of a string with `[start:stop]`. The character at `stop` is not included:\n\n```python\ntext = \"Hello, World!\"\nprint(text[0:5])    # Hello\nprint(text[7:])     # World!\nprint(text[:5])     # Hello\nprint(text[-6:])    # World!\nprint(text[::-1])   # !dlroW ,olleH  (reversed)\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `\"programming\"[0:4]` return?",
+      "options": [
+        "\"prog\"",
+        "\"ogra\"",
+        "\"progr\"",
+        "\"gram\""
+      ],
+      "correctIndex": 0,
+      "explanation": "Slicing `[0:4]` gives characters at indexes 0, 1, 2, 3 - stopping before index 4. That's `p`, `r`, `o`, `g` which gives `\"prog\"`."
+    },
+    {
+      "type": "text",
+      "content": "## Useful String Methods\n\nStrings come with many built-in methods. Call them with a dot:\n\n```python\nmessage = \"  Hello, World!  \"\n\nprint(message.upper())          # '  HELLO, WORLD!  '\nprint(message.lower())          # '  hello, world!  '\nprint(message.strip())          # 'Hello, World!'  (removes surrounding spaces)\nprint(message.strip().replace(\",\", \"\"))  # 'Hello World!'\n\nsentence = \"one two three four\"\nwords = sentence.split(\" \")     # splits on spaces\nprint(words)                    # ['one', 'two', 'three', 'four']\n\n# Check for content\nprint(\"Hello\" in message)       # True\nprint(message.startswith(\" \"))  # True\nprint(message.strip().endswith(\"!\"))  # True\n\n# Count and find\nprint(\"hello world\".count(\"l\"))   # 3\nprint(\"hello world\".find(\"world\")) # 6  (index where it starts)\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does `\"  hello  \".strip()` return?",
+      "options": [
+        "\"  hello  \"",
+        "\"hello\"",
+        "\"hello  \"",
+        "\"  hello\""
+      ],
+      "correctIndex": 1,
+      "explanation": "`.strip()` removes whitespace (spaces, tabs, newlines) from both ends of a string. `\"  hello  \"` becomes `\"hello\"`. Use `.lstrip()` or `.rstrip()` to strip only one side."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# String operations in action.\n# Try editing the text and see what changes.\n\nraw = \"  Python is AWESOME!  \"\n\nprint(\"Original:\", repr(raw))\nprint(\"Stripped:\", raw.strip())\nprint(\"Lowercase:\", raw.strip().lower())\nprint(\"Uppercase:\", raw.strip().upper())\nprint(\"Replaced:\", raw.strip().replace(\"AWESOME\", \"great\"))\nprint(\"Starts with space?\", raw.startswith(\" \"))\nprint(\"Length:\", len(raw))\nprint()\n\n# Split a CSV-like string into parts\ndata = \"Alice,30,London,Engineer\"\nparts = data.split(\",\")\nprint(\"Name:\", parts[0])\nprint(\"Age:\", parts[1])\nprint(\"City:\", parts[2])\nprint(\"Role:\", parts[3])\n"
+    }
+  ]
+}

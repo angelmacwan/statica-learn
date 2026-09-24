@@ -1,0 +1,56 @@
+{
+  "id": "python-l1-conditions",
+  "slug": "conditions",
+  "title": "Conditions",
+  "description": "Make decisions in your code using if, elif, and else.",
+  "pathId": "python",
+  "moduleId": "python-l1",
+  "difficulty": "intro",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "if",
+    "elif",
+    "else",
+    "comparison operators",
+    "boolean logic"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "## The if Statement\n\nAn `if` statement runs a block of code only when a condition is `True`:\n\n```python\ntemperature = 38\n\nif temperature > 35:\n    print(\"It's hot - stay hydrated!\")\n```\n\nIf `temperature` is 38, the condition `38 > 35` is `True`, so the message prints. If it were 30, nothing would print.\n\nKey rules:\n- The condition must evaluate to `True` or `False`\n- The colon `:` at the end of the `if` line is required\n- The indented block below runs only when the condition is `True`\n\n## Adding else\n\n`else` handles everything the `if` didn't catch:\n\n```python\ntemperature = 22\n\nif temperature > 35:\n    print(\"It's hot!\")\nelse:\n    print(\"Temperature is fine.\")\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\nx = 10\nif x > 5:\n    print(\"big\")\nelse:\n    print(\"small\")\n```",
+      "options": [
+        "big",
+        "small",
+        "big\\nsmall",
+        "Nothing"
+      ],
+      "correctIndex": 0,
+      "explanation": "`x` is 10. The condition `10 > 5` is `True`, so the `if` block runs and prints `\"big\"`. The `else` block is skipped."
+    },
+    {
+      "type": "text",
+      "content": "## elif - Multiple Conditions\n\nUse `elif` (short for \"else if\") when you have more than two possible outcomes:\n\n```python\nscore = 75\n\nif score >= 90:\n    grade = \"A\"\nelif score >= 80:\n    grade = \"B\"\nelif score >= 70:\n    grade = \"C\"\nelif score >= 60:\n    grade = \"D\"\nelse:\n    grade = \"F\"\n\nprint(f\"Score: {score}, Grade: {grade}\")\n# Score: 75, Grade: C\n```\n\nPython checks each condition from top to bottom and runs the first one that's `True`. All others are skipped."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does this code print?\n\n```python\nn = 15\nif n % 3 == 0 and n % 5 == 0:\n    print(\"FizzBuzz\")\nelif n % 3 == 0:\n    print(\"Fizz\")\nelif n % 5 == 0:\n    print(\"Buzz\")\nelse:\n    print(n)\n```",
+      "options": [
+        "Fizz",
+        "Buzz",
+        "FizzBuzz",
+        "15"
+      ],
+      "correctIndex": 2,
+      "explanation": "15 is divisible by both 3 and 5. `15 % 3 == 0` is `True` and `15 % 5 == 0` is `True`, so `and` gives `True`. The first condition matches and prints `\"FizzBuzz\"`."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Temperature advisor.\n# Change the temperature and see different messages.\n\ntemperature = 22\n\nif temperature > 35:\n    advice = \"It's scorching! Stay hydrated.\"\nelif temperature > 25:\n    advice = \"Warm day. A t-shirt is fine.\"\nelif temperature > 15:\n    advice = \"Nice weather. Maybe bring a light jacket.\"\nelif temperature > 5:\n    advice = \"Chilly. Wear a proper coat.\"\nelse:\n    advice = \"Freezing! Bundle up.\"\n\nprint(f\"Temperature: {temperature}C\")\nprint(f\"Advice: {advice}\")\n"
+    }
+  ]
+}

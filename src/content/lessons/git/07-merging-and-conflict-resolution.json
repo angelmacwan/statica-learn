@@ -17,76 +17,31 @@
   "blocks": [
     {
       "type": "text",
-      "content": "Two people changed the same sentence in different ways. You need to combine the work and make one deliberate choice. What is the smallest Git action that keeps the work safe?"
+      "content": "When you've finished work on a branch, you merge it back into another branch (usually `main`). Merging combines the histories of two branches into one."
     },
     {
       "type": "text",
-      "content": "A merge combines histories. A conflict means Git found two competing edits it cannot choose between; you edit the file, stage the resolved version, then commit.\n\n```mermaid\nflowchart LR\n    A[\"Working files\"] -->|\"choose an action\"| B[\"Git history\"] -->|\"share or recover\"| C[\"Team project\"]\n```"
+      "content": "## Merging a Branch\n\nFirst switch to the branch you want to merge *into*:\n```\ngit switch main\n```\n\nThen merge the other branch:\n```\ngit merge feature/login\n```\n\nIf there are no conflicting changes, Git completes the merge automatically.\n\n## Merge Conflicts\n\nA conflict happens when both branches changed the same part of the same file in different ways. Git can't choose which version is correct, so it stops and asks you to decide.\n\nGit marks the conflict in the file like this:\n```\n<<<<<<< HEAD\nThis is the version from your current branch\n=======\nThis is the version from the branch being merged in\n>>>>>>> feature/login\n```\n\nTo resolve it:\n1. Open the file and edit it to what it should actually say\n2. Remove the `<<<<<<<`, `=======`, and `>>>>>>>` lines\n3. Stage the resolved file: `git add filename`\n4. Complete the merge: `git commit`\n\n```mermaid\nflowchart TD\n    A[\"git merge feature/login\"] --> B{\"Any conflicts?\"}\n    B -- No --> C[\"Merge commit created automatically\"]\n    B -- Yes --> D[\"Git marks conflicts in files\"]\n    D --> E[\"Edit files to resolve\"]\n    E --> F[\"git add resolved files\"]\n    F --> G[\"git commit to finish\"]\n```"
     },
     {
       "type": "multipleChoice",
-      "question": "What does a conflict mean?",
+      "question": "What does a merge conflict mean?",
       "options": [
-        "Git needs your decision between competing edits",
-        "Git deleted both edits",
-        "The remote is permanently broken",
-        "A commit was never made"
+        "The branch is too large to merge",
+        "Both branches changed the same part of the same file and Git needs you to decide which version to keep",
+        "You don't have permission to merge",
+        "The branches have been apart for too long"
       ],
-      "correctIndex": 0,
-      "explanation": "Git stops because only you can decide how the competing changes should combine."
+      "correctIndex": 1,
+      "explanation": "A conflict means Git found two competing edits to the same part of the same file and cannot automatically decide which is correct. You open the file, choose what the content should be, stage it, and commit to complete the merge."
     },
     {
-      "type": "code",
-      "language": "javascript",
-      "starterCode": "const working = [\"merge.md\"];\nconst staged = [];\nstaged.push(working[0]);\nconsole.log(staged);"
-    },
-    {
-      "type": "challenge",
-      "language": "javascript",
-      "prompt": "Model the Git idea in a tiny simulator. Export a function named `mergeFile` that takes `(working, staged, file)` and returns a new staged list containing `file` once. Do not change either input list.",
-      "starterCode": "exports.mergeFile = (working, staged, file) => {\n  // your code here\n};",
-      "tests": [
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "app.js"
-          ],
-          "description": "stages one changed file"
-        },
-        {
-          "input": [
-            [],
-            [],
-            "README.md"
-          ],
-          "expectedOutput": [
-            "README.md"
-          ],
-          "description": "works when no working files are listed yet"
-        },
-        {
-          "input": [
-            [
-              "app.js"
-            ],
-            [
-              "README.md"
-            ],
-            "app.js"
-          ],
-          "expectedOutput": [
-            "README.md",
-            "app.js"
-          ],
-          "description": "keeps an already staged file while adding another"
-        }
-      ]
+      "type": "terminal",
+      "prompt": "Merge the branch feature/login into the currently checked-out branch.",
+      "acceptedAnswers": [
+        "git merge feature/login"
+      ],
+      "hint": "git merge feature/login"
     }
   ]
 }
