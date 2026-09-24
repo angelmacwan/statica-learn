@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { loadAllPaths } from '@/lib/contentLoader';
 import { Search } from 'lucide-react';
+import { getModulePastelStyle } from '@/lib/modulePastels';
 import type { Path } from '@/types';
 
 const CATEGORIES = [
@@ -75,24 +76,27 @@ export default function ExplorePage() {
         <p className="text-gray-400 text-sm py-12 text-center">No paths found.</p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
-          {filtered.map((path) => (
-            <Link
-              key={path.id}
-              to={`/paths/${path.slug}`}
-              className="card p-5 hover:shadow-card transition-all flex flex-col gap-3 group"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="font-semibold text-gray-900 text-sm group-hover:text-gray-700">
-                  {path.title}
-                </h3>
-                <span className="pill pill-mint shrink-0">{path.difficulty}</span>
-              </div>
-              <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                {path.description}
-              </p>
-              <span className="pill pill-lavender self-start capitalize">{path.category.replace('-', ' ')}</span>
-            </Link>
-          ))}
+          {filtered.map((path, idx) => {
+            const pastelStyle = getModulePastelStyle(path.slug, idx);
+            return (
+              <Link
+                key={path.id}
+                to={`/paths/${path.slug}`}
+                className={`rounded-2xl p-5 border shadow-soft transition-all flex flex-col gap-3 group ${pastelStyle.cardClass}`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-gray-700">
+                    {path.title}
+                  </h3>
+                  <span className="pill pill-mint shrink-0">{path.difficulty}</span>
+                </div>
+                <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                  {path.description}
+                </p>
+                <span className="pill pill-lavender self-start capitalize">{path.category.replace('-', ' ')}</span>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>

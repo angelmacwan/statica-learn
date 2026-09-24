@@ -4,6 +4,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { loadAllPaths, loadLessonsForPath } from '@/lib/contentLoader';
 import { getAllProgress } from '@/lib/firestore';
 import { ArrowRight, BookOpen, Zap } from 'lucide-react';
+import { getModulePastelStyle } from '@/lib/modulePastels';
 import type { Path } from '@/types';
 
 export default function HomePage() {
@@ -99,10 +100,11 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
-            {paths.slice(0, 4).map((path) => (
+            {paths.slice(0, 4).map((path, idx) => (
               <PathCard
                 key={path.id}
                 path={path}
+                index={idx}
                 progress={progressMap[path.id]}
                 lessonCount={lessonCountMap[path.id]}
               />
@@ -135,10 +137,12 @@ export default function HomePage() {
 
 function PathCard({
   path,
+  index = 0,
   progress,
   lessonCount,
 }: {
   path: Path;
+  index?: number;
   progress?: { completed: number; total: number };
   lessonCount?: number;
 }) {
@@ -149,6 +153,8 @@ function PathCard({
     hard: 'pill-blush',
   };
 
+  const pastelStyle = getModulePastelStyle(path.slug, index);
+
   const pct = progress && progress.total > 0
     ? Math.round((progress.completed / progress.total) * 100)
     : 0;
@@ -158,7 +164,7 @@ function PathCard({
   return (
     <Link
       to={`/paths/${path.slug}`}
-      className="card p-5 hover:shadow-card transition-all flex flex-col gap-3 group"
+      className={`rounded-2xl p-5 border shadow-soft transition-all flex flex-col gap-3 group ${pastelStyle.cardClass}`}
     >
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-semibold text-gray-900 text-sm group-hover:text-gray-700 leading-snug">

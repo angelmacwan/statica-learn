@@ -5,6 +5,7 @@ import { getAllProgress } from '@/lib/firestore';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { Clock, CheckCircle2, Circle, Lock, ArrowLeft } from 'lucide-react';
 import { ModuleBackgroundGraphic } from '@/components/ui/ModuleBackgroundGraphic';
+import { getModulePastelStyle } from '@/lib/modulePastels';
 import type { Path, Lesson } from '@/types';
 
 export default function PathPage() {
@@ -40,15 +41,16 @@ export default function PathPage() {
 
   const completedCount = lessons.filter((l) => progress[l.id] === 'completed').length;
   const pct = lessons.length ? Math.round((completedCount / lessons.length) * 100) : 0;
+  const pastelStyle = getModulePastelStyle(path.slug);
 
   return (
     <div className={`relative ${contentWidthClass} mx-auto px-4 sm:px-6 py-10 space-y-8 transition-all duration-300`}>
       <ModuleBackgroundGraphic pathSlug={pathSlug} />
       {/* Header */}
-      <div className="space-y-3">
+      <div className={`space-y-4 rounded-2xl p-6 border shadow-soft ${pastelStyle.cardClass}`}>
         <Link
           to="/explore"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-gray-900 bg-white border border-gray-200 rounded-xl px-3.5 py-2 hover:bg-gray-50 transition-all shadow-sm mb-2"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-gray-900 bg-white/80 border border-gray-200 rounded-xl px-3.5 py-2 hover:bg-white transition-all shadow-sm mb-2"
         >
           <ArrowLeft size={14} /> Back to Explore
         </Link>
@@ -57,17 +59,17 @@ export default function PathPage() {
           <span className="pill pill-lavender capitalize">{path.category.replace('-', ' ')}</span>
         </div>
         <h1 className="text-3xl font-bold text-gray-900">{path.title}</h1>
-        <p className="text-gray-500">{path.description}</p>
+        <p className="text-gray-600 text-sm leading-relaxed">{path.description}</p>
 
         {user && lessons.length > 0 && (
-          <div className="space-y-1 max-w-xs">
-            <div className="flex justify-between text-xs text-gray-400">
+          <div className="space-y-1 max-w-xs pt-2">
+            <div className="flex justify-between text-xs text-gray-500">
               <span>{completedCount} / {lessons.length} lessons</span>
-              <span>{pct}%</span>
+              <span className="font-semibold">{pct}%</span>
             </div>
-            <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-2 bg-white/80 border border-gray-200/60 rounded-full overflow-hidden">
               <div
-                className="h-full bg-mint-300 rounded-full transition-all"
+                className="h-full bg-mint-400 rounded-full transition-all"
                 style={{ width: `${pct}%` }}
               />
             </div>
