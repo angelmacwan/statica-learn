@@ -56,6 +56,7 @@ export interface SubmissionResult {
   error: string | null;
   sqlResult?: SqlQueryResult;
   expectedSqlResult?: { columns: string[]; rows: unknown[][] };
+  returnValue?: unknown;
 }
 
 /** Firestore: users/{uid}/arena_attempts/{questionId} */

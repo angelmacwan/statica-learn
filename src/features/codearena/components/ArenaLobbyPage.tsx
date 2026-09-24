@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, Lock, Filter } from 'lucide-react';
+import { CheckCircle2, Lock, Filter, Swords } from 'lucide-react';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { ARENA_QUESTIONS, CATEGORIES, DIFFICULTY_META } from '../questions';
 import { getAllArenaProgress } from '../arenaFirestore';
@@ -30,25 +30,28 @@ export function ArenaLobbyPage() {
   const totalSolved = Object.values(allProgress).filter((p) => p.bestStatus === 'pass').length;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
+    <div className="min-h-screen bg-cream-50 pb-16">
       {/* Hero */}
-      <div className="bg-white border-b border-gray-100 px-6 py-10">
+      <div className="bg-cream-100/60 border-b border-cream-200 px-6 py-10">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-end justify-between gap-4 flex-wrap">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Code<span className="text-indigo-600">Arena</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 mb-3">
+                <Swords size={13} /> Practical Code Challenges
+              </div>
+              <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+                Code<span className="text-amber-700">Arena</span>
               </h1>
-              <p className="mt-2 text-gray-500 text-sm max-w-lg">
+              <p className="mt-2 text-gray-600 text-sm max-w-lg leading-relaxed">
                 Practice real coding challenges. Pick a problem, write your solution, watch the tests
-                pass. No fluff, just code.
+                pass. Interactive feedback with immediate execution.
               </p>
             </div>
             {user && (
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-indigo-50 rounded-xl">
-                <CheckCircle2 size={16} className="text-indigo-600" />
-                <span className="text-sm font-semibold text-indigo-700">
-                  {totalSolved} / {ARENA_QUESTIONS.length} solved
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-amber-100/80 border border-amber-200/90 rounded-2xl shadow-soft">
+                <CheckCircle2 size={18} className="text-amber-700" />
+                <span className="text-sm font-bold text-amber-900">
+                  {totalSolved} / {ARENA_QUESTIONS.length} Solved
                 </span>
               </div>
             )}
@@ -58,8 +61,8 @@ export function ArenaLobbyPage() {
 
       <div className="max-w-4xl mx-auto px-6 mt-8">
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
-          <div className="flex items-center gap-1.5 text-xs text-gray-500">
+        <div className="flex flex-wrap items-center gap-3 mb-6 bg-white p-4 rounded-2xl border border-cream-200 shadow-soft">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500">
             <Filter size={13} />
             Filter:
           </div>
@@ -68,10 +71,10 @@ export function ArenaLobbyPage() {
           <div className="flex flex-wrap gap-1.5">
             <button
               onClick={() => setFilter((f) => ({ ...f, category: 'all' }))}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 filter.category === 'all'
-                  ? 'bg-gray-900 text-white'
-                  : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400'
+                  ? 'bg-amber-700 text-white shadow-sm'
+                  : 'bg-cream-50 border border-cream-200 text-gray-700 hover:bg-cream-100'
               }`}
             >
               All Topics
@@ -84,10 +87,10 @@ export function ArenaLobbyPage() {
                   onClick={() =>
                     setFilter((f) => ({ ...f, category: f.category === cat ? 'all' : cat }))
                   }
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                     filter.category === cat
-                      ? 'bg-gray-900 text-white'
-                      : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400'
+                      ? 'bg-amber-700 text-white shadow-sm'
+                      : 'bg-cream-50 border border-cream-200 text-gray-700 hover:bg-cream-100'
                   }`}
                 >
                   {meta.emoji} {meta.label}
@@ -97,7 +100,7 @@ export function ArenaLobbyPage() {
           </div>
 
           {/* Divider */}
-          <div className="w-px h-5 bg-gray-200" />
+          <div className="w-px h-5 bg-cream-300" />
 
           {/* Difficulty */}
           {(['easy', 'medium', 'hard'] as Difficulty[]).map((diff) => (
@@ -106,9 +109,9 @@ export function ArenaLobbyPage() {
               onClick={() =>
                 setFilter((f) => ({ ...f, difficulty: f.difficulty === diff ? 'all' : diff }))
               }
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
                 filter.difficulty === diff
-                  ? 'bg-gray-900 text-white border-gray-900'
+                  ? 'bg-amber-900 text-white border-amber-900 shadow-sm'
                   : `${DIFFICULTY_META[diff].color} hover:opacity-80`
               }`}
             >
@@ -118,12 +121,12 @@ export function ArenaLobbyPage() {
         </div>
 
         {/* Results count */}
-        <p className="text-xs text-gray-400 mb-4">
-          {filtered.length} problem{filtered.length !== 1 ? 's' : ''}
+        <p className="text-xs font-medium text-gray-500 mb-3 px-1">
+          Showing {filtered.length} problem{filtered.length !== 1 ? 's' : ''}
         </p>
 
         {/* Question list */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {filtered.map((q) => {
             const prog = allProgress[q.id];
             const solved = prog?.bestStatus === 'pass';
@@ -135,43 +138,43 @@ export function ArenaLobbyPage() {
               <Link
                 key={q.id}
                 to={user ? `/arena/${q.slug}` : '/login'}
-                className="flex items-center gap-4 bg-white border border-gray-200 rounded-xl px-5 py-4 hover:border-indigo-300 hover:shadow-sm transition-all group"
+                className="flex items-center gap-4 bg-white border border-cream-200 rounded-2xl px-5 py-4 hover:border-amber-400 hover:shadow-md transition-all group"
               >
                 {/* Status icon */}
                 <div className="flex-shrink-0 w-6">
                   {solved ? (
-                    <CheckCircle2 size={18} className="text-green-500" />
+                    <CheckCircle2 size={20} className="text-emerald-600 fill-emerald-100" />
                   ) : attempted ? (
-                    <div className="w-4 h-4 rounded-full border-2 border-yellow-400 bg-yellow-50" />
+                    <div className="w-4 h-4 rounded-full border-2 border-amber-500 bg-amber-100" />
                   ) : !user ? (
-                    <Lock size={15} className="text-gray-300" />
+                    <Lock size={16} className="text-gray-300" />
                   ) : (
-                    <div className="w-4 h-4 rounded-full border-2 border-gray-200" />
+                    <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
                   )}
                 </div>
 
                 {/* Title */}
                 <div className="flex-1 min-w-0">
-                  <span className="text-sm font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors">
+                  <span className="text-sm font-bold text-gray-900 group-hover:text-amber-800 transition-colors">
                     {q.title}
                   </span>
                   {prog?.totalAttempts ? (
-                    <span className="ml-2 text-xs text-gray-400">
-                      {prog.totalAttempts} attempt{prog.totalAttempts !== 1 ? 's' : ''}
+                    <span className="ml-2 text-xs text-gray-400 font-medium">
+                      ({prog.totalAttempts} attempt{prog.totalAttempts !== 1 ? 's' : ''})
                     </span>
                   ) : null}
                 </div>
 
                 {/* Category */}
                 <span
-                  className={`hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${catMeta.color}`}
+                  className={`hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${catMeta.color}`}
                 >
                   {catMeta.emoji} {catMeta.label}
                 </span>
 
                 {/* Difficulty */}
                 <span
-                  className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${diffMeta.color}`}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${diffMeta.color}`}
                 >
                   {diffMeta.label}
                 </span>
@@ -181,7 +184,7 @@ export function ArenaLobbyPage() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-16 text-gray-400 text-sm">
+          <div className="text-center py-16 bg-white border border-cream-200 rounded-2xl text-gray-500 text-sm shadow-soft">
             No problems match those filters.
           </div>
         )}

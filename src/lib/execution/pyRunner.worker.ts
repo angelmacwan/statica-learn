@@ -45,9 +45,17 @@ sys.stdout = _stdout_capture
 `);
 
     if (!tests || tests.length === 0) {
-      pyodide.runPython(code);
+      const pyRet = pyodide.runPython(code);
       const stdout = (pyodide.runPython('_stdout_capture.getvalue()') as string).trim();
-      return { stdout, error: null };
+      let returnValue: unknown = undefined;
+      if (pyRet !== undefined && pyRet !== null) {
+        try {
+          returnValue = typeof pyRet.toJs === 'function' ? pyRet.toJs() : pyRet;
+        } catch {
+          returnValue = String(pyRet);
+        }
+      }
+      return { stdout, error: null, returnValue };
     }
 
     // Run user code to define functions
@@ -62,7 +70,7 @@ sys.stdout = _stdout_capture
           .replace(/\\/g, '\\\\')
           .replace(/'/g, "\\'");
 
-        const passed = pyodide.runPython(`
+        const evalRes = pyodide.runPython(`
 import json as _json, types as _types
 _inputs = _json.loads('${inputJson}')
 _expected = _json.loads('${expectedJson}')
@@ -74,11 +82,29 @@ _fn = next(
 if _fn is None:
     raise Exception("No function found. Define a function in your code.")
 _actual = _fn(*_inputs)
-_json.dumps(_actual) == _json.dumps(_expected)
+try:
+    if isinstance(_actual, (int, float, str, bool, type(None), list, dict)):
+        _actual_ser = _actual
+    else:
+        _actual_ser = str(_actual)
+except Exception:
+    _actual_ser = str(_actual)
+
+_passed = _json.dumps(_actual) == _json.dumps(_expected)
+_json.dumps({"passed": _passed, "actual": _actual_ser})
 `);
-        testResults.push({ passed: Boolean(passed), description: test.description });
+        const parsed = JSON.parse(evalRes as string);
+        testResults.push({
+          passed: Boolean(parsed.passed),
+          description: test.description,
+          actual: parsed.actual,
+        });
       } catch (err) {
-        testResults.push({ passed: false, description: test.description });
+        testResults.push({
+          passed: false,
+          description: test.description,
+          actual: err instanceof Error ? err.message : String(err),
+        });
       }
     }
 

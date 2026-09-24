@@ -119,9 +119,10 @@ export interface SqlQueryResult {
 export interface ExecutionResult {
   stdout: string;
   error: string | null;
-  testResults?: { passed: boolean; description?: string }[];
+  testResults?: { passed: boolean; description?: string; actual?: unknown }[];
   sqlResult?: SqlQueryResult;
   expectedSqlResult?: { columns: string[]; rows: unknown[][] };
+  returnValue?: unknown;
 }
 
 // ─── Firestore user data ─────────────────────────────────────────────────────

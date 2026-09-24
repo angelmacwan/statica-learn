@@ -28,6 +28,7 @@ export async function runArenaCode(
     passed: tr.passed,
     input: question.tests[i]?.input,
     expected: question.tests[i]?.expectedOutput,
+    actual: tr.actual,
   }));
 
   const passed =
@@ -40,5 +41,6 @@ export async function runArenaCode(
     error: result.error ?? null,
     sqlResult: result.sqlResult,
     expectedSqlResult: result.expectedSqlResult,
+    returnValue: result.returnValue,
   };
 }

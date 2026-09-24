@@ -46,14 +46,14 @@ export function EditorPanel({
       {/* Toolbar */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-gray-900 border-b border-gray-800 flex-shrink-0">
         {/* Language switcher */}
-        <div className="flex rounded-lg overflow-hidden border border-gray-700">
+        <div className="flex rounded-lg overflow-hidden border border-gray-800 bg-gray-950 p-0.5">
           {availableLanguages.map((lang) => (
             <button
               key={lang}
               onClick={() => onLanguageChange(lang)}
-              className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${
                 language === lang
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-amber-600 text-white shadow-sm'
                   : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'
               }`}
             >
@@ -67,25 +67,25 @@ export function EditorPanel({
           <button
             onClick={onReset}
             title="Reset to starter code"
-            className="p-1.5 text-gray-500 hover:text-gray-300 transition-colors rounded"
+            className="p-1.5 text-gray-400 hover:text-amber-300 hover:bg-gray-800 transition-colors rounded-lg"
           >
             <RotateCcw size={14} />
           </button>
           <button
             onClick={onRun}
             disabled={running}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-700 text-gray-200 hover:bg-gray-600 disabled:opacity-50 transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 text-amber-200 hover:bg-gray-700 border border-gray-700 disabled:opacity-50 transition-all shadow-sm"
           >
-            <Play size={13} />
-            Run
+            <Play size={13} className="text-amber-400 fill-amber-400/20" />
+            Run Code
           </button>
           <button
             onClick={onSubmit}
             disabled={running}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white hover:bg-indigo-500 disabled:opacity-50 transition-colors"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold bg-amber-600 text-white hover:bg-amber-500 disabled:opacity-50 transition-all shadow-sm"
           >
             <Send size={13} />
-            Submit
+            Submit Solution
           </button>
         </div>
       </div>
