@@ -64,7 +64,7 @@ export default function ProfilePage() {
       {/* Sign out */}
       <button
         onClick={signOut}
-        className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-100 font-medium text-sm transition-all"
+        className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl border border-red-200 text-red-600 hover:text-red-700 hover:bg-red-50 font-medium text-sm transition-all"
       >
         <LogOut size={16} />
         Sign out
