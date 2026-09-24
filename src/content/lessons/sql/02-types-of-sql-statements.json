@@ -1,0 +1,43 @@
+{
+  "id": "sql-types-of-sql-statements",
+  "slug": "types-of-sql-statements",
+  "title": "Types of SQL Statements",
+  "description": "Learn the core categories of SQL statements: DDL, DML, and DQL.",
+  "pathId": "sql",
+  "moduleId": "sql-fundamentals",
+  "difficulty": "intro",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "ddl",
+    "dml",
+    "dql"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "SQL statements are categorized based on their purpose:\n\n- **DQL (Data Query Language)**: `SELECT` — fetches data.\n- **DML (Data Manipulation Language)**: `INSERT`, `UPDATE`, `DELETE` — modifies data records.\n- **DDL (Data Definition Language)**: `CREATE`, `ALTER`, `DROP` — defines database structure."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which SQL statement category does SELECT belong to?",
+      "options": [
+        "DQL (Data Query Language)",
+        "DDL (Data Definition Language)",
+        "TCL (Transaction Control Language)",
+        "DCL (Data Control Language)"
+      ],
+      "correctIndex": 0,
+      "explanation": "SELECT is used to query data from tables, making it part of Data Query Language (DQL)."
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Write a DQL query to select the `name` column from the `users` table.",
+      "starterCode": "-- Retrieve name column from users table\n",
+      "schema_sql": "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, email TEXT);",
+      "seed_sql": "INSERT INTO users VALUES (1, 'Alice', 'alice@test.com'), (2, 'Bob', 'bob@test.com');",
+      "answer_sql": "SELECT name FROM users;",
+      "ordered": false
+    }
+  ]
+}

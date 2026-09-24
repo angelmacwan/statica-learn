@@ -2,9 +2,12 @@ import { useState, useCallback } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
+import { sql } from '@codemirror/lang-sql';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { Play, CheckCircle2, XCircle, RotateCcw } from 'lucide-react';
 import { runCode } from '@/lib/execution/runner';
+import { ResultTable } from '@/components/sql/ResultTable';
+import { SchemaViewer } from '@/components/sql/SchemaViewer';
 import type { ChallengeBlock as ChallengeBlockType, ExecutionResult } from '@/types';
 
 interface Props {
@@ -15,6 +18,7 @@ interface Props {
 const langExtension = {
   python: [python()],
   javascript: [javascript({ jsx: false })],
+  sql: [sql()],
 };
 
 export function ChallengeBlock({ block, onComplete }: Props) {
@@ -23,18 +27,27 @@ export function ChallengeBlock({ block, onComplete }: Props) {
   const [running, setRunning] = useState(false);
 
   const allPassed =
-    result?.testResults?.length &&
-    result.testResults.every((t) => t.passed);
+    Boolean(result?.testResults?.length) &&
+    result!.testResults!.every((t) => t.passed) &&
+    !result?.error;
 
   const handleRun = useCallback(async () => {
     setRunning(true);
     setResult(null);
-    const res = await runCode({ language: block.language, code, tests: block.tests });
+    const res = await runCode({
+      language: block.language,
+      code,
+      tests: block.tests,
+      schema_sql: block.schema_sql,
+      seed_sql: block.seed_sql,
+      answer_sql: block.answer_sql,
+      ordered: block.ordered,
+    });
     setResult(res);
     setRunning(false);
-    const passed = res.testResults?.every((t) => t.passed) ?? false;
+    const passed = Boolean(res.testResults?.length) && res.testResults!.every((t) => t.passed) && !res.error;
     onComplete?.(passed);
-  }, [block.language, block.tests, code, onComplete]);
+  }, [block.language, block.tests, block.schema_sql, block.seed_sql, block.answer_sql, block.ordered, code, onComplete]);
 
   const handleReset = () => {
     setCode(block.starterCode);
@@ -48,6 +61,11 @@ export function ChallengeBlock({ block, onComplete }: Props) {
         <span className="pill pill-coral mb-2">Challenge</span>
         <p className="text-sm text-gray-700 leading-relaxed">{block.prompt}</p>
       </div>
+
+      {/* Schema viewer if SQL challenge */}
+      {block.language === 'sql' && block.schema_sql && (
+        <SchemaViewer schemaSql={block.schema_sql} seedSql={block.seed_sql} />
+      )}
 
       {/* Language badge + controls */}
       <div className="flex items-center justify-between">
@@ -80,17 +98,22 @@ export function ChallengeBlock({ block, onComplete }: Props) {
         />
       </div>
 
-      {/* Stdout */}
-      {result?.stdout && (
-        <div className="bg-gray-900 text-gray-100 rounded-xl p-3 font-mono text-xs whitespace-pre-wrap">
-          {result.stdout}
-        </div>
+      {/* SQL Result Table if available */}
+      {result?.sqlResult && (
+        <ResultTable result={result.sqlResult} title="Your Query Results" />
       )}
 
       {/* Error */}
       {result?.error && (
         <div className="bg-blush-50 text-red-700 border border-blush-200 rounded-xl p-3 font-mono text-xs whitespace-pre-wrap">
           {result.error}
+        </div>
+      )}
+
+      {/* Non-SQL Stdout */}
+      {result?.stdout && !result?.sqlResult && (
+        <div className="bg-gray-900 text-gray-100 rounded-xl p-3 font-mono text-xs whitespace-pre-wrap">
+          {result.stdout}
         </div>
       )}
 

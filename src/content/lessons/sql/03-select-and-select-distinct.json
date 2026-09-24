@@ -1,0 +1,38 @@
+{
+  "id": "sql-select-and-select-distinct",
+  "slug": "select-and-select-distinct",
+  "title": "SELECT & SELECT DISTINCT",
+  "description": "Master column selection, column aliases with AS, and deduplicating results with SELECT DISTINCT.",
+  "pathId": "sql",
+  "moduleId": "sql-fundamentals",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "select",
+    "distinct",
+    "alias"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "To pick specific columns, list them after `SELECT`:\n\n```sql\nSELECT name, age FROM students;\n```\n\nUse `AS` to rename a column in output headers:\n\n```sql\nSELECT name AS student_name FROM students;\n```\n\nUse `SELECT DISTINCT` to return only unique values:"
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "starterCode": "SELECT DISTINCT city FROM customers;",
+      "schema_sql": "CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT);",
+      "seed_sql": "INSERT INTO customers VALUES (1, 'Alice', 'Mumbai'), (2, 'Bob', 'Delhi'), (3, 'Charlie', 'Mumbai');"
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Find all unique `department` values from the `employees` table.",
+      "starterCode": "-- Select distinct departments\n",
+      "schema_sql": "CREATE TABLE employees (id INTEGER PRIMARY KEY, name TEXT, department TEXT);",
+      "seed_sql": "INSERT INTO employees VALUES (1, 'Alex', 'HR'), (2, 'Brian', 'Engineering'), (3, 'Chloe', 'HR'), (4, 'Daniel', 'Sales');",
+      "answer_sql": "SELECT DISTINCT department FROM employees;",
+      "ordered": false
+    }
+  ]
+}

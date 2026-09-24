@@ -1,0 +1,31 @@
+{
+  "id": "sql-insert-update-delete",
+  "slug": "insert-update-delete",
+  "title": "Data Manipulation: INSERT, UPDATE, DELETE",
+  "description": "Modify rows inside tables using DML commands: INSERT INTO, UPDATE, and DELETE FROM.",
+  "pathId": "sql",
+  "moduleId": "sql-database-and-schema-management",
+  "difficulty": "medium",
+  "estimatedMinutes": 9,
+  "concepts": [
+    "insert-into",
+    "update",
+    "delete-from"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "DML commands:\n\n- `INSERT INTO table (cols) VALUES (vals)` — adds new rows.\n- `UPDATE table SET col = val WHERE condition` — updates existing rows.\n- `DELETE FROM table WHERE condition` — deletes matching rows."
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Update the salary of employee named \"Alice\" to 75000 in the `employees` table, then return all rows.",
+      "starterCode": "-- Update Alice salary and select all\n",
+      "schema_sql": "CREATE TABLE employees (id INTEGER PRIMARY KEY, name TEXT, salary REAL);",
+      "seed_sql": "INSERT INTO employees VALUES (1, 'Alice', 60000), (2, 'Bob', 50000);",
+      "answer_sql": "UPDATE employees SET salary = 75000 WHERE name = 'Alice'; SELECT * FROM employees;",
+      "ordered": false
+    }
+  ]
+}

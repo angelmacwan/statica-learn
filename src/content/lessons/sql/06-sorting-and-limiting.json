@@ -1,0 +1,32 @@
+{
+  "id": "sql-sorting-and-limiting",
+  "slug": "sorting-and-limiting",
+  "title": "Sorting & Limiting Results",
+  "description": "Order query results with ORDER BY (ASC, DESC) and limit row counts with LIMIT.",
+  "pathId": "sql",
+  "moduleId": "sql-filtering-and-sorting",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "order-by",
+    "asc",
+    "desc",
+    "limit"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Use `ORDER BY` to sort rows in ascending (`ASC`, default) or descending (`DESC`) order.\nUse `LIMIT` to cap the number of returned rows:\n\n```sql\nSELECT name, salary FROM employees ORDER BY salary DESC LIMIT 3;\n```"
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Get the top 2 highest priced products. Return `name` and `price` ordered from highest to lowest.",
+      "starterCode": "-- Top 2 highest priced products\n",
+      "schema_sql": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, price REAL);",
+      "seed_sql": "INSERT INTO products VALUES (1, 'Laptop', 1200), (2, 'Phone', 800), (3, 'Tablet', 500), (4, 'Monitor', 300);",
+      "answer_sql": "SELECT name, price FROM products ORDER BY price DESC LIMIT 2;",
+      "ordered": true
+    }
+  ]
+}

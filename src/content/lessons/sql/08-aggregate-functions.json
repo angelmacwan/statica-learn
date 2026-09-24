@@ -1,0 +1,40 @@
+{
+  "id": "sql-aggregate-functions",
+  "slug": "aggregate-functions",
+  "title": "Aggregate Functions: COUNT, SUM, AVG, MIN, MAX",
+  "description": "Perform statistical calculations across multiple table rows.",
+  "pathId": "sql",
+  "moduleId": "sql-aggregations-and-grouping",
+  "difficulty": "easy",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "count",
+    "sum",
+    "avg",
+    "min",
+    "max"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Aggregate functions summarize data into a single value:\n\n- `COUNT(*)` — total number of rows.\n- `SUM(col)` — sum of numeric values.\n- `AVG(col)` — average value.\n- `MIN(col)` / `MAX(col)` — smallest / largest value."
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "starterCode": "SELECT COUNT(*) AS total_sales, AVG(amount) AS avg_sale FROM sales;",
+      "schema_sql": "CREATE TABLE sales (id INTEGER PRIMARY KEY, amount REAL);",
+      "seed_sql": "INSERT INTO sales VALUES (1, 100), (2, 200), (3, 300);"
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Calculate the total (`SUM`) and average (`AVG`) salary of all employees. Return `total_salary` and `avg_salary`.",
+      "starterCode": "-- Calculate total_salary and avg_salary\n",
+      "schema_sql": "CREATE TABLE employees (id INTEGER PRIMARY KEY, name TEXT, salary REAL);",
+      "seed_sql": "INSERT INTO employees VALUES (1, \"Alice\", 60000), (2, \"Bob\", 80000), (3, \"Charlie\", 70000);",
+      "answer_sql": "SELECT SUM(salary) AS total_salary, AVG(salary) AS avg_salary FROM employees;",
+      "ordered": false
+    }
+  ]
+}

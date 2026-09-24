@@ -18,7 +18,16 @@ export function ArenaQuestionPage() {
 
   const question = ARENA_QUESTIONS.find((q) => q.slug === slug);
 
-  const [language, setLanguage] = useState<Language>('python');
+  // Determine available languages for this question
+  const availableLanguages = (['sql', 'python', 'javascript'] as Language[]).filter(
+    (lang) => question?.starterCode?.[lang] !== undefined
+  );
+  if (availableLanguages.length === 0) {
+    availableLanguages.push('python', 'javascript');
+  }
+
+  const defaultLang: Language = question?.starterCode?.sql ? 'sql' : 'python';
+  const [language, setLanguage] = useState<Language>(defaultLang);
   const [code, setCode] = useState('');
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<SubmissionResult | null>(null);
@@ -26,28 +35,28 @@ export function ArenaQuestionPage() {
   const [showBurst, setShowBurst] = useState(false);
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Set default language when question changes
+  useEffect(() => {
+    if (!question) return;
+    const initialLang: Language = question.starterCode?.sql ? 'sql' : 'python';
+    setLanguage(initialLang);
+  }, [question?.id]);
+
   // Load progress and restore saved code
   useEffect(() => {
     if (!question) return;
     setResult(null);
-    setCode(question.starterCode[language]);
+    const starter = question.starterCode[language] || '';
+    setCode(starter);
 
     if (!user) return;
     getArenaProgress(user.uid, question.id).then((p) => {
       setProgress(p);
       if (p?.savedCode?.[language]) {
-        setCode(p.savedCode[language]);
+        setCode(p.savedCode[language]!);
       }
     });
-  }, [question?.id, user?.uid]);
-
-  // Restore saved code when language switches
-  useEffect(() => {
-    if (!question) return;
-    setResult(null);
-    const saved = progress?.savedCode?.[language];
-    setCode(saved || question.starterCode[language]);
-  }, [language]);
+  }, [question?.id, user?.uid, language]);
 
   const handleCodeChange = useCallback(
     (newCode: string) => {
@@ -110,7 +119,7 @@ export function ArenaQuestionPage() {
 
   const handleReset = useCallback(() => {
     if (!question) return;
-    setCode(question.starterCode[language]);
+    setCode(question.starterCode[language] || '');
     setResult(null);
   }, [question, language]);
 
@@ -173,6 +182,7 @@ export function ArenaQuestionPage() {
             onRun={handleRun}
             onSubmit={handleSubmit}
             onReset={handleReset}
+            availableLanguages={availableLanguages}
           />
         </div>
       </div>

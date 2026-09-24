@@ -1,6 +1,7 @@
 import CodeMirror from '@uiw/react-codemirror';
 import { python } from '@codemirror/lang-python';
 import { javascript } from '@codemirror/lang-javascript';
+import { sql } from '@codemirror/lang-sql';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { Play, Send, RotateCcw } from 'lucide-react';
 import type { Language } from '../types';
@@ -14,16 +15,19 @@ interface EditorPanelProps {
   onRun: () => void;
   onSubmit: () => void;
   onReset: () => void;
+  availableLanguages?: Language[];
 }
 
 const LANG_EXTENSIONS = {
   python: [python()],
   javascript: [javascript({ jsx: false })],
+  sql: [sql()],
 };
 
 const LANG_LABELS: Record<Language, string> = {
   python: 'Python',
   javascript: 'JavaScript',
+  sql: 'SQL',
 };
 
 export function EditorPanel({
@@ -35,6 +39,7 @@ export function EditorPanel({
   onRun,
   onSubmit,
   onReset,
+  availableLanguages = ['python', 'javascript', 'sql'],
 }: EditorPanelProps) {
   return (
     <div className="flex flex-col h-full bg-gray-950 rounded-none overflow-hidden">
@@ -42,7 +47,7 @@ export function EditorPanel({
       <div className="flex items-center justify-between px-4 py-2.5 bg-gray-900 border-b border-gray-800 flex-shrink-0">
         {/* Language switcher */}
         <div className="flex rounded-lg overflow-hidden border border-gray-700">
-          {(['python', 'javascript'] as Language[]).map((lang) => (
+          {availableLanguages.map((lang) => (
             <button
               key={lang}
               onClick={() => onLanguageChange(lang)}

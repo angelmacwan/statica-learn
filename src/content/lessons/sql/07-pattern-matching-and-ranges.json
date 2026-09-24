@@ -1,0 +1,33 @@
+{
+  "id": "sql-pattern-matching-and-ranges",
+  "slug": "pattern-matching-and-ranges",
+  "title": "Wildcards, IN, BETWEEN & NULL Checks",
+  "description": "Use LIKE with wildcards (% and _), list matching with IN, range checks with BETWEEN, and IS NULL tests.",
+  "pathId": "sql",
+  "moduleId": "sql-filtering-and-sorting",
+  "difficulty": "medium",
+  "estimatedMinutes": 9,
+  "concepts": [
+    "like",
+    "wildcards",
+    "in",
+    "between",
+    "null"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Advanced filtering clauses:\n\n- `LIKE 'A%'`: matches text starting with \"A\" (`%` matches any characters, `_` matches single character).\n- `IN ('NY', 'CA')`: matches any value in a list.\n- `BETWEEN 10 AND 50`: matches inclusive ranges.\n- `IS NULL` / `IS NOT NULL`: tests for missing data."
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Find all customers whose `name` starts with \"A\" and whose `city` is IN (\"Mumbai\", \"Delhi\"). Return `name` and `city`.",
+      "starterCode": "-- Query with LIKE and IN\n",
+      "schema_sql": "CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT);",
+      "seed_sql": "INSERT INTO customers VALUES (1, 'Alice', 'Mumbai'), (2, 'Andrew', 'Delhi'), (3, 'Bob', 'Mumbai'), (4, 'Amanda', 'Chennai');",
+      "answer_sql": "SELECT name, city FROM customers WHERE name LIKE 'A%' AND city IN ('Mumbai', 'Delhi');",
+      "ordered": false
+    }
+  ]
+}

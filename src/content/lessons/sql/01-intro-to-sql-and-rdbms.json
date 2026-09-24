@@ -1,0 +1,51 @@
+{
+  "id": "sql-intro-to-sql-and-rdbms",
+  "slug": "intro-to-sql-and-rdbms",
+  "title": "Intro to SQL & RDBMS",
+  "description": "Understand relational databases, tables, rows, columns, and why SQL is the industry standard query language.",
+  "pathId": "sql",
+  "moduleId": "sql-fundamentals",
+  "difficulty": "intro",
+  "estimatedMinutes": 6,
+  "concepts": [
+    "rdbms",
+    "sql",
+    "database",
+    "tables"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "A **Relational Database Management System (RDBMS)** stores structured data in tables composed of rows and columns, similar to spreadsheets.\n\n**SQL (Structured Query Language)** is the universal language used to interact with RDBMSs like SQLite, PostgreSQL, MySQL, and SQL Server."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What does a row in a relational database table represent?",
+      "options": [
+        "A single data record or entry",
+        "A category or column header",
+        "An entire database schema",
+        "A SQL command"
+      ],
+      "correctIndex": 0,
+      "explanation": "Rows represent individual data records (e.g., one student), while columns define the attributes (e.g., name, age)."
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "starterCode": "SELECT * FROM students;",
+      "schema_sql": "CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT, age INTEGER, grade INTEGER);",
+      "seed_sql": "INSERT INTO students VALUES (1, 'Alice', 14, 9), (2, 'Bob', 15, 10), (3, 'Charlie', 14, 9);"
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Write a SQL query to retrieve all columns from the `students` table.",
+      "starterCode": "-- Write your query below\n",
+      "schema_sql": "CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT, age INTEGER);",
+      "seed_sql": "INSERT INTO students VALUES (1, 'David', 16), (2, 'Emma', 15);",
+      "answer_sql": "SELECT * FROM students;",
+      "ordered": false
+    }
+  ]
+}

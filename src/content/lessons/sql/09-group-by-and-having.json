@@ -1,0 +1,31 @@
+{
+  "id": "sql-group-by-and-having",
+  "slug": "group-by-and-having",
+  "title": "Grouping Data: GROUP BY & HAVING",
+  "description": "Group rows into categories with GROUP BY and filter aggregated groups with HAVING.",
+  "pathId": "sql",
+  "moduleId": "sql-aggregations-and-grouping",
+  "difficulty": "medium",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "group-by",
+    "having",
+    "aggregates"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "`GROUP BY` collapses rows with identical values into summary rows.\n`HAVING` filters groups after aggregation (unlike `WHERE`, which filters individual rows before aggregation):\n\n```sql\nSELECT department, COUNT(*) AS emp_count\nFROM employees\nGROUP BY department\nHAVING COUNT(*) >= 2;\n```"
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Find each `department` and its average salary (`avg_salary`) for departments with an average salary greater than 50000.",
+      "starterCode": "-- Group by department and filter with HAVING\n",
+      "schema_sql": "CREATE TABLE employees (id INTEGER PRIMARY KEY, name TEXT, department TEXT, salary REAL);",
+      "seed_sql": "INSERT INTO employees VALUES (1, 'A', 'HR', 40000), (2, 'B', 'HR', 45000), (3, 'C', 'Tech', 90000), (4, 'D', 'Tech', 80000);",
+      "answer_sql": "SELECT department, AVG(salary) AS avg_salary FROM employees GROUP BY department HAVING AVG(salary) > 50000;",
+      "ordered": false
+    }
+  ]
+}

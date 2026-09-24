@@ -15,6 +15,10 @@ export async function runArenaCode(
         input: t.input,
         expectedOutput: t.expectedOutput,
       })),
+      schema_sql: question.schema_sql,
+      seed_sql: question.seed_sql,
+      answer_sql: question.answer_sql,
+      ordered: question.ordered,
     },
     15000
   );
@@ -34,5 +38,7 @@ export async function runArenaCode(
     testResults,
     stdout: result.stdout ?? '',
     error: result.error ?? null,
+    sqlResult: result.sqlResult,
+    expectedSqlResult: result.expectedSqlResult,
   };
 }

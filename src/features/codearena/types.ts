@@ -1,4 +1,6 @@
-export type Language = 'python' | 'javascript';
+import type { SqlQueryResult } from '@/types';
+
+export type Language = 'python' | 'javascript' | 'sql';
 export type Difficulty = 'easy' | 'medium' | 'hard';
 export type Category =
   | 'math-magic'
@@ -6,7 +8,11 @@ export type Category =
   | 'list-adventures'
   | 'number-crunching'
   | 'prime-time'
-  | 'loop-quest';
+  | 'loop-quest'
+  | 'sql-basics'
+  | 'sql-joins'
+  | 'sql-aggregates'
+  | 'sql-advanced';
 
 export interface TestCase {
   description: string;
@@ -23,11 +29,16 @@ export interface ArenaQuestion {
   description: string; // markdown
   hint?: string;
   starterCode: {
-    python: string;
-    javascript: string;
+    python?: string;
+    javascript?: string;
+    sql?: string;
   };
   tests: TestCase[];
   tags: string[];
+  schema_sql?: string;
+  seed_sql?: string;
+  answer_sql?: string;
+  ordered?: boolean;
 }
 
 export interface TestResult {
@@ -43,6 +54,8 @@ export interface SubmissionResult {
   testResults: TestResult[];
   stdout: string;
   error: string | null;
+  sqlResult?: SqlQueryResult;
+  expectedSqlResult?: { columns: string[]; rows: unknown[][] };
 }
 
 /** Firestore: users/{uid}/arena_attempts/{questionId} */
@@ -65,5 +78,5 @@ export interface ArenaProgress {
   totalAttempts: number;
   firstSolvedAt: Date | null;
   lastAttemptAt: Date;
-  savedCode: { python: string; javascript: string };
+  savedCode: { python?: string; javascript?: string; sql?: string };
 }

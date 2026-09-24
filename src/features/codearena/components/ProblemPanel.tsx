@@ -2,6 +2,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { CheckCircle2, XCircle, ChevronRight, Clock, Lightbulb } from 'lucide-react';
 import { CATEGORIES, DIFFICULTY_META } from '../questions';
+import { SchemaViewer } from '@/components/sql/SchemaViewer';
+import { ResultTable } from '@/components/sql/ResultTable';
 import type { ArenaQuestion, SubmissionResult } from '../types';
 
 interface ProblemPanelProps {
@@ -12,7 +14,7 @@ interface ProblemPanelProps {
 }
 
 export function ProblemPanel({ question, result, running, solved }: ProblemPanelProps) {
-  const catMeta = CATEGORIES[question.category];
+  const catMeta = CATEGORIES[question.category] || { label: question.category, emoji: '📊', color: 'bg-indigo-50 text-indigo-700' };
   const diffMeta = DIFFICULTY_META[question.difficulty];
 
   return (
@@ -37,6 +39,11 @@ export function ProblemPanel({ question, result, running, solved }: ProblemPanel
 
       {/* Scrollable body */}
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6">
+        {/* Schema Viewer if SQL question */}
+        {question.schema_sql && (
+          <SchemaViewer schemaSql={question.schema_sql} seedSql={question.seed_sql} />
+        )}
+
         {/* Problem statement */}
         <div className="prose prose-sm max-w-none prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{question.description}</ReactMarkdown>
@@ -65,7 +72,7 @@ export function ProblemPanel({ question, result, running, solved }: ProblemPanel
         )}
 
         {result && !running && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {/* Overall verdict */}
             <div
               className={`flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-sm ${
@@ -84,10 +91,15 @@ export function ProblemPanel({ question, result, running, solved }: ProblemPanel
               ) : (
                 <>
                   <XCircle size={16} />
-                  {result.error ? 'Error in your code' : 'Some tests failed'}
+                  {result.error ? 'Error in your query' : 'Result does not match expected output'}
                 </>
               )}
             </div>
+
+            {/* SQL result table */}
+            {result.sqlResult && (
+              <ResultTable result={result.sqlResult} title="Your Query Results" />
+            )}
 
             {/* Error */}
             {result.error && (
@@ -96,8 +108,8 @@ export function ProblemPanel({ question, result, running, solved }: ProblemPanel
               </div>
             )}
 
-            {/* stdout */}
-            {result.stdout && (
+            {/* Non-SQL stdout */}
+            {result.stdout && !result.sqlResult && (
               <div>
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Output</p>
                 <div className="rounded-lg bg-gray-900 text-green-300 font-mono text-xs px-4 py-3 whitespace-pre-wrap overflow-x-auto">

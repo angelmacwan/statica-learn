@@ -1,0 +1,31 @@
+{
+  "id": "sql-joining-tables-inner-join",
+  "slug": "joining-tables-inner-join",
+  "title": "Joining Tables: INNER JOIN",
+  "description": "Combine columns from two tables based on a related foreign key column.",
+  "pathId": "sql",
+  "moduleId": "sql-table-joins",
+  "difficulty": "medium",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "inner-join",
+    "table-aliases",
+    "foreign-key"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Relational databases store data across separate tables. `INNER JOIN` matches rows where the join condition is met in both tables:\n\n```sql\nSELECT orders.id, customers.name\nFROM orders\nJOIN customers ON orders.customer_id = customers.id;\n```"
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Join `students` and `enrollments` to get `students.name` and `enrollments.course_name` for all enrolled students.",
+      "starterCode": "-- Join students and enrollments\n",
+      "schema_sql": "CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT); CREATE TABLE enrollments (student_id INTEGER, course_name TEXT);",
+      "seed_sql": "INSERT INTO students VALUES (1, 'Alice'), (2, 'Bob'); INSERT INTO enrollments VALUES (1, 'Math'), (1, 'Science'), (2, 'History');",
+      "answer_sql": "SELECT s.name, e.course_name FROM students s JOIN enrollments e ON s.id = e.student_id;",
+      "ordered": false
+    }
+  ]
+}

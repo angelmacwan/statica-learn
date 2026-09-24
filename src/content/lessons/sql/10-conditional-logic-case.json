@@ -1,0 +1,32 @@
+{
+  "id": "sql-conditional-logic-case",
+  "slug": "conditional-logic-case",
+  "title": "Conditional Logic with CASE",
+  "description": "Add if-then-else logic directly inside SQL query select expressions using CASE WHEN.",
+  "pathId": "sql",
+  "moduleId": "sql-aggregations-and-grouping",
+  "difficulty": "medium",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "case",
+    "when",
+    "then",
+    "else"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "The `CASE` statement creates conditional column values:\n\n```sql\nSELECT name, score,\n  CASE\n    WHEN score >= 90 THEN 'Pass'\n    ELSE 'Fail'\n  END AS status\nFROM tests;\n```"
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Query all products: return `name`, `price`, and a new column `price_category` where price >= 100 is \"Expensive\", else \"Affordable\".",
+      "starterCode": "-- Use CASE expression\n",
+      "schema_sql": "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, price REAL);",
+      "seed_sql": "INSERT INTO products VALUES (1, 'Laptop', 999), (2, 'Mouse', 25), (3, 'Headphones', 150);",
+      "answer_sql": "SELECT name, price, CASE WHEN price >= 100 THEN 'Expensive' ELSE 'Affordable' END AS price_category FROM products;",
+      "ordered": false
+    }
+  ]
+}

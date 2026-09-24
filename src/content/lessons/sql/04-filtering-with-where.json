@@ -1,0 +1,43 @@
+{
+  "id": "sql-filtering-with-where",
+  "slug": "filtering-with-where",
+  "title": "Filtering with WHERE Clause",
+  "description": "Filter table rows using WHERE and comparison operators (=, !=, <, >, <=, >=).",
+  "pathId": "sql",
+  "moduleId": "sql-filtering-and-sorting",
+  "difficulty": "easy",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "where",
+    "operators",
+    "comparison"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "The `WHERE` clause filters rows before returning results:\n\n```sql\nSELECT * FROM products WHERE price > 50;\n```\n\nComparison operators include: `=`, `!=` or `<>`, `<`, `>`, `<=`, `>=`."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which comparison operator checks if two values are NOT equal in SQL?",
+      "options": [
+        "!= or <>",
+        "==",
+        "NOT=",
+        "EXCEPT"
+      ],
+      "correctIndex": 0,
+      "explanation": "Both != and <> are valid operators in standard SQL for inequality."
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Retrieve `title` and `rating` for all movies with a `rating` greater than or equal to 8.5.",
+      "starterCode": "-- Select title and rating where rating >= 8.5\n",
+      "schema_sql": "CREATE TABLE movies (id INTEGER PRIMARY KEY, title TEXT, rating REAL);",
+      "seed_sql": "INSERT INTO movies VALUES (1, 'Inception', 8.8), (2, 'Avatar', 7.8), (3, 'Interstellar', 8.6);",
+      "answer_sql": "SELECT title, rating FROM movies WHERE rating >= 8.5;",
+      "ordered": false
+    }
+  ]
+}

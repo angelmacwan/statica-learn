@@ -1,0 +1,31 @@
+{
+  "id": "sql-modifying-schema-alter-drop",
+  "slug": "modifying-schema-alter-drop",
+  "title": "Schema Modification: ALTER & DROP",
+  "description": "Modify existing table structures using ALTER TABLE and remove tables or databases using DROP TABLE.",
+  "pathId": "sql",
+  "moduleId": "sql-database-and-schema-management",
+  "difficulty": "hard",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "alter-table",
+    "drop-table",
+    "schema-evolution"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "To modify table structure after creation:\n\n- `ALTER TABLE table_name ADD COLUMN col_name type;` — adds a new column.\n- `DROP TABLE table_name;` — permanently deletes a table and all its data."
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Add a new column `email TEXT` to the `users` table using `ALTER TABLE`, then select all columns from `users`.",
+      "starterCode": "-- Alter table users to add email column\n",
+      "schema_sql": "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT);",
+      "seed_sql": "INSERT INTO users VALUES (1, 'Alice');",
+      "answer_sql": "ALTER TABLE users ADD COLUMN email TEXT; SELECT * FROM users;",
+      "ordered": false
+    }
+  ]
+}

@@ -2,9 +2,12 @@ import { useState, useCallback } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
+import { sql } from '@codemirror/lang-sql';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { Play, RotateCcw } from 'lucide-react';
 import { runCode } from '@/lib/execution/runner';
+import { ResultTable } from '@/components/sql/ResultTable';
+import { SchemaViewer } from '@/components/sql/SchemaViewer';
 import type { CodeBlock as CodeBlockType, ExecutionResult } from '@/types';
 
 interface Props {
@@ -15,6 +18,7 @@ interface Props {
 const langExtension = {
   python: [python()],
   javascript: [javascript({ jsx: false })],
+  sql: [sql()],
 };
 
 export function CodeBlock({ block, onRun }: Props) {
@@ -26,10 +30,15 @@ export function CodeBlock({ block, onRun }: Props) {
     setRunning(true);
     setResult(null);
     onRun?.();
-    const res = await runCode({ language: block.language, code });
+    const res = await runCode({
+      language: block.language,
+      code,
+      schema_sql: block.schema_sql,
+      seed_sql: block.seed_sql,
+    });
     setResult(res);
     setRunning(false);
-  }, [block.language, code, onRun]);
+  }, [block.language, block.schema_sql, block.seed_sql, code, onRun]);
 
   const handleReset = () => {
     setCode(block.starterCode);
@@ -37,7 +46,12 @@ export function CodeBlock({ block, onRun }: Props) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
+      {/* Schema viewer if available */}
+      {block.language === 'sql' && block.schema_sql && (
+        <SchemaViewer schemaSql={block.schema_sql} seedSql={block.seed_sql} />
+      )}
+
       {/* Language badge */}
       <div className="flex items-center justify-between">
         <span className="pill pill-mint capitalize">{block.language}</span>
@@ -75,14 +89,18 @@ export function CodeBlock({ block, onRun }: Props) {
 
       {/* Output */}
       {result && (
-        <div
-          className={`rounded-xl p-4 font-mono text-sm whitespace-pre-wrap ${
-            result.error
-              ? 'bg-blush-50 text-red-700 border border-blush-200'
-              : 'bg-gray-900 text-gray-100'
-          }`}
-        >
-          {result.error ? `Error: ${result.error}` : result.stdout || '(no output)'}
+        <div className="space-y-2">
+          {result.error ? (
+            <div className="rounded-xl p-4 font-mono text-sm whitespace-pre-wrap bg-blush-50 text-red-700 border border-blush-200">
+              Error: {result.error}
+            </div>
+          ) : result.sqlResult ? (
+            <ResultTable result={result.sqlResult} title="Query Results" />
+          ) : (
+            <div className="rounded-xl p-4 font-mono text-sm whitespace-pre-wrap bg-gray-900 text-gray-100">
+              {result.stdout || '(no output)'}
+            </div>
+          )}
         </div>
       )}
     </div>

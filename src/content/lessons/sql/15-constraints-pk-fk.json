@@ -1,0 +1,33 @@
+{
+  "id": "sql-constraints-pk-fk",
+  "slug": "constraints-pk-fk",
+  "title": "Database Constraints: Primary & Foreign Keys",
+  "description": "Enforce data integrity with PRIMARY KEY, FOREIGN KEY, NOT NULL, and UNIQUE constraints.",
+  "pathId": "sql",
+  "moduleId": "sql-database-and-schema-management",
+  "difficulty": "hard",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "primary-key",
+    "foreign-key",
+    "not-null",
+    "unique",
+    "constraints"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Constraints enforce rules at the database level:\n\n- `PRIMARY KEY`: uniquely identifies each row (cannot be NULL).\n- `FOREIGN KEY`: link to a primary key in another table.\n- `NOT NULL`: prevents NULL values.\n- `UNIQUE`: prevents duplicate values."
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Create a table `orders` with `id INTEGER PRIMARY KEY`, `customer_id INTEGER NOT NULL`, and `amount REAL`. Insert order (1, 10, 99.5) and select all.",
+      "starterCode": "-- Create orders table with NOT NULL constraint\n",
+      "schema_sql": "",
+      "seed_sql": "",
+      "answer_sql": "CREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER NOT NULL, amount REAL); INSERT INTO orders VALUES (1, 10, 99.5); SELECT * FROM orders;",
+      "ordered": false
+    }
+  ]
+}

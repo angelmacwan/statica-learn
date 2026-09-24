@@ -1,0 +1,31 @@
+{
+  "id": "sql-create-db-and-tables",
+  "slug": "create-db-and-tables",
+  "title": "Creating Databases & Tables",
+  "description": "Define table schemas with CREATE TABLE, specifying column names and SQL data types.",
+  "pathId": "sql",
+  "moduleId": "sql-database-and-schema-management",
+  "difficulty": "medium",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "create-table",
+    "data-types",
+    "schema"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Use `CREATE TABLE` to define new table schemas:\n\n```sql\nCREATE TABLE books (\n  id INTEGER PRIMARY KEY,\n  title TEXT,\n  price REAL\n);\n```\nCommon SQLite data types: `INTEGER`, `TEXT`, `REAL` (floats), `BLOB`, `NUMERIC`."
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Create a table named `courses` with columns `id INTEGER PRIMARY KEY`, `title TEXT`, and `credits INTEGER`. Then insert a row (1, \"SQL Basics\", 3) and select all.",
+      "starterCode": "-- Create table courses and select all\nCREATE TABLE courses (\n  -- define columns\n);\n",
+      "schema_sql": "",
+      "seed_sql": "",
+      "answer_sql": "CREATE TABLE courses (id INTEGER PRIMARY KEY, title TEXT, credits INTEGER); INSERT INTO courses VALUES (1, \"SQL Basics\", 3); SELECT * FROM courses;",
+      "ordered": false
+    }
+  ]
+}

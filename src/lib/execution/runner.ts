@@ -1,4 +1,5 @@
 import type { ExecutionRequest, ExecutionResult } from '@/types';
+import { runSql } from './sqlRunner';
 
 // Worker instances - reused across calls
 let jsWorker: Worker | null = null;
@@ -19,6 +20,10 @@ function getPyWorker(): Worker {
 }
 
 export function runCode(request: ExecutionRequest, timeoutMs = 10000): Promise<ExecutionResult> {
+  if (request.language === 'sql') {
+    return runSql(request);
+  }
+
   const worker = request.language === 'python' ? getPyWorker() : getJsWorker();
 
   return new Promise((resolve) => {

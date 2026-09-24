@@ -38,17 +38,23 @@ export const CodeTestSchema = z.object({
 
 export const CodeBlockSchema = z.object({
   type: z.literal('code'),
-  language: z.enum(['python', 'javascript']),
+  language: z.enum(['python', 'javascript', 'sql']),
   starterCode: z.string(),
   solutionCode: z.string().optional(),
+  schema_sql: z.string().optional(),
+  seed_sql: z.string().optional(),
 });
 
 export const ChallengeBlockSchema = z.object({
   type: z.literal('challenge'),
-  language: z.enum(['python', 'javascript']),
+  language: z.enum(['python', 'javascript', 'sql']),
   prompt: z.string(),
   starterCode: z.string(),
-  tests: z.array(CodeTestSchema),
+  tests: z.array(CodeTestSchema).optional().default([]),
+  schema_sql: z.string().optional(),
+  seed_sql: z.string().optional(),
+  answer_sql: z.string().optional(),
+  ordered: z.boolean().optional(),
 });
 
 export const TerminalBlockSchema = z.object({
@@ -94,15 +100,28 @@ export type Lesson = z.infer<typeof LessonSchema>;
 // ─── Execution ───────────────────────────────────────────────────────────────
 
 export interface ExecutionRequest {
-  language: 'python' | 'javascript';
+  language: 'python' | 'javascript' | 'sql';
   code: string;
   tests?: CodeTest[];
+  schema_sql?: string;
+  seed_sql?: string;
+  answer_sql?: string;
+  ordered?: boolean;
+}
+
+export interface SqlQueryResult {
+  columns: string[];
+  rows: unknown[][];
+  totalRows: number;
+  truncated: boolean;
 }
 
 export interface ExecutionResult {
   stdout: string;
   error: string | null;
   testResults?: { passed: boolean; description?: string }[];
+  sqlResult?: SqlQueryResult;
+  expectedSqlResult?: { columns: string[]; rows: unknown[][] };
 }
 
 // ─── Firestore user data ─────────────────────────────────────────────────────

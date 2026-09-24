@@ -1,0 +1,39 @@
+{
+  "id": "sql-logical-operators",
+  "slug": "logical-operators",
+  "title": "Logical Operators: AND, OR, NOT",
+  "description": "Combine multiple condition criteria using logical boolean operators.",
+  "pathId": "sql",
+  "moduleId": "sql-filtering-and-sorting",
+  "difficulty": "easy",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "and",
+    "or",
+    "not",
+    "boolean-logic"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "You can combine conditions using `AND`, `OR`, and `NOT`:\n\n- `AND` requires **both** conditions to be true.\n- `OR` requires **at least one** condition to be true.\n- `NOT` negates a condition."
+    },
+    {
+      "type": "code",
+      "language": "sql",
+      "starterCode": "SELECT * FROM books WHERE price < 20 AND genre = 'Fiction';",
+      "schema_sql": "CREATE TABLE books (id INTEGER PRIMARY KEY, title TEXT, genre TEXT, price REAL);",
+      "seed_sql": "INSERT INTO books VALUES (1, 'Book A', 'Fiction', 15.0), (2, 'Book B', 'Fiction', 25.0), (3, 'Book C', 'Tech', 18.0);"
+    },
+    {
+      "type": "challenge",
+      "language": "sql",
+      "prompt": "Find all students who are in `grade` 10 OR have an `age` of 16.",
+      "starterCode": "-- Select name, age, grade where grade = 10 OR age = 16\n",
+      "schema_sql": "CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT, age INTEGER, grade INTEGER);",
+      "seed_sql": "INSERT INTO students VALUES (1, 'John', 15, 10), (2, 'Jane', 16, 11), (3, 'Sam', 14, 9);",
+      "answer_sql": "SELECT name, age, grade FROM students WHERE grade = 10 OR age = 16;",
+      "ordered": false
+    }
+  ]
+}
