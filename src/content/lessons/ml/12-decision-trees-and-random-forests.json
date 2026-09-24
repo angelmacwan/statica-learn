@@ -1,0 +1,29 @@
+{
+  "id": "ml-decision-trees-and-random-forests",
+  "slug": "decision-trees-and-random-forests",
+  "title": "12. Decision Trees & Random Forests",
+  "description": "Construct decision trees, prevent overfitting, and aggregate trees into Random Forests.",
+  "pathId": "ml",
+  "moduleId": "ml-tree-models-and-ensembles",
+  "difficulty": "medium",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "decision-tree",
+    "random-forest",
+    "gini-impurity",
+    "overfitting",
+    "feature-importance"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Decision Trees & Overfitting Control\n\nDecision Trees split data into flowchart rules using Gini Impurity or Entropy.\n\n![Trained Decision Tree Diagram](/images/ml/chart_decision_tree.png)\n\n#### Pruning & Random Forests\nUnpruned trees memorize training data (overfitting). Random Forests solve this by training an ensemble of trees on bootstrap samples.\n\n![Overfitting Curves](/images/ml/chart_overfitting.png)\n![Feature Importance Bar Chart](/images/ml/chart_feature_importance.png)"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import load_iris\n\ndata = load_iris()\nX, y = data.data, data.target\n\nrf = RandomForestClassifier(n_estimators=50, max_depth=3, random_state=42)\nrf.fit(X, y)\n\nfor name, imp in zip(data.feature_names, rf.feature_importances_):\n    print(f'{name}: {imp:.4f}')",
+      "solutionCode": "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import load_iris\n\ndata = load_iris()\nX, y = data.data, data.target\nrf = RandomForestClassifier(n_estimators=50, max_depth=3, random_state=42)\nrf.fit(X, y)\nfor name, imp in zip(data.feature_names, rf.feature_importances_):\n    print(f'{name}: {imp:.4f}')"
+    }
+  ]
+}

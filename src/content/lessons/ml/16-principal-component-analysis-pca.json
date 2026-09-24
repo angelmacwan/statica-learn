@@ -1,0 +1,29 @@
+{
+  "id": "ml-principal-component-analysis-pca",
+  "slug": "principal-component-analysis-pca",
+  "title": "16. Principal Component Analysis (PCA)",
+  "description": "Compress high-dimensional features into orthogonal principal components.",
+  "pathId": "ml",
+  "moduleId": "ml-unsupervised-learning-and-dimensionality",
+  "difficulty": "medium",
+  "estimatedMinutes": 9,
+  "concepts": [
+    "pca",
+    "dimensionality-reduction",
+    "eigenvalues",
+    "explained-variance",
+    "scree-plot"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Dimensionality Reduction with PCA\n\nPCA projects correlated high-dimensional features onto uncorrelated **Principal Components** maximizing variance.\n\n![PCA 2D Projection](/images/ml/chart_pca_2d.png)\n\n> **Important**: Always standardize features (`StandardScaler`) before running PCA!\n\n#### Cumulative Variance Scree Plot\nChoose the number of components capturing $90\\%-95\\%$ of total dataset variance.\n\n![PCA Scree Plot](/images/ml/chart_scree_plot.png)"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "from sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\nX = np.random.randn(100, 5)\nX_scaled = StandardScaler().fit_transform(X)\n\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X_scaled)\nprint('Cumulative Variance Ratio:', pca.explained_variance_ratio_.cumsum())",
+      "solutionCode": "from sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\nX = np.random.randn(100, 5)\nX_scaled = StandardScaler().fit_transform(X)\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X_scaled)\nprint('Cumulative Variance Ratio:', pca.explained_variance_ratio_.cumsum())"
+    }
+  ]
+}

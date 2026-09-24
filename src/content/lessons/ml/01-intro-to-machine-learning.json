@@ -1,0 +1,39 @@
+{
+  "id": "ml-intro-to-machine-learning",
+  "slug": "intro-to-machine-learning",
+  "title": "1. Introduction to Machine Learning",
+  "description": "Understand what machine learning is, how it differs from traditional programming, and key vocabulary.",
+  "pathId": "ml",
+  "moduleId": "ml-introduction-and-process",
+  "difficulty": "intro",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "machine-learning",
+    "model",
+    "training",
+    "features",
+    "labels"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### What is Machine Learning?\n\n**Machine Learning (ML)** is a field of computer science where algorithms improve their performance on a task by learning patterns from data, rather than being explicitly programmed with fixed rules.\n\nThink about how you learned to recognize a dog. Nobody gave you a checklist like `four legs AND fur AND a tail AND barks = dog`. Instead, you saw hundreds of dogs (different sizes, colors, breeds) and your brain slowly figured out the pattern. Machine learning works the same way: you show a computer lots of examples, and it learns the pattern on its own.\n\n#### Key Terminology\n- **Model**: The algorithm that has learned the pattern and can make new predictions.\n- **Training**: The process of feeding data to the model so it can learn.\n- **Data Point / Sample**: A single example in your dataset (e.g., one house, one email, one image).\n- **Feature**: A measurable property of a sample (e.g., a house's square footage, word count in an email).\n- **Label / Target**: The ground-truth answer you want to predict (e.g., house price, spam vs. not spam)."
+    },
+    {
+      "type": "text",
+      "content": "### Traditional Programming vs. Machine Learning\n\nIn **traditional programming**, a software engineer writes explicit rules, and the computer applies those rules to input data to produce output.\nIn **machine learning**, you flip this around: you feed the computer data and correct outputs, and it automatically discovers the rules (the model).\n\n```mermaid\nflowchart TD\n    subgraph Traditional[\"Traditional Programming\"]\n        A[\"Rules + Data\"] --> B[\"Program / Logic\"] --> C[\"Output\"]\n    end\n    subgraph ML[\"Machine Learning\"]\n        D[\"Data + Correct Answers\"] --> E[\"ML Trainer\"] --> F[\"Learned Model / Rules\"]\n    end\n```\n\n**Spam Detection Example:**\n- *Traditional:* Write nested IF conditions checking for words like `'lottery'` or `'free money'`. Spammers easily bypass this by altering spellings.\n- *ML:* Feed thousands of emails labeled `'spam'` or `'not spam'`. The model discovers subtle pattern combinations (sender domain, punctuation, phrasing) automatically."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What is the primary difference between Traditional Programming and Machine Learning?",
+      "options": [
+        "In Traditional Programming, the computer figures out the rules; in ML, the human writes them.",
+        "In Machine Learning, you provide data and outputs to let the algorithm learn the rules automatically.",
+        "Traditional Programming requires datasets, whereas Machine Learning requires no data at all.",
+        "Machine Learning only works for numeric calculations."
+      ],
+      "correctIndex": 1,
+      "explanation": "Machine learning flips the paradigm by using data and target outputs to automatically discover the underlying rules/patterns."
+    }
+  ]
+}

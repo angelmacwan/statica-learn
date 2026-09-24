@@ -1,0 +1,38 @@
+{
+  "id": "ml-types-of-machine-learning",
+  "slug": "types-of-machine-learning",
+  "title": "2. Types of Machine Learning",
+  "description": "Explore Supervised, Unsupervised, Semi-Supervised, and Reinforcement Learning.",
+  "pathId": "ml",
+  "moduleId": "ml-introduction-and-process",
+  "difficulty": "intro",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "supervised-learning",
+    "unsupervised-learning",
+    "semi-supervised",
+    "reinforcement-learning"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### The 4 Major Flavors of ML\n\n#### 1. Supervised Learning\nYou train the model using data that already has the correct target labels attached (like studying with an answer key).\n- **Classification**: Predicting a category (e.g., spam/not spam, pass/fail).\n- **Regression**: Predicting a continuous number (e.g., house price, temperature).\n\n#### 2. Unsupervised Learning\nYou provide data with **NO labels**, and the algorithm discovers natural clusters or hidden patterns on its own.\n- **Clustering**: Grouping similar customers together based on shopping habits.\n- **Dimensionality Reduction**: Simplifying complex high-dimensional datasets while keeping essential info.\n\n#### 3. Semi-Supervised Learning\nA mix of a small labeled dataset and a very large unlabeled dataset. Common because labeling data (by human experts) is expensive, while raw unlabeled data is abundant."
+    },
+    {
+      "type": "text",
+      "content": "#### 4. Reinforcement Learning (RL)\nInstead of static datasets, an **agent** learns by interacting with an **environment**, taking **actions**, and receiving **rewards** or **penalties**.\n\n```mermaid\nflowchart LR\n    Agent[\"Agent (AI Decision Maker)\"] -->|\"Takes Action\"| Env[\"Environment (World / Game)\"]\n    Env -->|\"State & Reward (+ / -)\"| Agent\n```\n\n*Example:* RL powers autonomous vehicles learning in simulators and AI champions in Chess, Go, and Dota 2."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which type of machine learning task involves predicting a continuous numerical value (such as temperature or stock price) using labeled data?",
+      "options": [
+        "Classification",
+        "Regression",
+        "Clustering",
+        "Reinforcement Learning"
+      ],
+      "correctIndex": 1,
+      "explanation": "Regression is a supervised learning task focused on predicting continuous numerical values."
+    }
+  ]
+}

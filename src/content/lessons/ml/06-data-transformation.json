@@ -1,0 +1,34 @@
+{
+  "id": "ml-data-transformation",
+  "slug": "data-transformation",
+  "title": "6. Data Transformation & Log Scaling",
+  "description": "Transform heavily skewed data with log scaling, binning, and one-hot encoding.",
+  "pathId": "ml",
+  "moduleId": "ml-data-preprocessing-and-feature-engineering",
+  "difficulty": "easy",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "log-transform",
+    "skewness",
+    "one-hot-encoding",
+    "binning"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Log Transformation & Encoding\n\nWhen numeric features have a long right tail (skewed distributions like income or house prices), applying `np.log1p()` compresses extreme values and normalizes the distribution.\n\n![Log Transform Comparison](/images/ml/chart_log_transform.png)\n\n#### One-Hot Encoding\nConverts categorical strings into binary indicator columns ($0$ or $1$) so mathematical models can consume them:\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'color': ['Red', 'Blue', 'Green']})\ndf_encoded = pd.get_dummies(df, columns=['color'])\nprint(df_encoded)\n```"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Why is np.log1p(x) preferred over np.log(x) when performing log transformations on real-world datasets?",
+      "options": [
+        "np.log1p(x) calculates log(1 + x), avoiding errors when encountering zero values",
+        "np.log1p(x) multiplies values by 10",
+        "np.log1p(x) only works on string data",
+        "np.log(x) is deprecated in Python"
+      ],
+      "correctIndex": 0,
+      "explanation": "log(0) is undefined (-infinity). np.log1p(x) computes log(1 + x), safely handling zero values."
+    }
+  ]
+}

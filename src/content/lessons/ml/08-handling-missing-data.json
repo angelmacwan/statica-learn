@@ -1,0 +1,28 @@
+{
+  "id": "ml-handling-missing-data",
+  "slug": "handling-missing-data",
+  "title": "8. Handling Missing Data",
+  "description": "Detect missing values and apply mean, median, and mode imputation with scikit-learn.",
+  "pathId": "ml",
+  "moduleId": "ml-data-preprocessing-and-feature-engineering",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "imputation",
+    "scikit-learn",
+    "simple-imputer",
+    "nan"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Missing Value Imputation\n\nReal-world data contains gaps (`NaN`).\n\n![Missing Values Percentage per Column](/images/ml/chart_missing_data.png)\n\n#### Imputation Strategies\n- **Median Imputation**: Best for numeric columns with outliers.\n- **Mean Imputation**: Good for symmetric numeric columns without heavy outliers.\n- **Most Frequent (Mode)**: Best for missing categorical strings."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "import pandas as pd\nimport numpy as np\nfrom sklearn.impute import SimpleImputer\n\ndf = pd.DataFrame({'age': [22, 25, np.nan, 29, 100]})\nimputer = SimpleImputer(strategy='median')\ndf['age_imputed'] = imputer.fit_transform(df[['age']])\nprint(df)",
+      "solutionCode": "import pandas as pd\nimport numpy as np\nfrom sklearn.impute import SimpleImputer\n\ndf = pd.DataFrame({'age': [22, 25, np.nan, 29, 100]})\nimputer = SimpleImputer(strategy='median')\ndf['age_imputed'] = imputer.fit_transform(df[['age']])\nprint(df)"
+    }
+  ]
+}

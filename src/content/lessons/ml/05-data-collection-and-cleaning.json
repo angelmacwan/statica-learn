@@ -1,0 +1,29 @@
+{
+  "id": "ml-data-collection-and-cleaning",
+  "slug": "data-collection-and-cleaning",
+  "title": "5. Data Collection, Quality & Outliers",
+  "description": "Assess data quality, detect anomalies, and handle outliers using the IQR method.",
+  "pathId": "ml",
+  "moduleId": "ml-data-preprocessing-and-feature-engineering",
+  "difficulty": "easy",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "pandas",
+    "data-cleaning",
+    "outliers",
+    "iqr-method",
+    "box-plot"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Assessing Data Quality & Detecting Outliers\n\nAn **outlier** is an observation that lies an abnormal distance from other values in a random sample. Outliers can skew model predictions significantly.\n\n#### Interquartile Range (IQR) Method\n- $Q1 = 25\\text{th percentile}$\n- $Q3 = 75\\text{th percentile}$\n- $IQR = Q3 - Q1$\n- Lower Bound $= Q1 - 1.5 \\times IQR$\n- Upper Bound $= Q3 + 1.5 \\times IQR$\n\n![House Price Outliers Box Plot](/images/ml/chart_box_plot.png)"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "import pandas as pd\nimport numpy as np\n\nprices = pd.Series([250, 270, 280, 300, 310, 320, 330, 340, 350, 950])\nQ1 = prices.quantile(0.25)\nQ3 = prices.quantile(0.75)\nIQR = Q3 - Q1\nlower_bound = Q1 - 1.5 * IQR\nupper_bound = Q3 + 1.5 * IQR\noutliers = prices[(prices < lower_bound) | (prices > upper_bound)]\nprint(f'Lower Bound: {lower_bound}, Upper Bound: {upper_bound}')\nprint('Outliers detected:', outliers.values)",
+      "solutionCode": "import pandas as pd\nimport numpy as np\n\nprices = pd.Series([250, 270, 280, 300, 310, 320, 330, 340, 350, 950])\nQ1 = prices.quantile(0.25)\nQ3 = prices.quantile(0.75)\nIQR = Q3 - Q1\nlower_bound = Q1 - 1.5 * IQR\nupper_bound = Q3 + 1.5 * IQR\noutliers = prices[(prices < lower_bound) | (prices > upper_bound)]\nprint(f'Lower Bound: {lower_bound}, Upper Bound: {upper_bound}')\nprint('Outliers detected:', outliers.values)"
+    }
+  ]
+}

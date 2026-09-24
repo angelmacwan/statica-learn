@@ -15,6 +15,8 @@ export function ModuleBackgroundGraphic({ pathSlug, className }: Props) {
     imgSrc = '/images/python.png';
   } else if (slug.includes('sql') || slug.includes('database')) {
     imgSrc = '/images/database.png';
+  } else if (slug.includes('ml') || slug.includes('machine-learning')) {
+    imgSrc = '/images/ml.png';
   }
 
   if (!imgSrc) return null;

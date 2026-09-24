@@ -1,0 +1,35 @@
+{
+  "id": "ml-support-vector-machines",
+  "slug": "support-vector-machines",
+  "title": "13. Support Vector Machines (SVM)",
+  "description": "Maximize margins with linear hyperplanes and utilize the RBF Kernel Trick for complex decision boundaries.",
+  "pathId": "ml",
+  "moduleId": "ml-tree-models-and-ensembles",
+  "difficulty": "medium",
+  "estimatedMinutes": 9,
+  "concepts": [
+    "svm",
+    "hyperplane",
+    "support-vectors",
+    "margin",
+    "rbf-kernel"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Maximizing Margins & The Kernel Trick\n\nSupport Vector Machines find the optimal boundary (hyperplane) maximizing the margin between classes.\n\n![Linear SVM Margin & Boundary](/images/ml/chart_linear_svm.png)\n\n#### The RBF Kernel Trick\nFor nonlinear non-separable data, the **RBF Kernel** projects points into higher dimensions where linear boundaries separate classes cleanly.\n\n![RBF Kernel Decision Boundary](/images/ml/chart_kernel_svm.png)"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "What are 'Support Vectors' in Support Vector Machines?",
+      "options": [
+        "The data points furthest away from the decision boundary",
+        "The closest data points to the decision boundary that determine the margin width and boundary position",
+        "The missing values in the dataset",
+        "The gradient vectors during gradient descent"
+      ],
+      "correctIndex": 1,
+      "explanation": "Support vectors are the data points lying on the margin boundary that directly define the hyperplane placement."
+    }
+  ]
+}

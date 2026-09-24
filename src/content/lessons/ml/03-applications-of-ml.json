@@ -1,0 +1,35 @@
+{
+  "id": "ml-applications-of-ml",
+  "slug": "applications-of-ml",
+  "title": "3. Applications of Machine Learning",
+  "description": "Discover how ML powers vision, speech, natural language processing, recommenders, fraud detection, and self-driving cars.",
+  "pathId": "ml",
+  "moduleId": "ml-introduction-and-process",
+  "difficulty": "intro",
+  "estimatedMinutes": 6,
+  "concepts": [
+    "nlp",
+    "computer-vision",
+    "recommender-systems",
+    "fraud-detection",
+    "autonomous-vehicles"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Real-World ML Applications\n\nMachine learning powers essential technology we interact with every single day:\n\n- **Computer Vision & Speech Recognition**: Face ID phone unlock, auto-captions on YouTube, Siri/Alexa voice transcription.\n- **Natural Language Processing (NLP)**: Smart auto-complete, real-time Google Translate, sentiment analysis on customer reviews, and conversational AI chatbots.\n- **Recommender Systems**:\n  - *Content-Based Filtering*: Recommending movies with similar genres/tags to what you already watched.\n  - *Collaborative Filtering*: Recommending items liked by users with similar viewing history.\n- **Fraud Detection**: Flagging anomalous credit card transactions in real-time.\n- **Autonomous Vehicles**: Fusing camera, lidar, and radar sensors to navigate streets safely."
+    },
+    {
+      "type": "multipleChoice",
+      "question": "If Spotify recommends songs to you because users with listening habits similar to yours liked those songs, what system is it using?",
+      "options": [
+        "Content-based filtering",
+        "Collaborative filtering",
+        "Manual rule-based lookup",
+        "Linear regression"
+      ],
+      "correctIndex": 1,
+      "explanation": "Collaborative filtering makes recommendations based on the preferences of similar users."
+    }
+  ]
+}

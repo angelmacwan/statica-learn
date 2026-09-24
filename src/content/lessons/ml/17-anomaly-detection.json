@@ -1,0 +1,28 @@
+{
+  "id": "ml-anomaly-detection",
+  "slug": "anomaly-detection",
+  "title": "17. Anomaly Detection: Isolation Forest & One-Class SVM",
+  "description": "Detect rare outliers and fraud using Isolation Forest and One-Class SVM.",
+  "pathId": "ml",
+  "moduleId": "ml-unsupervised-learning-and-dimensionality",
+  "difficulty": "medium",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "anomaly-detection",
+    "isolation-forest",
+    "one-class-svm",
+    "outliers"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Anomaly & Outlier Detection\n\nAnomalies are rare, distinct points (e.g., credit card fraud, sensor faults).\n\n#### Isolation Forest\nIsolates observations by randomly partitioning features. Anomalous points require fewer splits to isolate.\n\n![Isolation Forest Anomaly Detection](/images/ml/chart_isolation_forest.png)"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "from sklearn.ensemble import IsolationForest\nimport numpy as np\n\nX = np.array([[10], [12], [11], [10.5], [500], [11.5], [600]])\nmodel = IsolationForest(contamination=0.25, random_state=42)\npreds = model.fit_predict(X)\nprint('Predictions (-1 = Anomaly):', preds)",
+      "solutionCode": "from sklearn.ensemble import IsolationForest\nimport numpy as np\n\nX = np.array([[10], [12], [11], [10.5], [500], [11.5], [600]])\nmodel = IsolationForest(contamination=0.25, random_state=42)\npreds = model.fit_predict(X)\nprint('Predictions (-1 = Anomaly):', preds)"
+    }
+  ]
+}

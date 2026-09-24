@@ -1,0 +1,29 @@
+{
+  "id": "ml-ensemble-learning-and-boosting",
+  "slug": "ensemble-learning-and-boosting",
+  "title": "14. Ensemble Learning & Boosting (XGBoost)",
+  "description": "Compare Bagging vs Boosting, AdaBoost, Gradient Boosting, and XGBoost.",
+  "pathId": "ml",
+  "moduleId": "ml-tree-models-and-ensembles",
+  "difficulty": "hard",
+  "estimatedMinutes": 10,
+  "concepts": [
+    "bagging",
+    "boosting",
+    "adaboost",
+    "gradient-boosting",
+    "xgboost"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Bagging vs. Boosting\n\n- **Bagging**: Trains models **in parallel** on random data subsets (reduces variance).\n- **Boosting**: Trains models **sequentially**, where each model corrects residual errors of prior trees (reduces bias).\n\n```mermaid\nflowchart TD\n    subgraph Boosting[\"Sequential Boosting Chain\"]\n        M1[\"Model 1\"] -->|\"Residual Errors\"| M2[\"Model 2 (Focuses on Errors)\"] -->|\"Residual Errors\"| M3[\"Model 3\"]\n    end\n```\n\n![Boosting Performance Comparison](/images/ml/chart_boosting_comparison.png)"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "from sklearn.ensemble import GradientBoostingClassifier\nfrom sklearn.datasets import make_classification\n\nX, y = make_classification(n_samples=200, n_features=5, random_state=42)\n\ngb = GradientBoostingClassifier(n_estimators=50, learning_rate=0.1, max_depth=3)\ngb.fit(X, y)\nprint(f'Training Score: {gb.score(X, y):.4f}')",
+      "solutionCode": "from sklearn.ensemble import GradientBoostingClassifier\nfrom sklearn.datasets import make_classification\n\nX, y = make_classification(n_samples=200, n_features=5, random_state=42)\ngb = GradientBoostingClassifier(n_estimators=50, learning_rate=0.1, max_depth=3)\ngb.fit(X, y)\nprint(f'Training Score: {gb.score(X, y):.4f}')"
+    }
+  ]
+}

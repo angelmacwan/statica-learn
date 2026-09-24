@@ -1,0 +1,27 @@
+{
+  "id": "ml-feature-engineering",
+  "slug": "feature-engineering",
+  "title": "7. Feature Engineering & Selection",
+  "description": "Extract features from dates and text, and rank feature importance.",
+  "pathId": "ml",
+  "moduleId": "ml-data-preprocessing-and-feature-engineering",
+  "difficulty": "easy",
+  "estimatedMinutes": 7,
+  "concepts": [
+    "feature-extraction",
+    "feature-selection",
+    "correlation"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### The Power of Feature Engineering\n\nFeature engineering means transforming raw inputs into informative features that make learning easier for the algorithm.\n\n- **Date Extraction**: Extract `year`, `month`, `day_of_week`, or `is_weekend` from raw timestamps.\n- **Interaction Features**: Multiply `length` $\\times$ `width` to create `area`.\n- **Feature Selection**: Rank features by absolute correlation with the target variable to eliminate noise."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "import pandas as pd\n\ndf = pd.DataFrame({\n    'timestamp': pd.to_datetime(['2026-09-20', '2026-09-21', '2026-09-26']),\n    'sales': [120, 150, 450]\n})\n\ndf['day_name'] = df['timestamp'].dt.day_name()\ndf['is_weekend'] = df['timestamp'].dt.dayofweek >= 5\nprint(df)",
+      "solutionCode": "import pandas as pd\n\ndf = pd.DataFrame({\n    'timestamp': pd.to_datetime(['2026-09-20', '2026-09-21', '2026-09-26']),\n    'sales': [120, 150, 450]\n})\n\ndf['day_name'] = df['timestamp'].dt.day_name()\ndf['is_weekend'] = df['timestamp'].dt.dayofweek >= 5\nprint(df)"
+    }
+  ]
+}

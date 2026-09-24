@@ -1,0 +1,34 @@
+{
+  "id": "ml-scaling-and-normalization",
+  "slug": "scaling-and-normalization",
+  "title": "9. Scaling & Normalization",
+  "description": "Compare MinMaxScaler, StandardScaler, and RobustScaler.",
+  "pathId": "ml",
+  "moduleId": "ml-data-preprocessing-and-feature-engineering",
+  "difficulty": "easy",
+  "estimatedMinutes": 8,
+  "concepts": [
+    "min-max-scaler",
+    "standard-scaler",
+    "robust-scaler",
+    "z-score"
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "### Feature Scaling Methods\n\nAlgorithms calculating spatial distance (e.g., KNN, SVM, Gradient Descent) require features to be scaled to equal ranges.\n\n![Scaling Comparison](/images/ml/chart_scaling_comparison.png)\n\n| Scaler | Formula | Resilience to Outliers |\n|---|---|---|\n| **MinMax** | $\\frac{x - x_{min}}{x_{max} - x_{min}} \\in [0,1]$ | Low |\n| **Standard** | $z = \\frac{x - \\mu}{\\sigma}$ | Medium |\n| **Robust** | $\\frac{x - \\text{median}}{IQR}$ | High |"
+    },
+    {
+      "type": "multipleChoice",
+      "question": "Which scaler should you use if your dataset contains extreme outliers that you must keep?",
+      "options": [
+        "MinMaxScaler",
+        "RobustScaler",
+        "StandardScaler",
+        "No scaling"
+      ],
+      "correctIndex": 1,
+      "explanation": "RobustScaler uses median and IQR rather than mean and variance, making it robust against outliers."
+    }
+  ]
+}
