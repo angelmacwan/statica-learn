@@ -22,7 +22,7 @@
     },
     {
       "type": "text",
-      "content": "## The Four Collection Types at a Glance\n\n```mermaid\ngraph TD\n    C[\"Python Collections\"]\n    C --> L[\"list\\n[ \\\"a\\\", \\\"b\\\", \\\"c\\\" ]\"]\n    C --> T[\"tuple\\n( \\\"x\\\", \\\"y\\\" )\"]\n    C --> S[\"set\\n{ 1, 2, 3 }\"]\n    C --> D[\"dict\\n{ \\\"key\\\": value }\"]\n\n    L --> L1[\"[PASS] Ordered\"]\n    L --> L2[\"[PASS] Changeable\"]\n    L --> L3[\"[PASS] Duplicates OK\"]\n\n    T --> T1[\"[PASS] Ordered\"]\n    T --> T2[\"[FAIL] Fixed (immutable)\"]\n    T --> T3[\"[PASS] Duplicates OK\"]\n\n    S --> S1[\"[FAIL] Unordered\"]\n    S --> S2[\"[PASS] Changeable\"]\n    S --> S3[\"[FAIL] Unique only\"]\n\n    D --> D1[\"[PASS] Key-value pairs\"]\n    D --> D2[\"[PASS] Changeable\"]\n    D --> D3[\"[FAIL] Keys must be unique\"]\n```\n\nThe square brackets, parentheses, and curly braces are not arbitrary - Python uses them as visual shorthand for each type."
+      "content": "## The Four Collection Types at a Glance\n\n- **`list`** — `[\"a\", \"b\", \"c\"]`\n  - Ordered\n  - Changeable (mutable)\n  - Duplicates allowed\n- **`tuple`** — `(\"x\", \"y\")`\n  - Ordered\n  - Fixed (immutable)\n  - Duplicates allowed\n- **`set`** — `{1, 2, 3}`\n  - Unordered\n  - Changeable (mutable)\n  - Unique values only\n- **`dict`** — `{\"key\": \"value\"}`\n  - Key-value pairs\n  - Changeable (mutable)\n  - Keys must be unique\n\nThe square brackets, parentheses, and curly braces are not arbitrary — Python uses them as visual shorthand for each type."
     },
     {
       "type": "multipleChoice",
