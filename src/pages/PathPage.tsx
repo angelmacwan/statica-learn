@@ -9,7 +9,7 @@ import type { Path, Lesson } from '@/types';
 
 export default function PathPage() {
   const { pathSlug } = useParams<{ pathSlug: string }>();
-  const { user } = useAuth();
+  const { user, contentWidthClass } = useAuth();
   const navigate = useNavigate();
   const [path, setPath] = useState<Path | null>(null);
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -43,7 +43,7 @@ export default function PathPage() {
   const pct = lessons.length ? Math.round((completedCount / lessons.length) * 100) : 0;
 
   return (
-    <div className="relative max-w-3xl mx-auto px-6 py-10 space-y-8">
+    <div className={`relative ${contentWidthClass} mx-auto px-4 sm:px-6 py-10 space-y-8 transition-all duration-300`}>
       <ModuleBackgroundGraphic pathSlug={pathSlug} />
       {/* Header */}
       <div className="space-y-3">

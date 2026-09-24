@@ -2,7 +2,7 @@
   "id": "ml-linear-regression",
   "slug": "linear-regression",
   "title": "10. Linear Regression & Evaluation",
-  "description": "Build simple and multiple linear regression models and measure R\u00b2, MSE, and MAE.",
+  "description": "Build simple and multiple linear regression models and measure R², MSE, and MAE.",
   "pathId": "ml",
   "moduleId": "ml-supervised-learning-regression-classification",
   "difficulty": "medium",
@@ -17,7 +17,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "### Linear Regression Fundamentals\n\nSimple Linear Regression fits a best-fit line:\n$$y = m \\cdot x + b$$\n\n![Linear Regression Line Fit](/images/ml/chart_linear_regression.png)\n\n#### Polynomial Regression for Nonlinear Relationships\nWhen relationships curve, add polynomial features ($x^2, x^3$) to capture non-linear fits.\n\n![Polynomial Fit vs Linear Fit](/images/ml/chart_polynomial_fit.png)"
+      "content": "### Linear Regression Fundamentals\n\nSimple Linear Regression fits a best-fit line:\n\n$$y = m \\cdot x + b$$\n\n![Linear Regression Line Fit](/images/ml/chart_linear_regression.png)\n\n#### Polynomial Regression for Nonlinear Relationships\nWhen relationships curve, add polynomial features ($x^2, x^3$) to capture non-linear fits.\n\n![Polynomial Fit vs Linear Fit](/images/ml/chart_polynomial_fit.png)"
     },
     {
       "type": "code",

@@ -15,7 +15,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "`LEFT JOIN` returns all rows from the left table, and the matched rows from the right table. Unmatched right columns contain `NULL`.\nThis is ideal for finding missing relationships (e.g. customers who placed 0 orders):"
+      "content": "`LEFT JOIN` returns all rows from the left table, and the matched rows from the right table. Unmatched right columns contain `NULL`.\n\nThis is ideal for finding missing relationships (e.g. customers who placed 0 orders):"
     },
     {
       "type": "challenge",

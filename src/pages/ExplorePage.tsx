@@ -13,7 +13,10 @@ const CATEGORIES = [
   { id: 'thinking', label: 'Thinking' },
 ] as const;
 
+import { useAuth } from '@/features/auth/AuthProvider';
+
 export default function ExplorePage() {
+  const { contentWidthClass } = useAuth();
   const [paths, setPaths] = useState<Path[]>([]);
   const [category, setCategory] = useState<string>('all');
   const [query, setQuery] = useState('');
@@ -32,7 +35,7 @@ export default function ExplorePage() {
   });
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 space-y-8">
+    <div className={`${contentWidthClass} mx-auto px-4 sm:px-6 py-10 space-y-8 transition-all duration-300`}>
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-gray-900">Explore Paths</h1>
         <p className="text-gray-500">Browse all available learning paths.</p>

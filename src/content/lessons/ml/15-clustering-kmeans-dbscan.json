@@ -17,7 +17,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "### Unsupervised Clustering Algorithms\n\n#### K-Means Clustering & Centroids\nK-Means iteratively positions $k$ centroids to minimize within-cluster sum of squares.\n\n![K-Means Cluster Centroids](/images/ml/chart_kmeans_clusters.png)\n![Elbow Method Plot](/images/ml/chart_elbow_method.png)\n\n#### Hierarchical & DBSCAN Density Clustering\n- **Hierarchical**: Builds nested tree clusters (dendrogram).\n- **DBSCAN**: Identifies non-spherical clusters and marks isolated points as noise ($-1$).\n\n![Hierarchical Dendrogram](/images/ml/chart_dendrogram.png)\n![DBSCAN Non-Spherical Moons](/images/ml/chart_dbscan_moons.png)"
+      "content": "### Unsupervised Clustering Algorithms\n\n#### K-Means Clustering & Centroids\nK-Means iteratively positions $k$ centroids to minimize within-cluster sum of squares.\n\n![K-Means Cluster Centroids](/images/ml/chart_kmeans_clusters.png)\n\n![Elbow Method Plot](/images/ml/chart_elbow_method.png)\n\n#### Hierarchical & DBSCAN Density Clustering\n- **Hierarchical**: Builds nested tree clusters (dendrogram).\n- **DBSCAN**: Identifies non-spherical clusters and marks isolated points as noise ($-1$).\n\n![Hierarchical Dendrogram](/images/ml/chart_dendrogram.png)\n\n![DBSCAN Non-Spherical Moons](/images/ml/chart_dbscan_moons.png)"
     },
     {
       "type": "code",

@@ -15,7 +15,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "`GROUP BY` collapses rows with identical values into summary rows.\n`HAVING` filters groups after aggregation (unlike `WHERE`, which filters individual rows before aggregation):\n\n```sql\nSELECT department, COUNT(*) AS emp_count\nFROM employees\nGROUP BY department\nHAVING COUNT(*) >= 2;\n```"
+      "content": "`GROUP BY` collapses rows with identical values into summary rows.\n\n`HAVING` filters groups after aggregation (unlike `WHERE`, which filters individual rows before aggregation):\n\n```sql\nSELECT department, COUNT(*) AS emp_count\nFROM employees\nGROUP BY department\nHAVING COUNT(*) >= 2;\n```"
     },
     {
       "type": "challenge",

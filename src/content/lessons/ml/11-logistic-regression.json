@@ -18,7 +18,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "### Binary Classification & Sigmoid Function\n\nLogistic Regression maps inputs to probabilities between $0$ and $1$ using the Sigmoid curve:\n$$\\sigma(z) = \\frac{1}{1 + e^{-z}}$$\n\n![Sigmoid Curve](/images/ml/chart_sigmoid_curve.png)\n\n#### Classification Metrics & Confusion Matrix\n- **Accuracy**: $\\frac{TP + TN}{TP + TN + FP + FN}$\n- **Precision**: $\\frac{TP}{TP + FP}$\n- **Recall**: $\\frac{TP}{TP + FN}$\n\n![Confusion Matrix Heatmap](/images/ml/chart_confusion_matrix.png)"
+      "content": "### Binary Classification & Sigmoid Function\n\nLogistic Regression maps inputs to probabilities between $0$ and $1$ using the Sigmoid curve:\n\n$$\\sigma(z) = \\frac{1}{1 + e^{-z}}$$\n\n![Sigmoid Curve](/images/ml/chart_sigmoid_curve.png)\n\n#### Classification Metrics & Confusion Matrix\n- **Accuracy**: $\\frac{TP + TN}{TP + TN + FP + FN}$\n- **Precision**: $\\frac{TP}{TP + FP}$\n- **Recall**: $\\frac{TP}{TP + FN}$\n\n![Confusion Matrix Heatmap](/images/ml/chart_confusion_matrix.png)"
     },
     {
       "type": "code",

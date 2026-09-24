@@ -7,17 +7,12 @@ import { ArrowRight, BookOpen, Zap } from 'lucide-react';
 import type { Path } from '@/types';
 
 export default function HomePage() {
-  const { user } = useAuth();
+  const { user, contentWidthClass } = useAuth();
   const [paths, setPaths] = useState<Path[]>([]);
-  // progressMap[pathId] = { completed, total }
-  const [progressMap, setProgressMap] = useState<Record<string, { completed: number; total: number }>>({});
-  // lessonCountMap[pathId] = total lesson count
-  const [lessonCountMap, setLessonCountMap] = useState<Record<string, number>>({});
 
   useEffect(() => {
     loadAllPaths().then((loaded) => {
       setPaths(loaded);
-      // Load lesson counts for all paths immediately (no auth needed)
       Promise.all(
         loaded.map((p) => loadLessonsForPath(p.slug).then((ls) => ({ id: p.id, count: ls.length })))
       ).then((results) => {
@@ -32,7 +27,6 @@ export default function HomePage() {
     if (!user || paths.length === 0) return;
 
     (async () => {
-      // Load actual lesson counts for all paths in parallel
       const lessonCounts = await Promise.all(
         paths.map((p) => loadLessonsForPath(p.slug).then((ls) => ({ pathId: p.id, total: ls.length })))
       );
@@ -41,10 +35,8 @@ export default function HomePage() {
         totalByPath[pathId] = total;
       });
 
-      // Load Firestore progress (only has records for touched lessons)
       const firestoreProgress = await getAllProgress(user.uid);
 
-      // Count completed per path using pathId stored on each progress record
       const completedByPath: Record<string, number> = {};
       Object.values(firestoreProgress).forEach((prog) => {
         if (prog.status === 'completed') {
@@ -56,7 +48,6 @@ export default function HomePage() {
       paths.forEach((p) => {
         const total = totalByPath[p.id] ?? 0;
         const completed = completedByPath[p.id] ?? 0;
-        // Only show progress bar if user has started this path
         if (completed > 0 || Object.values(firestoreProgress).some((pr) => pr.pathId === p.id)) {
           result[p.id] = { completed, total };
         }
@@ -65,8 +56,13 @@ export default function HomePage() {
     })();
   }, [user, paths]);
 
+  // progressMap[pathId] = { completed, total }
+  const [progressMap, setProgressMap] = useState<Record<string, { completed: number; total: number }>>({});
+  // lessonCountMap[pathId] = total lesson count
+  const [lessonCountMap, setLessonCountMap] = useState<Record<string, number>>({});
+
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
+    <div className={`${contentWidthClass} mx-auto px-4 sm:px-6 py-12 space-y-12 transition-all duration-300`}>
       {/* Hero */}
       <section className="space-y-4">
         <h1 className="text-4xl font-bold text-gray-900 tracking-tight">

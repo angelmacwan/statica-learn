@@ -4,13 +4,14 @@ import { loadLesson, loadLessonsForPath } from '@/lib/contentLoader';
 import { startLesson, completeLesson, getLessonProgress, logActivity } from '@/lib/firestore';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { LessonBlockRenderer } from '@/components/lesson/LessonBlockRenderer';
+import { FloatingLessonPlan } from '@/components/lesson/FloatingLessonPlan';
 import { ChevronLeft, ChevronRight, Clock, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { ModuleBackgroundGraphic } from '@/components/ui/ModuleBackgroundGraphic';
 import type { Lesson } from '@/types';
 
 export default function LessonPage() {
   const { pathSlug, lessonSlug } = useParams<{ pathSlug: string; lessonSlug: string }>();
-  const { user } = useAuth();
+  const { user, contentWidthClass } = useAuth();
   const navigate = useNavigate();
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
@@ -18,12 +19,14 @@ export default function LessonPage() {
   const [loading, setLoading] = useState(true);
   const [completedBlocks, setCompletedBlocks] = useState<Set<number>>(new Set());
   const [finished, setFinished] = useState(false);
+  const [activeBlockIdx, setActiveBlockIdx] = useState<number>(0);
 
   useEffect(() => {
     if (!pathSlug || !lessonSlug) return;
     setLoading(true);
     setFinished(false);
     setCompletedBlocks(new Set());
+    setActiveBlockIdx(0);
 
     Promise.all([
       loadLesson(pathSlug, lessonSlug),
@@ -62,6 +65,42 @@ export default function LessonPage() {
     };
   }, [user, lesson]);
 
+  // Highlight active block step as user scrolls
+  useEffect(() => {
+    if (!lesson) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            const idx = parseInt(id.replace('lesson-block-', ''), 10);
+            if (!isNaN(idx)) {
+              setActiveBlockIdx(idx);
+            }
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    lesson.blocks.forEach((_, idx) => {
+      const el = document.getElementById(`lesson-block-${idx}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [lesson]);
+
+  const handleSelectBlock = useCallback((idx: number) => {
+    const el = document.getElementById(`lesson-block-${idx}`);
+    if (el) {
+      const yOffset = -90;
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      setActiveBlockIdx(idx);
+    }
+  }, []);
+
   const currentIdx = allLessons.findIndex((l) => l.slug === lessonSlug);
   const nextLesson = allLessons[currentIdx + 1];
   const prevLesson = allLessons[currentIdx - 1];
@@ -82,96 +121,114 @@ export default function LessonPage() {
   if (!lesson) return <div className="p-12 text-gray-400">Lesson not found.</div>;
 
   return (
-    <div className="relative max-w-2xl mx-auto px-6 py-10 space-y-8">
+    <div className="relative max-w-[1500px] mx-auto px-4 sm:px-6 py-8">
       <ModuleBackgroundGraphic pathSlug={pathSlug} />
-      {/* Top navigation with Back button */}
-      <nav className="flex items-center gap-3">
-        <button
-          onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-gray-900 bg-white border border-gray-200 rounded-xl px-3.5 py-2 hover:bg-gray-50 transition-all shadow-sm"
-        >
-          <ArrowLeft size={14} /> Back
-        </button>
-        <span className="text-gray-300">/</span>
-        <Link to={`/paths/${pathSlug}`} className="text-xs text-gray-500 hover:text-gray-900 transition-colors">
-          Path Overview
-        </Link>
-      </nav>
 
-      {/* Lesson header */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <span className="pill pill-mint">{lesson.difficulty}</span>
-          <span className="flex items-center gap-1 text-xs text-gray-400">
-            <Clock size={12} /> {lesson.estimatedMinutes}m
-          </span>
-        </div>
-        <h1 className="text-2xl font-bold text-gray-900">{lesson.title}</h1>
-        <p className="text-gray-500 text-sm">{lesson.description}</p>
-      </div>
+      <div className="flex flex-col lg:flex-row items-start gap-8 justify-center">
+        {/* Left Floating Sidebar: Lesson Plan Cards */}
+        <aside className="w-full lg:w-72 xl:w-80 shrink-0 lg:sticky lg:top-6 z-20">
+          <FloatingLessonPlan
+            lesson={lesson}
+            allLessons={allLessons}
+            pathSlug={pathSlug ?? ''}
+            completedBlocks={completedBlocks}
+            activeBlockIdx={activeBlockIdx}
+            onSelectBlock={handleSelectBlock}
+          />
+        </aside>
 
-      {/* Lesson blocks */}
-      <div className="space-y-6">
-        {lesson.blocks.map((block, idx) => (
-          <div key={idx}>
-            <LessonBlockRenderer
-              block={block}
-              onMultipleChoiceAnswer={(correct) => {
-                logActivity(user?.uid ?? '', 'question_answered', {
-                  lessonId: lesson.id,
-                  blockIdx: idx,
-                  correct,
-                });
-                if (correct) setCompletedBlocks((s) => new Set(s).add(idx));
-              }}
-              onCodeRun={handleCodeRun}
-              onChallengeComplete={(passed) => {
-                if (passed) setCompletedBlocks((s) => new Set(s).add(idx));
-              }}
-            />
+        {/* Main Lesson Content */}
+        <main className={`flex-1 w-full ${contentWidthClass} space-y-8 transition-all duration-300 min-w-0`}>
+          {/* Top navigation with Back button */}
+          <nav className="flex items-center gap-3">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-gray-900 bg-white border border-gray-200 rounded-xl px-3.5 py-2 hover:bg-gray-50 transition-all shadow-sm"
+            >
+              <ArrowLeft size={14} /> Back
+            </button>
+            <span className="text-gray-300">/</span>
+            <Link to={`/paths/${pathSlug}`} className="text-xs text-gray-500 hover:text-gray-900 transition-colors">
+              Path Overview
+            </Link>
+          </nav>
+
+          {/* Lesson header */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="pill pill-mint">{lesson.difficulty}</span>
+              <span className="flex items-center gap-1 text-xs text-gray-400">
+                <Clock size={12} /> {lesson.estimatedMinutes}m
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{lesson.title}</h1>
+            <p className="text-gray-500 text-sm">{lesson.description}</p>
           </div>
-        ))}
-      </div>
 
-      {/* Complete / nav */}
-      <div className="border-t border-gray-100 pt-6 flex items-center justify-between gap-4">
-        {prevLesson ? (
-          <Link
-            to={`/learn/${pathSlug}/${prevLesson.slug}`}
-            className="btn-secondary text-sm"
-          >
-            <ChevronLeft size={14} /> Previous
-          </Link>
-        ) : (
-          <div />
-        )}
-
-        {finished ? (
-          <div className="flex items-center gap-2 text-mint-400 font-medium text-sm">
-            <CheckCircle2 size={18} /> Lesson complete!
+          {/* Lesson blocks */}
+          <div className="space-y-6">
+            {lesson.blocks.map((block, idx) => (
+              <div key={idx} id={`lesson-block-${idx}`} className="scroll-mt-24">
+                <LessonBlockRenderer
+                  block={block}
+                  onMultipleChoiceAnswer={(correct) => {
+                    logActivity(user?.uid ?? '', 'question_answered', {
+                      lessonId: lesson.id,
+                      blockIdx: idx,
+                      correct,
+                    });
+                    if (correct) setCompletedBlocks((s) => new Set(s).add(idx));
+                  }}
+                  onCodeRun={handleCodeRun}
+                  onChallengeComplete={(passed) => {
+                    if (passed) setCompletedBlocks((s) => new Set(s).add(idx));
+                  }}
+                />
+              </div>
+            ))}
           </div>
-        ) : (
-          <button onClick={handleMarkComplete} className="btn-primary text-sm">
-            Mark complete <CheckCircle2 size={14} />
-          </button>
-        )}
 
-        {nextLesson && finished ? (
-          <Link
-            to={`/learn/${pathSlug}/${nextLesson.slug}`}
-            className="btn-primary text-sm"
-          >
-            Next <ChevronRight size={14} />
-          </Link>
-        ) : nextLesson ? (
-          <button className="btn-secondary text-sm opacity-50" disabled>
-            Next <ChevronRight size={14} />
-          </button>
-        ) : (
-          <Link to={`/paths/${pathSlug}`} className="btn-secondary text-sm">
-            Finish path
-          </Link>
-        )}
+          {/* Complete / nav */}
+          <div className="border-t border-gray-100 pt-6 flex items-center justify-between gap-4">
+            {prevLesson ? (
+              <Link
+                to={`/learn/${pathSlug}/${prevLesson.slug}`}
+                className="btn-secondary text-sm"
+              >
+                <ChevronLeft size={14} /> Previous
+              </Link>
+            ) : (
+              <div />
+            )}
+
+            {finished ? (
+              <div className="flex items-center gap-2 text-mint-400 font-medium text-sm">
+                <CheckCircle2 size={18} /> Lesson complete!
+              </div>
+            ) : (
+              <button onClick={handleMarkComplete} className="btn-primary text-sm">
+                Mark complete <CheckCircle2 size={14} />
+              </button>
+            )}
+
+            {nextLesson && finished ? (
+              <Link
+                to={`/learn/${pathSlug}/${nextLesson.slug}`}
+                className="btn-primary text-sm"
+              >
+                Next <ChevronRight size={14} />
+              </Link>
+            ) : nextLesson ? (
+              <button className="btn-secondary text-sm opacity-50" disabled>
+                Next <ChevronRight size={14} />
+              </button>
+            ) : (
+              <Link to={`/paths/${pathSlug}`} className="btn-secondary text-sm">
+                Finish path
+              </Link>
+            )}
+          </div>
+        </main>
       </div>
     </div>
   );

@@ -126,10 +126,20 @@ export interface ExecutionResult {
 
 // ─── Firestore user data ─────────────────────────────────────────────────────
 
+export type ContentWidthSetting = 'small' | 'normal' | 'large' | 'xl';
+
+export const CONTENT_WIDTH_CLASSES: Record<ContentWidthSetting, string> = {
+  small: 'max-w-xl',
+  normal: 'max-w-3xl',
+  large: 'max-w-5xl',
+  xl: 'max-w-7xl',
+};
+
 export interface UserProfile {
   displayName: string;
   avatarUrl: string;
   avatarEmoji: string;
+  contentWidth?: ContentWidthSetting;
   createdAt: Date;
 }
 

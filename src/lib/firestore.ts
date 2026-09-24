@@ -22,6 +22,7 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
     displayName: d.displayName ?? '',
     avatarUrl: d.avatarUrl ?? '',
     avatarEmoji: d.avatarEmoji ?? '',
+    contentWidth: d.contentWidth,
     createdAt: (d.createdAt as Timestamp)?.toDate() ?? new Date(),
   };
 }

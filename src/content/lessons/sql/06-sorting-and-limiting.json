@@ -16,7 +16,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "Use `ORDER BY` to sort rows in ascending (`ASC`, default) or descending (`DESC`) order.\nUse `LIMIT` to cap the number of returned rows:\n\n```sql\nSELECT name, salary FROM employees ORDER BY salary DESC LIMIT 3;\n```"
+      "content": "Use `ORDER BY` to sort rows in ascending (`ASC`, default) or descending (`DESC`) order.\n\nUse `LIMIT` to cap the number of returned rows:\n\n```sql\nSELECT name, salary FROM employees ORDER BY salary DESC LIMIT 3;\n```"
     },
     {
       "type": "challenge",
