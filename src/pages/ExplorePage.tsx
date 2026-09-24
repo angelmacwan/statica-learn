@@ -36,7 +36,7 @@ export default function ExplorePage() {
   });
 
   return (
-    <div className={`${contentWidthClass} mx-auto px-4 sm:px-6 py-10 space-y-8 transition-all duration-300`}>
+    <div className={`relative z-10 ${contentWidthClass} mx-auto px-4 sm:px-6 py-10 space-y-8 transition-all duration-300`}>
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-gray-900">Explore Paths</h1>
         <p className="text-gray-500">Browse all available learning paths.</p>

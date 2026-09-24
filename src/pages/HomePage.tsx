@@ -3,13 +3,26 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { loadAllPaths, loadLessonsForPath } from '@/lib/contentLoader';
 import { getAllProgress } from '@/lib/firestore';
-import { ArrowRight, BookOpen, Zap } from 'lucide-react';
+import { ArrowRight, BookOpen, Zap, Clock, SortAsc } from 'lucide-react';
 import { getModulePastelStyle } from '@/lib/modulePastels';
 import type { Path } from '@/types';
+
+type SortOption = 'last_accessed' | 'name';
+
+interface PathProgressInfo {
+  completed: number;
+  total: number;
+  lastAccessed: Date;
+  started: boolean;
+}
 
 export default function HomePage() {
   const { user, contentWidthClass } = useAuth();
   const [paths, setPaths] = useState<Path[]>([]);
+  const [progressMap, setProgressMap] = useState<Record<string, PathProgressInfo>>({});
+  const [lessonCountMap, setLessonCountMap] = useState<Record<string, number>>({});
+  const [sortBy, setSortBy] = useState<SortOption>('last_accessed');
+  const [loadingProgress, setLoadingProgress] = useState(true);
 
   useEffect(() => {
     loadAllPaths().then((loaded) => {
@@ -18,16 +31,22 @@ export default function HomePage() {
         loaded.map((p) => loadLessonsForPath(p.slug).then((ls) => ({ id: p.id, count: ls.length })))
       ).then((results) => {
         const map: Record<string, number> = {};
-        results.forEach(({ id, count }) => { map[id] = count; });
+        results.forEach(({ id, count }) => {
+          map[id] = count;
+        });
         setLessonCountMap(map);
       });
     });
   }, []);
 
   useEffect(() => {
-    if (!user || paths.length === 0) return;
+    if (!user || paths.length === 0) {
+      setLoadingProgress(false);
+      return;
+    }
 
     (async () => {
+      setLoadingProgress(true);
       const lessonCounts = await Promise.all(
         paths.map((p) => loadLessonsForPath(p.slug).then((ls) => ({ pathId: p.id, total: ls.length })))
       );
@@ -39,38 +58,68 @@ export default function HomePage() {
       const firestoreProgress = await getAllProgress(user.uid);
 
       const completedByPath: Record<string, number> = {};
+      const lastAccessedByPath: Record<string, Date> = {};
+      const startedByPath: Record<string, boolean> = {};
+
       Object.values(firestoreProgress).forEach((prog) => {
+        const pId = prog.pathId;
+        startedByPath[pId] = true;
         if (prog.status === 'completed') {
-          completedByPath[prog.pathId] = (completedByPath[prog.pathId] ?? 0) + 1;
+          completedByPath[pId] = (completedByPath[pId] ?? 0) + 1;
+        }
+        if (prog.lastAccessedAt) {
+          const t = new Date(prog.lastAccessedAt);
+          if (!lastAccessedByPath[pId] || t > lastAccessedByPath[pId]) {
+            lastAccessedByPath[pId] = t;
+          }
         }
       });
 
-      const result: Record<string, { completed: number; total: number }> = {};
+      const result: Record<string, PathProgressInfo> = {};
       paths.forEach((p) => {
         const total = totalByPath[p.id] ?? 0;
         const completed = completedByPath[p.id] ?? 0;
-        if (completed > 0 || Object.values(firestoreProgress).some((pr) => pr.pathId === p.id)) {
-          result[p.id] = { completed, total };
+        const started = startedByPath[p.id] ?? false;
+        const lastAccessed = lastAccessedByPath[p.id] ?? new Date(0);
+
+        if (started || completed > 0) {
+          result[p.id] = { completed, total, lastAccessed, started };
         }
       });
+
       setProgressMap(result);
+      setLoadingProgress(false);
     })();
   }, [user, paths]);
 
-  // progressMap[pathId] = { completed, total }
-  const [progressMap, setProgressMap] = useState<Record<string, { completed: number; total: number }>>({});
-  // lessonCountMap[pathId] = total lesson count
-  const [lessonCountMap, setLessonCountMap] = useState<Record<string, number>>({});
+  // Filter paths to ONLY active in-progress modules (started but NOT 100% completed)
+  const activePaths = paths.filter((p) => {
+    const prog = progressMap[p.id];
+    if (!prog) return false;
+    // Active means user has started it, but not completed all lessons
+    return prog.started && prog.completed < prog.total;
+  });
+
+  // Sort active paths by chosen criteria
+  const sortedActivePaths = [...activePaths].sort((a, b) => {
+    if (sortBy === 'name') {
+      return a.title.localeCompare(b.title);
+    }
+    // Default: last_accessed (most recent first)
+    const timeA = progressMap[a.id]?.lastAccessed?.getTime() ?? 0;
+    const timeB = progressMap[b.id]?.lastAccessed?.getTime() ?? 0;
+    return timeB - timeA;
+  });
 
   return (
-    <div className={`${contentWidthClass} mx-auto px-4 sm:px-6 py-12 space-y-12 transition-all duration-300`}>
+    <div className={`relative z-10 ${contentWidthClass} mx-auto px-4 sm:px-6 py-12 space-y-12 transition-all duration-300`}>
       {/* Hero */}
       <section className="space-y-4">
         <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
           {user ? `Welcome back${user.displayName ? `, ${user.displayName.split(' ')[0]}` : ''}` : 'Learn by doing.'}
         </h1>
         <p className="text-lg text-gray-500 max-w-xl">
-          Hands-on coding paths and exercises. No fluff - just concrete skills built one lesson at a time.
+          Hands-on coding paths and exercises. Built one lesson at a time.
         </p>
         {!user && (
           <div className="flex gap-3 pt-2">
@@ -84,23 +133,69 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* Paths */}
+      {/* Active In-Progress Modules Section */}
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Learning Paths</h2>
-          <Link to="/explore" className="text-sm text-gray-500 hover:text-gray-800 flex items-center gap-1">
-            View all <ArrowRight size={13} />
-          </Link>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-xl font-bold text-gray-900">In-Progress Modules</h2>
+
+          <div className="flex items-center gap-3">
+            {/* Sort Toggle Option */}
+            {sortedActivePaths.length > 0 && (
+              <div className="flex items-center gap-1.5 bg-white border border-gray-200 rounded-xl p-1 text-xs shadow-xs">
+                <button
+                  onClick={() => setSortBy('last_accessed')}
+                  className={`px-2.5 py-1 rounded-lg font-medium transition-all flex items-center gap-1 ${
+                    sortBy === 'last_accessed'
+                      ? 'bg-gray-900 text-white shadow-xs'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <Clock size={12} /> Recent
+                </button>
+                <button
+                  onClick={() => setSortBy('name')}
+                  className={`px-2.5 py-1 rounded-lg font-medium transition-all flex items-center gap-1 ${
+                    sortBy === 'name'
+                      ? 'bg-gray-900 text-white shadow-xs'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <SortAsc size={12} /> Name
+                </button>
+              </div>
+            )}
+
+            <Link to="/explore" className="text-sm font-medium text-gray-500 hover:text-gray-900 flex items-center gap-1">
+              Explore all <ArrowRight size={13} />
+            </Link>
+          </div>
         </div>
 
-        {paths.length === 0 ? (
-          <div className="card p-8 text-center text-gray-400">
-            <BookOpen size={32} className="mx-auto mb-3 opacity-40" />
-            <p>Paths coming soon.</p>
+        {/* Loading state */}
+        {loadingProgress ? (
+          <div className="p-8 text-center text-gray-400 text-sm">Loading active modules…</div>
+        ) : sortedActivePaths.length === 0 ? (
+          /* Empty State when no active modules in progress */
+          <div className="card p-8 sm:p-12 text-center space-y-4 bg-white/90 border border-gray-100 shadow-soft rounded-3xl">
+            <div className="w-16 h-16 rounded-2xl bg-mint-50 border border-mint-100 flex items-center justify-center mx-auto text-mint-400">
+              <BookOpen size={30} />
+            </div>
+            <div className="space-y-1.5 max-w-md mx-auto">
+              <h3 className="text-xl font-bold text-gray-900">No Modules in Progress</h3>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                You don't have any active modules right now. Explore our learning paths and pick a module to start building your skills!
+              </p>
+            </div>
+            <div className="pt-2">
+              <Link to="/explore" className="btn-primary inline-flex items-center gap-2">
+                Explore All Paths <ArrowRight size={15} />
+              </Link>
+            </div>
           </div>
         ) : (
+          /* Grid of Active Modules */
           <div className="grid gap-4 sm:grid-cols-2">
-            {paths.slice(0, 4).map((path, idx) => (
+            {sortedActivePaths.map((path, idx) => (
               <PathCard
                 key={path.id}
                 path={path}
@@ -143,7 +238,7 @@ function PathCard({
 }: {
   path: Path;
   index?: number;
-  progress?: { completed: number; total: number };
+  progress?: PathProgressInfo;
   lessonCount?: number;
 }) {
   const difficultyColor: Record<string, string> = {
@@ -178,13 +273,13 @@ function PathCard({
 
       {progress && (
         <div className="space-y-1">
-          <div className="flex justify-between text-xs text-gray-400">
-            <span>{progress.completed} / {progress.total} lessons</span>
+          <div className="flex justify-between text-xs text-gray-500 font-medium">
+            <span>{progress.completed} / {progress.total} lessons completed</span>
             <span>{pct}%</span>
           </div>
-          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-white/80 border border-gray-200/60 rounded-full overflow-hidden">
             <div
-              className="h-full bg-mint-300 rounded-full transition-all"
+              className="h-full bg-mint-400 rounded-full transition-all duration-300"
               style={{ width: `${pct}%` }}
             />
           </div>
@@ -192,8 +287,11 @@ function PathCard({
       )}
 
       {totalLessons > 0 && (
-        <div className="flex items-center gap-1 text-xs text-gray-400 mt-auto">
+        <div className="flex items-center justify-between text-xs text-gray-400 mt-auto pt-1">
           <span>{totalLessons} lessons</span>
+          <span className="text-gray-700 font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-0.5">
+            Continue <ArrowRight size={12} />
+          </span>
         </div>
       )}
     </Link>

@@ -33,10 +33,49 @@ export function TextBlock({ block }: Props) {
     <div
       ref={ref}
       className="prose prose-gray max-w-none prose-headings:font-semibold prose-code:font-mono
-                 prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-xl
                  prose-a:text-mint-400 prose-a:no-underline hover:prose-a:underline"
     >
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{block.content}</ReactMarkdown>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          code({ node, inline, className, children, ...props }: any) {
+            const match = /language-(\w+)/.exec(className || '');
+            const rawContent = String(children);
+            const isMultiline = rawContent.includes('\n');
+            const isInline = inline || (!match && !isMultiline);
+
+            if (isInline) {
+              return (
+                <code
+                  className="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded text-gray-800 border border-gray-200/80 font-medium"
+                  {...props}
+                >
+                  {children}
+                </code>
+              );
+            }
+
+            const lang = match ? match[1] : '';
+
+            return (
+              <div className="my-5 rounded-2xl overflow-hidden border border-gray-800 bg-gray-900 shadow-card">
+                {lang && lang !== 'mermaid' && (
+                  <div className="bg-gray-800/90 px-4 py-1.5 text-[11px] font-mono font-bold text-mint-300 border-b border-gray-700/60 flex items-center justify-between uppercase tracking-wider">
+                    <span>{lang}</span>
+                  </div>
+                )}
+                <pre className="p-4 font-mono text-xs sm:text-sm text-gray-100 overflow-x-auto leading-relaxed whitespace-pre m-0 bg-transparent">
+                  <code className={className} {...props}>
+                    {children}
+                  </code>
+                </pre>
+              </div>
+            );
+          },
+        }}
+      >
+        {block.content}
+      </ReactMarkdown>
     </div>
   );
 }

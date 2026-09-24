@@ -87,7 +87,7 @@ export default function ProfilePage() {
     );
 
   return (
-    <div className={`${contentWidthClass} mx-auto px-4 sm:px-6 py-10 space-y-8 transition-all duration-300`}>
+    <div className={`relative z-10 ${contentWidthClass} mx-auto px-4 sm:px-6 py-10 space-y-8 transition-all duration-300`}>
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Profile & Settings</h1>

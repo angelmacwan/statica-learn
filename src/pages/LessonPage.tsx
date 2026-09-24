@@ -18,14 +18,12 @@ export default function LessonPage() {
   const [loading, setLoading] = useState(true);
   const [completedBlocks, setCompletedBlocks] = useState<Set<number>>(new Set());
   const [finished, setFinished] = useState(false);
-  const [activeBlockIdx, setActiveBlockIdx] = useState<number>(0);
 
   useEffect(() => {
     if (!pathSlug || !lessonSlug) return;
     setLoading(true);
     setFinished(false);
     setCompletedBlocks(new Set());
-    setActiveBlockIdx(0);
 
     Promise.all([
       loadLesson(pathSlug, lessonSlug),
@@ -77,42 +75,6 @@ export default function LessonPage() {
     };
   }, [user, lesson]);
 
-  // Highlight active block step as user scrolls
-  useEffect(() => {
-    if (!lesson) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.id;
-            const idx = parseInt(id.replace('lesson-block-', ''), 10);
-            if (!isNaN(idx)) {
-              setActiveBlockIdx(idx);
-            }
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    lesson.blocks.forEach((_, idx) => {
-      const el = document.getElementById(`lesson-block-${idx}`);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [lesson]);
-
-  const handleSelectBlock = useCallback((idx: number) => {
-    const el = document.getElementById(`lesson-block-${idx}`);
-    if (el) {
-      const yOffset = -90;
-      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-      setActiveBlockIdx(idx);
-    }
-  }, []);
-
   const currentIdx = allLessons.findIndex((l) => l.slug === lessonSlug);
   const nextLesson = allLessons[currentIdx + 1];
   const prevLesson = allLessons[currentIdx - 1];
@@ -137,16 +99,13 @@ export default function LessonPage() {
       <ModuleBackgroundGraphic pathSlug={pathSlug} />
 
       <div className="flex flex-col lg:flex-row items-start gap-8 justify-center">
-        {/* Left Floating Sidebar: Lesson Plan Cards */}
+        {/* Left Floating Sidebar: Path Outline */}
         <aside className="w-full lg:w-72 xl:w-80 shrink-0 lg:sticky lg:top-6 z-20">
           <FloatingLessonPlan
             lesson={lesson}
             allLessons={allLessons}
             pathSlug={pathSlug ?? ''}
-            completedBlocks={completedBlocks}
-            activeBlockIdx={activeBlockIdx}
             lessonProgressMap={pathProgress}
-            onSelectBlock={handleSelectBlock}
           />
         </aside>
 
