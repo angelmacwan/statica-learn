@@ -5,7 +5,7 @@
   "description": "Construct decision trees, prevent overfitting, and aggregate trees into Random Forests.",
   "pathId": "ml",
   "moduleId": "ml-tree-models-and-ensembles",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 10,
   "concepts": [
     "decision-tree",

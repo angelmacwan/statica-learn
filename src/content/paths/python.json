@@ -4,7 +4,7 @@
   "title": "Python: From First Program to Practical Projects",
   "description": "Learn Python through small, useful programs: work with values and data, make decisions, build reusable functions, handle files safely, and finish a practical report project.",
   "category": "programming",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "moduleIds": [
     "python-l1",
     "python-starting-out",

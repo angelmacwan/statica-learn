@@ -5,7 +5,7 @@
   "description": "Package reusable logic, pass data in, get results back.",
   "pathId": "python",
   "moduleId": "python-repetition-and-functions",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 12,
   "concepts": [
     "def",
@@ -45,7 +45,7 @@
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `repeat(text, times=2)` that returns the string `text` repeated `times` times, with a single space between each repetition.\n\nExamples:\n- `repeat(\"ha\")` → `\"ha ha\"`\n- `repeat(\"go\", 3)` → `\"go go go\"`\n- `repeat(\"yes\", 1)` → `\"yes\"`",
+      "prompt": "Write a function `repeat(text, times=2)` that returns the string `text` repeated `times` times, with a single space between each repetition.\n\nExamples:\n- `repeat(\"ha\")` \u2192 `\"ha ha\"`\n- `repeat(\"go\", 3)` \u2192 `\"go go go\"`\n- `repeat(\"yes\", 1)` \u2192 `\"yes\"`",
       "starterCode": "def repeat(text, times=2):\n    # your code here\n    pass\n",
       "tests": [
         {

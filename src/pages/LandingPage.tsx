@@ -134,10 +134,13 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 bg-cream-50/90 backdrop-blur-sm border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center shrink-0">
               <span className="text-white text-xs font-bold">S</span>
             </div>
-            <span className="font-semibold text-gray-900 text-sm">Statica Learn</span>
+            <div className="flex flex-col leading-tight">
+              <span className="font-semibold text-gray-900 text-sm">Statica Learn</span>
+              <span className="text-[10px] font-normal text-gray-500">by StaticaLabs</span>
+            </div>
           </Link>
           <div className="flex items-center gap-2">
             <Link to="/login" className="btn-ghost text-xs">Sign in</Link>
@@ -149,10 +152,10 @@ export default function LandingPage() {
       </header>
 
       {/* ── Hero ── */}
-      <section className="relative max-w-6xl mx-auto px-6 pt-20 pb-28 flex flex-col items-center text-center overflow-hidden">
+      <section className="relative max-w-6xl mx-auto px-6 pt-20 pb-28 flex flex-col items-center text-center">
         {/* Organic background blobs */}
-        <BlobMint className="absolute -top-16 -right-24 w-96 h-96 opacity-20 pointer-events-none" />
-        <BlobCoral className="absolute top-24 -left-32 w-80 h-80 opacity-15 pointer-events-none" />
+        <BlobMint className="absolute top-0 right-0 w-96 h-96 opacity-20 pointer-events-none" />
+        <BlobCoral className="absolute top-12 left-0 w-80 h-80 opacity-15 pointer-events-none" />
         <BlobBlush className="absolute bottom-0 right-16 w-64 h-64 opacity-10 pointer-events-none" />
 
         {/* Eyebrow pill */}
@@ -344,10 +347,13 @@ export default function LandingPage() {
       <footer className="border-t border-gray-100 py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded bg-gray-900 flex items-center justify-center">
+            <div className="w-5 h-5 rounded bg-gray-900 flex items-center justify-center shrink-0">
               <span className="text-white text-xs font-bold" style={{ fontSize: 9 }}>S</span>
             </div>
-            <span>Statica Learn</span>
+            <div className="flex items-center gap-1.5 text-xs text-gray-500">
+              <span className="font-semibold text-gray-900">Statica Learn</span>
+              <span className="font-normal text-gray-400">by StaticaLabs</span>
+            </div>
           </div>
           <div className="flex gap-6">
             <Link to="/explore" className="hover:text-gray-700 transition-colors">Explore</Link>

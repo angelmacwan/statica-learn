@@ -5,7 +5,7 @@
   "description": "How Python remembers values so you can use them later.",
   "pathId": "python",
   "moduleId": "python-starting-out",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "variables",

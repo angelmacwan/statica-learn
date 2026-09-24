@@ -5,7 +5,7 @@
   "description": "Explore standard industry branching workflows, master built-in help commands, apply core best practices, and review essential Git vocabulary.",
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "git-workflows",

@@ -5,7 +5,7 @@
   "description": "Perform arithmetic, compare values, and combine conditions with Python's operators.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 10,
   "concepts": [
     "arithmetic",

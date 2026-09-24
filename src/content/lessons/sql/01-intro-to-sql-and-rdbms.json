@@ -5,7 +5,7 @@
   "description": "Understand relational databases, tables, rows, columns, and why SQL is the industry standard query language.",
   "pathId": "sql",
   "moduleId": "sql-fundamentals",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 6,
   "concepts": [
     "rdbms",

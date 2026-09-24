@@ -5,7 +5,7 @@
   "description": "Add if-then-else logic directly inside SQL query select expressions using CASE WHEN.",
   "pathId": "sql",
   "moduleId": "sql-aggregations-and-grouping",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 8,
   "concepts": [
     "case",

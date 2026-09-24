@@ -4,7 +4,7 @@
   "title": "SQL & Relational Databases: From Queries to Schema Design",
   "description": "Learn SQL step-by-step: query tables, filter and sort data, work with aggregate functions, join related tables, write conditional logic, and design relational database schemas with primary and foreign key constraints.",
   "category": "data",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "moduleIds": [
     "sql-fundamentals",
     "sql-filtering-and-sorting",

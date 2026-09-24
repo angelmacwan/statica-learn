@@ -31,28 +31,28 @@ export function FloatingLessonPlan({
   ).length;
 
   return (
-    <div className="card p-5 space-y-4 bg-white/95 backdrop-blur border border-gray-100 shadow-soft rounded-2xl">
+    <div className="card p-5 space-y-4 bg-white/95 backdrop-blur border border-cream-200 shadow-soft rounded-2xl">
       {/* Path Outline Header */}
-      <div className="space-y-2 border-b border-gray-100 pb-3">
+      <div className="space-y-2 border-b border-cream-200 pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-mint-100 text-mint-400">
+            <div className="p-1.5 rounded-lg bg-amber-100/80 text-amber-700">
               <Layers size={16} />
             </div>
             <h2 className="text-sm font-bold text-gray-900 tracking-tight">Path Outline</h2>
           </div>
           <Link
             to={`/paths/${pathSlug}`}
-            className="text-[11px] font-semibold text-gray-400 hover:text-gray-800 transition-colors flex items-center gap-0.5"
+            className="text-[11px] font-semibold text-gray-400 hover:text-amber-800 transition-colors flex items-center gap-0.5"
           >
             Overview <ChevronRight size={12} />
           </Link>
         </div>
 
         {/* Progress summary */}
-        <div className="flex items-center justify-between text-xs text-gray-400 pt-1">
+        <div className="flex items-center justify-between text-xs text-gray-500 pt-1">
           <span>{allLessons.length} Lessons</span>
-          <span className="font-semibold text-mint-400">{completedCount} Completed</span>
+          <span className="font-semibold text-emerald-700">{completedCount} Completed</span>
         </div>
       </div>
 
@@ -73,11 +73,11 @@ export function FloatingLessonPlan({
               </div>
 
               {isCurrent ? (
-                <span className="text-[10px] bg-mint-400 text-gray-900 px-2 py-0.5 rounded-full font-bold shrink-0 shadow-xs">
+                <span className="text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded-full font-bold shrink-0 shadow-xs">
                   Active
                 </span>
               ) : isCompleted ? (
-                <CheckCircle2 size={14} className="text-mint-400 shrink-0" />
+                <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
               ) : accessible ? (
                 <span className="text-[10px] text-gray-400 flex items-center gap-0.5 shrink-0">
                   <Clock size={10} /> {l.estimatedMinutes}m
@@ -106,10 +106,10 @@ export function FloatingLessonPlan({
             <Link
               key={l.id}
               to={`/learn/${pathSlug}/${l.slug}`}
-              className={`flex items-center justify-between gap-2 p-2.5 rounded-xl text-xs transition-all ${
+              className={`flex items-center justify-between gap-2 p-2.5 rounded-xl text-xs transition-all border ${
                 isCurrent
-                  ? 'bg-gray-900 text-white font-semibold shadow-xs ring-1 ring-gray-900'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-amber-100/90 text-amber-950 font-bold border-amber-300 shadow-sm ring-1 ring-amber-300/60'
+                  : 'text-gray-700 hover:bg-cream-100/70 hover:text-gray-900 border-transparent'
               }`}
             >
               {inner}

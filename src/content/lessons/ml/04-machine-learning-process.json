@@ -5,7 +5,7 @@
   "description": "Master the 5-step iterative machine learning lifecycle.",
   "pathId": "ml",
   "moduleId": "ml-introduction-and-process",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 6,
   "concepts": [
     "pipeline",

@@ -5,7 +5,7 @@
   "description": "Write elegant one-line list, dict, and set transformations, and use low-level typed arrays.",
   "pathId": "python",
   "moduleId": "python-working-with-data",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 11,
   "concepts": [
     "list-comprehensions",

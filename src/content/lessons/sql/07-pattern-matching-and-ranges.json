@@ -5,7 +5,7 @@
   "description": "Use LIKE with wildcards (% and _), list matching with IN, range checks with BETWEEN, and IS NULL tests.",
   "pathId": "sql",
   "moduleId": "sql-filtering-and-sorting",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 9,
   "concepts": [
     "like",

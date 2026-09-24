@@ -5,7 +5,7 @@
   "description": "Read user input from the console and display results - the basics of interactive programs.",
   "pathId": "python",
   "moduleId": "python-everyday-tools",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "print()",

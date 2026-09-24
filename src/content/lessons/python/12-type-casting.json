@@ -5,7 +5,7 @@
   "description": "Convert between types: turn text into numbers, numbers into strings, and avoid common conversion errors.",
   "pathId": "python",
   "moduleId": "python-repetition-and-functions",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "int()",
@@ -21,7 +21,7 @@
     },
     {
       "type": "text",
-      "content": "## Explicit Casting Functions\n\nPython gives you four built-in functions for casting:\n\n| Function | Converts to | Example |\n|---|---|---|\n| `int()` | Integer | `int(\"25\")` → `25` |\n| `float()` | Float | `float(\"3.14\")` → `3.14` |\n| `str()` | String | `str(100)` → `\"100\"` |\n| `bool()` | Boolean | `bool(0)` → `False` |\n\n```python\n# int() - string to integer\nage = int(\"25\")\nprint(age + 1)       # 26\n\n# float() - string to float\nprice = float(\"9.99\")\nprint(price * 2)     # 19.98\n\n# str() - number to string\nscore = 42\nlabel = \"Score: \" + str(score)\nprint(label)         # Score: 42\n\n# bool() - anything to True or False\nprint(bool(1))       # True\nprint(bool(\"\"))      # False\n```"
+      "content": "## Explicit Casting Functions\n\nPython gives you four built-in functions for casting:\n\n| Function | Converts to | Example |\n|---|---|---|\n| `int()` | Integer | `int(\"25\")` \u2192 `25` |\n| `float()` | Float | `float(\"3.14\")` \u2192 `3.14` |\n| `str()` | String | `str(100)` \u2192 `\"100\"` |\n| `bool()` | Boolean | `bool(0)` \u2192 `False` |\n\n```python\n# int() - string to integer\nage = int(\"25\")\nprint(age + 1)       # 26\n\n# float() - string to float\nprice = float(\"9.99\")\nprint(price * 2)     # 19.98\n\n# str() - number to string\nscore = 42\nlabel = \"Score: \" + str(score)\nprint(label)         # Score: 42\n\n# bool() - anything to True or False\nprint(bool(1))       # True\nprint(bool(\"\"))      # False\n```"
     },
     {
       "type": "multipleChoice",
@@ -33,7 +33,7 @@
         "Raises a ValueError"
       ],
       "correctIndex": 3,
-      "explanation": "int() cannot parse a string that contains a decimal point - it raises a ValueError. To do this conversion safely, you must first convert to float: int(float(\"3.9\")) → 3. Note that even then the result is 3, not 4, because int() truncates rather than rounds."
+      "explanation": "int() cannot parse a string that contains a decimal point - it raises a ValueError. To do this conversion safely, you must first convert to float: int(float(\"3.9\")) \u2192 3. Note that even then the result is 3, not 4, because int() truncates rather than rounds."
     },
     {
       "type": "code",
@@ -43,7 +43,7 @@
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `safe_to_int(value)` that tries to convert `value` to an integer.\n- If the conversion succeeds, return the integer.\n- If it fails for any reason (e.g. the value is `\"abc\"`), return `None`.\n\nUse a `try/except` block to handle errors gracefully.\n\n**Examples:**\n- `safe_to_int(\"42\")` → `42`\n- `safe_to_int(\"abc\")` → `None`\n- `safe_to_int(3.9)` → `3`",
+      "prompt": "Write a function `safe_to_int(value)` that tries to convert `value` to an integer.\n- If the conversion succeeds, return the integer.\n- If it fails for any reason (e.g. the value is `\"abc\"`), return `None`.\n\nUse a `try/except` block to handle errors gracefully.\n\n**Examples:**\n- `safe_to_int(\"42\")` \u2192 `42`\n- `safe_to_int(\"abc\")` \u2192 `None`\n- `safe_to_int(3.9)` \u2192 `3`",
       "starterCode": "def safe_to_int(value):\n    # your code here\n    pass",
       "tests": [
         {

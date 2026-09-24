@@ -8,7 +8,7 @@ export const PathSchema = z.object({
   title: z.string(),
   description: z.string(),
   category: z.enum(['programming', 'data', 'ai', 'software-engineering', 'thinking']),
-  difficulty: z.enum(['intro', 'easy', 'medium', 'hard']),
+  difficulty: z.enum(['beginner', 'intermediate', 'advance']),
   moduleIds: z.array(z.string()),
   published: z.boolean(),
 });
@@ -89,7 +89,7 @@ export const LessonSchema = z.object({
   description: z.string(),
   pathId: z.string(),
   moduleId: z.string(),
-  difficulty: z.enum(['intro', 'easy', 'medium', 'hard']),
+  difficulty: z.enum(['beginner', 'intermediate', 'advance']),
   estimatedMinutes: z.number().int().positive(),
   concepts: z.array(z.string()),
   blocks: z.array(LessonBlockSchema),

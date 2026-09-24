@@ -2,7 +2,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { useEffect, useState } from 'react';
 import { getAllProgress, upsertUserProfile } from '@/lib/firestore';
 import { Link } from 'react-router-dom';
-import { LogOut, Sliders, User, Check, Maximize2 } from 'lucide-react';
+import { LogOut, Sliders, User, Check, Maximize2, CheckCircle2, Flame } from 'lucide-react';
 import type { ContentWidthSetting } from '@/types';
 
 const DEFAULT_EMOJI = '🧑‍💻';
@@ -78,7 +78,7 @@ export default function ProfilePage() {
 
   if (!user)
     return (
-      <div className="p-12 text-center space-y-4">
+      <div className="p-12 text-center space-y-4 relative z-10">
         <p className="text-gray-500">Sign in to view your profile and settings.</p>
         <Link to="/login" className="btn-primary inline-flex">
           Sign in
@@ -90,60 +90,60 @@ export default function ProfilePage() {
     <div className={`relative z-10 ${contentWidthClass} mx-auto px-4 sm:px-6 py-10 space-y-8 transition-all duration-300`}>
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Profile & Settings</h1>
-        <p className="text-gray-500 text-sm mt-1">Manage your account stats, display avatar, and content layout preferences.</p>
+        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Profile & Settings</h1>
+        <p className="text-gray-500 text-sm mt-1">Manage your account, display avatar, and content layout preferences.</p>
       </div>
 
-      {/* User Card */}
-      <div className="card p-6 flex flex-wrap items-center justify-between gap-4">
+      {/* User Card with Integrated Compact Stats */}
+      <div className="card p-6 flex flex-wrap items-center justify-between gap-6 bg-white border border-cream-200 shadow-soft">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-cream-100 border border-cream-200 flex items-center justify-center text-4xl leading-none shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-4xl leading-none shadow-sm shrink-0">
             {displayEmoji}
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-900">{user.displayName ?? 'Learner'}</h2>
-            <p className="text-sm text-gray-400">{user.email}</p>
+            <p className="text-xs text-gray-400 font-medium">{user.email}</p>
+
+            {/* Compact Badges for Completed & In Progress */}
+            <div className="flex flex-wrap items-center gap-2.5 mt-3">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100/80 text-emerald-800 border border-emerald-200/80">
+                <CheckCircle2 size={14} className="text-emerald-600" />
+                <span>{stats.completed} Completed</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100/80 text-amber-800 border border-amber-200/80">
+                <Flame size={14} className="text-amber-600" />
+                <span>{stats.started} In Progress</span>
+              </div>
+            </div>
           </div>
         </div>
 
         <button
           onClick={signOut}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-red-200 text-red-600 hover:text-red-700 hover:bg-red-50 font-medium text-xs transition-all"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-red-200 text-red-600 hover:text-red-700 hover:bg-red-50 font-semibold text-xs transition-all shadow-sm"
         >
           <LogOut size={14} />
           Sign out
         </button>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="card p-5 text-center space-y-1 border-l-4 border-l-mint-400">
-          <p className="text-3xl font-bold text-gray-900">{stats.completed}</p>
-          <p className="text-xs font-medium text-gray-500">Lessons Completed</p>
-        </div>
-        <div className="card p-5 text-center space-y-1 border-l-4 border-l-coral-300">
-          <p className="text-3xl font-bold text-gray-900">{stats.started}</p>
-          <p className="text-xs font-medium text-gray-500">In Progress</p>
-        </div>
-      </div>
-
       {/* Settings Section */}
       <div className="space-y-6">
-        <div className="flex items-center gap-2 text-gray-900 font-semibold text-lg border-b border-gray-200 pb-2">
-          <Sliders size={20} className="text-mint-400" />
+        <div className="flex items-center gap-2 text-gray-900 font-bold text-lg border-b border-cream-200 pb-3">
+          <Sliders size={20} className="text-amber-600" />
           <span>App Settings & Layout</span>
         </div>
 
-        {/* Content Section Width Setting */}
-        <div className="card p-6 space-y-5">
+        {/* Content Section Width Setting (Button-Only Selector) */}
+        <div className="card p-6 space-y-5 bg-white border border-cream-200 shadow-soft">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
-                <Maximize2 size={16} className="text-gray-700" />
-                <h3 className="text-base font-semibold text-gray-900">Content Section Width</h3>
+                <Maximize2 size={16} className="text-amber-700" />
+                <h3 className="text-base font-bold text-gray-900">Content Section Width</h3>
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                Drag the slider to adjust the width of learning modules. <strong>XL</strong> expands the content section and reduces surrounding padding.
+                Select your preferred width for learning modules. <strong>XL</strong> expands the content section and reduces surrounding padding.
               </p>
             </div>
             <span className="pill pill-mint font-semibold uppercase text-[11px] shrink-0">
@@ -151,64 +151,46 @@ export default function ProfilePage() {
             </span>
           </div>
 
-          {/* Slider Controls */}
-          <div className="space-y-3 pt-2">
-            <input
-              type="range"
-              min="0"
-              max="3"
-              step="1"
-              value={activeWidthIdx >= 0 ? activeWidthIdx : 1}
-              onChange={(e) => {
-                const idx = parseInt(e.target.value, 10);
-                if (WIDTH_POSITIONS[idx]) {
-                  setContentWidth(WIDTH_POSITIONS[idx].key);
-                }
-              }}
-              className="w-full accent-gray-900 cursor-pointer h-2 bg-gray-200 rounded-lg"
-            />
-
-            {/* Position Labels */}
-            <div className="grid grid-cols-4 gap-1 text-center">
-              {WIDTH_POSITIONS.map((w) => {
-                const isActive = contentWidth === w.key;
-                return (
-                  <button
-                    key={w.key}
-                    onClick={() => setContentWidth(w.key)}
-                    className={`py-1.5 px-2 rounded-xl text-xs transition-all flex flex-col items-center justify-center ${
-                      isActive
-                        ? 'bg-gray-900 text-white font-semibold shadow-sm'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium'
-                    }`}
-                  >
-                    <span>{w.label}</span>
-                    <span className={`text-[10px] ${isActive ? 'text-mint-200' : 'text-gray-400'}`}>
-                      {w.px}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+          {/* Width Selection Buttons Only */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+            {WIDTH_POSITIONS.map((w) => {
+              const isActive = contentWidth === w.key;
+              return (
+                <button
+                  key={w.key}
+                  onClick={() => setContentWidth(w.key)}
+                  className={`py-3 px-4 rounded-xl text-xs transition-all flex flex-col items-center justify-center gap-1 border ${
+                    isActive
+                      ? 'bg-amber-700 text-white font-bold border-amber-700 shadow-sm'
+                      : 'bg-white text-gray-700 hover:bg-cream-100 hover:text-gray-900 font-semibold border-cream-200'
+                  }`}
+                >
+                  <span>{w.label}</span>
+                  <span className={`text-[10px] ${isActive ? 'text-amber-100' : 'text-gray-400'}`}>
+                    {w.px}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Width Description & Visual Preview */}
-          <div className="bg-cream-50 border border-gray-200 rounded-xl p-4 space-y-3">
+          <div className="bg-cream-50 border border-cream-200 rounded-xl p-4 space-y-3">
             <p className="text-xs text-gray-700">
-              <span className="font-semibold text-gray-900">{currentWidthMeta.label} Layout: </span>
+              <span className="font-bold text-gray-900">{currentWidthMeta.label} Layout: </span>
               {currentWidthMeta.desc}
             </p>
 
             {/* Mini Screen Preview Graphic */}
             <div className="space-y-1">
               <div className="flex justify-between text-[11px] text-gray-400 font-mono">
-                <span>Surrounding Padding</span>
+                <span>Padding</span>
                 <span>Content Section ({currentWidthMeta.previewPct}%)</span>
-                <span>Surrounding Padding</span>
+                <span>Padding</span>
               </div>
-              <div className="h-7 bg-gray-200 rounded-lg p-1 flex items-center justify-center relative overflow-hidden">
+              <div className="h-7 bg-cream-200/60 rounded-lg p-1 flex items-center justify-center relative overflow-hidden">
                 <div
-                  className="h-full bg-mint-300 rounded border border-mint-400 text-[10px] font-bold text-gray-900 flex items-center justify-center transition-all duration-300 shadow-sm"
+                  className="h-full bg-amber-600 rounded text-[10px] font-bold text-white flex items-center justify-center transition-all duration-300 shadow-sm"
                   style={{ width: `${currentWidthMeta.previewPct}%` }}
                 >
                   Content Section ({currentWidthMeta.label})
@@ -219,30 +201,30 @@ export default function ProfilePage() {
         </div>
 
         {/* Avatar Emoji Picker */}
-        <div className="card p-6 space-y-4">
+        <div className="card p-6 space-y-4 bg-white border border-cream-200 shadow-soft">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <User size={16} className="text-gray-700" />
-              <h3 className="text-base font-semibold text-gray-900">Avatar Emoji</h3>
+              <User size={16} className="text-amber-700" />
+              <h3 className="text-base font-bold text-gray-900">Avatar Emoji</h3>
             </div>
             {avatarSaved && (
-              <span className="flex items-center gap-1 text-xs text-mint-400 font-medium">
-                <Check size={13} /> Saved
+              <span className="flex items-center gap-1 text-xs text-emerald-600 font-semibold">
+                <Check size={14} /> Saved
               </span>
             )}
           </div>
 
           <p className="text-xs text-gray-500">Pick an emoji avatar to represent you across Statica Learn.</p>
 
-          <div className="grid grid-cols-8 gap-2">
+          <div className="grid grid-cols-4 sm:grid-cols-8 gap-2.5">
             {EMOJI_OPTIONS.map((emoji) => (
               <button
                 key={emoji}
                 onClick={() => handleSaveAvatar(emoji)}
-                className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center transition-all ${
+                className={`w-11 h-11 rounded-xl text-2xl flex items-center justify-center transition-all ${
                   selectedEmoji === emoji
-                    ? 'bg-gray-900 ring-2 ring-gray-900 ring-offset-1 text-white'
-                    : 'bg-gray-100 hover:bg-gray-200'
+                    ? 'bg-amber-700 text-white ring-2 ring-amber-700 ring-offset-2 shadow-sm'
+                    : 'bg-cream-50 hover:bg-cream-100 border border-cream-200'
                 }`}
               >
                 {emoji}

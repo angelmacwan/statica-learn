@@ -5,7 +5,7 @@
   "description": "Combine functions, collections, error handling, and file-shaped data in one practical task.",
   "pathId": "python",
   "moduleId": "python-reliable-programs",
-  "difficulty": "hard",
+  "difficulty": "advance",
   "estimatedMinutes": 12,
   "concepts": [
     "functions",

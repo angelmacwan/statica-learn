@@ -5,7 +5,7 @@
   "description": "Combine multiple condition criteria using logical boolean operators.",
   "pathId": "sql",
   "moduleId": "sql-filtering-and-sorting",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "and",

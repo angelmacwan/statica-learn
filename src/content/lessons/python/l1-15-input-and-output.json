@@ -5,7 +5,7 @@
   "description": "Read values from the user with input() and display results with print().",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "print",

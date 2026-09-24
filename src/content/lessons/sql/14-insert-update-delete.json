@@ -5,7 +5,7 @@
   "description": "Modify rows inside tables using DML commands: INSERT INTO, UPDATE, and DELETE FROM.",
   "pathId": "sql",
   "moduleId": "sql-database-and-schema-management",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 9,
   "concepts": [
     "insert-into",
@@ -15,7 +15,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "DML commands:\n\n- `INSERT INTO table (cols) VALUES (vals)` — adds new rows.\n- `UPDATE table SET col = val WHERE condition` — updates existing rows.\n- `DELETE FROM table WHERE condition` — deletes matching rows."
+      "content": "DML commands:\n\n- `INSERT INTO table (cols) VALUES (vals)` \u2014 adds new rows.\n- `UPDATE table SET col = val WHERE condition` \u2014 updates existing rows.\n- `DELETE FROM table WHERE condition` \u2014 deletes matching rows."
     },
     {
       "type": "challenge",

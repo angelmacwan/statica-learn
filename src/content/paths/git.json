@@ -4,7 +4,7 @@
   "title": "Git: Safe Changes and Team Collaboration",
   "description": "Learn to save intentional history, work safely on branches, collaborate through review, recover mistakes, and ship a traceable release.",
   "category": "software-engineering",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "moduleIds": [
     "git-foundations",
     "git-branches-and-integration",

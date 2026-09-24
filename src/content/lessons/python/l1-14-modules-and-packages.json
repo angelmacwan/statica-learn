@@ -5,7 +5,7 @@
   "description": "Reuse code from Python's standard library and third-party packages using import.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "import",

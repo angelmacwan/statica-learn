@@ -5,7 +5,7 @@
   "description": "Test your knowledge of Python basics: variables, types, collections, operators, control flow, functions, and more.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 15,
   "concepts": [
     "quiz",

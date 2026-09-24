@@ -5,7 +5,7 @@
   "description": "Initialize new Git repositories, master file tracking lifecycles with git status and git add, and exclude unwanted files with .gitignore.",
   "pathId": "git",
   "moduleId": "git-foundations",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "git-init",

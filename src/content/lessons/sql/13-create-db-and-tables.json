@@ -5,7 +5,7 @@
   "description": "Define table schemas with CREATE TABLE, specifying column names and SQL data types.",
   "pathId": "sql",
   "moduleId": "sql-database-and-schema-management",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 8,
   "concepts": [
     "create-table",

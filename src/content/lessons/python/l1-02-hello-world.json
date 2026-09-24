@@ -5,7 +5,7 @@
   "description": "Write your first Python program and learn how print() works.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 6,
   "concepts": [
     "print",

@@ -5,7 +5,7 @@
   "description": "Repeat actions without copy-pasting - the power of iteration.",
   "pathId": "python",
   "moduleId": "python-repetition-and-functions",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 12,
   "concepts": [
     "for",

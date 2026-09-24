@@ -5,7 +5,7 @@
   "description": "Shelve unfinished changes temporarily with git stash and mark milestone releases with lightweight and annotated tags.",
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "git-stash",

@@ -5,7 +5,7 @@
   "description": "Combine columns from two tables based on a related foreign key column.",
   "pathId": "sql",
   "moduleId": "sql-table-joins",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 10,
   "concepts": [
     "inner-join",

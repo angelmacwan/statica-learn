@@ -23,7 +23,7 @@ export function ModuleBackgroundGraphic({ pathSlug, className }: Props) {
 
   const baseClasses =
     className ??
-    'fixed bottom-4 right-4 md:bottom-8 md:right-8 w-64 h-64 md:w-96 md:h-96 pointer-events-none select-none z-0 animate-watermark-pop';
+    'fixed bottom-4 right-4 md:bottom-8 md:right-8 w-64 h-64 md:w-96 md:h-96 pointer-events-none select-none z-0 opacity-25 animate-watermark-pop';
 
   return (
     <div className={baseClasses}>

@@ -5,7 +5,7 @@
   "description": "Modify existing table structures using ALTER TABLE and remove tables or databases using DROP TABLE.",
   "pathId": "sql",
   "moduleId": "sql-database-and-schema-management",
-  "difficulty": "hard",
+  "difficulty": "advance",
   "estimatedMinutes": 8,
   "concepts": [
     "alter-table",
@@ -15,7 +15,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "To modify table structure after creation:\n\n- `ALTER TABLE table_name ADD COLUMN col_name type;` — adds a new column.\n- `DROP TABLE table_name;` — permanently deletes a table and all its data."
+      "content": "To modify table structure after creation:\n\n- `ALTER TABLE table_name ADD COLUMN col_name type;` \u2014 adds a new column.\n- `DROP TABLE table_name;` \u2014 permanently deletes a table and all its data."
     },
     {
       "type": "challenge",

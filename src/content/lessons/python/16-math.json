@@ -5,7 +5,7 @@
   "description": "Use Python's built-in math capabilities and the math module for real calculations.",
   "pathId": "python",
   "moduleId": "python-everyday-tools",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 10,
   "concepts": [
     "math module",
@@ -47,7 +47,7 @@
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `circle_area(radius)` that calculates the area of a circle using the formula:\n\n**area = π × radius²**\n\nReturn the result **rounded to 2 decimal places**. Use `math.pi` for the value of π.\n\nFor example:\n- `circle_area(1)` → `3.14`\n- `circle_area(5)` → `78.54`",
+      "prompt": "Write a function `circle_area(radius)` that calculates the area of a circle using the formula:\n\n**area = \u03c0 \u00d7 radius\u00b2**\n\nReturn the result **rounded to 2 decimal places**. Use `math.pi` for the value of \u03c0.\n\nFor example:\n- `circle_area(1)` \u2192 `3.14`\n- `circle_area(5)` \u2192 `78.54`",
       "starterCode": "import math\n\ndef circle_area(radius):\n    # Calculate and return the area of a circle, rounded to 2 decimal places\n    pass\n",
       "tests": [
         {

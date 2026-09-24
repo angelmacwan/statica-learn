@@ -5,7 +5,7 @@
   "description": "Connect local repositories to remote hosts like GitHub, understand remote-tracking branches, and synchronize changes with fetch, pull, and push.",
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "git-remote",

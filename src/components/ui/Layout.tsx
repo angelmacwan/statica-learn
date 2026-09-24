@@ -75,14 +75,19 @@ export function Layout() {
               <Link
                 to="/home"
                 className="flex items-center gap-2.5 overflow-hidden py-1"
-                title="Statica Learn"
+                title="Statica Learn by StaticaLabs"
               >
                 <div className="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center shrink-0">
                   <span className="text-white text-xs font-bold">S</span>
                 </div>
-                <span className="font-semibold text-gray-900 text-sm whitespace-nowrap">
-                  Statica Learn
-                </span>
+                <div className="flex flex-col leading-tight">
+                  <span className="font-semibold text-gray-900 text-sm whitespace-nowrap">
+                    Statica Learn
+                  </span>
+                  <span className="text-[10px] font-normal text-gray-500 whitespace-nowrap">
+                    by StaticaLabs
+                  </span>
+                </div>
               </Link>
 
               <button
@@ -184,7 +189,10 @@ export function Layout() {
           <div className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center">
             <span className="text-white text-xs font-bold">S</span>
           </div>
-          <span className="font-semibold text-gray-900 text-sm">Statica Learn</span>
+          <div className="flex flex-col leading-tight">
+            <span className="font-semibold text-gray-900 text-sm">Statica Learn</span>
+            <span className="text-[10px] font-normal text-gray-500">by StaticaLabs</span>
+          </div>
         </Link>
         {user ? (
           <Link to="/profile" className="text-xl leading-none">

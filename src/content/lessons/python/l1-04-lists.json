@@ -5,7 +5,7 @@
   "description": "Store multiple values in order using Python's list type.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 10,
   "concepts": [
     "list",

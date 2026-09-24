@@ -5,7 +5,7 @@
   "description": "Use sets to store unique values and perform fast membership checks.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "set",

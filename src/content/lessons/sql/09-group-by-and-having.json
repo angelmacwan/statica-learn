@@ -5,7 +5,7 @@
   "description": "Group rows into categories with GROUP BY and filter aggregated groups with HAVING.",
   "pathId": "sql",
   "moduleId": "sql-aggregations-and-grouping",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 10,
   "concepts": [
     "group-by",

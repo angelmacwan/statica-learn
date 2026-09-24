@@ -5,7 +5,7 @@
   "description": "Maximize margins with linear hyperplanes and utilize the RBF Kernel Trick for complex decision boundaries.",
   "pathId": "ml",
   "moduleId": "ml-tree-models-and-ensembles",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 9,
   "concepts": [
     "svm",

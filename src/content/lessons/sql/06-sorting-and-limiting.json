@@ -5,7 +5,7 @@
   "description": "Order query results with ORDER BY (ASC, DESC) and limit row counts with LIMIT.",
   "pathId": "sql",
   "moduleId": "sql-filtering-and-sorting",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "order-by",

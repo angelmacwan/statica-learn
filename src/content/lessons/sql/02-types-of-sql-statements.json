@@ -5,7 +5,7 @@
   "description": "Learn the core categories of SQL statements: DDL, DML, and DQL.",
   "pathId": "sql",
   "moduleId": "sql-fundamentals",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "ddl",
@@ -15,7 +15,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "SQL statements are categorized based on their purpose:\n\n- **DQL (Data Query Language)**: `SELECT` — fetches data.\n- **DML (Data Manipulation Language)**: `INSERT`, `UPDATE`, `DELETE` — modifies data records.\n- **DDL (Data Definition Language)**: `CREATE`, `ALTER`, `DROP` — defines database structure."
+      "content": "SQL statements are categorized based on their purpose:\n\n- **DQL (Data Query Language)**: `SELECT` \u2014 fetches data.\n- **DML (Data Manipulation Language)**: `INSERT`, `UPDATE`, `DELETE` \u2014 modifies data records.\n- **DDL (Data Definition Language)**: `CREATE`, `ALTER`, `DROP` \u2014 defines database structure."
     },
     {
       "type": "multipleChoice",

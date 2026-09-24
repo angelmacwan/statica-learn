@@ -98,7 +98,7 @@ export default function LessonPage() {
     <div className="relative max-w-[1500px] mx-auto px-4 sm:px-6 py-8">
       <ModuleBackgroundGraphic pathSlug={pathSlug} />
 
-      <div className="flex flex-col lg:flex-row items-start gap-8 justify-center">
+      <div className="relative z-10 flex flex-col lg:flex-row items-start gap-8 justify-center">
         {/* Left Floating Sidebar: Path Outline */}
         <aside className="w-full lg:w-72 xl:w-80 shrink-0 lg:sticky lg:top-6 z-20">
           <FloatingLessonPlan

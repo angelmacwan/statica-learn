@@ -5,7 +5,7 @@
   "description": "Write code that explains itself - using comments and docstrings effectively.",
   "pathId": "python",
   "moduleId": "python-everyday-tools",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 6,
   "concepts": [
     "#",

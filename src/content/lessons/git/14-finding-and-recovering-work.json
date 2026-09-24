@@ -5,7 +5,7 @@
   "description": "Practice finding and recovering work through a concrete team scenario.",
   "pathId": "git",
   "moduleId": "git-collaboration-and-release",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 7,
   "concepts": [
     "reflog",

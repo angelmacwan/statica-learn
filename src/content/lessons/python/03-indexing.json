@@ -5,7 +5,7 @@
   "description": "How to get a specific item out of a list using its index.",
   "pathId": "python",
   "moduleId": "python-starting-out",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "lists",

@@ -1,53 +1,100 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { useEffect, useRef } from 'react';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import { useEffect, useState } from 'react';
 import type { TextBlock as TextBlockType } from '@/types';
 
 interface Props {
   block: TextBlockType;
 }
 
-export function TextBlock({ block }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+function MermaidDiagram({ chart }: { chart: string }) {
+  const [svg, setSvg] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
 
-  // Render Mermaid diagrams after markdown is rendered
   useEffect(() => {
-    const diagrams = ref.current?.querySelectorAll('code.language-mermaid');
-    if (!diagrams?.length) return;
-
+    let isMounted = true;
+    const cleanChart = chart.trim();
     import('mermaid').then(({ default: mermaid }) => {
-      mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
-      diagrams.forEach((el) => {
-        const pre = el.parentElement;
-        if (!pre) return;
-        const wrapper = document.createElement('div');
-        wrapper.className = 'mermaid my-4 flex justify-center overflow-x-auto';
-        wrapper.textContent = el.textContent ?? '';
-        pre.replaceWith(wrapper);
-        mermaid.run({ nodes: [wrapper] });
-      });
+      mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+      const uniqueId = `mermaid-svg-${Math.random().toString(36).substring(2, 9)}`;
+      mermaid
+        .render(uniqueId, cleanChart)
+        .then(({ svg }) => {
+          if (isMounted) {
+            setSvg(svg);
+            setError(null);
+          }
+        })
+        .catch((err) => {
+          if (isMounted) {
+            console.error('Mermaid rendering error:', err);
+            setError(err instanceof Error ? err.message : String(err));
+          }
+        });
     });
-  }, [block.content]);
+    return () => {
+      isMounted = false;
+    };
+  }, [chart]);
+
+  if (error) {
+    return (
+      <div className="my-5 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-mono">
+        <p className="font-bold mb-1">Mermaid Render Error</p>
+        <pre className="whitespace-pre-wrap">{chart}</pre>
+      </div>
+    );
+  }
+
+  if (!svg) {
+    return (
+      <div className="my-5 p-6 text-center text-xs font-semibold text-amber-700 bg-amber-50/60 rounded-2xl border border-amber-200 animate-pulse">
+        Rendering diagram...
+      </div>
+    );
+  }
 
   return (
     <div
-      ref={ref}
-      className="prose prose-gray max-w-none prose-headings:font-semibold prose-code:font-mono
-                 prose-a:text-mint-400 prose-a:no-underline hover:prose-a:underline"
+      className="my-6 p-4 bg-white border border-cream-200 rounded-2xl shadow-soft flex justify-center overflow-x-auto"
+      dangerouslySetInnerHTML={{ __html: svg }}
+    />
+  );
+}
+
+export function TextBlock({ block }: Props) {
+  return (
+    <div
+      className="prose prose-gray max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-code:font-mono
+                 prose-a:text-amber-700 prose-a:no-underline hover:prose-a:underline leading-relaxed"
     >
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex]}
         components={{
           code({ node, inline, className, children, ...props }: any) {
             const match = /language-(\w+)/.exec(className || '');
             const rawContent = String(children);
+            const lang = match ? match[1] : '';
+
+            if (
+              lang === 'mermaid' ||
+              rawContent.trim().startsWith('graph ') ||
+              rawContent.trim().startsWith('sequenceDiagram') ||
+              rawContent.trim().startsWith('flowchart ')
+            ) {
+              return <MermaidDiagram chart={rawContent} />;
+            }
+
             const isMultiline = rawContent.includes('\n');
             const isInline = inline || (!match && !isMultiline);
 
             if (isInline) {
               return (
                 <code
-                  className="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded text-gray-800 border border-gray-200/80 font-medium"
+                  className="font-mono text-xs bg-cream-100 px-1.5 py-0.5 rounded text-amber-900 border border-cream-200/80 font-semibold"
                   {...props}
                 >
                   {children}
@@ -55,16 +102,15 @@ export function TextBlock({ block }: Props) {
               );
             }
 
-            const lang = match ? match[1] : '';
-
+            // Read-only markdown content code blocks render with light cohesive container
             return (
-              <div className="my-5 rounded-2xl overflow-hidden border border-gray-800 bg-gray-900 shadow-card">
-                {lang && lang !== 'mermaid' && (
-                  <div className="bg-gray-800/90 px-4 py-1.5 text-[11px] font-mono font-bold text-mint-300 border-b border-gray-700/60 flex items-center justify-between uppercase tracking-wider">
+              <div className="my-5 rounded-2xl overflow-hidden border border-cream-200/90 bg-cream-100/50 shadow-soft">
+                {lang && (
+                  <div className="bg-cream-200/60 px-4 py-1.5 text-[11px] font-mono font-bold text-amber-900 border-b border-cream-200 flex items-center justify-between uppercase tracking-wider">
                     <span>{lang}</span>
                   </div>
                 )}
-                <pre className="p-4 font-mono text-xs sm:text-sm text-gray-100 overflow-x-auto leading-relaxed whitespace-pre m-0 bg-transparent">
+                <pre className="p-4 font-mono text-xs sm:text-sm text-gray-900 overflow-x-auto leading-relaxed whitespace-pre m-0 bg-transparent">
                   <code className={className} {...props}>
                     {children}
                   </code>

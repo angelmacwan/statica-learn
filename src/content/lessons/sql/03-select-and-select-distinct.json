@@ -5,7 +5,7 @@
   "description": "Master column selection, column aliases with AS, and deduplicating results with SELECT DISTINCT.",
   "pathId": "sql",
   "moduleId": "sql-fundamentals",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "select",

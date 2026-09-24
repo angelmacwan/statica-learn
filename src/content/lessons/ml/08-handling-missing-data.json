@@ -5,7 +5,7 @@
   "description": "Detect missing values and apply mean, median, and mode imputation with scikit-learn.",
   "pathId": "ml",
   "moduleId": "ml-data-preprocessing-and-feature-engineering",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "imputation",

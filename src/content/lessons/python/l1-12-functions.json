@@ -5,7 +5,7 @@
   "description": "Package reusable logic into functions - write it once and call it anywhere.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 10,
   "concepts": [
     "def",

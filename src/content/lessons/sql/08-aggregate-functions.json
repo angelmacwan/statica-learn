@@ -5,7 +5,7 @@
   "description": "Perform statistical calculations across multiple table rows.",
   "pathId": "sql",
   "moduleId": "sql-aggregations-and-grouping",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "count",
@@ -17,7 +17,7 @@
   "blocks": [
     {
       "type": "text",
-      "content": "Aggregate functions summarize data into a single value:\n\n- `COUNT(*)` — total number of rows.\n- `SUM(col)` — sum of numeric values.\n- `AVG(col)` — average value.\n- `MIN(col)` / `MAX(col)` — smallest / largest value."
+      "content": "Aggregate functions summarize data into a single value:\n\n- `COUNT(*)` \u2014 total number of rows.\n- `SUM(col)` \u2014 sum of numeric values.\n- `AVG(col)` \u2014 average value.\n- `MIN(col)` / `MAX(col)` \u2014 smallest / largest value."
     },
     {
       "type": "code",

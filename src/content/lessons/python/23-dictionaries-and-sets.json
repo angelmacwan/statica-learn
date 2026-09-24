@@ -5,7 +5,7 @@
   "description": "Store key-value pairs with O(1) lookups and perform fast mathematical set operations.",
   "pathId": "python",
   "moduleId": "python-working-with-data",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 12,
   "concepts": [
     "dict",

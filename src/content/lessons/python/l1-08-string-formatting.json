@@ -5,7 +5,7 @@
   "description": "Build readable strings by embedding variables and expressions using f-strings.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "f-strings",

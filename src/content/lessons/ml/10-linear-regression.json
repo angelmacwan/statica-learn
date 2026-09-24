@@ -2,10 +2,10 @@
   "id": "ml-linear-regression",
   "slug": "linear-regression",
   "title": "10. Linear Regression & Evaluation",
-  "description": "Build simple and multiple linear regression models and measure R², MSE, and MAE.",
+  "description": "Build simple and multiple linear regression models and measure R\u00b2, MSE, and MAE.",
   "pathId": "ml",
   "moduleId": "ml-supervised-learning-regression-classification",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 9,
   "concepts": [
     "linear-regression",

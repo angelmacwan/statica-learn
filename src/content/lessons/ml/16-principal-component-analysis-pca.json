@@ -5,7 +5,7 @@
   "description": "Compress high-dimensional features into orthogonal principal components.",
   "pathId": "ml",
   "moduleId": "ml-unsupervised-learning-and-dimensionality",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 9,
   "concepts": [
     "pca",

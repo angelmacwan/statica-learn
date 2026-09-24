@@ -1,5 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { CheckCircle2, XCircle, ChevronRight, Clock, Lightbulb, Terminal, Code2 } from 'lucide-react';
 import { CATEGORIES, DIFFICULTY_META } from '../questions';
 import { SchemaViewer } from '@/components/sql/SchemaViewer';
@@ -60,7 +62,7 @@ export function ProblemPanel({ question, result, running, solved }: ProblemPanel
 
         {/* Problem statement */}
         <div className="prose prose-sm max-w-none text-gray-800 prose-headings:text-gray-900 prose-code:bg-cream-100 prose-code:text-amber-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-900 prose-pre:text-gray-100">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{question.description}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{question.description}</ReactMarkdown>
         </div>
 
         {/* Hint */}

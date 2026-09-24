@@ -5,7 +5,7 @@
   "description": "Transform heavily skewed data with log scaling, binning, and one-hot encoding.",
   "pathId": "ml",
   "moduleId": "ml-data-preprocessing-and-feature-engineering",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "log-transform",

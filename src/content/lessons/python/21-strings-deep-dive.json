@@ -5,7 +5,7 @@
   "description": "Master string manipulation in Python, from advanced slicing to core methods and f-strings.",
   "pathId": "python",
   "moduleId": "python-working-with-data",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 10,
   "concepts": [
     "strings",

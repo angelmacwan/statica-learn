@@ -5,7 +5,7 @@
   "description": "Store multiple values together using Python's built-in collection types.",
   "pathId": "python",
   "moduleId": "python-values-and-choices",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 12,
   "concepts": [
     "list",

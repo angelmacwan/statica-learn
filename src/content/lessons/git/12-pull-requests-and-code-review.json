@@ -5,7 +5,7 @@
   "description": "Practice pull requests and code review through a concrete team scenario.",
   "pathId": "git",
   "moduleId": "git-collaboration-and-release",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "pull-requests",

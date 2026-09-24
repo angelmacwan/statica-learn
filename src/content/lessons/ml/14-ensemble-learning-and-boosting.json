@@ -5,7 +5,7 @@
   "description": "Compare Bagging vs Boosting, AdaBoost, Gradient Boosting, and XGBoost.",
   "pathId": "ml",
   "moduleId": "ml-tree-models-and-ensembles",
-  "difficulty": "hard",
+  "difficulty": "advance",
   "estimatedMinutes": 10,
   "concepts": [
     "bagging",

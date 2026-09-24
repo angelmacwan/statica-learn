@@ -5,7 +5,7 @@
   "description": "Safely discard working tree edits, unstage files, adjust branch pointers with reset, and reverse public commits with revert.",
   "pathId": "git",
   "moduleId": "git-foundations",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "git-restore",

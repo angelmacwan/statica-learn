@@ -5,7 +5,7 @@
   "description": "Record immutable snapshots with git commit, compare changes with git diff, and navigate history using git log and git show.",
   "pathId": "git",
   "moduleId": "git-foundations",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "git-commit",

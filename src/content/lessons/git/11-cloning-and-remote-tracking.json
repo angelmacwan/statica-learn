@@ -5,7 +5,7 @@
   "description": "Practice cloning and tracking a shared repository through a concrete team scenario.",
   "pathId": "git",
   "moduleId": "git-collaboration-and-release",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "git-clone",

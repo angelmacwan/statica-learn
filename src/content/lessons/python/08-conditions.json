@@ -5,7 +5,7 @@
   "description": "Control what your program does based on conditions - the backbone of all logic.",
   "pathId": "python",
   "moduleId": "python-values-and-choices",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 12,
   "concepts": [
     "if",
@@ -39,7 +39,7 @@
     {
       "type": "code",
       "language": "python",
-      "starterCode": "# Temperature Checker\n# Try changing the temperature and see which message appears!\n\ntemperature = 22  # Change this value\n\nif temperature > 35:\n    message = \"It's scorching! Stay hydrated.\"\nelif temperature > 20:\n    message = \"Nice weather for a walk!\"\nelif temperature > 10:\n    message = \"Grab a jacket.\"\nelse:\n    message = \"Stay inside - it's freezing!\"\n\nprint(f\"Temperature: {temperature}°C\")\nprint(f\"Advice: {message}\")"
+      "starterCode": "# Temperature Checker\n# Try changing the temperature and see which message appears!\n\ntemperature = 22  # Change this value\n\nif temperature > 35:\n    message = \"It's scorching! Stay hydrated.\"\nelif temperature > 20:\n    message = \"Nice weather for a walk!\"\nelif temperature > 10:\n    message = \"Grab a jacket.\"\nelse:\n    message = \"Stay inside - it's freezing!\"\n\nprint(f\"Temperature: {temperature}\u00b0C\")\nprint(f\"Advice: {message}\")"
     },
     {
       "type": "code",

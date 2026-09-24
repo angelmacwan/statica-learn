@@ -5,7 +5,7 @@
   "description": "Discover natural clusters using K-Means, the Elbow Method, Hierarchical Dendrograms, and DBSCAN.",
   "pathId": "ml",
   "moduleId": "ml-unsupervised-learning-and-dimensionality",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 10,
   "concepts": [
     "clustering",

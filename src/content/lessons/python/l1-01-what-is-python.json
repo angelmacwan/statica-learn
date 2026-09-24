@@ -5,7 +5,7 @@
   "description": "Learn what Python is, where it's used, and how to interact with it through the REPL.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "python",

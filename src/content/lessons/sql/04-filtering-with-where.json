@@ -5,7 +5,7 @@
   "description": "Filter table rows using WHERE and comparison operators (=, !=, <, >, <=, >=).",
   "pathId": "sql",
   "moduleId": "sql-filtering-and-sorting",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 8,
   "concepts": [
     "where",

@@ -5,7 +5,7 @@
   "description": "Combine lines of development with fast-forward and three-way merges, decipher conflict markers, and resolve collisions cleanly.",
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "git-merge",

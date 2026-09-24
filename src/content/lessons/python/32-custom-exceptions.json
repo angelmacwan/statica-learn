@@ -5,7 +5,7 @@
   "description": "Trigger exceptions with raise and create domain-specific custom exception classes.",
   "pathId": "python",
   "moduleId": "python-reliable-programs",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 10,
   "concepts": [
     "raise",

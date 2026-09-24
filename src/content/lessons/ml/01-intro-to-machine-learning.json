@@ -5,7 +5,7 @@
   "description": "Understand what machine learning is, how it differs from traditional programming, and key vocabulary.",
   "pathId": "ml",
   "moduleId": "ml-introduction-and-process",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "machine-learning",

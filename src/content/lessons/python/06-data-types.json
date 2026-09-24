@@ -5,7 +5,7 @@
   "description": "Python's built-in types: integers, floats, strings, booleans, and how Python knows what type something is.",
   "pathId": "python",
   "moduleId": "python-values-and-choices",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 12,
   "concepts": [
     "int",
@@ -22,7 +22,7 @@
     },
     {
       "type": "text",
-      "content": "## The 5 Primitive Types at a Glance\n\n```mermaid\ngraph LR\n  root[\"Python Primitive Types\"]\n\n  root --- A[\"int\\n─────\\nWhole numbers\\n42, -7, 0\"]\n  root --- B[\"float\\n─────\\nDecimals\\n3.14, -0.5, 1.0\"]\n  root --- C[\"str\\n─────\\nText\\n\\\"hello\\\", 'world'\"]\n  root --- D[\"bool\\n─────\\nTrue / False\\nTrue, False\"]\n  root --- E[\"NoneType\\n─────\\nAbsence of value\\nNone\"]\n```\n\nEvery value in Python belongs to exactly one type. Python figures out the type automatically based on how you write the value - this is called **type inference**."
+      "content": "## The 5 Primitive Types at a Glance\n\n```mermaid\ngraph LR\n  root[\"Python Primitive Types\"]\n\n  root --- A[\"int\\n\u2500\u2500\u2500\u2500\u2500\\nWhole numbers\\n42, -7, 0\"]\n  root --- B[\"float\\n\u2500\u2500\u2500\u2500\u2500\\nDecimals\\n3.14, -0.5, 1.0\"]\n  root --- C[\"str\\n\u2500\u2500\u2500\u2500\u2500\\nText\\n\\\"hello\\\", 'world'\"]\n  root --- D[\"bool\\n\u2500\u2500\u2500\u2500\u2500\\nTrue / False\\nTrue, False\"]\n  root --- E[\"NoneType\\n\u2500\u2500\u2500\u2500\u2500\\nAbsence of value\\nNone\"]\n```\n\nEvery value in Python belongs to exactly one type. Python figures out the type automatically based on how you write the value - this is called **type inference**."
     },
     {
       "type": "multipleChoice",

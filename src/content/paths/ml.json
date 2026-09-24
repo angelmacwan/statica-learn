@@ -4,7 +4,7 @@
   "title": "Foundations of Machine Learning",
   "description": "Master core ML concepts step-by-step: supervised vs unsupervised learning, data preprocessing, feature engineering, regression, classification, decision trees, ensembles, SVMs, clustering, PCA, and anomaly detection.",
   "category": "ai",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "moduleIds": [
     "ml-introduction-and-process",
     "ml-data-preprocessing-and-feature-engineering",

@@ -5,7 +5,7 @@
   "description": "Use LEFT JOIN to retain all left table rows even when no matching record exists in the joined table.",
   "pathId": "sql",
   "moduleId": "sql-table-joins",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 10,
   "concepts": [
     "left-join",

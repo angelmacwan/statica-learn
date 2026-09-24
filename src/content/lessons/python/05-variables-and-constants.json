@@ -5,7 +5,7 @@
   "description": "Store, update, and name values in Python - and learn why constants matter.",
   "pathId": "python",
   "moduleId": "python-values-and-choices",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 10,
   "concepts": [
     "variables",

@@ -5,7 +5,7 @@
   "description": "Enforce data integrity with PRIMARY KEY, FOREIGN KEY, NOT NULL, and UNIQUE constraints.",
   "pathId": "sql",
   "moduleId": "sql-database-and-schema-management",
-  "difficulty": "hard",
+  "difficulty": "advance",
   "estimatedMinutes": 10,
   "concepts": [
     "primary-key",

@@ -5,7 +5,7 @@
   "description": "A concrete look at what Python is actually used for, and why it's worth learning.",
   "pathId": "python",
   "moduleId": "python-starting-out",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 5,
   "concepts": [
     "programming",

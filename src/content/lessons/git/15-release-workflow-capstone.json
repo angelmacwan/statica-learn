@@ -5,7 +5,7 @@
   "description": "Plan and model a focused release using branches, commits, integration, and tags.",
   "pathId": "git",
   "moduleId": "git-collaboration-and-release",
-  "difficulty": "hard",
+  "difficulty": "advance",
   "estimatedMinutes": 12,
   "concepts": [
     "branches",

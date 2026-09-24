@@ -5,7 +5,7 @@
   "description": "Understand binary classification, the sigmoid curve, confusion matrices, and precision/recall.",
   "pathId": "ml",
   "moduleId": "ml-supervised-learning-regression-classification",
-  "difficulty": "medium",
+  "difficulty": "intermediate",
   "estimatedMinutes": 10,
   "concepts": [
     "logistic-regression",

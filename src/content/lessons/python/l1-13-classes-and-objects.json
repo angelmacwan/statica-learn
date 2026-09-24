@@ -5,7 +5,7 @@
   "description": "Group data and behaviour together using Python's class system.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 12,
   "concepts": [
     "class",

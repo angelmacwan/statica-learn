@@ -5,7 +5,7 @@
   "description": "Store values with variables and learn Python's basic data types: int, float, str, and bool.",
   "pathId": "python",
   "moduleId": "python-l1",
-  "difficulty": "intro",
+  "difficulty": "beginner",
   "estimatedMinutes": 10,
   "concepts": [
     "variables",

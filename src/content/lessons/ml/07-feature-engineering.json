@@ -5,7 +5,7 @@
   "description": "Extract features from dates and text, and rank feature importance.",
   "pathId": "ml",
   "moduleId": "ml-data-preprocessing-and-feature-engineering",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 7,
   "concepts": [
     "feature-extraction",

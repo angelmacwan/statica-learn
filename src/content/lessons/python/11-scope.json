@@ -5,7 +5,7 @@
   "description": "Understand why some variables can't be seen inside functions - and what to do about it.",
   "pathId": "python",
   "moduleId": "python-repetition-and-functions",
-  "difficulty": "easy",
+  "difficulty": "beginner",
   "estimatedMinutes": 10,
   "concepts": [
     "local scope",
@@ -42,7 +42,7 @@
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `add_prefix(words, prefix)` that takes a list of strings and a prefix string, and returns a **new list** where every string has the prefix prepended to it.\n\nDo not modify the original list. Use only local variables - no global state needed.\n\nExamples:\n- `add_prefix([\"cat\", \"dog\"], \"my_\")` → `[\"my_cat\", \"my_dog\"]`\n- `add_prefix([], \"x\")` → `[]`\n- `add_prefix([\"one\"], \"pre-\")` → `[\"pre-one\"]`",
+      "prompt": "Write a function `add_prefix(words, prefix)` that takes a list of strings and a prefix string, and returns a **new list** where every string has the prefix prepended to it.\n\nDo not modify the original list. Use only local variables - no global state needed.\n\nExamples:\n- `add_prefix([\"cat\", \"dog\"], \"my_\")` \u2192 `[\"my_cat\", \"my_dog\"]`\n- `add_prefix([], \"x\")` \u2192 `[]`\n- `add_prefix([\"one\"], \"pre-\")` \u2192 `[\"pre-one\"]`",
       "starterCode": "def add_prefix(words, prefix):\n    # your code here\n    pass\n",
       "tests": [
         {
