@@ -1,16 +1,14 @@
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useEffect, useState } from 'react';
-import { getAllProgress, getRecentActivities } from '@/lib/firestore';
+import { getAllProgress } from '@/lib/firestore';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, Clock, LogOut } from 'lucide-react';
-import type { Activity } from '@/types';
+import { LogOut } from 'lucide-react';
 
 const DEFAULT_EMOJI = '🧑‍💻';
 
 export default function ProfilePage() {
   const { user, signOut, avatarEmoji } = useAuth();
   const [stats, setStats] = useState({ completed: 0, started: 0 });
-  const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -21,7 +19,6 @@ export default function ProfilePage() {
         started: vals.filter((v) => v.status === 'started').length,
       });
     });
-    getRecentActivities(user.uid).then(setActivities);
   }, [user]);
 
   const displayEmoji = avatarEmoji || DEFAULT_EMOJI;
@@ -63,28 +60,6 @@ export default function ProfilePage() {
           <p className="text-sm text-gray-400">In progress</p>
         </div>
       </div>
-
-      {/* Recent activity */}
-      {activities.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-base font-semibold text-gray-900">Recent Activity</h2>
-          <div className="space-y-2">
-            {activities.slice(0, 8).map((act, i) => (
-              <div key={i} className="card px-4 py-3 flex items-center gap-3 text-sm">
-                {act.type === 'lesson_completed' ? (
-                  <CheckCircle2 size={15} className="text-mint-400 shrink-0" />
-                ) : (
-                  <Clock size={15} className="text-gray-300 shrink-0" />
-                )}
-                <span className="text-gray-600 capitalize">{act.type.replace(/_/g, ' ')}</span>
-                <span className="ml-auto text-xs text-gray-400">
-                  {act.createdAt.toLocaleDateString()}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Sign out */}
       <button
