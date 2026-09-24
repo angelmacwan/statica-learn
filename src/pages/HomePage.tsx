@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthProvider';
-import { loadAllPaths } from '@/lib/contentLoader';
+import { loadAllPaths, loadLessonsForPath } from '@/lib/contentLoader';
 import { getAllProgress } from '@/lib/firestore';
 import { ArrowRight, BookOpen, Zap } from 'lucide-react';
 import type { Path } from '@/types';
@@ -9,29 +9,61 @@ import type { Path } from '@/types';
 export default function HomePage() {
   const { user } = useAuth();
   const [paths, setPaths] = useState<Path[]>([]);
-  const [progressMap, setProgressMap] = useState<Record<string, number>>({});
+  // progressMap[pathId] = { completed, total }
+  const [progressMap, setProgressMap] = useState<Record<string, { completed: number; total: number }>>({});
+  // lessonCountMap[pathId] = total lesson count
+  const [lessonCountMap, setLessonCountMap] = useState<Record<string, number>>({});
 
   useEffect(() => {
-    loadAllPaths().then(setPaths);
+    loadAllPaths().then((loaded) => {
+      setPaths(loaded);
+      // Load lesson counts for all paths immediately (no auth needed)
+      Promise.all(
+        loaded.map((p) => loadLessonsForPath(p.slug).then((ls) => ({ id: p.id, count: ls.length })))
+      ).then((results) => {
+        const map: Record<string, number> = {};
+        results.forEach(({ id, count }) => { map[id] = count; });
+        setLessonCountMap(map);
+      });
+    });
   }, []);
 
   useEffect(() => {
-    if (!user) return;
-    getAllProgress(user.uid).then((p) => {
-      // Build per-path completion percentage
-      const counts: Record<string, { total: number; done: number }> = {};
-      Object.values(p).forEach((prog) => {
-        if (!counts[prog.pathId]) counts[prog.pathId] = { total: 0, done: 0 };
-        counts[prog.pathId].total++;
-        if (prog.status === 'completed') counts[prog.pathId].done++;
+    if (!user || paths.length === 0) return;
+
+    (async () => {
+      // Load actual lesson counts for all paths in parallel
+      const lessonCounts = await Promise.all(
+        paths.map((p) => loadLessonsForPath(p.slug).then((ls) => ({ pathId: p.id, total: ls.length })))
+      );
+      const totalByPath: Record<string, number> = {};
+      lessonCounts.forEach(({ pathId, total }) => {
+        totalByPath[pathId] = total;
       });
-      const pct: Record<string, number> = {};
-      Object.entries(counts).forEach(([id, { total, done }]) => {
-        pct[id] = Math.round((done / total) * 100);
+
+      // Load Firestore progress (only has records for touched lessons)
+      const firestoreProgress = await getAllProgress(user.uid);
+
+      // Count completed per path using pathId stored on each progress record
+      const completedByPath: Record<string, number> = {};
+      Object.values(firestoreProgress).forEach((prog) => {
+        if (prog.status === 'completed') {
+          completedByPath[prog.pathId] = (completedByPath[prog.pathId] ?? 0) + 1;
+        }
       });
-      setProgressMap(pct);
-    });
-  }, [user]);
+
+      const result: Record<string, { completed: number; total: number }> = {};
+      paths.forEach((p) => {
+        const total = totalByPath[p.id] ?? 0;
+        const completed = completedByPath[p.id] ?? 0;
+        // Only show progress bar if user has started this path
+        if (completed > 0 || Object.values(firestoreProgress).some((pr) => pr.pathId === p.id)) {
+          result[p.id] = { completed, total };
+        }
+      });
+      setProgressMap(result);
+    })();
+  }, [user, paths]);
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
@@ -72,7 +104,12 @@ export default function HomePage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {paths.slice(0, 4).map((path) => (
-              <PathCard key={path.id} path={path} progress={progressMap[path.id]} />
+              <PathCard
+                key={path.id}
+                path={path}
+                progress={progressMap[path.id]}
+                lessonCount={lessonCountMap[path.id]}
+              />
             ))}
           </div>
         )}
@@ -101,13 +138,27 @@ export default function HomePage() {
   );
 }
 
-function PathCard({ path, progress }: { path: Path; progress?: number }) {
+function PathCard({
+  path,
+  progress,
+  lessonCount,
+}: {
+  path: Path;
+  progress?: { completed: number; total: number };
+  lessonCount?: number;
+}) {
   const difficultyColor: Record<string, string> = {
     intro: 'pill-mint',
     easy: 'pill-mint',
     medium: 'pill-coral',
     hard: 'pill-blush',
   };
+
+  const pct = progress && progress.total > 0
+    ? Math.round((progress.completed / progress.total) * 100)
+    : 0;
+
+  const totalLessons = lessonCount ?? progress?.total ?? 0;
 
   return (
     <Link
@@ -124,24 +175,26 @@ function PathCard({ path, progress }: { path: Path; progress?: number }) {
       </div>
       <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{path.description}</p>
 
-      {typeof progress === 'number' && (
+      {progress && (
         <div className="space-y-1">
           <div className="flex justify-between text-xs text-gray-400">
-            <span>Progress</span>
-            <span>{progress}%</span>
+            <span>{progress.completed} / {progress.total} lessons</span>
+            <span>{pct}%</span>
           </div>
           <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
             <div
               className="h-full bg-mint-300 rounded-full transition-all"
-              style={{ width: `${progress}%` }}
+              style={{ width: `${pct}%` }}
             />
           </div>
         </div>
       )}
 
-      <div className="flex items-center gap-1 text-xs text-gray-400 mt-auto">
-        <span>{path.moduleIds.length} modules</span>
-      </div>
+      {totalLessons > 0 && (
+        <div className="flex items-center gap-1 text-xs text-gray-400 mt-auto">
+          <span>{totalLessons} lessons</span>
+        </div>
+      )}
     </Link>
   );
 }

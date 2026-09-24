@@ -10,7 +10,7 @@ const EMOJI_OPTIONS = [
 ];
 
 export default function SettingsPage() {
-  const { user } = useAuth();
+  const { user, refreshAvatar } = useAuth();
   const [selectedEmoji, setSelectedEmoji] = useState<string>('');
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -26,6 +26,7 @@ export default function SettingsPage() {
   const handleSave = async () => {
     if (!user) return;
     await upsertUserProfile(user.uid, { avatarEmoji: selectedEmoji });
+    await refreshAvatar();
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };

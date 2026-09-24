@@ -75,14 +75,14 @@ const paths = [
     title: 'Python: From First Program to Practical Projects',
     difficulty: 'intro',
     pill: 'pill-mint',
-    modules: 6,
+    lessons: 14,
     desc: 'Variables, data, decisions, functions, files - all through useful programs you actually keep.',
   },
   {
     title: 'JavaScript Fundamentals',
     difficulty: 'easy',
     pill: 'pill-mint',
-    modules: 5,
+    lessons: 10,
     desc: 'The language of the web. DOM, events, async - the real stuff, not toy examples.',
     soon: true,
   },
@@ -90,7 +90,7 @@ const paths = [
     title: 'Data Structures',
     difficulty: 'medium',
     pill: 'pill-coral',
-    modules: 7,
+    lessons: 12,
     desc: 'Arrays, trees, graphs, and hash maps - understand them at the code level.',
     soon: true,
   },
@@ -98,7 +98,7 @@ const paths = [
     title: 'Algorithms',
     difficulty: 'medium',
     pill: 'pill-coral',
-    modules: 6,
+    lessons: 10,
     desc: 'Sorting, searching, recursion, dynamic programming. Built to stick.',
     soon: true,
   },
@@ -267,7 +267,7 @@ export default function LandingPage() {
                     <span className="pill bg-gray-100 text-gray-400 text-xs">coming soon</span>
                   )}
                 </div>
-                <span className="text-xs text-gray-400">{path.modules} modules</span>
+                <span className="text-xs text-gray-400">{path.lessons} lessons</span>
               </div>
               <h3 className="font-semibold text-gray-900 text-sm leading-snug group-hover:text-gray-700">
                 {path.title}

@@ -1,7 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthProvider';
-import { useEffect, useState } from 'react';
-import { getUserProfile } from '@/lib/firestore';
 import {
   Home,
   Compass,
@@ -24,18 +22,11 @@ const navItems = [
 const DEFAULT_EMOJI = '🧑‍💻';
 
 export function Layout() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, avatarEmoji } = useAuth();
   const location = useLocation();
-  const [avatarEmoji, setAvatarEmoji] = useState<string>('');
-
-  useEffect(() => {
-    if (!user) { setAvatarEmoji(''); return; }
-    getUserProfile(user.uid).then((profile) => {
-      setAvatarEmoji(profile?.avatarEmoji || '');
-    });
-  }, [user]);
 
   const displayEmoji = avatarEmoji || DEFAULT_EMOJI;
+
 
   return (
     <div className="flex min-h-screen bg-cream-50">

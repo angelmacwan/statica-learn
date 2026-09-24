@@ -1,6 +1,6 @@
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useEffect, useState } from 'react';
-import { getAllProgress, getRecentActivities, getUserProfile } from '@/lib/firestore';
+import { getAllProgress, getRecentActivities } from '@/lib/firestore';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, Clock } from 'lucide-react';
 import type { Activity } from '@/types';
@@ -8,10 +8,9 @@ import type { Activity } from '@/types';
 const DEFAULT_EMOJI = '🧑‍💻';
 
 export default function ProfilePage() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, avatarEmoji } = useAuth();
   const [stats, setStats] = useState({ completed: 0, started: 0 });
   const [activities, setActivities] = useState<Activity[]>([]);
-  const [avatarEmoji, setAvatarEmoji] = useState<string>('');
 
   useEffect(() => {
     if (!user) return;
@@ -23,10 +22,9 @@ export default function ProfilePage() {
       });
     });
     getRecentActivities(user.uid).then(setActivities);
-    getUserProfile(user.uid).then((profile) => {
-      setAvatarEmoji(profile?.avatarEmoji || '');
-    });
   }, [user]);
+
+  const displayEmoji = avatarEmoji || DEFAULT_EMOJI;
 
   if (!user)
     return (
@@ -37,8 +35,6 @@ export default function ProfilePage() {
         </Link>
       </div>
     );
-
-  const displayEmoji = avatarEmoji || DEFAULT_EMOJI;
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-10 space-y-8">
