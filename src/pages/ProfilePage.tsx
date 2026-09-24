@@ -1,14 +1,17 @@
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useEffect, useState } from 'react';
-import { getAllProgress, getRecentActivities } from '@/lib/firestore';
+import { getAllProgress, getRecentActivities, getUserProfile } from '@/lib/firestore';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, Clock, User } from 'lucide-react';
+import { CheckCircle2, Clock } from 'lucide-react';
 import type { Activity } from '@/types';
+
+const DEFAULT_EMOJI = '🧑‍💻';
 
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
   const [stats, setStats] = useState({ completed: 0, started: 0 });
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [avatarEmoji, setAvatarEmoji] = useState<string>('');
 
   useEffect(() => {
     if (!user) return;
@@ -20,6 +23,9 @@ export default function ProfilePage() {
       });
     });
     getRecentActivities(user.uid).then(setActivities);
+    getUserProfile(user.uid).then((profile) => {
+      setAvatarEmoji(profile?.avatarEmoji || '');
+    });
   }, [user]);
 
   if (!user)
@@ -32,24 +38,21 @@ export default function ProfilePage() {
       </div>
     );
 
+  const displayEmoji = avatarEmoji || DEFAULT_EMOJI;
+
   return (
     <div className="max-w-2xl mx-auto px-6 py-10 space-y-8">
       {/* User card */}
       <div className="card p-6 flex items-center gap-4">
-        {user.photoURL ? (
-          <img
-            src={user.photoURL}
-            alt="avatar"
-            className="w-16 h-16 rounded-full object-cover ring-2 ring-mint-200"
-          />
-        ) : (
-          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
-            <User size={28} className="text-gray-400" />
-          </div>
-        )}
+        <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-4xl leading-none">
+          {displayEmoji}
+        </div>
         <div>
           <h1 className="text-xl font-bold text-gray-900">{user.displayName ?? 'Learner'}</h1>
           <p className="text-sm text-gray-400">{user.email}</p>
+          <Link to="/settings" className="text-xs text-gray-400 hover:text-gray-700 underline underline-offset-2 mt-0.5 inline-block">
+            Change avatar
+          </Link>
         </div>
       </div>
 

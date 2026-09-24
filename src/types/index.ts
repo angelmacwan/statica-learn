@@ -101,6 +101,7 @@ export interface ExecutionResult {
 export interface UserProfile {
   displayName: string;
   avatarUrl: string;
+  avatarEmoji: string;
   createdAt: Date;
 }
 

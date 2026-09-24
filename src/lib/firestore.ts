@@ -21,6 +21,7 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
   return {
     displayName: d.displayName ?? '',
     avatarUrl: d.avatarUrl ?? '',
+    avatarEmoji: d.avatarEmoji ?? '',
     createdAt: (d.createdAt as Timestamp)?.toDate() ?? new Date(),
   };
 }

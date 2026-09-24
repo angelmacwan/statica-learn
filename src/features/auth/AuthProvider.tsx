@@ -37,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await upsertUserProfile(firebaseUser.uid, {
           displayName: firebaseUser.displayName ?? 'Learner',
           avatarUrl: firebaseUser.photoURL ?? '',
+          avatarEmoji: '',
         });
       }
     });
