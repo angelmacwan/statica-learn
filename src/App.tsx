@@ -16,6 +16,10 @@ import ProfilePage from '@/pages/ProfilePage';
 import SettingsPage from '@/pages/SettingsPage';
 import LoginPage from '@/pages/LoginPage';
 
+// CodeArena
+import { ArenaLobbyPage } from '@/features/codearena/components/ArenaLobbyPage';
+import { ArenaQuestionPage } from '@/features/codearena/components/ArenaQuestionPage';
+
 /** Redirects unauthenticated users to /home */
 function RequireAuth() {
   const { user, loading } = useAuth();
@@ -44,7 +48,11 @@ export default function App() {
             <Route path="/projects/:slug" element={<ProjectDetailPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            {/* CodeArena - lobby inside layout, question page full-screen outside layout */}
+            <Route path="/arena" element={<ArenaLobbyPage />} />
           </Route>
+          {/* Arena question - full screen, no sidebar */}
+          <Route path="/arena/:slug" element={<ArenaQuestionPage />} />
         </Route>
 
         {/* Fallback */}

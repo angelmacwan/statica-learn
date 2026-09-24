@@ -10,12 +10,14 @@ import {
   LogIn,
   LogOut,
   Lock,
+  Swords,
 } from 'lucide-react';
 
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
   { to: '/explore', label: 'Explore', icon: Compass },
   { to: '/practice', label: 'Practice', icon: Code2 },
+  { to: '/arena', label: 'CodeArena', icon: Swords },
   { to: '/projects', label: 'Projects', icon: Briefcase },
 ];
 
