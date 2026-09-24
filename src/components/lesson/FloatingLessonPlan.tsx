@@ -11,6 +11,7 @@ import {
   Layers,
   ChevronRight,
   Clock,
+  Lock,
 } from 'lucide-react';
 import type { Lesson, LessonBlock } from '@/types';
 
@@ -20,6 +21,7 @@ interface Props {
   pathSlug: string;
   completedBlocks: Set<number>;
   activeBlockIdx: number;
+  lessonProgressMap?: Record<string, string>;
   onSelectBlock: (idx: number) => void;
 }
 
@@ -73,11 +75,23 @@ export function FloatingLessonPlan({
   pathSlug,
   completedBlocks,
   activeBlockIdx,
+  lessonProgressMap = {},
   onSelectBlock,
 }: Props) {
   const totalBlocks = lesson.blocks.length;
   const completedCount = completedBlocks.size;
   const progressPct = totalBlocks > 0 ? Math.round((completedCount / totalBlocks) * 100) : 0;
+
+  const currentIdx = allLessons.findIndex((l) => l.slug === lesson.slug);
+
+  const isAccessible = (idx: number): boolean => {
+    if (idx === 0) return true;
+    if (idx <= currentIdx) return true;
+    const prev = allLessons[idx - 1];
+    const prevStatus = lessonProgressMap[prev.id];
+    const selfStatus = lessonProgressMap[allLessons[idx].id];
+    return prevStatus === 'completed' || (selfStatus !== undefined && selfStatus !== 'not_started');
+  };
 
   return (
     <div className="space-y-4">
@@ -169,8 +183,43 @@ export function FloatingLessonPlan({
           </div>
 
           <div className="space-y-1">
-            {allLessons.slice(0, 6).map((l, i) => {
+            {allLessons.map((l, i) => {
               const isCurrent = l.slug === lesson.slug;
+              const accessible = isAccessible(i);
+
+              const inner = (
+                <>
+                  <span className="truncate flex-1">
+                    {i + 1}. {l.title}
+                  </span>
+                  {isCurrent ? (
+                    <span className="text-[10px] bg-mint-400 text-gray-900 px-1.5 py-0.5 rounded font-bold shrink-0">
+                      Active
+                    </span>
+                  ) : accessible ? (
+                    <span className="text-[10px] text-gray-400 flex items-center gap-0.5 shrink-0">
+                      <Clock size={10} /> {l.estimatedMinutes}m
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-gray-400 flex items-center gap-1 shrink-0">
+                      <Lock size={11} className="text-gray-400" />
+                    </span>
+                  )}
+                </>
+              );
+
+              if (!accessible) {
+                return (
+                  <div
+                    key={l.id}
+                    className="flex items-center justify-between gap-2 p-2 rounded-xl text-xs text-gray-400 bg-gray-50/50 border border-transparent opacity-60 cursor-not-allowed select-none"
+                    title="Complete previous lesson to unlock"
+                  >
+                    {inner}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={l.id}
@@ -181,18 +230,7 @@ export function FloatingLessonPlan({
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
-                  <span className="truncate flex-1">
-                    {i + 1}. {l.title}
-                  </span>
-                  {isCurrent ? (
-                    <span className="text-[10px] bg-mint-400 text-gray-900 px-1.5 py-0.5 rounded font-bold shrink-0">
-                      Active
-                    </span>
-                  ) : (
-                    <span className="text-[10px] text-gray-400 flex items-center gap-0.5 shrink-0">
-                      <Clock size={10} /> {l.estimatedMinutes}m
-                    </span>
-                  )}
+                  {inner}
                 </Link>
               );
             })}

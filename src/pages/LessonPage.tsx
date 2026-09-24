@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { loadLesson, loadLessonsForPath } from '@/lib/contentLoader';
-import { startLesson, completeLesson, getLessonProgress, logActivity } from '@/lib/firestore';
+import { startLesson, completeLesson, getLessonProgress, getAllProgress, logActivity } from '@/lib/firestore';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { LessonBlockRenderer } from '@/components/lesson/LessonBlockRenderer';
 import { FloatingLessonPlan } from '@/components/lesson/FloatingLessonPlan';
@@ -36,6 +36,19 @@ export default function LessonPage() {
       setLoading(false);
     });
   }, [pathSlug, lessonSlug]);
+
+  const [pathProgress, setPathProgress] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (!user) return;
+    getAllProgress(user.uid).then((p) => {
+      const map: Record<string, string> = {};
+      Object.entries(p).forEach(([id, prog]) => {
+        map[id] = prog.status;
+      });
+      setPathProgress(map);
+    });
+  }, [user]);
 
   // Mark lesson started on load & check existing progress in Firestore
   useEffect(() => {
@@ -132,6 +145,7 @@ export default function LessonPage() {
             pathSlug={pathSlug ?? ''}
             completedBlocks={completedBlocks}
             activeBlockIdx={activeBlockIdx}
+            lessonProgressMap={pathProgress}
             onSelectBlock={handleSelectBlock}
           />
         </aside>
