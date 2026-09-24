@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { loadLesson, loadLessonsForPath } from '@/lib/contentLoader';
 import { startLesson, completeLesson, getLessonProgress, logActivity } from '@/lib/firestore';
 import { useAuth } from '@/features/auth/AuthProvider';
@@ -12,7 +12,6 @@ import type { Lesson } from '@/types';
 export default function LessonPage() {
   const { pathSlug, lessonSlug } = useParams<{ pathSlug: string; lessonSlug: string }>();
   const { user, contentWidthClass } = useAuth();
-  const navigate = useNavigate();
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [allLessons, setAllLessons] = useState<Lesson[]>([]);
@@ -141,15 +140,11 @@ export default function LessonPage() {
         <main className={`flex-1 w-full ${contentWidthClass} space-y-8 transition-all duration-300 min-w-0`}>
           {/* Top navigation with Back button */}
           <nav className="flex items-center gap-3">
-            <button
-              onClick={() => navigate(-1)}
+            <Link
+              to={`/paths/${pathSlug}`}
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-gray-900 bg-white border border-gray-200 rounded-xl px-3.5 py-2 hover:bg-gray-50 transition-all shadow-sm"
             >
-              <ArrowLeft size={14} /> Back
-            </button>
-            <span className="text-gray-300">/</span>
-            <Link to={`/paths/${pathSlug}`} className="text-xs text-gray-500 hover:text-gray-900 transition-colors">
-              Path Overview
+              <ArrowLeft size={14} /> Back to Module Page
             </Link>
           </nav>
 

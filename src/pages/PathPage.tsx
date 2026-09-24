@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { loadPath, loadLessonsForPath } from '@/lib/contentLoader';
 import { getAllProgress } from '@/lib/firestore';
 import { useAuth } from '@/features/auth/AuthProvider';
@@ -10,7 +10,6 @@ import type { Path, Lesson } from '@/types';
 export default function PathPage() {
   const { pathSlug } = useParams<{ pathSlug: string }>();
   const { user, contentWidthClass } = useAuth();
-  const navigate = useNavigate();
   const [path, setPath] = useState<Path | null>(null);
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [progress, setProgress] = useState<Record<string, string>>({});
@@ -47,12 +46,12 @@ export default function PathPage() {
       <ModuleBackgroundGraphic pathSlug={pathSlug} />
       {/* Header */}
       <div className="space-y-3">
-        <button
-          onClick={() => navigate(-1)}
+        <Link
+          to="/explore"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-gray-900 bg-white border border-gray-200 rounded-xl px-3.5 py-2 hover:bg-gray-50 transition-all shadow-sm mb-2"
         >
-          <ArrowLeft size={14} /> Back
-        </button>
+          <ArrowLeft size={14} /> Back to Explore
+        </Link>
         <div className="flex items-center gap-2">
           <span className="pill pill-mint">{path.difficulty}</span>
           <span className="pill pill-lavender capitalize">{path.category.replace('-', ' ')}</span>
