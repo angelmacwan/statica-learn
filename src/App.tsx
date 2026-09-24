@@ -9,9 +9,6 @@ import LandingPage from '@/pages/LandingPage';
 import ExplorePage from '@/pages/ExplorePage';
 import PathPage from '@/pages/PathPage';
 import LessonPage from '@/pages/LessonPage';
-import PracticePage from '@/pages/PracticePage';
-import ProjectsPage from '@/pages/ProjectsPage';
-import ProjectDetailPage from '@/pages/ProjectDetailPage';
 import ProfilePage from '@/pages/ProfilePage';
 import SettingsPage from '@/pages/SettingsPage';
 import LoginPage from '@/pages/LoginPage';
@@ -20,7 +17,7 @@ import LoginPage from '@/pages/LoginPage';
 import { ArenaLobbyPage } from '@/features/codearena/components/ArenaLobbyPage';
 import { ArenaQuestionPage } from '@/features/codearena/components/ArenaQuestionPage';
 
-/** Redirects unauthenticated users to /home */
+/** Redirects unauthenticated users to /login */
 function RequireAuth() {
   const { user, loading } = useAuth();
   if (loading) return null;
@@ -32,31 +29,28 @@ export default function App() {
   return (
     <AuthProvider>
       <Routes>
-        {/* Public routes */}
-        <Route path="/home" element={<LandingPage />} />
+        {/* Public route - Landing Page at "/" */}
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
 
         {/* Protected routes - requires login */}
         <Route element={<RequireAuth />}>
           <Route element={<Layout />}>
-            <Route index element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/paths/:pathSlug" element={<PathPage />} />
             <Route path="/learn/:pathSlug/:lessonSlug" element={<LessonPage />} />
-            <Route path="/practice" element={<PracticePage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/settings" element={<SettingsPage />} />
-            {/* CodeArena - lobby inside layout, question page full-screen outside layout */}
+            {/* CodeArena */}
             <Route path="/arena" element={<ArenaLobbyPage />} />
           </Route>
-          {/* Arena question - full screen, no sidebar */}
+          {/* Arena question - full screen */}
           <Route path="/arena/:slug" element={<ArenaQuestionPage />} />
         </Route>
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/home" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AuthProvider>
   );

@@ -98,9 +98,12 @@ export async function startLesson(
       lastAccessedAt: serverTimestamp(),
     });
   } else {
+    const data = snap.data();
+    const currentStatus = data?.status === 'completed' ? 'completed' : 'started';
     await updateDoc(ref, {
-      status: 'started',
-      attempts: (snap.data().attempts ?? 0) + 1,
+      pathId,
+      status: currentStatus,
+      attempts: (data?.attempts ?? 0) + 1,
       lastAccessedAt: serverTimestamp(),
     });
   }

@@ -115,23 +115,22 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* Quick actions */}
-      <section className="grid grid-cols-2 gap-4">
+      {/* CodeArena quick action */}
+      <section>
         <Link
-          to="/practice"
-          className="card p-5 hover:shadow-card transition-all group flex flex-col gap-2"
+          to="/arena"
+          className="card p-5 hover:shadow-card transition-all group flex items-center justify-between gap-4 bg-gradient-to-r from-gray-900 to-indigo-950 text-white"
         >
-          <Zap size={20} className="text-mint-400" />
-          <h3 className="font-semibold text-gray-900 text-sm">Practice</h3>
-          <p className="text-xs text-gray-500">Standalone exercises to sharpen specific skills.</p>
-        </Link>
-        <Link
-          to="/projects"
-          className="card p-5 hover:shadow-card transition-all group flex flex-col gap-2"
-        >
-          <BookOpen size={20} className="text-coral-300" />
-          <h3 className="font-semibold text-gray-900 text-sm">Projects</h3>
-          <p className="text-xs text-gray-500">Apply what you've learned to real projects.</p>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-indigo-400 font-semibold text-xs uppercase tracking-wider">
+              <Zap size={15} /> CodeArena
+            </div>
+            <h3 className="font-bold text-white text-base">Practice Interactive Coding Challenges</h3>
+            <p className="text-xs text-gray-300">Solve Python and SQL coding challenges with instant tests and execution.</p>
+          </div>
+          <div className="btn-primary text-xs py-2 px-4 bg-indigo-600 hover:bg-indigo-500 shrink-0">
+            Enter Arena
+          </div>
         </Link>
       </section>
     </div>

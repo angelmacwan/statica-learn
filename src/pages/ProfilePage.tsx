@@ -2,7 +2,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { useEffect, useState } from 'react';
 import { getAllProgress, getRecentActivities } from '@/lib/firestore';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, Clock } from 'lucide-react';
+import { CheckCircle2, Clock, LogOut } from 'lucide-react';
 import type { Activity } from '@/types';
 
 const DEFAULT_EMOJI = '🧑‍💻';
@@ -87,7 +87,11 @@ export default function ProfilePage() {
       )}
 
       {/* Sign out */}
-      <button onClick={signOut} className="btn-secondary w-full">
+      <button
+        onClick={signOut}
+        className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-100 font-medium text-sm transition-all"
+      >
+        <LogOut size={16} />
         Sign out
       </button>
     </div>

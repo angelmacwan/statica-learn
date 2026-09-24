@@ -1,15 +1,17 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { loadLesson, loadLessonsForPath } from '@/lib/contentLoader';
-import { startLesson, completeLesson, logActivity } from '@/lib/firestore';
+import { startLesson, completeLesson, getLessonProgress, logActivity } from '@/lib/firestore';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { LessonBlockRenderer } from '@/components/lesson/LessonBlockRenderer';
-import { ChevronLeft, ChevronRight, Clock, CheckCircle2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { ModuleBackgroundGraphic } from '@/components/ui/ModuleBackgroundGraphic';
 import type { Lesson } from '@/types';
 
 export default function LessonPage() {
   const { pathSlug, lessonSlug } = useParams<{ pathSlug: string; lessonSlug: string }>();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [allLessons, setAllLessons] = useState<Lesson[]>([]);
@@ -19,6 +21,10 @@ export default function LessonPage() {
 
   useEffect(() => {
     if (!pathSlug || !lessonSlug) return;
+    setLoading(true);
+    setFinished(false);
+    setCompletedBlocks(new Set());
+
     Promise.all([
       loadLesson(pathSlug, lessonSlug),
       loadLessonsForPath(pathSlug),
@@ -29,10 +35,31 @@ export default function LessonPage() {
     });
   }, [pathSlug, lessonSlug]);
 
-  // Mark lesson started on load
+  // Mark lesson started on load & check existing progress in Firestore
   useEffect(() => {
     if (!user || !lesson) return;
-    startLesson(user.uid, lesson.id, lesson.pathId);
+    const userId = user.uid;
+    const currLesson = lesson;
+    let cancelled = false;
+
+    async function syncProgress() {
+      const existingProgress = await getLessonProgress(userId, currLesson.id);
+      if (cancelled) return;
+
+      if (existingProgress?.status === 'completed') {
+        setFinished(true);
+      } else {
+        setFinished(false);
+      }
+
+      await startLesson(userId, currLesson.id, currLesson.pathId);
+    }
+
+    syncProgress();
+
+    return () => {
+      cancelled = true;
+    };
   }, [user, lesson]);
 
   const currentIdx = allLessons.findIndex((l) => l.slug === lessonSlug);
@@ -55,11 +82,19 @@ export default function LessonPage() {
   if (!lesson) return <div className="p-12 text-gray-400">Lesson not found.</div>;
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-10 space-y-8">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-gray-400">
-        <Link to={`/paths/${pathSlug}`} className="hover:text-gray-700 flex items-center gap-1">
-          <ChevronLeft size={14} /> Back to path
+    <div className="relative max-w-2xl mx-auto px-6 py-10 space-y-8">
+      <ModuleBackgroundGraphic pathSlug={pathSlug} />
+      {/* Top navigation with Back button */}
+      <nav className="flex items-center gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-gray-900 bg-white border border-gray-200 rounded-xl px-3.5 py-2 hover:bg-gray-50 transition-all shadow-sm"
+        >
+          <ArrowLeft size={14} /> Back
+        </button>
+        <span className="text-gray-300">/</span>
+        <Link to={`/paths/${pathSlug}`} className="text-xs text-gray-500 hover:text-gray-900 transition-colors">
+          Path Overview
         </Link>
       </nav>
 
