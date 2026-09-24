@@ -15,7 +15,15 @@ function MermaidDiagram({ chart }: { chart: string }) {
 
 	useEffect(() => {
 		let isMounted = true;
-		const cleanChart = chart.trim();
+		let cleanChart = chart.trim();
+		// Convert multiline labels inside quotes to valid <br/> HTML breaks for Mermaid
+		cleanChart = cleanChart.replace(/\["([\s\S]*?)"\]/g, (_, labelContent) => {
+			const sanitized = labelContent
+				.replace(/\r?\n/g, '<br/>')
+				.replace(/\\n/g, '<br/>');
+			return `["${sanitized}"]`;
+		});
+
 		import('mermaid').then(({ default: mermaid }) => {
 			mermaid.initialize({
 				startOnLoad: false,

@@ -22,7 +22,7 @@
     },
     {
       "type": "text",
-      "content": "## The 5 Primitive Types at a Glance\n\n```mermaid\ngraph LR\n  root[\"Python Primitive Types\"]\n\n  root --- A[\"int\\n\u2500\u2500\u2500\u2500\u2500\\nWhole numbers\\n42, -7, 0\"]\n  root --- B[\"float\\n\u2500\u2500\u2500\u2500\u2500\\nDecimals\\n3.14, -0.5, 1.0\"]\n  root --- C[\"str\\n\u2500\u2500\u2500\u2500\u2500\\nText\\n\\\"hello\\\", 'world'\"]\n  root --- D[\"bool\\n\u2500\u2500\u2500\u2500\u2500\\nTrue / False\\nTrue, False\"]\n  root --- E[\"NoneType\\n\u2500\u2500\u2500\u2500\u2500\\nAbsence of value\\nNone\"]\n```\n\nEvery value in Python belongs to exactly one type. Python figures out the type automatically based on how you write the value - this is called **type inference**."
+      "content": "## The 5 Primitive Types at a Glance\n\n- **`int`** — Whole numbers (e.g. `42`, `-7`, `0`)\n- **`float`** — Floating-point decimals (e.g. `3.14`, `-0.5`, `1.0`)\n- **`str`** — Text / string values (e.g. `\"hello\"`, `'world'`)\n- **`bool`** — Boolean truth values (`True` or `False`)\n- **`NoneType`** — Special value representing the absence of a value (`None`)\n\nEvery value in Python belongs to exactly one type. Python figures out the type automatically based on how you write the value — this is called **type inference**."
     },
     {
       "type": "multipleChoice",
