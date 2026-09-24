@@ -78,9 +78,50 @@
   }
 }
 
+/* Enhanced Prose Typography & Heading Spacing */
+.prose p {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  line-height: 1.8 !important;
+}
+
+.prose p:first-child {
+  margin-top: 0 !important;
+}
+
+.prose p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin-top: 2.25rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child,
+.prose h4:first-child {
+  margin-top: 0 !important;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.prose li {
+  margin-top: 0.4rem !important;
+  margin-bottom: 0.4rem !important;
+}
+
 /* Mermaid diagram styling */
 .mermaid {
-  @apply my-4 flex justify-center;
+  @apply my-6 flex justify-center;
 }
 
 /* CodeMirror overrides */

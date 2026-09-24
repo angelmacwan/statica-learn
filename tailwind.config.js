@@ -62,8 +62,8 @@ export default {
             color: theme('colors.gray.800'),
             lineHeight: '1.75',
             p: {
-              marginTop: '1.25em',
-              marginBottom: '1.25em',
+              marginTop: '1.5em',
+              marginBottom: '1.5em',
             },
             'p:first-child': {
               marginTop: '0',
@@ -72,36 +72,36 @@ export default {
               marginBottom: '0',
             },
             h1: {
-              marginTop: '1.75em',
-              marginBottom: '0.75em',
+              marginTop: '2.5em',
+              marginBottom: '0.85em',
             },
             h2: {
-              marginTop: '1.6em',
-              marginBottom: '0.6em',
+              marginTop: '2.25em',
+              marginBottom: '0.75em',
             },
             h3: {
-              marginTop: '1.4em',
-              marginBottom: '0.5em',
+              marginTop: '2em',
+              marginBottom: '0.65em',
             },
             h4: {
-              marginTop: '1.2em',
-              marginBottom: '0.4em',
+              marginTop: '2em',
+              marginBottom: '0.6em',
             },
             ul: {
-              marginTop: '1.25em',
-              marginBottom: '1.25em',
-            },
-            ol: {
-              marginTop: '1.25em',
-              marginBottom: '1.25em',
-            },
-            li: {
-              marginTop: '0.375em',
-              marginBottom: '0.375em',
-            },
-            pre: {
               marginTop: '1.5em',
               marginBottom: '1.5em',
+            },
+            ol: {
+              marginTop: '1.5em',
+              marginBottom: '1.5em',
+            },
+            li: {
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
+            },
+            pre: {
+              marginTop: '1.75em',
+              marginBottom: '1.75em',
             },
           },
         },
