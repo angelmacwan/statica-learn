@@ -6,13 +6,10 @@ export async function trackEvent(
   metadata: Record<string, unknown> = {}
 ): Promise<void> {
   if (!userId) return;
-  // Only track known activity types to keep Firestore clean
+  // Only track path_started and lesson_completed
   const activityTypes = [
-    'lesson_started',
-    'lesson_completed',
-    'question_answered',
-    'code_run',
     'path_started',
+    'lesson_completed',
   ] as const;
   type ValidType = (typeof activityTypes)[number];
   if (activityTypes.includes(event as ValidType)) {

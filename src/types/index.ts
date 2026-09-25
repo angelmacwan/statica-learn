@@ -157,11 +157,8 @@ export interface LessonProgress {
 }
 
 export type ActivityType =
-  | 'lesson_started'
-  | 'lesson_completed'
-  | 'question_answered'
-  | 'code_run'
-  | 'path_started';
+  | 'path_started'
+  | 'lesson_completed';
 
 export interface Activity {
   type: ActivityType;

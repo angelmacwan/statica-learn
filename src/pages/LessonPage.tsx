@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { loadLesson, loadLessonsForPath } from '@/lib/contentLoader';
-import { startLesson, completeLesson, getLessonProgress, getAllProgress, logActivity } from '@/lib/firestore';
+import { startLesson, completeLesson, getLessonProgress, getAllProgress } from '@/lib/firestore';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { LessonBlockRenderer } from '@/components/lesson/LessonBlockRenderer';
 import { FloatingLessonPlan } from '@/components/lesson/FloatingLessonPlan';
@@ -86,11 +86,6 @@ export default function LessonPage() {
     setFinished(true);
   }, [user, lesson, completedBlocks]);
 
-  const handleCodeRun = useCallback(() => {
-    if (!user || !lesson) return;
-    logActivity(user.uid, 'code_run', { lessonId: lesson.id });
-  }, [user, lesson]);
-
   if (loading) return <div className="p-12 text-gray-400">Loading lesson…</div>;
   if (!lesson) return <div className="p-12 text-gray-400">Lesson not found.</div>;
 
@@ -140,14 +135,8 @@ export default function LessonPage() {
                 <LessonBlockRenderer
                   block={block}
                   onMultipleChoiceAnswer={(correct) => {
-                    logActivity(user?.uid ?? '', 'question_answered', {
-                      lessonId: lesson.id,
-                      blockIdx: idx,
-                      correct,
-                    });
                     if (correct) setCompletedBlocks((s) => new Set(s).add(idx));
                   }}
-                  onCodeRun={handleCodeRun}
                   onChallengeComplete={(passed) => {
                     if (passed) setCompletedBlocks((s) => new Set(s).add(idx));
                   }}

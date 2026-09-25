@@ -108,7 +108,6 @@ export async function startLesson(
       lastAccessedAt: serverTimestamp(),
     });
   }
-  await logActivity(userId, 'lesson_started', { lessonId, pathId });
 }
 
 export async function completeLesson(

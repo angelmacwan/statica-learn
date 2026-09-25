@@ -10,7 +10,8 @@ import { EditorPanel } from './EditorPanel';
 import { SuccessBurst } from './SuccessBurst';
 import type { Language, SubmissionResult, ArenaProgress } from '../types';
 
-const AUTOSAVE_DELAY = 1500;
+const AUTOSAVE_DELAY = 5000;
+const RATE_LIMIT_MS = 3000;
 
 export function ArenaQuestionPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -37,7 +38,86 @@ export function ArenaQuestionPage() {
   const [showBurst, setShowBurst] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Rate limiting & Auto-save state/refs
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+  const [rateLimitNotice, setRateLimitNotice] = useState<string | null>(null);
+
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastSubmitTime = useRef<number>(0);
+
+  // Refs for tracking saved state and avoiding initial load overwrites
+  const isLoadedRef = useRef<boolean>(false);
+  const lastSavedCodeRef = useRef<string>('');
+  const codeRef = useRef<string>(code);
+  const languageRef = useRef<Language>(language);
+  const questionIdRef = useRef<string | undefined>(question?.id);
+
+  // Keep refs synchronized
+  useEffect(() => {
+    codeRef.current = code;
+    languageRef.current = language;
+    questionIdRef.current = question?.id;
+  }, [code, language, question?.id]);
+
+  // Flush auto-save function: ONLY saves if isLoadedRef is true AND code has changed from lastSavedCodeRef
+  const flushAutoSave = useCallback(() => {
+    if (autosaveTimer.current) {
+      clearTimeout(autosaveTimer.current);
+      autosaveTimer.current = null;
+    }
+    if (
+      isLoadedRef.current &&
+      user &&
+      questionIdRef.current &&
+      codeRef.current !== undefined &&
+      codeRef.current !== lastSavedCodeRef.current
+    ) {
+      const qId = questionIdRef.current;
+      const lang = languageRef.current;
+      const c = codeRef.current;
+      lastSavedCodeRef.current = c;
+      saveArenaCode(user.uid, qId, lang, c);
+    }
+  }, [user]);
+
+  // Flush on unmount
+  useEffect(() => {
+    return () => {
+      flushAutoSave();
+    };
+  }, [flushAutoSave]);
+
+  // Cooldown countdown timer interval
+  useEffect(() => {
+    if (cooldownSeconds <= 0) return;
+    const interval = setInterval(() => {
+      setCooldownSeconds((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          setRateLimitNotice(null);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [cooldownSeconds]);
+
+  // Rate limit check function
+  const checkRateLimit = useCallback((): boolean => {
+    const now = Date.now();
+    const timeSinceLast = now - lastSubmitTime.current;
+    if (timeSinceLast < RATE_LIMIT_MS) {
+      const remainingSec = Math.ceil((RATE_LIMIT_MS - timeSinceLast) / 1000);
+      setRateLimitNotice(`Please wait ${remainingSec}s`);
+      setCooldownSeconds(remainingSec);
+      return false;
+    }
+    lastSubmitTime.current = now;
+    setRateLimitNotice(null);
+    return true;
+  }, []);
 
   // Load overall user progress for problem navigator sidebar
   useEffect(() => {
@@ -52,29 +132,66 @@ export function ArenaQuestionPage() {
     setLanguage(initialLang);
   }, [question?.id]);
 
-  // Load progress and restore saved code
+  // Load progress and restore saved code safely without triggering false auto-saves
   useEffect(() => {
     if (!question) return;
+    isLoadedRef.current = false;
     setResult(null);
-    const starter = question.starterCode[language] || '';
-    setCode(starter);
 
-    if (!user) return;
+    const starter = question.starterCode[language] || '';
+
+    if (!user) {
+      setCode(starter);
+      codeRef.current = starter;
+      lastSavedCodeRef.current = starter;
+      isLoadedRef.current = true;
+      return;
+    }
+
     getArenaProgress(user.uid, question.id).then((p) => {
       setProgress(p);
-      if (p?.savedCode?.[language]) {
-        setCode(p.savedCode[language]!);
-      }
+      const restoredCode =
+        p?.savedCode?.[language] !== undefined && p.savedCode[language] !== ''
+          ? p.savedCode[language]!
+          : starter;
+
+      setCode(restoredCode);
+      codeRef.current = restoredCode;
+      lastSavedCodeRef.current = restoredCode;
+      isLoadedRef.current = true;
     });
   }, [question?.id, user?.uid, language]);
+
+  const handleLanguageChange = useCallback(
+    (newLang: Language) => {
+      if (newLang === language) return;
+      flushAutoSave();
+      setLanguage(newLang);
+    },
+    [language, flushAutoSave]
+  );
 
   const handleCodeChange = useCallback(
     (newCode: string) => {
       setCode(newCode);
-      if (!user || !question) return;
+      codeRef.current = newCode;
+      if (!user || !question || !isLoadedRef.current) return;
+
+      // Do nothing if code hasn't changed from what is already saved
+      if (newCode === lastSavedCodeRef.current) return;
+
       if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
+
+      const targetQId = question.id;
+      const targetLang = language;
+
+      // Save every 5 seconds only if code was updated
       autosaveTimer.current = setTimeout(() => {
-        saveArenaCode(user.uid, question.id, language, newCode);
+        if (codeRef.current === newCode && newCode !== lastSavedCodeRef.current) {
+          lastSavedCodeRef.current = newCode;
+          saveArenaCode(user.uid, targetQId, targetLang, newCode);
+        }
+        autosaveTimer.current = null;
       }, AUTOSAVE_DELAY);
     },
     [user, question, language]
@@ -82,6 +199,9 @@ export function ArenaQuestionPage() {
 
   const handleRun = useCallback(async () => {
     if (!question) return;
+    if (!checkRateLimit()) return;
+
+    flushAutoSave();
     setRunning(true);
     setResult(null);
     try {
@@ -90,10 +210,13 @@ export function ArenaQuestionPage() {
     } finally {
       setRunning(false);
     }
-  }, [question, code, language]);
+  }, [question, code, language, checkRateLimit, flushAutoSave]);
 
   const handleSubmit = useCallback(async () => {
     if (!question || !user) return;
+    if (!checkRateLimit()) return;
+
+    flushAutoSave();
     setRunning(true);
     setResult(null);
     try {
@@ -111,29 +234,51 @@ export function ArenaQuestionPage() {
         error: res.error,
       });
 
-      if (res.passed) {
-        const updatedProgress: ArenaProgress = {
-          questionId: question.id,
-          bestStatus: 'pass',
-          totalAttempts: (progress?.totalAttempts ?? 0) + 1,
-          firstSolvedAt: progress?.firstSolvedAt ?? new Date(),
-          lastAttemptAt: new Date(),
-          savedCode: { ...(progress?.savedCode ?? { python: '', javascript: '' }), [language]: code },
-        };
-        setProgress(updatedProgress);
-        setAllProgress((prev) => ({ ...prev, [question.id]: updatedProgress }));
+      const isPass = res.passed;
+      const updatedProgress: ArenaProgress = {
+        questionId: question.id,
+        bestStatus: isPass || progress?.bestStatus === 'pass' ? 'pass' : 'fail',
+        totalAttempts: (progress?.totalAttempts ?? 0) + 1,
+        firstSolvedAt: isPass ? (progress?.firstSolvedAt ?? new Date()) : (progress?.firstSolvedAt ?? null),
+        lastAttemptAt: new Date(),
+        savedCode: { ...(progress?.savedCode ?? {}), [language]: code },
+        passingSubmissions: isPass
+          ? {
+              ...(progress?.passingSubmissions ?? {}),
+              [language]: {
+                questionId: question.id,
+                language,
+                submittedCode: code,
+                status: 'pass',
+                passedAt: new Date(),
+                testResults: res.testResults,
+                stdout: res.stdout,
+              },
+            }
+          : progress?.passingSubmissions,
+      };
+
+      setProgress(updatedProgress);
+      setAllProgress((prev) => ({ ...prev, [question.id]: updatedProgress }));
+
+      if (isPass) {
         setShowBurst(true);
       }
     } finally {
       setRunning(false);
     }
-  }, [question, user, code, language, progress]);
+  }, [question, user, code, language, progress, checkRateLimit, flushAutoSave]);
 
   const handleReset = useCallback(() => {
     if (!question) return;
-    setCode(question.starterCode[language] || '');
+    const starter = question.starterCode[language] || '';
+    setCode(starter);
+    codeRef.current = starter;
     setResult(null);
-  }, [question, language]);
+    if (user) {
+      saveArenaCode(user.uid, question.id, language, starter);
+    }
+  }, [question, language, user]);
 
   if (!question) {
     return (
@@ -227,7 +372,10 @@ export function ArenaQuestionPage() {
                 return (
                   <button
                     key={q.id}
-                    onClick={() => navigate(`/arena/${q.slug}`)}
+                    onClick={() => {
+                      flushAutoSave();
+                      navigate(`/arena/${q.slug}`);
+                    }}
                     className={`w-full text-left p-2.5 rounded-xl border transition-all flex items-start gap-2.5 group ${
                       isActive
                         ? 'bg-amber-100/70 border-amber-300 shadow-sm text-amber-950 font-semibold'
@@ -286,12 +434,14 @@ export function ArenaQuestionPage() {
             language={language}
             code={code}
             running={running}
-            onLanguageChange={setLanguage}
+            onLanguageChange={handleLanguageChange}
             onCodeChange={handleCodeChange}
             onRun={handleRun}
             onSubmit={handleSubmit}
             onReset={handleReset}
             availableLanguages={availableLanguages}
+            cooldownSeconds={cooldownSeconds}
+            rateLimitNotice={rateLimitNotice}
           />
         </div>
       </div>

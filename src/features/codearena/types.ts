@@ -59,6 +59,18 @@ export interface SubmissionResult {
   returnValue?: unknown;
 }
 
+/** Firestore: users/{uid}/arena_submissions/{questionId}_{language} */
+export interface PassingSubmission {
+  questionId: string;
+  language: Language;
+  submittedCode: string;
+  status: 'pass';
+  passedAt: Date;
+  testResults: TestResult[];
+  stdout?: string;
+  error?: string | null;
+}
+
 /** Firestore: users/{uid}/arena_attempts/{questionId} */
 export interface ArenaAttempt {
   questionId: string;
@@ -80,4 +92,5 @@ export interface ArenaProgress {
   firstSolvedAt: Date | null;
   lastAttemptAt: Date;
   savedCode: { python?: string; javascript?: string; sql?: string };
+  passingSubmissions?: { python?: PassingSubmission; javascript?: PassingSubmission; sql?: PassingSubmission };
 }

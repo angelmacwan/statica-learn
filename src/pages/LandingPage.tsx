@@ -104,25 +104,6 @@ const paths = [
   },
 ];
 
-// ─── Testimonials ────────────────────────────────────────────────────────────
-
-const testimonials = [
-  {
-    quote: 'First platform where I actually finished a path. The exercises keep you honest.',
-    name: 'Priya M.',
-    role: 'CS student',
-  },
-  {
-    quote: 'Running code in the browser with instant feedback made it click in a way videos never did.',
-    name: 'Daniel K.',
-    role: 'Career switcher',
-  },
-  {
-    quote: 'Concise, no padding. I learned more in two weeks than in months of tutorial-hopping.',
-    name: 'Aiko T.',
-    role: 'Self-taught dev',
-  },
-];
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
@@ -144,7 +125,7 @@ export default function LandingPage() {
           </Link>
           <div className="flex items-center gap-2">
             <Link to="/login" className="btn-ghost text-xs">Sign in</Link>
-            <Link to="/explore" className="btn-primary text-xs py-2 px-4">
+            <Link to="/home" className="btn-primary text-xs py-2 px-4">
               Start free
             </Link>
           </div>
@@ -173,7 +154,7 @@ export default function LandingPage() {
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center gap-3">
-          <Link to="/explore" className="btn-primary text-sm gap-2 py-3 px-6">
+          <Link to="/home" className="btn-primary text-sm gap-2 py-3 px-6">
             Explore paths <ArrowRight size={15} />
           </Link>
           <Link to="/login" className="btn-secondary text-sm py-3 px-6">
@@ -254,7 +235,7 @@ export default function LandingPage() {
             <p className="mt-2 text-gray-500 text-sm">Start with what you need. More paths on the way.</p>
           </div>
           <Link
-            to="/explore"
+            to="/home"
             className="hidden sm:flex items-center gap-1 text-sm text-gray-400 hover:text-gray-800 transition-colors"
           >
             View all <ArrowRight size={13} />
@@ -289,35 +270,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Social proof ── */}
-      <section className="relative py-20 overflow-hidden">
-        {/* Organic blob background */}
-        <div className="absolute inset-0 bg-cream-100 skew-y-1 origin-left" />
-        <BlobBlush className="absolute bottom-0 left-0 w-80 h-80 opacity-20 pointer-events-none" />
-        <BlobMint className="absolute top-0 right-0 w-64 h-64 opacity-15 pointer-events-none" />
-
-        <div className="relative max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">
-              Built for learners who actually finish.
-            </h2>
-            <p className="mt-2 text-gray-500 text-sm">
-              No engagement hacks. Just good lessons and honest feedback.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-5">
-            {testimonials.map(({ quote, name, role }) => (
-              <div key={name} className="card p-6 space-y-4 hover:shadow-card transition-all">
-                <p className="text-sm text-gray-700 leading-relaxed italic">"{quote}"</p>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">{name}</p>
-                  <p className="text-xs text-gray-400">{role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── Final CTA ── */}
       <section className="relative py-28 overflow-hidden">
@@ -332,7 +284,7 @@ export default function LandingPage() {
             Free to browse. Sign in to save progress and unlock all paths.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <Link to="/explore" className="btn-primary text-sm py-3 px-8 gap-2">
+            <Link to="/home" className="btn-primary text-sm py-3 px-8 gap-2">
               Start learning <ArrowRight size={15} />
             </Link>
             <Link to="/login" className="btn-secondary text-sm py-3 px-6">
@@ -356,7 +308,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="flex gap-6">
-            <Link to="/explore" className="hover:text-gray-700 transition-colors">Explore</Link>
+            <Link to="/home" className="hover:text-gray-700 transition-colors">Explore</Link>
             <Link to="/login" className="hover:text-gray-700 transition-colors">Sign in</Link>
           </div>
         </div>

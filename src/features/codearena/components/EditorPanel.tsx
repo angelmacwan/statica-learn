@@ -16,6 +16,8 @@ interface EditorPanelProps {
   onSubmit: () => void;
   onReset: () => void;
   availableLanguages?: Language[];
+  cooldownSeconds?: number;
+  rateLimitNotice?: string | null;
 }
 
 const LANG_EXTENSIONS = {
@@ -40,7 +42,11 @@ export function EditorPanel({
   onSubmit,
   onReset,
   availableLanguages = ['python', 'javascript', 'sql'],
+  cooldownSeconds = 0,
+  rateLimitNotice,
 }: EditorPanelProps) {
+  const isDisabled = running || cooldownSeconds > 0;
+
   return (
     <div className="flex flex-col h-full bg-gray-950 rounded-none overflow-hidden">
       {/* Toolbar */}
@@ -62,8 +68,14 @@ export function EditorPanel({
           ))}
         </div>
 
-        {/* Actions */}
+        {/* Actions & Rate limit status */}
         <div className="flex items-center gap-2">
+          {rateLimitNotice && (
+            <span className="text-[11px] font-semibold text-amber-400 bg-amber-950/80 border border-amber-800/80 px-2 py-1 rounded-md animate-pulse">
+              {rateLimitNotice}
+            </span>
+          )}
+
           <button
             onClick={onReset}
             title="Reset to starter code"
@@ -73,19 +85,19 @@ export function EditorPanel({
           </button>
           <button
             onClick={onRun}
-            disabled={running}
+            disabled={isDisabled}
             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 text-amber-200 hover:bg-gray-700 border border-gray-700 disabled:opacity-50 transition-all shadow-sm"
           >
             <Play size={13} className="text-amber-400 fill-amber-400/20" />
-            Run Code
+            {cooldownSeconds > 0 ? `Wait (${cooldownSeconds}s)` : 'Run Code'}
           </button>
           <button
             onClick={onSubmit}
-            disabled={running}
+            disabled={isDisabled}
             className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold bg-amber-600 text-white hover:bg-amber-500 disabled:opacity-50 transition-all shadow-sm"
           >
             <Send size={13} />
-            Submit Solution
+            {cooldownSeconds > 0 ? `Wait (${cooldownSeconds}s)` : 'Submit Solution'}
           </button>
         </div>
       </div>
