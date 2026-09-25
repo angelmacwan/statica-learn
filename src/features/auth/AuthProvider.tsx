@@ -14,6 +14,7 @@ import {
 import { auth, googleProvider } from '@/lib/firebase';
 import { upsertUserProfile, getUserProfile } from '@/lib/firestore';
 import { CONTENT_WIDTH_CLASSES, type ContentWidthSetting } from '@/types';
+import { InfinityLoader } from '@/components/ui/InfinityLoader';
 
 interface AuthContextValue {
   user: User | null;
@@ -90,6 +91,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const contentWidthClass = CONTENT_WIDTH_CLASSES[contentWidth] || 'max-w-3xl';
+
+  if (loading) {
+    return <InfinityLoader fullScreen text="Initializing..." />;
+  }
 
   return (
     <AuthContext.Provider

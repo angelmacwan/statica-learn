@@ -5,6 +5,7 @@ import { loadAllPaths, loadLessonsForPath } from '@/lib/contentLoader';
 import { getAllProgress } from '@/lib/firestore';
 import { ArrowRight, BookOpen, Zap, Clock, SortAsc } from 'lucide-react';
 import { getModulePastelStyle } from '@/lib/modulePastels';
+import { InfinityLoader } from '@/components/ui/InfinityLoader';
 import type { Path } from '@/types';
 
 type SortOption = 'last_accessed' | 'name';
@@ -173,7 +174,9 @@ export default function HomePage() {
 
         {/* Loading state */}
         {loadingProgress ? (
-          <div className="p-8 text-center text-gray-400 text-sm">Loading active modules…</div>
+          <div className="py-12 flex justify-center">
+            <InfinityLoader size="md" text="Loading active modules..." />
+          </div>
         ) : sortedActivePaths.length === 0 ? (
           /* Empty State when no active modules in progress */
           <div className="card p-8 sm:p-12 text-center space-y-4 bg-white/90 border border-gray-100 shadow-soft rounded-3xl">

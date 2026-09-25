@@ -2,10 +2,11 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import { CheckCircle2, XCircle, ChevronRight, Clock, Lightbulb, Terminal, Code2 } from 'lucide-react';
+import { CheckCircle2, XCircle, ChevronRight, Lightbulb, Terminal, Code2 } from 'lucide-react';
 import { CATEGORIES, DIFFICULTY_META } from '../questions';
 import { SchemaViewer } from '@/components/sql/SchemaViewer';
 import { ResultTable } from '@/components/sql/ResultTable';
+import { InfinityLoader } from '@/components/ui/InfinityLoader';
 import type { ArenaQuestion, SubmissionResult } from '../types';
 
 interface ProblemPanelProps {
@@ -81,9 +82,8 @@ export function ProblemPanel({ question, result, running, solved }: ProblemPanel
 
         {/* Running state */}
         {running && (
-          <div className="flex items-center gap-2 text-sm font-medium text-amber-700 bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 animate-pulse">
-            <Clock size={15} />
-            Running your code & evaluating test cases...
+          <div className="flex items-center justify-center p-6 text-sm font-medium text-amber-800 bg-amber-50/60 border border-amber-200/80 rounded-2xl">
+            <InfinityLoader size="md" text="Running your code & evaluating test cases..." />
           </div>
         )}
 

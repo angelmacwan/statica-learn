@@ -7,6 +7,7 @@ import { LessonBlockRenderer } from '@/components/lesson/LessonBlockRenderer';
 import { FloatingLessonPlan } from '@/components/lesson/FloatingLessonPlan';
 import { ChevronLeft, ChevronRight, Clock, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { ModuleBackgroundGraphic } from '@/components/ui/ModuleBackgroundGraphic';
+import { InfinityLoader } from '@/components/ui/InfinityLoader';
 import type { Lesson } from '@/types';
 
 export default function LessonPage() {
@@ -86,7 +87,13 @@ export default function LessonPage() {
     setFinished(true);
   }, [user, lesson, completedBlocks]);
 
-  if (loading) return <div className="p-12 text-gray-400">Loading lesson…</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <InfinityLoader size="lg" text="Loading lesson..." />
+      </div>
+    );
+  }
   if (!lesson) return <div className="p-12 text-gray-400">Lesson not found.</div>;
 
   return (

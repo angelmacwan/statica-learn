@@ -4,6 +4,7 @@ import { CheckCircle2, Lock, Filter, Swords } from 'lucide-react';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { ARENA_QUESTIONS, CATEGORIES, DIFFICULTY_META } from '../questions';
 import { getAllArenaProgress } from '../arenaFirestore';
+import { InfinityLoader } from '@/components/ui/InfinityLoader';
 import type { ArenaProgress, Category, Difficulty } from '../types';
 
 type FilterState = {
@@ -15,10 +16,17 @@ export function ArenaLobbyPage() {
   const { user } = useAuth();
   const [allProgress, setAllProgress] = useState<Record<string, ArenaProgress>>({});
   const [filter, setFilter] = useState<FilterState>({ category: 'all', difficulty: 'all' });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
-    getAllArenaProgress(user.uid).then(setAllProgress);
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+    getAllArenaProgress(user.uid).then((p) => {
+      setAllProgress(p);
+      setLoading(false);
+    });
   }, [user?.uid]);
 
   const filtered = ARENA_QUESTIONS.filter((q) => {
@@ -126,7 +134,12 @@ export function ArenaLobbyPage() {
         </p>
 
         {/* Question list */}
-        <div className="space-y-2.5">
+        {loading ? (
+          <div className="py-16 flex justify-center">
+            <InfinityLoader size="md" text="Loading problem progress..." />
+          </div>
+        ) : (
+          <div className="space-y-2.5">
           {filtered.map((q) => {
             const prog = allProgress[q.id];
             const solved = prog?.bestStatus === 'pass';
@@ -182,6 +195,7 @@ export function ArenaLobbyPage() {
             );
           })}
         </div>
+        )}
 
         {filtered.length === 0 && (
           <div className="text-center py-16 bg-white border border-cream-200 rounded-2xl text-gray-500 text-sm shadow-soft">

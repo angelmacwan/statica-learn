@@ -6,6 +6,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { Clock, CheckCircle2, Circle, Lock, ArrowLeft } from 'lucide-react';
 import { ModuleBackgroundGraphic } from '@/components/ui/ModuleBackgroundGraphic';
 import { getModulePastelStyle } from '@/lib/modulePastels';
+import { InfinityLoader } from '@/components/ui/InfinityLoader';
 import type { Path, Lesson } from '@/types';
 
 export default function PathPage() {
@@ -36,7 +37,13 @@ export default function PathPage() {
     });
   }, [user]);
 
-  if (loading) return <div className="p-12 text-gray-400">Loading…</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <InfinityLoader size="lg" text="Loading path modules..." />
+      </div>
+    );
+  }
   if (!path) return <div className="p-12 text-gray-400">Path not found.</div>;
 
   const completedCount = lessons.filter((l) => progress[l.id] === 'completed').length;
