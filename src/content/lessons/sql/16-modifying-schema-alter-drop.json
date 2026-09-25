@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-database-and-schema-management",
   "difficulty": "advance",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "alter-table",
     "drop-table",
@@ -15,7 +15,11 @@
   "blocks": [
     {
       "type": "text",
-      "content": "To modify table structure after creation:\n\n- `ALTER TABLE table_name ADD COLUMN col_name type;` \u2014 adds a new column.\n- `DROP TABLE table_name;` \u2014 permanently deletes a table and all its data."
+      "content": "To modify table structure after creation:\n\n- `ALTER TABLE table_name ADD COLUMN col_name type;` — adds a new column.\n- `DROP TABLE table_name;` — permanently deletes a table and all its data."
+    },
+    {
+      "type": "text",
+      "content": "The schema is the table’s blueprint. `ALTER` changes the blueprint, while `DROP` removes an object entirely.\n\nChanging a blueprint can affect existing data; dropping is much more serious. Check the target and make a backup before destructive changes."
     },
     {
       "type": "challenge",

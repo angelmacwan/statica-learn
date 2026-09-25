@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-values-and-choices",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "variables",
     "assignment",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Assignment: giving a variable its value\n\nYou create (and update) a variable with `=`, called the **assignment operator**.\n\n```python\nplayer_name = \"Ada\"\nhigh_score = 9001\nis_game_over = False\n```\n\nThink of it as: *\"the name on the left points to the value on the right.\"*\n\n```mermaid\ngraph LR\n  A[\"player_name\"] --> B[\" &nbsp;\\\"Ada\\\"\"]\n  C[\"high_score\"] --> D[\" &nbsp;9001\"]\n  E[\"is_game_over\"] --> F[\" &nbsp;False\"]\n```\n\nEach variable is a label attached to a box in memory. You can swap what's in the box at any time - just assign again:\n\n```python\nhigh_score = 9001\nhigh_score = 9500   # the box now holds 9500\n```"
+    },
+    {
+      "type": "text",
+      "content": "A variable is a labeled box whose value can change while a program runs. A constant is a value you choose to treat as fixed, such as the number of days in a week.\n\nPython does not lock constants for you; using an ALL_CAPS name is a promise to other people reading the code that the value should not change."
     },
     {
       "type": "multipleChoice",

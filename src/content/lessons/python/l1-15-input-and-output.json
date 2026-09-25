@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "print",
     "input",
@@ -18,6 +18,10 @@
     {
       "type": "text",
       "content": "## print() in Depth\n\nYou've used `print()` to display values. Here are its most useful features:\n\n```python\n# Multiple values - joined with a space by default\nprint(\"Name:\", \"Alice\", \"Age:\", 25)\n# Name: Alice Age: 25\n\n# Change the separator with sep\nprint(2026, 9, 24, sep=\"-\")\n# 2026-9-24\n\n# Change the end character (default is newline \\n)\nprint(\"Loading\", end=\"\")\nprint(\"...\")\n# Loading...\n\nprint(\"Step 1\", end=\" -> \")\nprint(\"Step 2\", end=\" -> \")\nprint(\"Done\")\n# Step 1 -> Step 2 -> Done\n```"
+    },
+    {
+      "type": "text",
+      "content": "Input brings information into a program, and output shows or saves a result. It is a conversation: ask clearly, receive text, then respond usefully.\n\nText entered with `input()` arrives as text. Convert it when you need a number, and handle unexpected answers kindly."
     },
     {
       "type": "multipleChoice",

@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-everyday-tools",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "math module",
     "abs",
@@ -28,6 +28,10 @@
       "content": "## Built-In Math Functions\n\nThese functions are available everywhere - no import needed.\n\n```python\n# abs() - absolute value (removes the negative sign)\nprint(abs(-42))      # 42\nprint(abs(3.7))      # 3.7\n\n# round() - round to N decimal places\nprint(round(3.14159, 2))   # 3.14\nprint(round(2.675, 2))     # 2.67  (see rounding note below!)\nprint(round(7))            # 7     (nearest integer)\n\n# min() / max() - smallest / largest value\nprint(min(3, 1, 4, 1, 5, 9))   # 1\nprint(max(3, 1, 4, 1, 5, 9))   # 9\nprint(min([10, 20, 5, 30]))     # 5  (works with lists too)\n\n# pow() - exponentiation (same as **)\nprint(pow(2, 10))   # 1024\nprint(2 ** 10)      # 1024  (equivalent)\n\n# sum() - add up an iterable\nscores = [88, 92, 75, 100, 60]\nprint(sum(scores))          # 415\nprint(sum(scores) / len(scores))  # 83.0  (average)\n```\n\n```mermaid\ngraph LR\n    A[\"Built-in Math\"] --> B[\"abs(x)\"]\n    A --> C[\"round(x, n)\"]\n    A --> D[\"min(...) / max(...)\"]\n    A --> E[\"pow(x, y)\"]\n    A --> F[\"sum(iterable)\"]\n```"
     },
     {
+      "type": "text",
+      "content": "Python can do everyday maths quickly: totals, averages, remainders, and powers. The remainder operator `%` is especially useful for patterns such as “every second item.”\n\nDivision can produce a decimal even when numbers divide neatly. Test a few values so you know what type and result you are getting."
+    },
+    {
       "type": "multipleChoice",
       "question": "What does `math.floor(3.9)` return?",
       "options": [
@@ -47,7 +51,7 @@
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `circle_area(radius)` that calculates the area of a circle using the formula:\n\n**area = \u03c0 \u00d7 radius\u00b2**\n\nReturn the result **rounded to 2 decimal places**. Use `math.pi` for the value of \u03c0.\n\nFor example:\n- `circle_area(1)` \u2192 `3.14`\n- `circle_area(5)` \u2192 `78.54`",
+      "prompt": "Write a function `circle_area(radius)` that calculates the area of a circle using the formula:\n\n**area = π × radius²**\n\nReturn the result **rounded to 2 decimal places**. Use `math.pi` for the value of π.\n\nFor example:\n- `circle_area(1)` → `3.14`\n- `circle_area(5)` → `78.54`",
       "starterCode": "import math\n\ndef circle_area(radius):\n    # Calculate and return the area of a circle, rounded to 2 decimal places\n    pass\n",
       "tests": [
         {

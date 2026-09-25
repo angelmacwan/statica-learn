@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-unsupervised-learning-and-dimensionality",
   "difficulty": "intermediate",
-  "estimatedMinutes": 9,
+  "estimatedMinutes": 11,
   "concepts": [
     "pca",
     "dimensionality-reduction",
@@ -20,10 +20,16 @@
       "content": "### Dimensionality Reduction with PCA\n\nPCA projects correlated high-dimensional features onto uncorrelated **Principal Components** maximizing variance.\n\n![PCA 2D Projection](/images/ml/chart_pca_2d.png)\n\n> **Important**: Always standardize features (`StandardScaler`) before running PCA!\n\n#### Cumulative Variance Scree Plot\nChoose the number of components capturing $90\\%-95\\%$ of total dataset variance.\n\n![PCA Scree Plot](/images/ml/chart_scree_plot.png)"
     },
     {
+      "type": "text",
+      "content": "PCA squeezes many related measurements into a few summary directions, like describing a bookshelf with “mostly tall vs. short” and “mostly fiction vs. nonfiction.”\n\nIt reduces detail to make data easier to view or model. The new directions can be harder to explain, so do not use PCA when every original feature must stay clear."
+    },
+    {
       "type": "code",
       "language": "python",
       "starterCode": "from sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\nX = np.random.randn(100, 5)\nX_scaled = StandardScaler().fit_transform(X)\n\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X_scaled)\nprint('Cumulative Variance Ratio:', pca.explained_variance_ratio_.cumsum())",
-      "solutionCode": "from sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\nX = np.random.randn(100, 5)\nX_scaled = StandardScaler().fit_transform(X)\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X_scaled)\nprint('Cumulative Variance Ratio:', pca.explained_variance_ratio_.cumsum())"
+      "solutionCode": "from sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nimport numpy as np\n\nX = np.random.randn(100, 5)\nX_scaled = StandardScaler().fit_transform(X)\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X_scaled)\nprint('Cumulative Variance Ratio:', pca.explained_variance_ratio_.cumsum())",
+      "readOnly": true,
+      "readOnlyNote": "This is a model-training example for reading and discussion. It is intentionally not run in the lesson."
     }
   ]
 }

@@ -21,6 +21,10 @@
       "content": "## What is a Class?\n\nA **class** is a blueprint for creating objects. An **object** is an instance of that blueprint - a concrete thing built from it.\n\nThink of a class like a cookie cutter and objects like the cookies it makes. Every cookie has the same shape, but each can have different decorations (data).\n\n```python\nclass Dog:\n    def __init__(self, name, breed):\n        self.name  = name\n        self.breed = breed\n\n    def bark(self):\n        return f\"{self.name} says: Woof!\"\n\n\nmy_dog    = Dog(\"Rex\", \"Labrador\")\nyour_dog  = Dog(\"Bella\", \"Poodle\")\n\nprint(my_dog.bark())    # Rex says: Woof!\nprint(your_dog.name)    # Bella\n```\n\n- `__init__` is the **constructor** - it runs automatically when you create an object\n- `self` refers to the specific object being created or used\n- `self.name` and `self.breed` are **attributes** - data stored on the object\n- `bark()` is a **method** - a function that belongs to the class"
     },
     {
+      "type": "text",
+      "content": "A class is a blueprint, like a design for a bike. An object is one actual bike made from that blueprint, with its own color and mileage.\n\nA class describes what objects can know and do. Each object keeps its own data, even though they share the same blueprint."
+    },
+    {
       "type": "multipleChoice",
       "question": "What is the purpose of `__init__` in a class?",
       "options": [

@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "set",
     "unique",
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "## What is a Set?\n\nA set is a collection of **unique** values with no particular order. You write it with curly braces:\n\n```python\ncolors = {\"red\", \"green\", \"blue\"}\nprint(colors)   # {'blue', 'red', 'green'}  (order may vary)\n```\n\nTwo things to remember:\n1. **No duplicates** - adding the same value twice has no effect\n2. **No guaranteed order** - you can't rely on items being in a specific position\n\n```python\nnumbers = {1, 2, 2, 3, 3, 3}\nprint(numbers)   # {1, 2, 3}  (duplicates removed automatically)\n```\n\nSets are great when you care about **whether something is present**, not about position or order."
+    },
+    {
+      "type": "text",
+      "content": "A set is a collection that automatically keeps only one copy of each value. It is useful for unique tags, attendees, or items you have already seen.\n\nSets do not promise an order, so do not use index positions with them. Their strength is fast membership checking and duplicate removal."
     },
     {
       "type": "multipleChoice",

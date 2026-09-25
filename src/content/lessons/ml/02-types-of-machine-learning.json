@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-introduction-and-process",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "supervised-learning",
     "unsupervised-learning",
@@ -23,6 +23,10 @@
       "content": "#### 4. Reinforcement Learning (RL)\nInstead of static datasets, an **agent** learns by interacting with an **environment**, taking **actions**, and receiving **rewards** or **penalties**.\n\n```mermaid\nflowchart LR\n    Agent[\"Agent (AI Decision Maker)\"] -->|\"Takes Action\"| Env[\"Environment (World / Game)\"]\n    Env -->|\"State & Reward (+ / -)\"| Agent\n```\n\n*Example:* RL powers autonomous vehicles learning in simulators and AI champions in Chess, Go, and Dota 2."
     },
     {
+      "type": "text",
+      "content": "Supervised learning learns from examples with answers, like practice questions with a key. Unsupervised learning looks for groups without being told their names.\n\nReinforcement learning improves through rewards and mistakes, like learning a game by scoring points. The right type depends on what feedback you have."
+    },
+    {
       "type": "multipleChoice",
       "question": "Which type of machine learning task involves predicting a continuous numerical value (such as temperature or stock price) using labeled data?",
       "options": [
@@ -33,6 +37,12 @@
       ],
       "correctIndex": 1,
       "explanation": "Regression is a supervised learning task focused on predicting continuous numerical values."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Supervised learning starts with examples that include answers.\nemails = [(\"Win a prize now\", \"spam\"), (\"See you at practice\", \"not spam\")]\n\nfor message, label in emails:\n    print(f\"{label:8} | {message}\")\n\nprint(\"\\nThe message is a feature. The label is the known answer.\")",
+      "solutionCode": "# Supervised learning starts with examples that include answers.\nemails = [(\"Win a prize now\", \"spam\"), (\"See you at practice\", \"not spam\")]\n\nfor message, label in emails:\n    print(f\"{label:8} | {message}\")\n\nprint(\"\\nThe message is a feature. The label is the known answer.\")"
     }
   ]
 }

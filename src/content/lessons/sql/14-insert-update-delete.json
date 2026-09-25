@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-database-and-schema-management",
   "difficulty": "intermediate",
-  "estimatedMinutes": 9,
+  "estimatedMinutes": 11,
   "concepts": [
     "insert-into",
     "update",
@@ -15,7 +15,11 @@
   "blocks": [
     {
       "type": "text",
-      "content": "DML commands:\n\n- `INSERT INTO table (cols) VALUES (vals)` \u2014 adds new rows.\n- `UPDATE table SET col = val WHERE condition` \u2014 updates existing rows.\n- `DELETE FROM table WHERE condition` \u2014 deletes matching rows."
+      "content": "DML commands:\n\n- `INSERT INTO table (cols) VALUES (vals)` — adds new rows.\n- `UPDATE table SET col = val WHERE condition` — updates existing rows.\n- `DELETE FROM table WHERE condition` — deletes matching rows."
+    },
+    {
+      "type": "text",
+      "content": "`INSERT` adds a new row, `UPDATE` changes rows, and `DELETE` removes rows. These are powerful because they change the saved data.\n\nUse a `WHERE` clause when changing or deleting a specific row. Without it, an update or delete can affect the whole table."
     },
     {
       "type": "challenge",

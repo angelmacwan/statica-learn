@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-unsupervised-learning-and-dimensionality",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "clustering",
     "k-means",
@@ -20,10 +20,16 @@
       "content": "### Unsupervised Clustering Algorithms\n\n#### K-Means Clustering & Centroids\nK-Means iteratively positions $k$ centroids to minimize within-cluster sum of squares.\n\n![K-Means Cluster Centroids](/images/ml/chart_kmeans_clusters.png)\n\n![Elbow Method Plot](/images/ml/chart_elbow_method.png)\n\n#### Hierarchical & DBSCAN Density Clustering\n- **Hierarchical**: Builds nested tree clusters (dendrogram).\n- **DBSCAN**: Identifies non-spherical clusters and marks isolated points as noise ($-1$).\n\n![Hierarchical Dendrogram](/images/ml/chart_dendrogram.png)\n\n![DBSCAN Non-Spherical Moons](/images/ml/chart_dbscan_moons.png)"
     },
     {
+      "type": "text",
+      "content": "Clustering groups similar items without labels, like sorting a mixed box of buttons by size and color. K-means looks for a chosen number of centres; DBSCAN looks for dense neighborhoods.\n\nClusters are patterns, not facts stamped on the world. Different settings can create different groupings, so check whether the groups make sense for the real question."
+    },
+    {
       "type": "code",
       "language": "python",
       "starterCode": "from sklearn.cluster import KMeans\nimport numpy as np\n\nX = np.array([[1, 2], [1.5, 1.8], [5, 8], [8, 8], [1, 0.6], [9, 11]])\nkm = KMeans(n_clusters=2, n_init=10, random_state=42)\nlabels = km.fit_predict(X)\nprint('Assigned Clusters:', labels)\nprint('Centroids:\\n', km.cluster_centers_)",
-      "solutionCode": "from sklearn.cluster import KMeans\nimport numpy as np\n\nX = np.array([[1, 2], [1.5, 1.8], [5, 8], [8, 8], [1, 0.6], [9, 11]])\nkm = KMeans(n_clusters=2, n_init=10, random_state=42)\nlabels = km.fit_predict(X)\nprint('Assigned Clusters:', labels)\nprint('Centroids:\\n', km.cluster_centers_)"
+      "solutionCode": "from sklearn.cluster import KMeans\nimport numpy as np\n\nX = np.array([[1, 2], [1.5, 1.8], [5, 8], [8, 8], [1, 0.6], [9, 11]])\nkm = KMeans(n_clusters=2, n_init=10, random_state=42)\nlabels = km.fit_predict(X)\nprint('Assigned Clusters:', labels)\nprint('Centroids:\\n', km.cluster_centers_)",
+      "readOnly": true,
+      "readOnlyNote": "This is a model-training example for reading and discussion. It is intentionally not run in the lesson."
     }
   ]
 }

@@ -24,6 +24,10 @@
       "content": "## Putting It All Together\n\nHere's the complete flow from idea to release using everything you've learned:\n\n```\n# 1. Start from an up-to-date main\ngit switch main\ngit pull\n\n# 2. Create a feature branch\ngit switch -c feature/payment-update\n\n# 3. Work and commit\ngit add .\ngit commit -m \"update payment provider to Stripe v3\"\n\n# 4. Push and open a pull request for review\ngit push origin feature/payment-update\n\n# 5. After approval, merge into main (usually done via the platform UI)\ngit switch main\ngit merge feature/payment-update\ngit push\n\n# 6. Tag the release\ngit tag v2.1.0\ngit push origin v2.1.0\n\n# 7. Clean up the feature branch\ngit branch -d feature/payment-update\ngit push origin --delete feature/payment-update\n```\n\n## Tagging Conventions\n\nMost teams use **semantic versioning**: `vMAJOR.MINOR.PATCH`\n\n- `MAJOR` - breaking change (old code might not work)\n- `MINOR` - new feature, backwards compatible\n- `PATCH` - bug fix\n\nSo `v2.1.0` means: major version 2, first new feature added, no patches yet.\n\n## Checking Out a Past Release\n\nNeed to look at or deploy an older version?\n```\ngit checkout v1.0.0\n```\n\nThis puts you in \"detached HEAD\" state - you can look around, but create a new branch before making changes."
     },
     {
+      "type": "text",
+      "content": "A release is a deliberate snapshot people can use, not merely “whatever is on main today.” A repeatable checklist makes releases calmer and easier to trust.\n\nThe goal is a small, traceable path: make a branch, review it, merge it, tag the version, and record what changed."
+    },
+    {
       "type": "multipleChoice",
       "question": "What makes a tag different from a branch?",
       "options": [

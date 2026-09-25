@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-reliable-programs",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "exceptions",
     "try-except",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## The `try...except...else...finally` Structure\n\n```python\ntry:\n    # Code that might raise an exception\n    number = int(\"not_a_number\")\nexcept ValueError as e:\n    # Runs ONLY if ValueError occurs\n    print(f\"Caught error: {e}\")\nelse:\n    # Runs ONLY if no exceptions were raised in try\n    print(\"Everything succeeded!\")\nfinally:\n    # ALWAYS runs, regardless of whether an error occurred\n    print(\"Cleanup completed.\")\n```\n\n```mermaid\nflowchart TD\n    A[\"try block\"] --> B{\"Error occurred?\"}\n    B -- Yes --> C[\"except block\"]\n    B -- No --> D[\"else block\"]\n    C --> E[\"finally block\"]\n    D --> E\n```"
+    },
+    {
+      "type": "text",
+      "content": "An exception is Python’s way of saying something unexpected stopped the normal plan, like a missing file or invalid number. Handling it lets your program respond instead of crashing abruptly.\n\nCatch the specific problem you expect and explain what to do next. Do not hide every error with a broad `except`, or real bugs become harder to find."
     },
     {
       "type": "multipleChoice",

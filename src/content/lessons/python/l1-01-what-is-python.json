@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "python",
     "interpreter",
@@ -17,6 +17,10 @@
     {
       "type": "text",
       "content": "## What is Python?\n\nPython is a **programming language** - a way to give instructions to a computer. You write plain text (code), and Python reads it line by line and carries out each instruction.\n\nPython is popular for a few reasons:\n- The code looks close to plain English\n- It works for everything: websites, data analysis, AI, automation, games\n- A huge library of ready-made tools exists that you can import and use\n\nHere's a real Python program - three lines that do actual work:\n\n```python\nprices = [4.99, 12.50, 3.00]\ntotal = sum(prices)\nprint(total)  # 20.49\n```\n\nYou'll understand every part of that by the end of this course."
+    },
+    {
+      "type": "text",
+      "content": "Python is like a patient helper that follows written steps. You can use it to sort information, make games, automate boring jobs, and build parts of websites.\n\nThe interpreter is the program that reads your Python instructions. It follows them from top to bottom unless you tell it to choose or repeat."
     },
     {
       "type": "multipleChoice",

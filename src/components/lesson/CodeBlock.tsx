@@ -60,23 +60,27 @@ export function CodeBlock({ block, onRun }: Props) {
 				<span className="pill pill-mint capitalize">
 					{block.language}
 				</span>
-				<div className="flex items-center gap-2">
-					<button
-						onClick={handleReset}
-						className="btn-ghost text-xs py-1.5 px-3"
-					>
-						<RotateCcw size={12} />
-						Reset
-					</button>
-					<button
-						onClick={handleRun}
-						disabled={running}
-						className="btn-primary text-xs py-1.5 px-4"
-					>
-						<Play size={12} />
-						{running ? 'Running…' : 'Run'}
-					</button>
-				</div>
+				{block.readOnly ? (
+					<span className="text-xs text-gray-300">Example only</span>
+				) : (
+					<div className="flex items-center gap-2">
+						<button
+							onClick={handleReset}
+							className="btn-ghost text-xs py-1.5 px-3"
+						>
+							<RotateCcw size={12} />
+							Reset
+						</button>
+						<button
+							onClick={handleRun}
+							disabled={running}
+							className="btn-primary text-xs py-1.5 px-4"
+						>
+							<Play size={12} />
+							{running ? 'Running…' : 'Run'}
+						</button>
+					</div>
+				)}
 			</div>
 
 			{/* Editor */}
@@ -87,6 +91,7 @@ export function CodeBlock({ block, onRun }: Props) {
 					extensions={langExtension[block.language]}
 					theme={oneDark}
 					className="text-sm"
+					editable={!block.readOnly}
 					basicSetup={{
 						lineNumbers: true,
 						foldGutter: false,
@@ -94,6 +99,9 @@ export function CodeBlock({ block, onRun }: Props) {
 					}}
 				/>
 			</div>
+			{block.readOnly && block.readOnlyNote && (
+				<p className="text-xs text-gray-300">{block.readOnlyNote}</p>
+			)}
 
 			{/* Output */}
 			{result && (

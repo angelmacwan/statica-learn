@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-foundations",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-commit",
     "git-log",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Making a Commit\n\nAfter staging your changes, save them with:\n```\ngit commit -m \"your message here\"\n```\n\nA good commit message is short and describes **what changed and why**, not how:\n- `add login button to navbar` - good\n- `fix` - too vague\n- `changed stuff` - useless\n\n## Viewing History\n\nSee all past commits:\n```\ngit log\n```\n\nA compact one-line view:\n```\ngit log --oneline\n```\n\nExample output:\n```\na3f9c12 fix broken image link on homepage\n7b2d441 add contact form\ne1a8009 initial commit\n```\n\nEach line is one commit. The short code on the left is the beginning of the commit's unique ID.\n\n## Looking at a Specific Commit\n\nSee exactly what changed in a commit:\n```\ngit show a3f9c12\n```\n\nCompare the current state to the last commit:\n```\ngit diff\n```"
+    },
+    {
+      "type": "text",
+      "content": "A commit is a labeled save point, not every tiny keystroke. A useful message explains why the change was made, so future-you can understand the history.\n\nHistory is a timeline you can inspect. It is not a backup of only the newest version: each commit gives you a place you can return to."
     },
     {
       "type": "multipleChoice",

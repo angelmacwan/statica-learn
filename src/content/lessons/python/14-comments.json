@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-everyday-tools",
   "difficulty": "beginner",
-  "estimatedMinutes": 6,
+  "estimatedMinutes": 8,
   "concepts": [
     "#",
     "docstrings",
@@ -21,6 +21,10 @@
     {
       "type": "text",
       "content": "## Single-Line Comments with `#`\n\nAnything after a `#` on a line is a comment. Python skips it entirely.\n\n```python\n# This entire line is a comment\nprint(\"Hello\")  # This is an inline comment\n\n# You can describe steps in your logic:\n# Step 1: Get the user's age\nage = 25\n# Step 2: Check if they're an adult\nif age >= 18:\n    print(\"Adult\")\n```\n\n**Standalone comments** (their own line) explain what a section of code does.\n**Inline comments** add a quick note beside a single line - keep them short."
+    },
+    {
+      "type": "text",
+      "content": "Comments are notes for humans reading the code. They explain a reason, a decision, or a tricky part that the code alone does not make clear.\n\nPython ignores comments when it runs. A comment cannot fix confusing code; clear names and small steps still matter."
     },
     {
       "type": "multipleChoice",

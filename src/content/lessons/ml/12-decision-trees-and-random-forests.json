@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-tree-models-and-ensembles",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "decision-tree",
     "random-forest",
@@ -20,10 +20,16 @@
       "content": "### Decision Trees & Overfitting Control\n\nDecision Trees split data into flowchart rules using Gini Impurity or Entropy.\n\n![Trained Decision Tree Diagram](/images/ml/chart_decision_tree.png)\n\n#### Pruning & Random Forests\nUnpruned trees memorize training data (overfitting). Random Forests solve this by training an ensemble of trees on bootstrap samples.\n\n![Overfitting Curves](/images/ml/chart_overfitting.png)\n\n![Feature Importance Bar Chart](/images/ml/chart_feature_importance.png)"
     },
     {
+      "type": "text",
+      "content": "A decision tree asks a series of simple questions, like a guessing game: “Is it weekend?” then “Is the price under 10?” A random forest asks many trees and lets them vote.\n\nOne tree can memorize quirks in its practice data. Many varied trees usually make a steadier decision than one overconfident tree."
+    },
+    {
       "type": "code",
       "language": "python",
       "starterCode": "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import load_iris\n\ndata = load_iris()\nX, y = data.data, data.target\n\nrf = RandomForestClassifier(n_estimators=50, max_depth=3, random_state=42)\nrf.fit(X, y)\n\nfor name, imp in zip(data.feature_names, rf.feature_importances_):\n    print(f'{name}: {imp:.4f}')",
-      "solutionCode": "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import load_iris\n\ndata = load_iris()\nX, y = data.data, data.target\nrf = RandomForestClassifier(n_estimators=50, max_depth=3, random_state=42)\nrf.fit(X, y)\nfor name, imp in zip(data.feature_names, rf.feature_importances_):\n    print(f'{name}: {imp:.4f}')"
+      "solutionCode": "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import load_iris\n\ndata = load_iris()\nX, y = data.data, data.target\nrf = RandomForestClassifier(n_estimators=50, max_depth=3, random_state=42)\nrf.fit(X, y)\nfor name, imp in zip(data.feature_names, rf.feature_importances_):\n    print(f'{name}: {imp:.4f}')",
+      "readOnly": true,
+      "readOnlyNote": "This is a model-training example for reading and discussion. It is intentionally not run in the lesson."
     }
   ]
 }

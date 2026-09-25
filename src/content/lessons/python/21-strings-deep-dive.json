@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-working-with-data",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "strings",
     "slicing",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Advanced Slicing: `[start:stop:step]`\n\nYou can extract sub-strings with slice notation:\n\n```python\ntext = \"PythonProgramming\"\nprint(text[0:6])     # 'Python' (from index 0 up to, but not including, 6)\nprint(text[6:])      # 'Programming' (from index 6 to end)\nprint(text[::2])     # 'PtoPormig' (every second character)\nprint(text[::-1])    # 'gnimmargorPnohtyP' (reversed!)\n```\n\n```mermaid\ngraph LR\n    P[\"0: P\"] --- Y[\"1: y\"] --- T[\"2: t\"] --- H[\"3: h\"] --- O[\"4: o\"] --- N[\"5: n\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "Text has positions, like letters in a word or seats in a row. Indexing and slicing let you look at one character or a stretch of characters.\n\nPython counts from zero, so the first character is position 0. A slice stops before its end position, which is a common off-by-one surprise."
     },
     {
       "type": "multipleChoice",

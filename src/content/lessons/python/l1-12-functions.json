@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "def",
     "parameters",
@@ -18,6 +18,10 @@
     {
       "type": "text",
       "content": "## Defining a Function\n\nA function is a named block of code you can call whenever you need it. You define it once with `def`:\n\n```python\ndef greet(name):\n    message = f\"Hello, {name}!\"\n    return message\n\nprint(greet(\"Alice\"))  # Hello, Alice!\nprint(greet(\"Bob\"))    # Hello, Bob!\n```\n\n- `def` starts the definition\n- `name` is a **parameter** - a placeholder for the value you'll pass in\n- `return` sends a value back to the caller\n- `\"Alice\"` and `\"Bob\"` are **arguments** - the actual values passed in\n\nWithout `return`, a function returns `None` automatically."
+    },
+    {
+      "type": "text",
+      "content": "A function is a named mini-recipe. You put a useful set of steps in one place, then call it whenever you need that job done.\n\nInputs are what you hand to the recipe; a return value is what it hands back. Printing a result is not the same as returning it for later use."
     },
     {
       "type": "multipleChoice",

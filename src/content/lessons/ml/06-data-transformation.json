@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-data-preprocessing-and-feature-engineering",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "log-transform",
     "skewness",
@@ -16,7 +16,11 @@
   "blocks": [
     {
       "type": "text",
-      "content": "### Log Transformation & Encoding\n\nWhen numeric features have a long right tail (skewed distributions like income or house prices), applying `np.log1p()` compresses extreme values and normalizes the distribution.\n\n![Log Transform Comparison](/images/ml/chart_log_transform.png)\n\n#### One-Hot Encoding\nConverts categorical strings into binary indicator columns ($0$ or $1$) so mathematical models can consume them:\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'color': ['Red', 'Blue', 'Green']})\ndf_encoded = pd.get_dummies(df, columns=['color'])\nprint(df_encoded)\n```"
+      "content": "### Log Transformation & Encoding\n\nWhen numeric features have a long right tail (skewed distributions like income or house prices), applying `np.log1p()` compresses extreme values and normalizes the distribution.\n\n![Log Transform Comparison](/images/ml/chart_log_transform.png)\n\n#### One-Hot Encoding\nConverts categorical strings into binary indicator columns ($0$ or $1$) so mathematical models can consume them:\n\nThe runnable example below performs the same one-hot encoding with standard Python, so you can see each step."
+    },
+    {
+      "type": "text",
+      "content": "Transformation changes the form of data so patterns are easier for a model to use. Turning a date into day of week is like translating a clue into a more useful language.\n\nDo not change data randomly. Each transformation should have a reason and should be applied the same way to training and new data."
     },
     {
       "type": "multipleChoice",
@@ -29,6 +33,12 @@
       ],
       "correctIndex": 0,
       "explanation": "log(0) is undefined (-infinity). np.log1p(x) computes log(1 + x), safely handling zero values."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "from math import log1p\n\nvisits = [0, 1, 10, 100, 1000]\nprint(\"Original:\", visits)\nprint(\"Log-scaled:\", [round(log1p(value), 2) for value in visits])\n\ncolors = [\"red\", \"blue\", \"green\", \"red\"]\nfor color in colors:\n    encoded = {name: int(color == name) for name in [\"red\", \"blue\", \"green\"]}\n    print(color, \"->\", encoded)",
+      "solutionCode": "from math import log1p\n\nvisits = [0, 1, 10, 100, 1000]\nprint(\"Original:\", visits)\nprint(\"Log-scaled:\", [round(log1p(value), 2) for value in visits])\n\ncolors = [\"red\", \"blue\", \"green\", \"red\"]\nfor color in colors:\n    encoded = {name: int(color == name) for name in [\"red\", \"blue\", \"green\"]}\n    print(color, \"->\", encoded)"
     }
   ]
 }

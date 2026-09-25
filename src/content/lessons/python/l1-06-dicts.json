@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "dict",
     "key-value",
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "## What is a Dictionary?\n\nA dictionary stores data as **key-value pairs**. You look up a value by its key - like looking up a word in a real dictionary.\n\n```python\nperson = {\n    \"name\": \"Alice\",\n    \"age\": 30,\n    \"city\": \"London\"\n}\n```\n\nAccess a value with square brackets and the key:\n\n```python\nprint(person[\"name\"])   # Alice\nprint(person[\"age\"])    # 30\n```\n\nKeys are usually strings, but they can be any immutable type (like numbers or tuples). Values can be anything - including lists or other dicts."
+    },
+    {
+      "type": "text",
+      "content": "A dictionary stores named pairs, like a contact card where “name” points to a value and “phone” points to another. You look things up by key, not position.\n\nKeys should be unique. Looking up a missing key can fail, so use `.get()` when a value may not be there."
     },
     {
       "type": "multipleChoice",

@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-filtering-and-sorting",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "and",
     "or",
@@ -17,6 +17,10 @@
     {
       "type": "text",
       "content": "You can combine conditions using `AND`, `OR`, and `NOT`:\n\n- `AND` requires **both** conditions to be true.\n- `OR` requires **at least one** condition to be true.\n- `NOT` negates a condition."
+    },
+    {
+      "type": "text",
+      "content": "`AND`, `OR`, and `NOT` let you combine filters, like choosing snacks that are both vegetarian and under a price limit.\n\n`AND` needs every condition to be true. `OR` needs at least one. Parentheses make your intended grouping clear."
     },
     {
       "type": "code",

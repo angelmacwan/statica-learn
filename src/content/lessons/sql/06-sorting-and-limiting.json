@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-filtering-and-sorting",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "order-by",
     "asc",
@@ -17,6 +17,10 @@
     {
       "type": "text",
       "content": "Use `ORDER BY` to sort rows in ascending (`ASC`, default) or descending (`DESC`) order.\n\nUse `LIMIT` to cap the number of returned rows:\n\n```sql\nSELECT name, salary FROM employees ORDER BY salary DESC LIMIT 3;\n```"
+    },
+    {
+      "type": "text",
+      "content": "`ORDER BY` puts results in a useful order, like sorting a leaderboard from highest score to lowest. `LIMIT` then keeps only the number of rows you need.\n\nWithout `ORDER BY`, “first five” is not a meaningful promise. Always choose an order before asking for top results."
     },
     {
       "type": "challenge",

@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-aggregations-and-grouping",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "group-by",
     "having",
@@ -16,6 +16,10 @@
     {
       "type": "text",
       "content": "`GROUP BY` collapses rows with identical values into summary rows.\n\n`HAVING` filters groups after aggregation (unlike `WHERE`, which filters individual rows before aggregation):\n\n```sql\nSELECT department, COUNT(*) AS emp_count\nFROM employees\nGROUP BY department\nHAVING COUNT(*) >= 2;\n```"
+    },
+    {
+      "type": "text",
+      "content": "`GROUP BY` makes separate mini-piles before calculating, such as one total for each shop. `HAVING` filters those finished piles.\n\n`WHERE` filters individual rows before grouping. `HAVING` filters group results after the calculation."
     },
     {
       "type": "challenge",

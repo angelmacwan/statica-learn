@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 6,
+  "estimatedMinutes": 8,
   "concepts": [
     "print",
     "strings",
@@ -17,6 +17,10 @@
     {
       "type": "text",
       "content": "## Your First Python Program\n\nThe simplest program you can write just displays a message:\n\n```python\nprint(\"Hello, World!\")\n```\n\nRun it and you get:\n```\nHello, World!\n```\n\n`print()` is a built-in function that displays whatever you put inside the parentheses. The text goes inside quotes - either single `'` or double `\"`, they work the same.\n\nYou can print multiple things by separating them with commas:\n\n```python\nprint(\"Hello\", \"World\")\n# Hello World\n\nprint(\"Score:\", 42)\n# Score: 42\n```"
+    },
+    {
+      "type": "text",
+      "content": "`print()` tells Python to show something on the screen. It is your easiest way to check that a program is doing what you think it is doing.\n\nWords need quotation marks because Python must know they are text, not a variable name it should look up."
     },
     {
       "type": "multipleChoice",

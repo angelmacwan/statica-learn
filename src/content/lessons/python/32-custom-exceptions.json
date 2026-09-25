@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-reliable-programs",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "raise",
     "custom-exceptions",
@@ -21,6 +21,10 @@
     {
       "type": "text",
       "content": "## Raising Exceptions with `raise`\n\nYou can manually trigger any exception with the `raise` keyword:\n\n```python\ndef set_percentage(value):\n    if not 0 <= value <= 100:\n        raise ValueError(f\"Percentage must be between 0 and 100, got {value}\")\n    return value\n```"
+    },
+    {
+      "type": "text",
+      "content": "A custom exception gives a meaningful name to a problem that matters in your program, such as an impossible age or an empty order. It makes errors easier to understand and handle.\n\nUse one when the usual Python error does not explain the situation. The name should describe the problem, not the code line that happened to find it."
     },
     {
       "type": "multipleChoice",

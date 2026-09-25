@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-starting-out",
   "difficulty": "beginner",
-  "estimatedMinutes": 5,
+  "estimatedMinutes": 7,
   "concepts": [
     "programming",
     "python"
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "Python is popular because it reads almost like English. Here's a real Python program:\n\n```python\nprint(\"Hello, world!\")\n```\n\n`print()` is a built-in command that displays text. The text goes inside quotes, inside the parentheses. Run it below and see what happens."
+    },
+    {
+      "type": "text",
+      "content": "Python is a way to write precise instructions for a computer. It is popular because the instructions are readable, so you can focus on solving a problem instead of fighting punctuation.\n\nPython is not a magic answer machine. It does exactly what you tell it, including mistakes, so clear thinking matters."
     },
     {
       "type": "multipleChoice",

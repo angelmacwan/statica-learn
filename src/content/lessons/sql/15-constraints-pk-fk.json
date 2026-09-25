@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-database-and-schema-management",
   "difficulty": "advance",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "primary-key",
     "foreign-key",
@@ -18,6 +18,10 @@
     {
       "type": "text",
       "content": "Constraints enforce rules at the database level:\n\n- `PRIMARY KEY`: uniquely identifies each row (cannot be NULL).\n- `FOREIGN KEY`: link to a primary key in another table.\n- `NOT NULL`: prevents NULL values.\n- `UNIQUE`: prevents duplicate values."
+    },
+    {
+      "type": "text",
+      "content": "Constraints are guardrails that stop messy data from getting in. A primary key is each row’s unique ID; a foreign key points to a related row in another table.\n\nThey protect relationships, like stopping a loan from naming a student who does not exist. A key is about identity and links, not about being a secret password."
     },
     {
       "type": "challenge",

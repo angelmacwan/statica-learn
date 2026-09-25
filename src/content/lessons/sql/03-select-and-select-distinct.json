@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-fundamentals",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "select",
     "distinct",
@@ -16,6 +16,10 @@
     {
       "type": "text",
       "content": "To pick specific columns, list them after `SELECT`:\n\n```sql\nSELECT name, age FROM students;\n```\n\nUse `AS` to rename a column in output headers:\n\n```sql\nSELECT name AS student_name FROM students;\n```\n\nUse `SELECT DISTINCT` to return only unique values:"
+    },
+    {
+      "type": "text",
+      "content": "`SELECT` is asking a table to show particular columns. `DISTINCT` means “show each repeated answer once,” like making a list of unique club names.\n\nIt removes duplicate result rows, not duplicate records from the database. Your original table stays untouched."
     },
     {
       "type": "code",

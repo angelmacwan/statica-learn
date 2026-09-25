@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-unsupervised-learning-and-dimensionality",
   "difficulty": "intermediate",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "anomaly-detection",
     "isolation-forest",
@@ -19,10 +19,14 @@
       "content": "### Anomaly & Outlier Detection\n\nAnomalies are rare, distinct points (e.g., credit card fraud, sensor faults).\n\n#### Isolation Forest\nIsolates observations by randomly partitioning features. Anomalous points require fewer splits to isolate.\n\n![Isolation Forest Anomaly Detection](/images/ml/chart_isolation_forest.png)"
     },
     {
+      "type": "text",
+      "content": "Anomaly detection looks for items that are unusually different from the usual pattern, like noticing one giant expense among many small lunch payments.\n\nUnusual does not automatically mean bad. An anomaly is a signal to investigate, not proof of fraud or an error."
+    },
+    {
       "type": "code",
       "language": "python",
-      "starterCode": "from sklearn.ensemble import IsolationForest\nimport numpy as np\n\nX = np.array([[10], [12], [11], [10.5], [500], [11.5], [600]])\nmodel = IsolationForest(contamination=0.25, random_state=42)\npreds = model.fit_predict(X)\nprint('Predictions (-1 = Anomaly):', preds)",
-      "solutionCode": "from sklearn.ensemble import IsolationForest\nimport numpy as np\n\nX = np.array([[10], [12], [11], [10.5], [500], [11.5], [600]])\nmodel = IsolationForest(contamination=0.25, random_state=42)\npreds = model.fit_predict(X)\nprint('Predictions (-1 = Anomaly):', preds)"
+      "starterCode": "from statistics import median\n\namounts = [10, 12, 11, 10.5, 500, 11.5, 600]\nmiddle = median(amounts)\ndeviations = [abs(amount - middle) for amount in amounts]\ntypical_deviation = median(deviations)\nthreshold = 3 * typical_deviation\n\nfor amount in amounts:\n    unusual = abs(amount - middle) > threshold\n    label = \"check this\" if unusual else \"usual range\"\n    print(f\"{amount:>5}: {label}\")",
+      "solutionCode": "from statistics import median\n\namounts = [10, 12, 11, 10.5, 500, 11.5, 600]\nmiddle = median(amounts)\ndeviations = [abs(amount - middle) for amount in amounts]\ntypical_deviation = median(deviations)\nthreshold = 3 * typical_deviation\n\nfor amount in amounts:\n    unusual = abs(amount - middle) > threshold\n    label = \"check this\" if unusual else \"usual range\"\n    print(f\"{amount:>5}: {label}\")"
     }
   ]
 }

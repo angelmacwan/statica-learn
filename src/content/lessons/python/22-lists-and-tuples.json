@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-working-with-data",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "lists",
     "tuples",
@@ -23,6 +23,10 @@
     {
       "type": "text",
       "content": "## Common List Methods\n\n- `list.append(x)`: Adds `x` to the end.\n- `list.extend(iterable)`: Appends all items from another collection.\n- `list.insert(i, x)`: Inserts `x` at index `i`.\n- `list.pop([i])`: Removes and returns item at index `i` (default last item).\n- `list.sort()`: Sorts the list in place (modifies original).\n- `sorted(list)`: Returns a new sorted list without modifying original."
+    },
+    {
+      "type": "text",
+      "content": "Lists and tuples both keep items in order. Use a list when the collection may change, and a tuple when the values should stay fixed.\n\nThe brackets are a clue: lists use `[]`, tuples usually use `()`. Choosing the right one signals your intention to the next reader."
     },
     {
       "type": "multipleChoice",

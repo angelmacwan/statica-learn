@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-foundations",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-config",
     "installation",
@@ -21,6 +21,10 @@
     {
       "type": "text",
       "content": "## Installing Git\n\nDownload Git from [git-scm.com](https://git-scm.com) and follow the installer for your operating system. To check it worked, open a terminal and run:\n\n```\ngit --version\n```\n\nYou should see something like `git version 2.45.0`.\n\n## Configuring Your Identity\n\nRun these two commands once after installing. The `--global` flag makes them apply to every project on your machine:\n\n```\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"you@example.com\"\n```\n\nTo check your current settings:\n\n```\ngit config --global --list\n```\n\n## Your Default Editor\n\nGit sometimes opens a text editor (for example, when you write a long commit message). You can set it to something comfortable:\n\n```\ngit config --global core.editor \"code --wait\"   # VS Code\ngit config --global core.editor nano             # nano (simple terminal editor)\n```"
+    },
+    {
+      "type": "text",
+      "content": "Installing Git gives your computer the tool. Configuring your name and email puts a return address on every save point you make.\n\nSet this up once, then Git can say who made a change. It does not create an online account or upload your work."
     },
     {
       "type": "multipleChoice",

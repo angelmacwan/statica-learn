@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-aggregations-and-grouping",
   "difficulty": "intermediate",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "case",
     "when",
@@ -17,6 +17,10 @@
     {
       "type": "text",
       "content": "The `CASE` statement creates conditional column values:\n\n```sql\nSELECT name, score,\n  CASE\n    WHEN score >= 90 THEN 'Pass'\n    ELSE 'Fail'\n  END AS status\nFROM tests;\n```"
+    },
+    {
+      "type": "text",
+      "content": "`CASE` lets a query make a choice for each row, like turning scores into “pass” or “needs support.” It creates a label from rules you write.\n\nIt does not alter the stored score unless you use it in an update. In a `SELECT`, it only changes what the result looks like."
     },
     {
       "type": "challenge",

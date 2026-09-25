@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-table-joins",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "inner-join",
     "table-aliases",
@@ -16,6 +16,10 @@
     {
       "type": "text",
       "content": "Relational databases store data across separate tables. `INNER JOIN` matches rows where the join condition is met in both tables:\n\n```sql\nSELECT orders.id, customers.name\nFROM orders\nJOIN customers ON orders.customer_id = customers.id;\n```"
+    },
+    {
+      "type": "text",
+      "content": "A join connects tables using a shared fact, like matching each library loan to the student ID that borrowed it. An inner join keeps only matches found on both sides.\n\nThe matching columns need related values, not necessarily the same column name. A missing match is left out of an inner join."
     },
     {
       "type": "challenge",

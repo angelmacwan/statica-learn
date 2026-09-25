@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "variables",
     "assignment",
@@ -20,6 +20,10 @@
     {
       "type": "text",
       "content": "## Variables\n\nA variable is a name that holds a value. You create one with `=`:\n\n```python\nname = \"Alice\"\nage = 25\nheight = 1.68\nis_student = True\n```\n\nThink of a variable as a labeled box. The name is the label, and `=` puts a value inside the box.\n\nYou can change a variable's value at any time by assigning again:\n\n```python\nscore = 0\nscore = score + 10   # score is now 10\nscore = score + 5    # score is now 15\nprint(score)         # 15\n```"
+    },
+    {
+      "type": "text",
+      "content": "Variables let you give names to pieces of information so a program can reuse them. A type tells Python what kind of thing is in the box: text, a whole number, or something else.\n\nA variable name should describe the value, not the whole story. `score` is easier to understand than `x`."
     },
     {
       "type": "multipleChoice",

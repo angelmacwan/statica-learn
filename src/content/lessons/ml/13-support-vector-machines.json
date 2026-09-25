@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-tree-models-and-ensembles",
   "difficulty": "intermediate",
-  "estimatedMinutes": 9,
+  "estimatedMinutes": 11,
   "concepts": [
     "svm",
     "hyperplane",
@@ -20,6 +20,10 @@
       "content": "### Maximizing Margins & The Kernel Trick\n\nSupport Vector Machines find the optimal boundary (hyperplane) maximizing the margin between classes.\n\n![Linear SVM Margin & Boundary](/images/ml/chart_linear_svm.png)\n\n#### The RBF Kernel Trick\nFor nonlinear non-separable data, the **RBF Kernel** projects points into higher dimensions where linear boundaries separate classes cleanly.\n\n![RBF Kernel Decision Boundary](/images/ml/chart_kernel_svm.png)"
     },
     {
+      "type": "text",
+      "content": "A support vector machine tries to draw the widest possible gap between groups, like placing a fence with as much space as possible between two teams.\n\nThe points nearest the fence matter most. When a straight fence will not work, a kernel can help describe a curved boundary."
+    },
+    {
       "type": "multipleChoice",
       "question": "What are 'Support Vectors' in Support Vector Machines?",
       "options": [
@@ -30,6 +34,12 @@
       ],
       "correctIndex": 1,
       "explanation": "Support vectors are the data points lying on the margin boundary that directly define the hyperplane placement."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# A simple boundary: values below 5 are group A; 5 or more are group B.\nboundary = 5\npoints = [2, 4, 4.8, 5.2, 7]\n\nfor point in points:\n    group = \"A\" if point < boundary else \"B\"\n    distance_from_boundary = abs(point - boundary)\n    print(f\"point={point:>3} -> group {group}; distance from boundary={distance_from_boundary}\")\n\nprint(\"The closest points to the boundary are the most important ones for an SVM.\")",
+      "solutionCode": "# A simple boundary: values below 5 are group A; 5 or more are group B.\nboundary = 5\npoints = [2, 4, 4.8, 5.2, 7]\n\nfor point in points:\n    group = \"A\" if point < boundary else \"B\"\n    distance_from_boundary = abs(point - boundary)\n    print(f\"point={point:>3} -> group {group}; distance from boundary={distance_from_boundary}\")\n\nprint(\"The closest points to the boundary are the most important ones for an SVM.\")"
     }
   ]
 }

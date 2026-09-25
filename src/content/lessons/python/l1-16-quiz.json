@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 15,
+  "estimatedMinutes": 12,
   "concepts": [
     "quiz",
     "review"
@@ -15,6 +15,10 @@
     {
       "type": "text",
       "content": "## Final Quiz\n\nYou've covered all the core Python basics. This quiz tests everything from the course. Take your time and think through each question."
+    },
+    {
+      "type": "text",
+      "content": "A quiz is a chance to retrieve ideas from memory, which is how they become easier to use later. Slow down and trace what the code would do before choosing an answer.\n\nWhen an answer is wrong, name the rule you missed. That turns a guess into a useful note for the next problem."
     },
     {
       "type": "multipleChoice",

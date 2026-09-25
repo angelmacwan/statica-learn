@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-collaboration-and-release",
   "difficulty": "intermediate",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "rebase",
     "shared-history"
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "## How Rebase Works\n\nSuppose your `feature` branch is behind `main` because teammates have made new commits:\n\n```\nmain:    A - B - C - D\nfeature: A - B - E - F\n```\n\nAfter `git rebase main` on the feature branch:\n\n```\nmain:    A - B - C - D\nfeature: A - B - C - D - E' - F'\n```\n\nYour commits E and F are replayed on top of D. The history looks like you started from the latest version of main. (The `'` marks mean the commits have new IDs.)\n\n## Running a Rebase\n\n```\ngit switch feature/my-thing\ngit rebase main\n```\n\nIf there are conflicts during rebase, Git stops at each problematic commit. Resolve the conflict, then:\n```\ngit add filename\ngit rebase --continue\n```\n\nTo abandon a rebase in progress:\n```\ngit rebase --abort\n```\n\n## The Golden Rule of Rebasing\n\n> **Never rebase commits that have already been pushed and shared with others.**\n\nRebase rewrites commit IDs. If your teammates already have your old commits, rewriting them causes serious confusion. Only rebase local commits that haven't been pushed yet."
+    },
+    {
+      "type": "text",
+      "content": "Rebasing moves your branch so it appears to start from a newer commit. It can make a story neat, but it rewrites the labels on commits.\n\nTreat shared commits like a group document: do not quietly rewrite them. Rebase your own local work, and communicate before changing shared history."
     },
     {
       "type": "multipleChoice",

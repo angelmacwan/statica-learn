@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-merge",
     "fast-forward",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Merging a Branch\n\nFirst switch to the branch you want to merge *into*:\n```\ngit switch main\n```\n\nThen merge the other branch:\n```\ngit merge feature/login\n```\n\nIf there are no conflicting changes, Git completes the merge automatically.\n\n## Merge Conflicts\n\nA conflict happens when both branches changed the same part of the same file in different ways. Git can't choose which version is correct, so it stops and asks you to decide.\n\nGit marks the conflict in the file like this:\n```\n<<<<<<< HEAD\nThis is the version from your current branch\n=======\nThis is the version from the branch being merged in\n>>>>>>> feature/login\n```\n\nTo resolve it:\n1. Open the file and edit it to what it should actually say\n2. Remove the `<<<<<<<`, `=======`, and `>>>>>>>` lines\n3. Stage the resolved file: `git add filename`\n4. Complete the merge: `git commit`\n\n```mermaid\nflowchart TD\n    A[\"git merge feature/login\"] --> B{\"Any conflicts?\"}\n    B -- No --> C[\"Merge commit created automatically\"]\n    B -- Yes --> D[\"Git marks conflicts in files\"]\n    D --> E[\"Edit files to resolve\"]\n    E --> F[\"git add resolved files\"]\n    F --> G[\"git commit to finish\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "Merging brings work from one branch into another. Usually Git can combine different changes, like fitting two edits into different paragraphs.\n\nA conflict means Git found two competing edits to the same spot and needs a human decision. It is a question, not proof that someone failed."
     },
     {
       "type": "multipleChoice",

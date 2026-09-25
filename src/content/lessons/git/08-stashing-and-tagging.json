@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-stash",
     "git-tag",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Stashing Changes\n\nSave all uncommitted changes to the stash:\n```\ngit stash\n```\n\nGive it a name so you remember what it was:\n```\ngit stash push -m \"half-done login form\"\n```\n\nYour working directory is now clean (back to the last commit). Fix the urgent thing, then bring your stashed work back:\n```\ngit stash pop\n```\n\nSee what's in your stash:\n```\ngit stash list\n```\n\n## Tagging Releases\n\nA **tag** is a permanent, human-readable label on a specific commit. Unlike branches (which move as you commit), tags never move. They're used to mark release versions.\n\nCreate a tag on the current commit:\n```\ngit tag v1.0.0\n```\n\nPush a tag to a remote (tags aren't pushed automatically):\n```\ngit push origin v1.0.0\n```\n\nList all tags:\n```\ngit tag\n```"
+    },
+    {
+      "type": "text",
+      "content": "A stash is a temporary drawer for unfinished changes when you need a clean desk. A tag is a permanent sticky label on an important commit, such as version 1.0.\n\nDo not confuse them: stash is for work you plan to return to; a tag names a point in history that should stay easy to find."
     },
     {
       "type": "multipleChoice",

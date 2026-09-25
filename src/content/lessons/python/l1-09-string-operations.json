@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "indexing",
     "slicing",
@@ -21,6 +21,10 @@
     {
       "type": "text",
       "content": "## Strings are Sequences\n\nA string is a sequence of characters. You can access individual characters by index, just like a list:\n\n```python\nword = \"Python\"\nprint(word[0])    # P\nprint(word[1])    # y\nprint(word[-1])   # n  (last character)\nprint(len(word))  # 6\n```\n\n## Slicing\n\nExtract a portion of a string with `[start:stop]`. The character at `stop` is not included:\n\n```python\ntext = \"Hello, World!\"\nprint(text[0:5])    # Hello\nprint(text[7:])     # World!\nprint(text[:5])     # Hello\nprint(text[-6:])    # World!\nprint(text[::-1])   # !dlroW ,olleH  (reversed)\n```"
+    },
+    {
+      "type": "text",
+      "content": "A string is text, such as a name, message, or password. String operations let you join, search, change case, and pull out parts of that text.\n\nStrings cannot be changed in place. A method such as `.upper()` gives you a new string, so save it if you need the result."
     },
     {
       "type": "multipleChoice",

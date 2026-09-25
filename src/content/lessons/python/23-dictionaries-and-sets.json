@@ -25,6 +25,10 @@
       "content": "## Dictionaries (`dict`)\n\nStores associative key-value pairs. Keys must be **hashable/immutable** (strings, numbers, tuples):\n\n```python\nuser = {\"name\": \"Jordan\", \"role\": \"engineer\", \"level\": 3}\n\n# Safe access with .get(key, default)\nemail = user.get(\"email\", \"no-email@statica.com\")\n\n# Iterating\nfor key, value in user.items():\n    print(f\"{key}: {value}\")\n```"
     },
     {
+      "type": "text",
+      "content": "Dictionaries connect a unique key to a value; sets keep unique items with no fixed order. Think of a phonebook versus a guest list that avoids duplicates.\n\nUse a dictionary when each item needs a detail. Use a set when “is this already here?” is the important question."
+    },
+    {
       "type": "multipleChoice",
       "question": "What happens when you execute `my_set = {1, 2, 2, 3, 3, 3}`?",
       "options": [

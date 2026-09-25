@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-data-preprocessing-and-feature-engineering",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "min-max-scaler",
     "standard-scaler",
@@ -19,6 +19,10 @@
       "content": "### Feature Scaling Methods\n\nAlgorithms calculating spatial distance (e.g., KNN, SVM, Gradient Descent) require features to be scaled to equal ranges.\n\n![Scaling Comparison](/images/ml/chart_scaling_comparison.png)\n\n| Scaler | Formula | Resilience to Outliers |\n|---|---|---|\n| **MinMax** | $\\frac{x - x_{min}}{x_{max} - x_{min}} \\in [0,1]$ | Low |\n| **Standard** | $z = \\frac{x - \\mu}{\\sigma}$ | Medium |\n| **Robust** | $\\frac{x - \\text{median}}{IQR}$ | High |"
     },
     {
+      "type": "text",
+      "content": "Scaling puts number columns on comparable measuring sticks. It stops a large-number feature, such as yearly income, from drowning out a small-number feature, such as number of pets.\n\nScaling changes the units, not the underlying order. It is like converting centimetres to metres so measurements are easier to compare."
+    },
+    {
       "type": "multipleChoice",
       "question": "Which scaler should you use if your dataset contains extreme outliers that you must keep?",
       "options": [
@@ -29,6 +33,12 @@
       ],
       "correctIndex": 1,
       "explanation": "RobustScaler uses median and IQR rather than mean and variance, making it robust against outliers."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "scores = [10, 20, 30, 40]\nlowest, highest = min(scores), max(scores)\n\nscaled = [(score - lowest) / (highest - lowest) for score in scores]\nprint(\"Original scores:\", scores)\nprint(\"0-to-1 scaled:\", [round(value, 2) for value in scaled])\nprint(\"The order stays the same; only the measuring scale changes.\")",
+      "solutionCode": "scores = [10, 20, 30, 40]\nlowest, highest = min(scores), max(scores)\n\nscaled = [(score - lowest) / (highest - lowest) for score in scores]\nprint(\"Original scores:\", scores)\nprint(\"0-to-1 scaled:\", [round(value, 2) for value in scaled])\nprint(\"The order stays the same; only the measuring scale changes.\")"
     }
   ]
 }

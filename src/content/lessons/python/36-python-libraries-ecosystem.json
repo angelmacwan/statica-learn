@@ -24,6 +24,10 @@
       "content": "A capstone is a project that combines skills you have already practiced. Keep the work small: turn a list of inventory records into a useful summary, and handle missing data without crashing."
     },
     {
+      "type": "text",
+      "content": "A project becomes useful when small skills work together. This capstone turns raw inventory records into a report by using collections, functions, and safe handling of odd data.\n\nBreak the project into tiny jobs: calculate a total, find low stock, then present the answer. If each job is clear, debugging is much less scary."
+    },
+    {
       "type": "multipleChoice",
       "question": "Before writing a report, what should you decide first?",
       "options": [

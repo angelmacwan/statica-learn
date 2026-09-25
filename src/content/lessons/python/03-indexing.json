@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-starting-out",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "lists",
     "indexing"
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "Every item in a list has a position, called an **index**. Python starts counting positions at 0, not 1. So the first item is at index 0, the second at index 1, and so on.\n\n```mermaid\ngraph LR\n    A[\"index 0: 512\"] --- B[\"index 1: 488\"] --- C[\"index 2: 470\"] --- D[\"index 3: 455\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "Indexing means finding an item by position in an ordered collection. Think of a row of lockers: Python labels the first locker 0, then 1, then 2.\n\nNegative indexes count from the end, so `-1` is the last item. Asking for a position that does not exist causes an error."
     },
     {
       "type": "multipleChoice",

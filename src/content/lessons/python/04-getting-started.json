@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-starting-out",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "print",
     "syntax",
@@ -20,7 +20,11 @@
     },
     {
       "type": "text",
-      "content": "## How Python runs your code\n\nPython is an **interpreted** language. That means there's no separate \"compile\" step - you write code, and Python reads and executes it line by line, immediately.\n\nThe component that does this is called the **Python Interpreter**:\n\n```mermaid\ngraph LR\n  A[\" Your Source Code\"] --> B[\"\ufe0f Python Interpreter\"]\n  B --> C[\"\ufe0f Output\"]\n```\n\nYou can also use Python interactively in a **REPL** (Read-Eval-Print Loop) - type one line, press Enter, see the result instantly. It's like a conversation with the interpreter.\n\nOn this platform, every code block works the same way: write Python, press **Run**, see the output."
+      "content": "## How Python runs your code\n\nPython is an **interpreted** language. That means there's no separate \"compile\" step - you write code, and Python reads and executes it line by line, immediately.\n\nThe component that does this is called the **Python Interpreter**:\n\n```mermaid\ngraph LR\n  A[\" Your Source Code\"] --> B[\"️ Python Interpreter\"]\n  B --> C[\"️ Output\"]\n```\n\nYou can also use Python interactively in a **REPL** (Read-Eval-Print Loop) - type one line, press Enter, see the result instantly. It's like a conversation with the interpreter.\n\nOn this platform, every code block works the same way: write Python, press **Run**, see the output."
+    },
+    {
+      "type": "text",
+      "content": "Running a Python program is like pressing play on a recipe. Write the instructions in a file, then ask Python to read and carry them out.\n\nErrors are messages, not grades. Read the first useful line, find the named place in your code, and change one thing at a time."
     },
     {
       "type": "multipleChoice",

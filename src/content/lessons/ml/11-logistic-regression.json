@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-supervised-learning-regression-classification",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "logistic-regression",
     "sigmoid",
@@ -21,10 +21,16 @@
       "content": "### Binary Classification & Sigmoid Function\n\nLogistic Regression maps inputs to probabilities between $0$ and $1$ using the Sigmoid curve:\n\n$$\\sigma(z) = \\frac{1}{1 + e^{-z}}$$\n\n![Sigmoid Curve](/images/ml/chart_sigmoid_curve.png)\n\n#### Classification Metrics & Confusion Matrix\n- **Accuracy**: $\\frac{TP + TN}{TP + TN + FP + FN}$\n- **Precision**: $\\frac{TP}{TP + FP}$\n- **Recall**: $\\frac{TP}{TP + FN}$\n\n![Confusion Matrix Heatmap](/images/ml/chart_confusion_matrix.png)"
     },
     {
+      "type": "text",
+      "content": "Despite its name, logistic regression is often used for a yes-or-no choice, such as “spam or not spam.” It turns clues into a probability between 0 and 1.\n\nA probability is not certainty. Choosing a cutoff, like 0.5, is a decision you make after seeing the cost of each kind of mistake."
+    },
+    {
       "type": "code",
       "language": "python",
       "starterCode": "from sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, confusion_matrix\nimport numpy as np\n\nX = np.array([[1], [2], [3], [4], [5], [6]])\ny = np.array([0, 0, 0, 1, 1, 1])\n\nclf = LogisticRegression()\nclf.fit(X, y)\npreds = clf.predict(X)\nprint('Predictions:', preds)\nprint('Accuracy:', accuracy_score(y, preds))\nprint('Confusion Matrix:\\n', confusion_matrix(y, preds))",
-      "solutionCode": "from sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, confusion_matrix\nimport numpy as np\n\nX = np.array([[1], [2], [3], [4], [5], [6]])\ny = np.array([0, 0, 0, 1, 1, 1])\nclf = LogisticRegression()\nclf.fit(X, y)\npreds = clf.predict(X)\nprint('Predictions:', preds)\nprint('Accuracy:', accuracy_score(y, preds))\nprint('Confusion Matrix:\\n', confusion_matrix(y, preds))"
+      "solutionCode": "from sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, confusion_matrix\nimport numpy as np\n\nX = np.array([[1], [2], [3], [4], [5], [6]])\ny = np.array([0, 0, 0, 1, 1, 1])\nclf = LogisticRegression()\nclf.fit(X, y)\npreds = clf.predict(X)\nprint('Predictions:', preds)\nprint('Accuracy:', accuracy_score(y, preds))\nprint('Confusion Matrix:\\n', confusion_matrix(y, preds))",
+      "readOnly": true,
+      "readOnlyNote": "This is a model-training example for reading and discussion. It is intentionally not run in the lesson."
     }
   ]
 }

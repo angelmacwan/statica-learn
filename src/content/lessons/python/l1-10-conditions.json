@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "if",
     "elif",
@@ -18,6 +18,10 @@
     {
       "type": "text",
       "content": "## The if Statement\n\nAn `if` statement runs a block of code only when a condition is `True`:\n\n```python\ntemperature = 38\n\nif temperature > 35:\n    print(\"It's hot - stay hydrated!\")\n```\n\nIf `temperature` is 38, the condition `38 > 35` is `True`, so the message prints. If it were 30, nothing would print.\n\nKey rules:\n- The condition must evaluate to `True` or `False`\n- The colon `:` at the end of the `if` line is required\n- The indented block below runs only when the condition is `True`\n\n## Adding else\n\n`else` handles everything the `if` didn't catch:\n\n```python\ntemperature = 22\n\nif temperature > 35:\n    print(\"It's hot!\")\nelse:\n    print(\"Temperature is fine.\")\n```"
+    },
+    {
+      "type": "text",
+      "content": "Conditions let a program choose based on what is true, like deciding whether to bring an umbrella after checking the weather. `if` runs a block only when its question is true.\n\n`elif` gives another choice and `else` catches the remaining case. Indentation shows which instructions belong to each choice."
     },
     {
       "type": "multipleChoice",

@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-table-joins",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "left-join",
     "outer-join",
@@ -16,6 +16,10 @@
     {
       "type": "text",
       "content": "`LEFT JOIN` returns all rows from the left table, and the matched rows from the right table. Unmatched right columns contain `NULL`.\n\nThis is ideal for finding missing relationships (e.g. customers who placed 0 orders):"
+    },
+    {
+      "type": "text",
+      "content": "Outer joins keep unmatched rows too, which is useful when missing information matters. For example, you can see every student even if some have borrowed no books.\n\nA left join keeps every row from the left table. `NULL` in the right-table columns means no matching row was found, not necessarily a mistake."
     },
     {
       "type": "challenge",

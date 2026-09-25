@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-introduction-and-process",
   "difficulty": "beginner",
-  "estimatedMinutes": 6,
+  "estimatedMinutes": 8,
   "concepts": [
     "pipeline",
     "data-cleaning",
@@ -20,6 +20,10 @@
       "content": "### The 5-Step ML Pipeline\n\nBuilding ML applications follows a structured end-to-end pipeline rather than a single coding step:\n\n```mermaid\nflowchart LR\n    Step1[\"1. Data Collection & Cleaning\"] --> Step2[\"2. Data Preprocessing\"]\n    Step2 --> Step3[\"3. Feature Engineering\"]\n    Step3 --> Step4[\"4. Model Training\"]\n    Step4 --> Step5[\"5. Evaluation & Tuning\"]\n    Step5 -.->|\"Iterate & Refine\"| Step3\n```\n\n1. **Data Collection & Cleaning**: Remove duplicate rows, fix corrupted formats.\n2. **Data Preprocessing**: Handle missing values, scale numbers, encode text.\n3. **Feature Engineering**: Select or construct features with strong predictive power.\n4. **Model Training**: Train algorithm options on training data.\n5. **Evaluation & Fine-Tuning**: Measure validation performance and iterate.\n\n> **Golden Rule**: Garbage in, garbage out! Improving data quality almost always yields bigger gains than picking a more complex model algorithm."
     },
     {
+      "type": "text",
+      "content": "A useful ML project is a loop: define the question, collect examples, prepare them, train, test, and improve. The model is only one step in the loop.\n\nStart with a clear success measure. “Make a good model” is vague; “catch spam without hiding normal mail” is a testable goal."
+    },
+    {
       "type": "multipleChoice",
       "question": "If your machine learning model performs poorly on validation tests, what is often the most effective next step?",
       "options": [
@@ -30,6 +34,12 @@
       ],
       "correctIndex": 1,
       "explanation": "Machine learning is iterative; refining data preprocessing and features usually resolves performance issues."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Keep test examples separate so they can check a finished model fairly.\nexamples = [\"email 1\", \"email 2\", \"email 3\", \"email 4\", \"email 5\"]\ncutoff = 3\ntraining_examples = examples[:cutoff]\ntest_examples = examples[cutoff:]\n\nprint(\"Training examples:\", training_examples)\nprint(\"Test examples:    \", test_examples)",
+      "solutionCode": "# Keep test examples separate so they can check a finished model fairly.\nexamples = [\"email 1\", \"email 2\", \"email 3\", \"email 4\", \"email 5\"]\ncutoff = 3\ntraining_examples = examples[:cutoff]\ntest_examples = examples[cutoff:]\n\nprint(\"Training examples:\", training_examples)\nprint(\"Test examples:    \", test_examples)"
     }
   ]
 }

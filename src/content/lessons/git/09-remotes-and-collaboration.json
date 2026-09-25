@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-remote",
     "git-fetch",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Working with Remotes\n\nSee which remotes your project is connected to:\n```\ngit remote -v\n```\n\nWhen you clone a repository, Git automatically creates a remote called `origin` pointing to where you cloned from.\n\n## Fetching and Pulling\n\n**Fetch** - download new commits from the remote but don't change your files yet:\n```\ngit fetch origin\n```\n\n**Pull** - fetch AND immediately merge the remote changes into your current branch:\n```\ngit pull\n```\n\nPull is essentially `git fetch` followed by `git merge`. Use fetch when you want to look at what changed before merging it in.\n\n## Pushing\n\nSend your local commits to the remote:\n```\ngit push origin main\n```\n\nIf the remote has new commits you don't have yet, Git will refuse the push. You need to pull first, resolve any conflicts, then push.\n\n```mermaid\nflowchart LR\n    A[\"Local Repository\"] -- \"git push\" --> B[\"Remote (origin)\"]\n    B -- \"git fetch / git pull\" --> A\n```"
+    },
+    {
+      "type": "text",
+      "content": "A remote is a named copy of the repository somewhere else, often GitHub. `push` sends your commits there; `pull` brings other people’s commits to you.\n\nA remote does not magically combine work as you type. You still review incoming changes and resolve conflicts when needed."
     },
     {
       "type": "multipleChoice",

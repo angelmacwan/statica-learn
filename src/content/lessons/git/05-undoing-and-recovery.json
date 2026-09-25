@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-foundations",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-restore",
     "git-reset",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Undoing Uncommitted Changes\n\n**Discard changes to a file** (goes back to how it was at the last commit):\n```\ngit restore filename\n```\n\n**Remove a file from staging** (keeps your changes, just un-stages them):\n```\ngit restore --staged filename\n```\n\n## Undoing Committed Changes\n\n**Amend the very last commit** (only before pushing - fixes the message or adds a forgotten file):\n```\ngit commit --amend -m \"corrected message\"\n```\n\n**Revert a commit** - this is the safe way to undo a commit that's already been shared. It creates a *new* commit that reverses the changes, so the history is preserved:\n```\ngit revert abc1234\n```\n\n**Reset to an earlier commit** (dangerous on shared branches - rewrites history):\n```\ngit reset --hard abc1234\n```\n\n```mermaid\nflowchart TD\n    A[\"Need to undo something?\"] --> B{\"Already committed?\"}\n    B -- No --> C[\"git restore filename\"]\n    B -- Yes --> D{\"Already pushed/shared?\"}\n    D -- No --> E[\"git commit --amend or git reset\"]\n    D -- Yes --> F[\"git revert - creates a new undo commit\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "Undoing in Git means choosing which stage of a change you want to undo. First ask: is it only edited, staged, committed, or already shared?\n\nThis is like correcting a draft, an envelope on the desk, or a letter already mailed. The safest tool depends on where the change is."
     },
     {
       "type": "multipleChoice",

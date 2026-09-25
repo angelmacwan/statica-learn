@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-repetition-and-functions",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "local scope",
     "global scope",
@@ -21,6 +21,10 @@
     {
       "type": "text",
       "content": "## Local vs Global Scope\n\nPython organizes variables into **scopes** - regions of code where a name is visible and usable.\n\n- **Global scope** - the top level of your script. Variables here are visible everywhere below them.\n- **Local scope** - inside a function. Variables here are only visible within that function.\n\n```python\nmessage = \"I'm global\"      # global scope\n\ndef show():\n    note = \"I'm local\"      # local scope\n    print(message)          # [PASS] functions CAN see global variables\n    print(note)             # [PASS] local variable, no problem\n\nshow()\nprint(message)              # [PASS] still visible\nprint(note)                 # [FAIL] NameError - 'note' doesn't exist here\n```\n\n```mermaid\ngraph TD\n  G[\" Global Scope\\nmessage = 'I\\'m global'\"]\n  F[\" Function Scope (show)\\nnote = 'I\\'m local'\"]\n  G -->|\"can be read inside\"| F\n  F -. \"cannot escape\" .-> G\n```\n\nThink of global scope as a shared office, and function scope as a private meeting room. People in the meeting room can see the office whiteboard, but notes written on the meeting room's private board don't exist once you leave the room."
+    },
+    {
+      "type": "text",
+      "content": "Scope is where a variable name is known. A variable made inside a function is like a note inside one room: other rooms cannot automatically see it.\n\nKeeping values local prevents accidental mix-ups. Pass information into functions and return what you need instead of relying on hidden global boxes."
     },
     {
       "type": "multipleChoice",
@@ -42,7 +46,7 @@
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `add_prefix(words, prefix)` that takes a list of strings and a prefix string, and returns a **new list** where every string has the prefix prepended to it.\n\nDo not modify the original list. Use only local variables - no global state needed.\n\nExamples:\n- `add_prefix([\"cat\", \"dog\"], \"my_\")` \u2192 `[\"my_cat\", \"my_dog\"]`\n- `add_prefix([], \"x\")` \u2192 `[]`\n- `add_prefix([\"one\"], \"pre-\")` \u2192 `[\"pre-one\"]`",
+      "prompt": "Write a function `add_prefix(words, prefix)` that takes a list of strings and a prefix string, and returns a **new list** where every string has the prefix prepended to it.\n\nDo not modify the original list. Use only local variables - no global state needed.\n\nExamples:\n- `add_prefix([\"cat\", \"dog\"], \"my_\")` → `[\"my_cat\", \"my_dog\"]`\n- `add_prefix([], \"x\")` → `[]`\n- `add_prefix([\"one\"], \"pre-\")` → `[\"pre-one\"]`",
       "starterCode": "def add_prefix(words, prefix):\n    # your code here\n    pass\n",
       "tests": [
         {

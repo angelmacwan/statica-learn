@@ -25,6 +25,10 @@
       "content": "## The 5 Primitive Types at a Glance\n\n- **`int`** — Whole numbers (e.g. `42`, `-7`, `0`)\n- **`float`** — Floating-point decimals (e.g. `3.14`, `-0.5`, `1.0`)\n- **`str`** — Text / string values (e.g. `\"hello\"`, `'world'`)\n- **`bool`** — Boolean truth values (`True` or `False`)\n- **`NoneType`** — Special value representing the absence of a value (`None`)\n\nEvery value in Python belongs to exactly one type. Python figures out the type automatically based on how you write the value — this is called **type inference**."
     },
     {
+      "type": "text",
+      "content": "Different kinds of information behave differently. You can add numbers, join text, and use true-or-false values to make choices.\n\nDo not expect text that looks like a number to act like a number. `\"12\"` and `12` are different types."
+    },
+    {
       "type": "multipleChoice",
       "question": "What type does Python assign to the value `3.0`?\n\n```python\nprint(type(3.0))\n```",
       "options": [

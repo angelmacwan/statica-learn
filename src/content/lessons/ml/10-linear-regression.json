@@ -2,11 +2,11 @@
   "id": "ml-linear-regression",
   "slug": "linear-regression",
   "title": "10. Linear Regression & Evaluation",
-  "description": "Build simple and multiple linear regression models and measure R\u00b2, MSE, and MAE.",
+  "description": "Build simple and multiple linear regression models and measure R², MSE, and MAE.",
   "pathId": "ml",
   "moduleId": "ml-supervised-learning-regression-classification",
   "difficulty": "intermediate",
-  "estimatedMinutes": 9,
+  "estimatedMinutes": 11,
   "concepts": [
     "linear-regression",
     "r-squared",
@@ -20,10 +20,16 @@
       "content": "### Linear Regression Fundamentals\n\nSimple Linear Regression fits a best-fit line:\n\n$$y = m \\cdot x + b$$\n\n![Linear Regression Line Fit](/images/ml/chart_linear_regression.png)\n\n#### Polynomial Regression for Nonlinear Relationships\nWhen relationships curve, add polynomial features ($x^2, x^3$) to capture non-linear fits.\n\n![Polynomial Fit vs Linear Fit](/images/ml/chart_polynomial_fit.png)"
     },
     {
+      "type": "text",
+      "content": "Linear regression draws the straight trend that best summarizes a relationship, such as how study hours tend to relate to a score. It then uses that trend to estimate a new value.\n\nIt predicts a number, not a guaranteed future. A good-looking line can still be wrong when the pattern curves, has unusual points, or changes over time."
+    },
+    {
       "type": "code",
       "language": "python",
       "starterCode": "import numpy as np\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import r2_score, mean_squared_error\n\nX = np.array([[1], [2], [3], [4], [5], [6]])\ny = np.array([52, 58, 65, 72, 80, 88])\n\nmodel = LinearRegression()\nmodel.fit(X, y)\n\npreds = model.predict(X)\nprint(f'Slope (m): {model.coef_[0]:.2f}')\nprint(f'R^2 Score: {r2_score(y, preds):.4f}')",
-      "solutionCode": "import numpy as np\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import r2_score, mean_squared_error\n\nX = np.array([[1], [2], [3], [4], [5], [6]])\ny = np.array([52, 58, 65, 72, 80, 88])\nmodel = LinearRegression()\nmodel.fit(X, y)\npreds = model.predict(X)\nprint(f'Slope (m): {model.coef_[0]:.2f}')\nprint(f'R^2 Score: {r2_score(y, preds):.4f}')"
+      "solutionCode": "import numpy as np\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import r2_score, mean_squared_error\n\nX = np.array([[1], [2], [3], [4], [5], [6]])\ny = np.array([52, 58, 65, 72, 80, 88])\nmodel = LinearRegression()\nmodel.fit(X, y)\npreds = model.predict(X)\nprint(f'Slope (m): {model.coef_[0]:.2f}')\nprint(f'R^2 Score: {r2_score(y, preds):.4f}')",
+      "readOnly": true,
+      "readOnlyNote": "This is a model-training example for reading and discussion. It is intentionally not run in the lesson."
     }
   ]
 }

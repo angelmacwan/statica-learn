@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-database-and-schema-management",
   "difficulty": "intermediate",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "create-table",
     "data-types",
@@ -16,6 +16,10 @@
     {
       "type": "text",
       "content": "Use `CREATE TABLE` to define new table schemas:\n\n```sql\nCREATE TABLE books (\n  id INTEGER PRIMARY KEY,\n  title TEXT,\n  price REAL\n);\n```\nCommon SQLite data types: `INTEGER`, `TEXT`, `REAL` (floats), `BLOB`, `NUMERIC`."
+    },
+    {
+      "type": "text",
+      "content": "Designing a table is choosing what facts you need to remember and what kind of value each fact is. It is like designing a form before people fill it in.\n\nGive each table one clear job. A table about students should not also store every detail about their borrowed books."
     },
     {
       "type": "challenge",

@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "list",
     "indexing",
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "## What is a List?\n\nA list holds multiple values in a specific order. You write it with square brackets, separating items with commas:\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\nscores = [95, 82, 78, 91]\nmixed  = [\"Alice\", 30, True]\n```\n\nLists can hold any type of value, and they allow duplicates. The order of items is preserved.\n\n## Accessing Items\n\nEach item has an **index** - its position in the list. Indexes start at `0`:\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\nprint(fruits[0])   # apple\nprint(fruits[1])   # banana\nprint(fruits[2])   # cherry\nprint(fruits[-1])  # cherry  (negative indexes count from the end)\n```"
+    },
+    {
+      "type": "text",
+      "content": "A list is an ordered, changeable collection, like a shopping list. You can add, remove, replace, and look up items by their position.\n\nA list keeps duplicates and order. Changing a list affects the same list object, which matters when more than one variable refers to it."
     },
     {
       "type": "multipleChoice",

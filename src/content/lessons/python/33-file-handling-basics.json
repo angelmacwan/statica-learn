@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-reliable-programs",
   "difficulty": "intermediate",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "files",
     "open",
@@ -24,6 +24,10 @@
     {
       "type": "text",
       "content": "## Opening Files with `with open(...)`\n\nAlways use the `with` statement (a **context manager**) when working with files. It guarantees that the file handle is closed immediately when the block exits, even if an unhandled error occurs.\n\n```python\n# Writing to a file ('w' mode overwrites, 'a' mode appends)\nwith open(\"greeting.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"Hello from Python!\\n\")\n    f.write(\"Second line.\\n\")\n\n# Reading from a file ('r' mode, default)\nwith open(\"greeting.txt\", \"r\", encoding=\"utf-8\") as f:\n    content = f.read()        # entire file as string\n    # or for line in f: ...   # iterate line by line (memory efficient!)\n```\n\n```mermaid\nsequenceDiagram\n    participant Code as Python Code\n    participant CM as Context Manager (with)\n    participant OS as File System\n    Code->>CM: with open(\"data.txt\", \"r\")\n    CM->>OS: open file handle\n    Code->>OS: read / write\n    Code-->>CM: block exits\n    CM->>OS: file.close() (guaranteed!)\n```"
+    },
+    {
+      "type": "text",
+      "content": "Files let a program remember information after it stops running. Opening a file is like opening a notebook: choose whether you want to read it, add to it, or replace it.\n\nUse `with open(...)` so Python closes the notebook even if something goes wrong. Be careful with write mode because it can replace existing contents."
     },
     {
       "type": "multipleChoice",

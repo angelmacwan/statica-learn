@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-filtering-and-sorting",
   "difficulty": "intermediate",
-  "estimatedMinutes": 9,
+  "estimatedMinutes": 11,
   "concepts": [
     "like",
     "wildcards",
@@ -18,6 +18,10 @@
     {
       "type": "text",
       "content": "Advanced filtering clauses:\n\n- `LIKE 'A%'`: matches text starting with \"A\" (`%` matches any characters, `_` matches single character).\n- `IN ('NY', 'CA')`: matches any value in a list.\n- `BETWEEN 10 AND 50`: matches inclusive ranges.\n- `IS NULL` / `IS NOT NULL`: tests for missing data."
+    },
+    {
+      "type": "text",
+      "content": "`LIKE` finds text that fits a pattern, like searching contacts whose name starts with “Sam.” `BETWEEN` checks whether a value falls inside a range.\n\nThe `%` symbol means any number of characters. It is not the same as `=`: `=` expects an exact match."
     },
     {
       "type": "challenge",

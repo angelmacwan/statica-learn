@@ -25,6 +25,10 @@
       "content": "## The `for` Loop\n\nA `for` loop steps through every item in a sequence (a list, string, range, etc.) one at a time.\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\n\nfor fruit in fruits:\n    print(fruit)\n```\n\n- `fruit` is the **loop variable** - Python automatically assigns it the next item each iteration\n- The indented block is the **loop body** - it runs once per item\n- When the list runs out, the loop ends\n\nHere's exactly what Python does under the hood:\n\n```mermaid\ngraph TD\n    A[\"Start: get list\"] --> B[\"Any items left?\"];\n    B -- \"Yes\" --> C[\"loop variable = next item\"];\n    C --> D[\"Run loop body\"];\n    D --> B;\n    B -- \"No\" --> E[\"Exit loop\"];\n```\n\nYou can loop over a **string** the same way - each character becomes the loop variable:\n\n```python\nfor letter in \"hello\":\n    print(letter)\n# h\n# e\n# l\n# l\n# o\n```"
     },
     {
+      "type": "text",
+      "content": "A loop repeats a task so you do not copy the same instruction twenty times. It is like checking each item in a shopping basket using the same rule.\n\nA `for` loop walks through a collection. A `while` loop repeats while a condition remains true, so it needs a clear way to stop."
+    },
+    {
       "type": "multipleChoice",
       "question": "What does this code print?\n\n```python\nfor i in range(3):\n    print(i)\n```",
       "options": [

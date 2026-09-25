@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-workflows",
     "trunk-based",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## The Feature Branch Workflow\n\nThe idea is simple: all new work goes on its own branch. Main (or master) is always in a working state.\n\n```\n1. git switch main\n2. git pull                        # start from the latest code\n3. git switch -c feature/my-thing  # create your branch\n   ... make changes ...\n4. git add .                       # stage\n5. git commit -m \"add my thing\"    # commit\n6. git push origin feature/my-thing # push branch to remote\n7. Open a pull request for review\n8. After approval, merge into main\n9. git switch main && git pull     # update your local main\n10. git branch -d feature/my-thing # clean up\n```\n\n## Writing Good Commit Messages\n\nA good message explains **what and why**, not how:\n\n```\n# Good\nadd password reset email with 24-hour expiry link\nfix cart total not updating after quantity change\n\n# Bad\nfix\nwip\nchanges\n```\n\n## Key Glossary\n\n| Term | Meaning |\n|------|---------|\n| **repository (repo)** | A project folder tracked by Git, including all its history |\n| **commit** | A saved snapshot of staged changes |\n| **branch** | An independent line of development |\n| **merge** | Combining two branches into one |\n| **remote** | A copy of the repository stored on a server |\n| **origin** | The default name Git gives to the remote you cloned from |\n| **HEAD** | A pointer to your current position in the repository |\n| **staging area** | The collection of changes ready for the next commit |"
+    },
+    {
+      "type": "text",
+      "content": "A workflow is the team’s shared routine for making changes safely. It answers small questions early: where work begins, how it is reviewed, and when it reaches main.\n\nGood habits are boring on purpose: small commits, clear branch names, and regular updates make problems easier to understand and undo."
     },
     {
       "type": "multipleChoice",

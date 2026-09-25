@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "import",
     "from import",
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "## What is a Module?\n\nA **module** is a file of Python code. When you write `import something`, Python loads that file and makes its functions and variables available to you.\n\nPython ships with a large **standard library** - hundreds of modules ready to use:\n\n```python\nimport math\n\nprint(math.pi)            # 3.141592653589793\nprint(math.sqrt(16))      # 4.0\nprint(math.floor(3.9))    # 3\nprint(math.ceil(3.1))     # 4\n```\n\nYou can also import just the parts you need:\n\n```python\nfrom math import sqrt, pi\n\nprint(sqrt(25))   # 5.0\nprint(pi)         # 3.14159...\n```\n\nOr give a module a shorter alias:\n\n```python\nimport math as m\nprint(m.sqrt(9))  # 3.0\n```"
+    },
+    {
+      "type": "text",
+      "content": "A module is a Python file you can reuse; a package is a folder that groups related modules. They help large projects stay organized instead of becoming one giant file.\n\nImporting lets you use a tool from another module. Choose clear module names so readers can tell where a function comes from."
     },
     {
       "type": "multipleChoice",

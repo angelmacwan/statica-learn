@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "for",
     "while",
@@ -18,6 +18,10 @@
     {
       "type": "text",
       "content": "## The for Loop\n\nA `for` loop runs a block of code once for each item in a sequence:\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\n\nfor fruit in fruits:\n    print(fruit)\n\n# apple\n# banana\n# cherry\n```\n\nThe loop variable (`fruit`) automatically takes the value of each item in turn. The indented block runs once per item.\n\n## Looping Over a Range\n\n`range(n)` generates numbers from 0 up to (but not including) n:\n\n```python\nfor i in range(5):\n    print(i)\n\n# 0\n# 1\n# 2\n# 3\n# 4\n```\n\n`range(start, stop)` and `range(start, stop, step)` give you more control:\n\n```python\nfor i in range(1, 6):        # 1 2 3 4 5\nfor i in range(0, 10, 2):   # 0 2 4 6 8  (step of 2)\nfor i in range(5, 0, -1):   # 5 4 3 2 1  (count down)\n```"
+    },
+    {
+      "type": "text",
+      "content": "A loop repeats a task so you do not copy the same instruction twenty times. It is like checking each item in a shopping basket using the same rule.\n\nA `for` loop walks through a collection. A `while` loop repeats while a condition remains true, so it needs a clear way to stop."
     },
     {
       "type": "multipleChoice",

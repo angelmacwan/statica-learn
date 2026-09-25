@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-introduction-and-process",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "machine-learning",
     "model",
@@ -24,6 +24,10 @@
       "content": "### Traditional Programming vs. Machine Learning\n\nIn **traditional programming**, a software engineer writes explicit rules, and the computer applies those rules to input data to produce output.\n\nIn **machine learning**, you flip this around: you feed the computer data and correct outputs, and it automatically discovers the rules (the model).\n\n```mermaid\nflowchart TD\n    subgraph Traditional[\"Traditional Programming\"]\n        A[\"Rules + Data\"] --> B[\"Program / Logic\"] --> C[\"Output\"]\n    end\n    subgraph ML[\"Machine Learning\"]\n        D[\"Data + Correct Answers\"] --> E[\"ML Trainer\"] --> F[\"Learned Model / Rules\"]\n    end\n```\n\n**Spam Detection Example:**\n- *Traditional:* Write nested IF conditions checking for words like `'lottery'` or `'free money'`. Spammers easily bypass this by altering spellings.\n- *ML:* Feed thousands of emails labeled `'spam'` or `'not spam'`. The model discovers subtle pattern combinations (sender domain, punctuation, phrasing) automatically."
     },
     {
+      "type": "text",
+      "content": "Machine learning is teaching a computer from examples instead of writing every rule yourself. Like learning to spot a dog after seeing many dogs, it looks for patterns in past examples.\n\nA model is the pattern-finder after training. Features are clues you give it; a label is the answer you wanted it to learn."
+    },
+    {
       "type": "multipleChoice",
       "question": "What is the primary difference between Traditional Programming and Machine Learning?",
       "options": [
@@ -34,6 +38,12 @@
       ],
       "correctIndex": 1,
       "explanation": "Machine learning flips the paradigm by using data and target outputs to automatically discover the underlying rules/patterns."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "starterCode": "# Each pair is one example: study hours and its known score.\nexamples = [(1, 52), (2, 58), (3, 65)]\n\nfeatures = [hours for hours, score in examples]\nlabels = [score for hours, score in examples]\nprint(\"Features (clues):\", features)\nprint(\"Labels (answers):\", labels)",
+      "solutionCode": "# Each pair is one example: study hours and its known score.\nexamples = [(1, 52), (2, 58), (3, 65)]\n\nfeatures = [hours for hours, score in examples]\nlabels = [score for hours, score in examples]\nprint(\"Features (clues):\", features)\nprint(\"Labels (answers):\", labels)"
     }
   ]
 }

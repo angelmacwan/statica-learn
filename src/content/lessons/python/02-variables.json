@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-starting-out",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "variables",
     "assignment",
@@ -20,6 +20,10 @@
     {
       "type": "text",
       "content": "A variable has two parts: a name and a value. You create one with `=`:\n\n```python\nprice = 9.99\nquantity = 3\ntotal = price * quantity\nprint(total)  # prints 29.97\n```\n\nThe name (`price`) is how you refer to the value later. The `=` sign means \"store this value\". It's not the same as math's equals sign."
+    },
+    {
+      "type": "text",
+      "content": "A variable is a labeled box that holds a value, such as a player name or score. You choose the label so people can understand what the value represents.\n\nThe label is not the value itself. If you assign a new value to the same variable, the box now holds the new one."
     },
     {
       "type": "multipleChoice",

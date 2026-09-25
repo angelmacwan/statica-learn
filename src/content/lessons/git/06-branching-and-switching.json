@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-branches-and-integration",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-branch",
     "git-switch",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Creating and Switching Branches\n\nCreate a new branch and switch to it:\n```\ngit switch -c feature/login\n```\n(The `-c` means \"create\". Older Git versions use `git checkout -b feature/login`.)\n\nSwitch to an existing branch:\n```\ngit switch main\n```\n\nList all branches (the `*` marks the current one):\n```\ngit branch\n```\n\n## How Branches Work\n\nA branch is just a pointer to a commit. When you commit on a branch, that pointer moves forward. The other branches stay exactly where they were.\n\n```mermaid\nflowchart LR\n    A[\"commit 1\"] --> B[\"commit 2\"] --> C[\"commit 3\"]\n    C --> D[\"commit 4 - main\"]\n    C --> E[\"commit 4 - feature/login\"]\n    E --> F[\"commit 5 - feature/login\"]\n```\n\nIn the diagram above, `main` and `feature/login` both started from commit 3 but now have different histories.\n\n## The HEAD Pointer\n\n`HEAD` is a special pointer that always means \"where I am right now\". When you switch branches, HEAD moves to point at that branch. When you commit, HEAD and the current branch both move forward."
+    },
+    {
+      "type": "text",
+      "content": "A branch is a separate lane for an idea. You can try a new feature there without blocking the stable main lane.\n\nSwitching branches changes which version of the project is in your folder. A branch is not a copy you must keep manually; Git remembers where its commits are."
     },
     {
       "type": "multipleChoice",

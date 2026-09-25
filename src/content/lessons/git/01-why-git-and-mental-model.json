@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-foundations",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git",
     "version-control",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## How Git Thinks About Your Project\n\nGit sees your project in three areas:\n\n```\nWorking Directory   -->   Staging Area   -->   Repository (History)\n  (your files)         (changes ready          (saved snapshots /\n                         to be saved)              commits)\n```\n\n- **Working Directory** - the folder on your computer where you edit files\n- **Staging Area** - a holding zone where you collect changes before saving them\n- **Repository** - the permanent record of every commit (snapshot) you've made\n\nThe typical flow is:\n1. Edit files in your working directory\n2. Stage the changes you want to save with `git add`\n3. Save a snapshot with `git commit`\n\n> A **commit** is a permanent snapshot. It stores what the project looked like at that exact moment, who made the change, when, and a message describing why."
+    },
+    {
+      "type": "text",
+      "content": "Git is like a game with save points. A commit records the whole project at one moment, so a mistake does not erase the route back.\n\nWhen you change a file, it is not saved in Git yet. The staging area is your packing table: choose what belongs in this save point, then commit it."
     },
     {
       "type": "multipleChoice",

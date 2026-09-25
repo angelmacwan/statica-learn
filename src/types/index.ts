@@ -41,6 +41,8 @@ export const CodeBlockSchema = z.object({
   language: z.enum(['python', 'javascript', 'sql']),
   starterCode: z.string(),
   solutionCode: z.string().optional(),
+  readOnly: z.boolean().optional().default(false),
+  readOnlyNote: z.string().optional(),
   schema_sql: z.string().optional(),
   seed_sql: z.string().optional(),
 });

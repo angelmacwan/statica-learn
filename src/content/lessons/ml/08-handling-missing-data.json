@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-data-preprocessing-and-feature-engineering",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "imputation",
     "scikit-learn",
@@ -19,10 +19,14 @@
       "content": "### Missing Value Imputation\n\nReal-world data contains gaps (`NaN`).\n\n![Missing Values Percentage per Column](/images/ml/chart_missing_data.png)\n\n#### Imputation Strategies\n- **Median Imputation**: Best for numeric columns with outliers.\n- **Mean Imputation**: Good for symmetric numeric columns without heavy outliers.\n- **Most Frequent (Mode)**: Best for missing categorical strings."
     },
     {
+      "type": "text",
+      "content": "Missing data is a blank on a form. You can remove the row, fill a sensible value, or add a “was missing” clue, depending on why it is blank.\n\nNever treat every blank as zero by habit. Zero is a real answer, while missing means you do not know the answer."
+    },
+    {
       "type": "code",
       "language": "python",
-      "starterCode": "import pandas as pd\nimport numpy as np\nfrom sklearn.impute import SimpleImputer\n\ndf = pd.DataFrame({'age': [22, 25, np.nan, 29, 100]})\nimputer = SimpleImputer(strategy='median')\ndf['age_imputed'] = imputer.fit_transform(df[['age']])\nprint(df)",
-      "solutionCode": "import pandas as pd\nimport numpy as np\nfrom sklearn.impute import SimpleImputer\n\ndf = pd.DataFrame({'age': [22, 25, np.nan, 29, 100]})\nimputer = SimpleImputer(strategy='median')\ndf['age_imputed'] = imputer.fit_transform(df[['age']])\nprint(df)"
+      "starterCode": "from statistics import median\n\nages = [22, 25, None, 29, 100]\nknown_ages = [age for age in ages if age is not None]\ntypical_age = median(known_ages)\nfilled_ages = [typical_age if age is None else age for age in ages]\n\nprint(\"Original values:\", ages)\nprint(\"Median used for the blank:\", typical_age)\nprint(\"Filled values:\", filled_ages)",
+      "solutionCode": "from statistics import median\n\nages = [22, 25, None, 29, 100]\nknown_ages = [age for age in ages if age is not None]\ntypical_age = median(known_ages)\nfilled_ages = [typical_age if age is None else age for age in ages]\n\nprint(\"Original values:\", ages)\nprint(\"Median used for the blank:\", typical_age)\nprint(\"Filled values:\", filled_ages)"
     }
   ]
 }

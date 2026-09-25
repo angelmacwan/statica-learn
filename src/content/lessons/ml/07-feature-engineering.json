@@ -6,7 +6,7 @@
   "pathId": "ml",
   "moduleId": "ml-data-preprocessing-and-feature-engineering",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "feature-extraction",
     "feature-selection",
@@ -18,10 +18,14 @@
       "content": "### The Power of Feature Engineering\n\nFeature engineering means transforming raw inputs into informative features that make learning easier for the algorithm.\n\n- **Date Extraction**: Extract `year`, `month`, `day_of_week`, or `is_weekend` from raw timestamps.\n- **Interaction Features**: Multiply `length` $\\times$ `width` to create `area`.\n- **Feature Selection**: Rank features by absolute correlation with the target variable to eliminate noise."
     },
     {
+      "type": "text",
+      "content": "A feature is a clue the model can use. Feature engineering means creating better clues, such as turning start and end time into trip length.\n\nA clever feature can help more than a fancier algorithm. But do not sneak in information you would not know when making a real prediction."
+    },
+    {
       "type": "code",
       "language": "python",
-      "starterCode": "import pandas as pd\n\ndf = pd.DataFrame({\n    'timestamp': pd.to_datetime(['2026-09-20', '2026-09-21', '2026-09-26']),\n    'sales': [120, 150, 450]\n})\n\ndf['day_name'] = df['timestamp'].dt.day_name()\ndf['is_weekend'] = df['timestamp'].dt.dayofweek >= 5\nprint(df)",
-      "solutionCode": "import pandas as pd\n\ndf = pd.DataFrame({\n    'timestamp': pd.to_datetime(['2026-09-20', '2026-09-21', '2026-09-26']),\n    'sales': [120, 150, 450]\n})\n\ndf['day_name'] = df['timestamp'].dt.day_name()\ndf['is_weekend'] = df['timestamp'].dt.dayofweek >= 5\nprint(df)"
+      "starterCode": "from datetime import date\n\nsales = [\n    {\"date\": \"2026-09-20\", \"sales\": 120},\n    {\"date\": \"2026-09-21\", \"sales\": 150},\n    {\"date\": \"2026-09-26\", \"sales\": 450},\n]\n\nfor record in sales:\n    year, month, day = map(int, record[\"date\"].split(\"-\"))\n    weekday = date(year, month, day).strftime(\"%A\")\n    is_weekend = weekday in (\"Saturday\", \"Sunday\")\n    print(record[\"date\"], \"|\", weekday, \"| weekend:\", is_weekend)",
+      "solutionCode": "from datetime import date\n\nsales = [\n    {\"date\": \"2026-09-20\", \"sales\": 120},\n    {\"date\": \"2026-09-21\", \"sales\": 150},\n    {\"date\": \"2026-09-26\", \"sales\": 450},\n]\n\nfor record in sales:\n    year, month, day = map(int, record[\"date\"].split(\"-\"))\n    weekday = date(year, month, day).strftime(\"%A\")\n    is_weekend = weekday in (\"Saturday\", \"Sunday\")\n    print(record[\"date\"], \"|\", weekday, \"| weekend:\", is_weekend)"
     }
   ]
 }

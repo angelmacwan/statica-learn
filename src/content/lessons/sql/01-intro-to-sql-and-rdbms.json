@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-fundamentals",
   "difficulty": "beginner",
-  "estimatedMinutes": 6,
+  "estimatedMinutes": 8,
   "concepts": [
     "rdbms",
     "sql",
@@ -17,6 +17,10 @@
     {
       "type": "text",
       "content": "A **Relational Database Management System (RDBMS)** stores structured data in tables composed of rows and columns, similar to spreadsheets.\n\n**SQL (Structured Query Language)** is the universal language used to interact with RDBMSs like SQLite, PostgreSQL, MySQL, and SQL Server."
+    },
+    {
+      "type": "text",
+      "content": "A database is like a very organized school register. A table holds one kind of thing, each row is one item, and each column is one fact about it.\n\nSQL is the question language you use with that register. You ask for information; you do not need to hunt through every row by hand."
     },
     {
       "type": "multipleChoice",

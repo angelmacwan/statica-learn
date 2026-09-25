@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-everyday-tools",
   "difficulty": "beginner",
-  "estimatedMinutes": 10,
+  "estimatedMinutes": 12,
   "concepts": [
     "arithmetic",
     "comparison",
@@ -23,7 +23,11 @@
     },
     {
       "type": "text",
-      "content": "## Arithmetic Operators\n\nUsed for math. Most are familiar - but `//`, `%`, and `**` are worth a close look.\n\n```python\nprint(10 + 3)    # 13   - addition\nprint(10 - 3)    # 7    - subtraction\nprint(10 * 3)    # 30   - multiplication\nprint(10 / 3)    # 3.333...  - true division (always float)\nprint(10 // 3)   # 3    - floor division (integer, rounds DOWN)\nprint(10 % 3)    # 1    - modulo (remainder after division)\nprint(2 ** 8)    # 256  - exponentiation (2 to the power of 8)\n```\n\n**Floor division `//`** - divides and drops the decimal:\n```python\nprint(7 // 2)    # 3  (not 3.5)\nprint(-7 // 2)   # -4  (rounds toward negative infinity!)\n```\n\n**Modulo `%`** - gives you the remainder. Great for checking divisibility:\n```python\nprint(15 % 5)    # 0  \u2192 15 is divisible by 5\nprint(17 % 5)    # 2  \u2192 remainder is 2\n```\n\n**Exponentiation `**`** - raise to a power:\n```python\nprint(3 ** 3)    # 27\nprint(16 ** 0.5) # 4.0  - square root!\n```"
+      "content": "## Arithmetic Operators\n\nUsed for math. Most are familiar - but `//`, `%`, and `**` are worth a close look.\n\n```python\nprint(10 + 3)    # 13   - addition\nprint(10 - 3)    # 7    - subtraction\nprint(10 * 3)    # 30   - multiplication\nprint(10 / 3)    # 3.333...  - true division (always float)\nprint(10 // 3)   # 3    - floor division (integer, rounds DOWN)\nprint(10 % 3)    # 1    - modulo (remainder after division)\nprint(2 ** 8)    # 256  - exponentiation (2 to the power of 8)\n```\n\n**Floor division `//`** - divides and drops the decimal:\n```python\nprint(7 // 2)    # 3  (not 3.5)\nprint(-7 // 2)   # -4  (rounds toward negative infinity!)\n```\n\n**Modulo `%`** - gives you the remainder. Great for checking divisibility:\n```python\nprint(15 % 5)    # 0  → 15 is divisible by 5\nprint(17 % 5)    # 2  → remainder is 2\n```\n\n**Exponentiation `**`** - raise to a power:\n```python\nprint(3 ** 3)    # 27\nprint(16 ** 0.5) # 4.0  - square root!\n```"
+    },
+    {
+      "type": "text",
+      "content": "Operators combine or compare values, like adding prices or checking whether a score passed. They help turn stored data into a useful result.\n\nRead calculations in small pieces and use parentheses when the intended order matters. Computers follow rules, not your unstated guess."
     },
     {
       "type": "multipleChoice",
@@ -45,7 +49,7 @@
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `is_even(n)` that returns `True` if `n` is an even number, and `False` if it is odd.\n\n**Hint:** Use the modulo operator `%`. A number is even if the remainder when divided by 2 is 0.\n\n**Examples:**\n- `is_even(4)` \u2192 `True`\n- `is_even(7)` \u2192 `False`\n- `is_even(0)` \u2192 `True`",
+      "prompt": "Write a function `is_even(n)` that returns `True` if `n` is an even number, and `False` if it is odd.\n\n**Hint:** Use the modulo operator `%`. A number is even if the remainder when divided by 2 is 0.\n\n**Examples:**\n- `is_even(4)` → `True`\n- `is_even(7)` → `False`\n- `is_even(0)` → `True`",
       "starterCode": "def is_even(n):\n    # your code here\n    pass",
       "tests": [
         {

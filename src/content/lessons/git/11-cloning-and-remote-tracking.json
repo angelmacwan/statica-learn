@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-collaboration-and-release",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-clone",
     "remote-tracking"
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "## Cloning a Repository\n\nClone a repository from a URL:\n```\ngit clone https://github.com/example/my-project.git\n```\n\nThis creates a folder called `my-project` containing the project files and a `.git` folder with all the history. The original repository is automatically set as a remote called `origin`.\n\n## Remote-Tracking Branches\n\nAfter cloning, your local Git knows about the remote's branches. These are called **remote-tracking branches** and they look like `origin/main`. They are read-only snapshots of where the remote's branches were the last time you fetched.\n\nSee all branches including remote-tracking ones:\n```\ngit branch -a\n```\n\nUpdate your remote-tracking branches with the latest from the server:\n```\ngit fetch origin\n```\n\n## Connecting an Existing Repo to a Remote\n\nIf you already have a local repo and want to connect it to a remote:\n```\ngit remote add origin https://github.com/yourname/your-project.git\ngit push -u origin main\n```\n\nThe `-u` flag sets `origin/main` as the default for future `git push` and `git pull` commands."
+    },
+    {
+      "type": "text",
+      "content": "Cloning downloads a full working copy of a project, including its history. Remote-tracking branches are Git’s notes about what the remote looked like last time you checked.\n\nThey are not live video feeds. Fetching or pulling updates those notes, then you decide how to use the new work."
     },
     {
       "type": "multipleChoice",

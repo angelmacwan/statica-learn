@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-everyday-tools",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "print()",
     "input()",
@@ -23,6 +23,10 @@
     {
       "type": "text",
       "content": "## `print()` In Depth\n\nYou've seen `print(\"Hello\")`, but `print()` is more powerful than it looks.\n\n### Multiple arguments\n```python\nprint(\"Name:\", \"Alice\", \"Age:\", 25)\n# Output: Name: Alice Age: 25\n```\nBy default, multiple arguments are joined with a **space**.\n\n### The `sep` parameter - change the separator\n```python\nprint(\"2026\", \"09\", \"21\", sep=\"-\")\n# Output: 2026-09-21\n\nprint(\"one\", \"two\", \"three\", sep=\" | \")\n# Output: one | two | three\n```\n\n### The `end` parameter - change what prints at the end\n```python\n# Default end is \"\\n\" (newline). Change it to keep output on one line:\nprint(\"Loading\", end=\"\")\nprint(\"...\")\n# Output: Loading...\n\nprint(\"A\", end=\" -> \")\nprint(\"B\", end=\" -> \")\nprint(\"C\")\n# Output: A -> B -> C\n```\n\n```mermaid\ngraph LR\n    A[\"print(arg1, arg2, ...)\"] --> B[\"Join with sep (default: space)\"]\n    B --> C[\"Append end (default: newline)\"]\n    C --> D[\"Output to console\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "Input brings information into a program, and output shows or saves a result. It is a conversation: ask clearly, receive text, then respond usefully.\n\nText entered with `input()` arrives as text. Convert it when you need a number, and handle unexpected answers kindly."
     },
     {
       "type": "multipleChoice",

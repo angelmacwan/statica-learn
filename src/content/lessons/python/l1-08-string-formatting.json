@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-l1",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "f-strings",
     "format specifiers",
@@ -16,6 +16,10 @@
     {
       "type": "text",
       "content": "## Combining Strings the Hard Way\n\nYou can join strings with `+`:\n\n```python\nname = \"Alice\"\nage  = 25\nprint(\"Name: \" + name + \", Age: \" + str(age))\n# Name: Alice, Age: 25\n```\n\nThis works but is clunky. You have to convert every number to a string with `str()` or you get an error.\n\n## f-Strings (the Easy Way)\n\nAn **f-string** lets you embed variables directly inside a string. Prefix the string with `f` and put variables inside `{}`:\n\n```python\nname = \"Alice\"\nage  = 25\nprint(f\"Name: {name}, Age: {age}\")\n# Name: Alice, Age: 25\n```\n\nNo `str()` needed. Python handles the conversion automatically. You can even put expressions inside `{}`:\n\n```python\nprice = 9.99\nqty   = 3\nprint(f\"Total: {price * qty}\")\n# Total: 29.97\n```"
+    },
+    {
+      "type": "text",
+      "content": "Formatting is a tidy way to place values inside a message, like filling in blanks on a certificate. F-strings keep the text and the changing values easy to read.\n\nPut variables inside `{}` in an f-string. Without the `f` before the quote, Python treats those braces as ordinary text."
     },
     {
       "type": "multipleChoice",

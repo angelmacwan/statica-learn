@@ -25,6 +25,10 @@
       "content": "## Basic `if` / `else` Syntax\n\nThe simplest form - a fork in the road:\n\n```python\ntemperature = 38\n\nif temperature > 35:\n    print(\"It's scorching! Stay hydrated.\")\nelse:\n    print(\"Temperature seems fine.\")\n```\n\n**Key rules:**\n- The condition after `if` must evaluate to `True` or `False`\n- The colon `:` is **required** at the end of the `if` and `else` lines\n- The indented block (4 spaces) is the code that runs for that branch\n- `else` is optional - use it to handle everything that didn't match\n\nHere's what Python is doing under the hood:\n\n```mermaid\ngraph TD\n    A[\"Evaluate condition\\ntemperature > 35\"] --> B{\"True or False?\"}\n    B -->|\"True\"| C[\"Run the if block\\nprint scorching message\"]\n    B -->|\"False\"| D[\"Run the else block\\nprint fine message\"]\n    C --> E[\"Continue program\"]\n    D --> E\n```"
     },
     {
+      "type": "text",
+      "content": "Conditions let a program choose based on what is true, like deciding whether to bring an umbrella after checking the weather. `if` runs a block only when its question is true.\n\n`elif` gives another choice and `else` catches the remaining case. Indentation shows which instructions belong to each choice."
+    },
+    {
       "type": "multipleChoice",
       "question": "What does the following code print?\n\nx = 10\nif x > 5 and x < 15:\n    print(\"yes\")\nelse:\n    print(\"no\")",
       "options": [
@@ -39,7 +43,7 @@
     {
       "type": "code",
       "language": "python",
-      "starterCode": "# Temperature Checker\n# Try changing the temperature and see which message appears!\n\ntemperature = 22  # Change this value\n\nif temperature > 35:\n    message = \"It's scorching! Stay hydrated.\"\nelif temperature > 20:\n    message = \"Nice weather for a walk!\"\nelif temperature > 10:\n    message = \"Grab a jacket.\"\nelse:\n    message = \"Stay inside - it's freezing!\"\n\nprint(f\"Temperature: {temperature}\u00b0C\")\nprint(f\"Advice: {message}\")"
+      "starterCode": "# Temperature Checker\n# Try changing the temperature and see which message appears!\n\ntemperature = 22  # Change this value\n\nif temperature > 35:\n    message = \"It's scorching! Stay hydrated.\"\nelif temperature > 20:\n    message = \"Nice weather for a walk!\"\nelif temperature > 10:\n    message = \"Grab a jacket.\"\nelse:\n    message = \"Stay inside - it's freezing!\"\n\nprint(f\"Temperature: {temperature}°C\")\nprint(f\"Advice: {message}\")"
     },
     {
       "type": "code",

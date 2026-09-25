@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-foundations",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "git-init",
     "git-status",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## Starting and Checking Status\n\nInitialise Git in a folder:\n```\ngit init\n```\n\nSee the current state of your files:\n```\ngit status\n```\n\n`git status` tells you three things:\n- Which branch you're on\n- Which files have changed but aren't staged yet\n- Which files are staged and ready to commit\n\n## The Staging Area\n\nThe staging area is what makes Git powerful. Instead of saving every file change at once, you choose exactly what goes into the next commit.\n\n```\n# Stage one specific file\ngit add README.md\n\n# Stage all changed files at once\ngit add .\n```\n\nThink of the staging area like a shopping basket. You browse (edit files) and place items in the basket (stage). Only when you check out (commit) does the purchase become permanent.\n\n```mermaid\nflowchart LR\n    A[\"Edit files\"] --> B[\"git add\"]\n    B --> C[\"Staging Area\"]\n    C --> D[\"git commit\"]\n    D --> E[\"Repository History\"]\n```\n\nIf you stage something by mistake, remove it from staging without losing your changes:\n```\ngit restore --staged filename\n```"
+    },
+    {
+      "type": "text",
+      "content": "`git init` turns an ordinary folder into a project Git can watch. `git status` is a dashboard that tells you what has changed and what is ready to save.\n\nThink of staging as putting selected photos into an album before you print it. `git add` selects changes; it does not permanently save them."
     },
     {
       "type": "multipleChoice",

@@ -6,7 +6,7 @@
   "pathId": "git",
   "moduleId": "git-collaboration-and-release",
   "difficulty": "beginner",
-  "estimatedMinutes": 7,
+  "estimatedMinutes": 9,
   "concepts": [
     "pull-requests",
     "code-review"
@@ -19,6 +19,10 @@
     {
       "type": "text",
       "content": "## The Pull Request Flow\n\n```\n1. Push your feature branch to the remote\n   git push origin feature/my-thing\n\n2. Go to GitHub (or your platform) and open a Pull Request\n   - Select your branch as the source\n   - Select main as the destination\n   - Write a description of what changed and why\n\n3. Teammates review the code\n   - They can leave comments on specific lines\n   - Request changes or approve\n\n4. Address feedback with new commits on the same branch\n   git add .\n   git commit -m \"address review feedback\"\n   git push origin feature/my-thing\n\n5. Once approved, merge via the platform UI (or git merge locally)\n\n6. Delete the branch - it has served its purpose\n```\n\n## What Makes a Good PR\n\n- **Small and focused** - one feature or fix, not everything you've done this week\n- **Clear description** - explain what it does and why, link to any relevant issue\n- **Tests pass** - don't ask people to review broken code\n- **Self-review first** - read through your own diff before requesting review\n\n## Keeping Your Branch Up to Date\n\nWhile your PR is in review, main may have gotten new commits. Update your branch:\n```\ngit switch feature/my-thing\ngit pull origin main\n```\n\nOr with rebase for a cleaner history:\n```\ngit rebase main\n```"
+    },
+    {
+      "type": "text",
+      "content": "A pull request is a conversation about a proposed change before it joins the shared branch. It gives teammates a clear place to read, test, and discuss the work.\n\nReview is not a judgment of the person. It is a second set of eyes looking for bugs, confusing names, and missing cases."
     },
     {
       "type": "multipleChoice",

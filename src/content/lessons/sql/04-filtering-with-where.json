@@ -6,7 +6,7 @@
   "pathId": "sql",
   "moduleId": "sql-filtering-and-sorting",
   "difficulty": "beginner",
-  "estimatedMinutes": 8,
+  "estimatedMinutes": 10,
   "concepts": [
     "where",
     "operators",
@@ -16,6 +16,10 @@
     {
       "type": "text",
       "content": "The `WHERE` clause filters rows before returning results:\n\n```sql\nSELECT * FROM products WHERE price > 50;\n```\n\nComparison operators include: `=`, `!=` or `<>`, `<`, `>`, `<=`, `>=`."
+    },
+    {
+      "type": "text",
+      "content": "`WHERE` is a filter on a spreadsheet. It keeps rows that match a condition, such as students in grade 10.\n\nThe filter happens row by row. `WHERE age = 15` checks a value; it does not change anyone’s age."
     },
     {
       "type": "multipleChoice",

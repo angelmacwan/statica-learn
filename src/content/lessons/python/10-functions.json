@@ -26,6 +26,10 @@
       "content": "## Defining a Function\n\nThe anatomy of a Python function:\n\n```python\ndef greet(name):          # 'name' is a parameter\n    message = \"Hello, \" + name + \"!\"\n    return message        # sends the result back to the caller\n\nresult = greet(\"Alice\")   # 'Alice' is the argument\nprint(result)             # Hello, Alice!\n```\n\n**Key terms:**\n- **Parameter** - the variable name in the `def` line (a placeholder)\n- **Argument** - the actual value you pass when *calling* the function\n- **`return`** - exits the function and sends a value back\n\n> If a function has no `return` statement, it implicitly returns `None`.\n\n```mermaid\ngraph LR\n  A[\"Argument\\n'Alice'\"] -->|passed in| B[\"Function Body\\nname = 'Alice'\\nmessage = 'Hello, Alice!'\"]\n  B -->|return| C[\"Return Value\\n'Hello, Alice!'\"]\n```"
     },
     {
+      "type": "text",
+      "content": "A function is a named mini-recipe. You put a useful set of steps in one place, then call it whenever you need that job done.\n\nInputs are what you hand to the recipe; a return value is what it hands back. Printing a result is not the same as returning it for later use."
+    },
+    {
       "type": "multipleChoice",
       "question": "What does the following function return?\n\ndef mystery():\n    x = 42",
       "options": [
@@ -45,7 +49,7 @@
     {
       "type": "challenge",
       "language": "python",
-      "prompt": "Write a function `repeat(text, times=2)` that returns the string `text` repeated `times` times, with a single space between each repetition.\n\nExamples:\n- `repeat(\"ha\")` \u2192 `\"ha ha\"`\n- `repeat(\"go\", 3)` \u2192 `\"go go go\"`\n- `repeat(\"yes\", 1)` \u2192 `\"yes\"`",
+      "prompt": "Write a function `repeat(text, times=2)` that returns the string `text` repeated `times` times, with a single space between each repetition.\n\nExamples:\n- `repeat(\"ha\")` → `\"ha ha\"`\n- `repeat(\"go\", 3)` → `\"go go go\"`\n- `repeat(\"yes\", 1)` → `\"yes\"`",
       "starterCode": "def repeat(text, times=2):\n    # your code here\n    pass\n",
       "tests": [
         {

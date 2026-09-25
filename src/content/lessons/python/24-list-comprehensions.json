@@ -6,7 +6,7 @@
   "pathId": "python",
   "moduleId": "python-working-with-data",
   "difficulty": "intermediate",
-  "estimatedMinutes": 11,
+  "estimatedMinutes": 12,
   "concepts": [
     "list-comprehensions",
     "dict-comprehensions",
@@ -22,6 +22,10 @@
     {
       "type": "text",
       "content": "## List Comprehension Syntax\n\n```python\n[expression for item in iterable if condition]\n```\n\n```python\n# Traditional loop\nsquares = []\nfor n in range(6):\n    if n % 2 == 0:\n        squares.append(n ** 2)\n\n# Pythonic List Comprehension\nsquares = [n ** 2 for n in range(6) if n % 2 == 0]\n# [0, 4, 16]\n```\n\n```mermaid\ngraph LR\n    A[\"for n in range(6)\"] --> B{\"if n % 2 == 0\"}\n    B -- Yes --> C[\"n ** 2 added to list\"]\n    B -- No --> D[\"skip\"]\n```"
+    },
+    {
+      "type": "text",
+      "content": "A list comprehension builds a new list from an old one in one readable line, like making a new list of every price after a discount.\n\nIt is a compact loop, not a cleverness contest. Use a normal loop when the one-line version would be harder to explain."
     },
     {
       "type": "multipleChoice",
