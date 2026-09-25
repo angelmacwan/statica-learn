@@ -19,7 +19,7 @@ function getPyWorker(): Worker {
   return pyWorker;
 }
 
-export function runCode(request: ExecutionRequest, timeoutMs = 10000): Promise<ExecutionResult> {
+export function runCode(request: ExecutionRequest, timeoutMs = 30000): Promise<ExecutionResult> {
   if (request.language === 'sql') {
     return runSql(request);
   }
@@ -28,7 +28,7 @@ export function runCode(request: ExecutionRequest, timeoutMs = 10000): Promise<E
 
   return new Promise((resolve) => {
     const timeout = setTimeout(() => {
-      resolve({ stdout: '', error: 'Execution timed out (10s limit).' });
+      resolve({ stdout: '', error: `Execution timed out (${Math.round(timeoutMs / 1000)}s limit).` });
     }, timeoutMs);
 
     const handler = (e: MessageEvent<ExecutionResult>) => {

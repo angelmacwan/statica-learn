@@ -20,19 +20,91 @@ async function loadPyodideIfNeeded() {
   pyodide = await loadPyodide();
 }
 
+/**
+ * Pre-parse imported modules in Python code and load them into Pyodide.
+ */
+async function ensurePackages(code: string, tests?: CodeTest[]) {
+  if (!pyodide) return;
+
+  let combinedCode = code;
+  if (tests && tests.length > 0) {
+    for (const test of tests) {
+      if (typeof test.input === 'string') {
+        combinedCode += '\n' + test.input;
+      }
+    }
+  }
+
+  try {
+    if (typeof pyodide.loadPackagesFromImports === 'function') {
+      await pyodide.loadPackagesFromImports(combinedCode);
+    }
+  } catch (err) {
+    console.warn('Failed to load packages from imports:', err);
+  }
+}
+
+/**
+ * Extract missing module name from Pyodide ModuleNotFoundError message
+ */
+function extractMissingModuleName(errMessage: string): string | null {
+  const match = errMessage.match(/No module named\s*['"]([^'"]+)['"]/i);
+  if (match && match[1]) {
+    // Get top-level module name (e.g. 'pandas.core.frame' -> 'pandas')
+    return match[1].split('.')[0];
+  }
+  return null;
+}
+
+/**
+ * Attempt to load a missing module using loadPackagesFromImports, loadPackage, or micropip
+ */
+async function loadSingleModule(modName: string): Promise<boolean> {
+  if (!pyodide || !modName) return false;
+
+  try {
+    if (typeof pyodide.loadPackagesFromImports === 'function') {
+      await pyodide.loadPackagesFromImports(`import ${modName}`);
+      return true;
+    }
+  } catch {
+    // ignore and proceed to loadPackage
+  }
+
+  try {
+    await pyodide.loadPackage(modName);
+    return true;
+  } catch {
+    // fallback to micropip
+    try {
+      await pyodide.loadPackage('micropip');
+      const micropip = pyodide.pyimport('micropip');
+      await micropip.install(modName);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+}
+
 self.onmessage = async (e: MessageEvent<ExecutionRequest>) => {
   const { code, tests } = e.data;
   const result = await runPython(code, tests);
   self.postMessage(result);
 };
 
-async function runPython(code: string, tests?: CodeTest[]): Promise<ExecutionResult> {
+async function runPython(
+  code: string,
+  tests?: CodeTest[],
+  isRetry = false
+): Promise<ExecutionResult> {
   try {
     await loadPyodideIfNeeded();
+    await ensurePackages(code, tests);
   } catch (err) {
     return {
       stdout: '',
-      error: `Failed to load Python runtime: ${err instanceof Error ? err.message : String(err)}`,
+      error: `Failed to load Python runtime or packages: ${err instanceof Error ? err.message : String(err)}`,
     };
   }
 
@@ -100,10 +172,20 @@ _json.dumps({"passed": _passed, "actual": _actual_ser})
           actual: parsed.actual,
         });
       } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : String(err);
+        if (!isRetry) {
+          const missingMod = extractMissingModuleName(errorMsg);
+          if (missingMod) {
+            const loaded = await loadSingleModule(missingMod);
+            if (loaded) {
+              return runPython(code, tests, true);
+            }
+          }
+        }
         testResults.push({
           passed: false,
           description: test.description,
-          actual: err instanceof Error ? err.message : String(err),
+          actual: errorMsg,
         });
       }
     }
@@ -117,9 +199,19 @@ _json.dumps({"passed": _passed, "actual": _actual_ser})
     } catch {
       // ignore
     }
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    if (!isRetry) {
+      const missingMod = extractMissingModuleName(errorMsg);
+      if (missingMod) {
+        const loaded = await loadSingleModule(missingMod);
+        if (loaded) {
+          return runPython(code, tests, true);
+        }
+      }
+    }
     return {
       stdout,
-      error: err instanceof Error ? err.message : String(err),
+      error: errorMsg,
     };
   }
 }
